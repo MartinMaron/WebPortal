@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\User\Occupant;
+namespace app\Http\Livewire\User\Occupant;
 
 use Livewire\Component;
 use App\Models\Occupant;
@@ -20,7 +20,7 @@ class ShowVerbrauchsinfo extends Component
     {
 
 
-    
+
     }
     public function resetFilters()
     {
@@ -38,10 +38,10 @@ class ShowVerbrauchsinfo extends Component
                         ->orWhere('lage', 'LIKE', '%' . $this->filter . '%')
                         ->orWhere('unvid', 'LIKE', '%' . $this->filter . '%');
                 });
-         
+
         } else {
             $result = Occupant::query()
-            ->where('email', '=', Auth()->User()->email);               
+            ->where('email', '=', Auth()->User()->email);
         };
 
         return $result;
@@ -56,7 +56,7 @@ class ShowVerbrauchsinfo extends Component
 
     public function render()
     {
-        
+
         return view('livewire.user.occupant.show-verbrauchsinfo', [
             'rows' => $this->Rows,
         ]);

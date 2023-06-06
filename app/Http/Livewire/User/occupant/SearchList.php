@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\User\Occupant;
+namespace app\Http\Livewire\User\Occupant;
 
 use Livewire\Component;
 use App\Models\Occupant;

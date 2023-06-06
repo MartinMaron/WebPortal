@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\User\Occupant;
+namespace app\Http\Livewire\User\Occupant;
 
 use Carbon\Carbon;
 use Livewire\Component;
@@ -36,7 +36,7 @@ class Occupants extends Component
     protected $queryString = ['sorts'];
     // protected $listeners = [c];
 
-   
+
     public function Salutations()
     {
     }
@@ -75,7 +75,7 @@ class Occupants extends Component
             'current.qmkc_editing' => 'nullable',
         ];
     }
-   
+
     /* initialization */
     public function mount($realestate)
     {
