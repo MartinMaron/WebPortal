@@ -1,0 +1,89 @@
+<x-guest-layout>
+    <x-slot name="slot">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="w-full">
+                <img class="rounded-md" src="img/home/Slieder-Mitte.jpg" alt="">
+            </div>
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div class="">
+                        <div class="invisible sm:visible text-3xl text-gray-700 text-center mx-auto p-3">Willkommen
+                        </div>
+                        <div class="h-12"></div>
+                    </div>
+                    <div class="pl-2 border-l-2 border-sky-700">
+                            <h5 class="text-xl sm:text-md">Willkommen bei uns <span class="text-blue-600 text-bold">eneko</span></h5>
+                            <p class="pt-4">Als unser Ziel verstehen wir ein speziell auf Ihre Immobilie abgestimmtes Paket vom Maßnahmen zu erstellen, die eine kostenreduzierte und präzise Erstellung von Abrechnungen ermöglichen. Dies führt vor allem zu einer Verbesserung der Beziehungen zwischen Vermieter und Mieter.</p>
+                            <div class="h-12"></div>
+                    </div>
+                <div class="">
+                    <div class="py-4 text-2xl text-sky-800">HEIZKOSTEN</div>
+                    <img src="img/home/heizkosten.jpg" class="h-48 w-full object-cover rounded-lg" />
+                    <div class="pt-4">
+                        <p>Unser Dienstleistungspaket für die Heizkosten-, Kaltwasser- und Wärmeabrechnung entspricht höchsten
+                            Qualitätsansprüchen. Den Anforderungen an Transparenz und Genauigkeit entsprechen wir ebenso wie
+                            dem Bedürfnis nach Schnelligkeit und Qualität in der Bearbeitung.<br>
+                            <a href="{{ route('guest.heizkostenabrechnung') }}" class="text-blue-700 text-bold underline">HIER MEHR DAZU ...</a></p>
+                    </div>
+                    <div class="h-12"></div>
+                </div>
+                <div class="Betriebkosten">
+                    <div class="py-4 text-2xl text-sky-800">BETRIEBSKOSTEN</div>
+                    <img class="h-48 w-full object-cover rounded-lg" src="img/home/betriebskosten.jpg"  />
+                    <div class="pt-4">
+                        <p>Ersparen Sie sich Zeit, Ärger und Arbeit und legen Sie diese Aufgaben in die Hände unserer Fachleute.
+                            Einmal in Anspruch genommen, wollen Sie diesen Service nie wieder missen.<br>
+                            <a href="{{ route('guest.betriebskostenabrechnung') }}" class="text-blue-700 text-bold underline">HIER MEHR DAZU ...</a></p>
+                        </div>
+                    <div class="h-12"></div>
+                </div>
+                <div class="Rauchmelderservice">
+                    <div class="py-4 text-2xl text-sky-800">RAUCHMELDERSERVICE</div>
+                    <img src="img/home/Rauchmelderservice2.jpg" class="h-48 w-full object-cover rounded-lg" />
+                    <div class="pt-4">
+                        <p>Vermieter, Mieter und selbstnutzende Eigentümer haben die Rauchwarnmelder-Pflicht zu beachten.
+                            Vermieter und selbstnutzende Eigentümer müssen Rauchwarnmelder in den Wohnungen einbauen und in Betrieb setzen.
+                            Wir beraten Sie gerne bei der Umsetzung der seit 31. Dezember 2013 bestehenden Rauchwarnmelder-Pflicht.
+                            Die fachgerechte Montage gehört selbstverständlich mit zu unserem Service..<br>
+                            <a href="{{ route('guest.rauchmelderservice') }}" class="text-blue-700 text-bold underline">HIER MEHR DAZU ...</a></p>
+                    </div>
+                    <div class="h-12"></div>
+                </div>
+                <div class="energieausweis">
+                    <div class="py-4 text-2xl text-sky-800">ENERGIEAUSWEIS</div>
+                    <img src="img/home/energieausweis.jpg" class="h-48 w-full object-cover rounded-lg" />
+                    <div class="pt-4">
+                        <p>Unser Dienstleistungspaket für die Heizkosten-, Kaltwasser- und Wärmeabrechnung entspricht höchsten
+                            Qualitätsansprüchen. Den Anforderungen an Transparenz und Genauigkeit entsprechen wir ebenso wie
+                            dem Bedürfnis nach Schnelligkeit und Qualität in der Bearbeitung.<br>
+                            <a href="{{ route('guest.energieausweis') }}" class="text-blue-700 text-bold underline">HIER MEHR DAZU ...</a></p>
+                    </div>
+                    <div class="h-12"></div>
+                </div>
+            </div>
+
+            <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10">
+                <div class="flex justify-center">
+                    <img class="rounded-lg" src="img/home/Quali_1.png" alt="">
+                </div>
+                <div class="flex justify-center">
+                    <img class="rounded-lg" src="img/home/Quali_2.png" alt="">
+                </div>
+                <div class="flex justify-center">
+                    <img class="rounded-lg" src="img/home/Quali_3.png" alt="">
+                </div>
+                <div class="flex justify-center">
+                    <img class="rounded-lg" src="img/home/Quali_4.png" alt="">
+                </div>
+                <div class="flex justify-center">
+                    <img class="rounded-lg" src="img/home/Quali_5.png" alt="">
+                </div>
+                <div class="flex justify-center">
+                    <img class="rounded-lg" src="img/home/Quali_6.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="h-72">
+        </div>
+
+    </x-slot>
+</x-guest-layout>

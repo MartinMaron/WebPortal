@@ -1,0 +1,5 @@
+[
+    {"name": "martin", "email": "martin.maron@e-neko.de", "password":"$2y$10$ccuVTEsLEljKfBxe3MPDtuCAIiFpe0xFPcXMDwuQkmThngAhWkEF." , "current_team_id":"1" },
+    {"name": "paula", "email": "paulina.maron@e-neko.de", "password":"$2y$10$ccuVTEsLEljKfBxe3MPDtuCAIiFpe0xFPcXMDwuQkmThngAhWkEF." , "current_team_id":"2" },
+    {"name": "info", "email": "info@e-neko.de", "password":"$2y$10$ccuVTEsLEljKfBxe3MPDtuCAIiFpe0xFPcXMDwuQkmThngAhWkEF." , "current_team_id":"3" }
+]

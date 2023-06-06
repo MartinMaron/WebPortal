@@ -1,0 +1,43 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('realestate_abrechnungssettings', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('realestate_id');
+            $table->foreign('realestate_id')->references('id')->on('realestates');
+            $table->integer('neko_id')->default(0);
+            $table->string('bemerkung',500)->nullable();
+            $table->boolean('tryWebDelete')->default(false);
+            $table->string('description',500)->nullable();
+            $table->string('nabi_inhaber',500)->nullable();
+            $table->string('nabi_nr',50)->nullable();
+            $table->double('stromkosten')->default(0);
+            $table->boolean('brenwert_gasabrechnug')->default(0);
+            $table->boolean('eigen_energielieferung')->default(0);
+            $table->boolean('aktiv')->default(0);    
+            $table->timestamps();
+        });       
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('realestate_abrechnungssettings');
+    }
+};

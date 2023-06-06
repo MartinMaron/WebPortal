@@ -1,0 +1,1 @@
+<i class="text-green-500 fa-solid fa-check"></i>
