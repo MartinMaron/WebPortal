@@ -67,6 +67,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             return view('backend.realestate.show-costs', compact('realestate'));
         })->name('costs');
 
+        Route::get('/verbrauchsinfohistory', function () {
+                return view('backend.verbrauchsinfo-list');
+
+        })->name('verbrauchsinfohistory');
+
     });
 });
 

@@ -362,7 +362,7 @@ class JobController extends Controller
     }
 
 
-    /* Anlage Der Kosteninformationen */   
+    /* Anlage Der Kosteninformationen */
     public function cost(Array $data)
     {
         /* Validierung der Daten bevor Anlage des Zählers */
@@ -378,7 +378,7 @@ class JobController extends Controller
                 ];
         }
 
-        /* Ermitteln der Liegenschaft */       
+        /* Ermitteln der Liegenschaft */
         $realestate = Realestate::where('nekoId','=', $data['budguid'])->firstOrFail();
 
         /* Anlage des Zählers */
@@ -410,7 +410,7 @@ class JobController extends Controller
             'startValueAmountNet' => $data['startValueAmountNet'],
             'startValueAmountGros' => $data['startValueAmountGros'],
             'keyUnitType' => $data['keyUnitType'],
-            'consumption' => $data['consumption'],            
+            'consumption' => $data['consumption'],
             ]
         );
 
@@ -432,7 +432,7 @@ class JobController extends Controller
 
     }
 
-    /* Anlage Der Kostenverteilungsschlüsselinformationen */   
+    /* Anlage Der Kostenverteilungsschlüsselinformationen */
     public function costKey(Array $data, Realestate $realestate)
     {
         /* Validierung der Daten bevor Anlage des Zählers */
@@ -459,12 +459,12 @@ class JobController extends Controller
                 'nekoKey_id'=> $data['nekoKey_id'],
                 'realestate_id'=> $realestate->id,
                 'bemerkung' => $data['bemerkung'],
-                'tryWebDelete' => $data['tryWebDelete'],                
+                'tryWebDelete' => $data['tryWebDelete'],
                 'description'=> $data['description'],
                 'zeitanteil'=> $data['zeitanteil'],
                 'einheit'=> $data['einheit'],
                 'shortKey'=> $data['shortKey'],
-                'viewText'=> $data['viewText'],    
+                'viewText'=> $data['viewText'],
             ]
         );
 
@@ -476,10 +476,10 @@ class JobController extends Controller
 
     }
 
-    /* Anlage Der Kostenpositionen */   
+    /* Anlage Der Kostenpositionen */
     public function costAmount(Array $data, Cost $cost)
     {
-      
+
         /* Validierung der Daten bevor Anlage  */
         $validator = CostAmount::validateImportData($data);
         if ($validator->fails()) {
@@ -507,8 +507,8 @@ class JobController extends Controller
                 'grosAmount'=> $data['grosAmount'],
                 'dateCostAmount' => $data['dateCostAmount'],
                 'consumption' => $data['consumption'],
-                'grosAmount_HH' => $data['grosAmount_HH'],         
-                'nekoId' => $data['nekoCostAmountId'],         
+                'grosAmount_HH' => $data['grosAmount_HH'],
+                'nekoId' => $data['nekoCostAmountId'],
             ]
         );
 
@@ -520,10 +520,10 @@ class JobController extends Controller
 
     }
 
- /* Anlage Der Kostenpositionen */   
+ /* Anlage Der Kostenpositionen */
  public function abrechnungsSetting(Array $data, Realestate $realestate)
  {
-   
+
      /* Validierung der Daten vor Anlage  */
      $validator = RealestateAbrechnungssetting::validateImportData($data);
      if ($validator->fails()) {
@@ -553,7 +553,7 @@ class JobController extends Controller
             'brenwert_gasabrechnug'=> $data['brenwert_gasabrechnug'],
             'eigen_energielieferung'=> $data['eigen_energielieferung'],
             'aktiv'=> $data['aktiv'],
-            'neko_id' => $data['neko_id'],         
+            'neko_id' => $data['neko_id'],
          ]
      );
 
