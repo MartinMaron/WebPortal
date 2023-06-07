@@ -30,7 +30,21 @@
                 @endforeach
             @endif
         </div>
-        <x-button.transparent class="flex bg-sky-100" :active="request()->routeIs('user.verbrauchsinfohistory')">
+        <x-button.transparent class="flex-row bg-sky-100 px-2 py-1" :active="request()->routeIs('user.verbrauchsinfohistory')">
+
+            <a href="{{route('user.verbrauchsinfohistory')}}">
+
+                <span class = "text-md font-semibold text-black opacity-90 group-hover:opacity-100 transition duration-150 ease">
+
+                    {{ __('Verlauf') }}
+
+                </span>
+
+            </a>
+
+        </x-button.transparent>
+
+        <x-button.transparent class="flex-row  bg-sky-100 px-2 py-1 m-3" :active="request()->routeIs('user.verbrauchsinfohistory')">
 
             <a href="{{route('user.verbrauchsinfohistory')}}">
 
