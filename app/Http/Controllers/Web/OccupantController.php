@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Models\occupant;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreoccupantRequest;
-use App\Http\Requests\UpdateoccupantRequest;
+use Illuminate\Http\Request;
 
 class OccupantController extends Controller
 {
@@ -35,7 +34,7 @@ class OccupantController extends Controller
      * @param  \App\Http\Requests\StoreoccupantRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreoccupantRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -69,7 +68,7 @@ class OccupantController extends Controller
      * @param  \App\Models\occupant  $occupant
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateoccupantRequest $request, occupant $occupant)
+    public function update(Request $request, occupant $occupant)
     {
         //
     }

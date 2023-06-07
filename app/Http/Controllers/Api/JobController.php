@@ -21,6 +21,7 @@ use App\Http\Resources\RealestateAbrechnungssettingResource;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\RealestateResource;
 use App\Models\RealestateAbrechnungssetting;
+use App\Models\VerbrauchsinfoCounterMeter;
 
 class JobController extends Controller
 {
@@ -238,9 +239,9 @@ class JobController extends Controller
         );
 
         /* Falls zähler dabei sind werden die daten aktualisert */
-        $counterMeters = $data['counterMeters'];
-        foreach ($counterMeters as $counterMeter){
-            $retval = $this->counterMeter($counterMeter);
+        $verbrauchsinfoCounterMeters = $data['verbrauchsinfoCounterMeter'];
+        foreach ($verbrauchsinfoCounterMeters as $verbrauchsinfoCounterMeter){
+            $retval = $this->verbrauchsinfoCounterMeter($verbrauchsinfoCounterMeter);
             if ($retval['result'] == 'error'){
                 return $retval;
             }
@@ -263,14 +264,14 @@ class JobController extends Controller
 
     }
     /* Anlage Der Zähler */
-    public function counterMeter(Array $data)
+    public function verbrauchsinfoCounterMeter(Array $data)
     {
 
         /* Validierung der Daten bevor Anlage des Zählers */
-        $validator = CounterMeter::validateImportData($data);
+        $validator = VerbrauchsinfoCounterMeter::validateImportData($data);
         if ($validator->fails()) {
             return [
-                'function' => 'JobController.counterMeter',
+                'function' => 'JobController.verbrauchsinfoCounterMeter',
                 'result' => 'error',
                 'errortype' => 'invalid data',
                 'errors' => $validator->errors(),
@@ -282,7 +283,7 @@ class JobController extends Controller
 
         $occupant = Occupant::where('nekoId','=', $data['nekoOccupant_id'])->firstOrFail();
         /* Anlage des Zählers */
-        $counterMeter = CounterMeter::updateOrcreate(
+        $counterMeter = VerbrauchsinfoCounterMeter::updateOrcreate(
             ['nekoId' => $data['nekoId']],
             ['nr'=> $data['nr'],
             'funkNr'=> $data['funkNr'],

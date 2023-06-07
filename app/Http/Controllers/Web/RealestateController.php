@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Models\Realestate;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreRealestateRequest;
-use App\Http\Requests\UpdateRealestateRequest;
+use Illuminate\Http\Request;
 
 class RealestateController extends Controller
 {
@@ -35,7 +34,7 @@ class RealestateController extends Controller
      * @param  \App\Http\Requests\StoreRealestateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRealestateRequest $request)
+    public function store(Realestate $realestate)
     {
         //
     }
@@ -69,7 +68,7 @@ class RealestateController extends Controller
      * @param  \App\Models\Realestate  $realestate
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRealestateRequest $request, Realestate $realestate)
+    public function update(Request $request, Realestate $realestate)
     {
         //
     }

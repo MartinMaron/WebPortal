@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Models\CostAmount;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCostAmountRequest;
-use App\Http\Requests\UpdateCostAmountRequest;
+
 
 class CostAmountController extends Controller
 {

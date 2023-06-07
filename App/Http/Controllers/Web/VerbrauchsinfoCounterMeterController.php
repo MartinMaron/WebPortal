@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+namespace App\Http\Web\Controllers;
 
-use App\Models\counterMeter;
+use App\Models\VerbrauchsinfoCounterMeter;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorecounterMeterRequest;
-use App\Http\Requests\UpdatecounterMeterRequest;
+use Illuminate\Http\Request;
 
-class CounterMeterController extends Controller
+class VerbrauchsinfoCounterMeterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,10 +31,10 @@ class CounterMeterController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorecounterMeterRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorecounterMeterRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -43,10 +42,10 @@ class CounterMeterController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\counterMeter  $counterMeter
+     * @param  \App\Models\VerbrauchsinfoCounterMeter  $verbrauchsinfoCounterMeter
      * @return \Illuminate\Http\Response
      */
-    public function show(counterMeter $counterMeter)
+    public function show(VerbrauchsinfoCounterMeter $verbrauchsinfoCounterMeter)
     {
         //
     }
@@ -54,10 +53,10 @@ class CounterMeterController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\counterMeter  $counterMeter
+     * @param  \App\Models\VerbrauchsinfoCounterMeter  $verbrauchsinfoCounterMeter
      * @return \Illuminate\Http\Response
      */
-    public function edit(counterMeter $counterMeter)
+    public function edit(VerbrauchsinfoCounterMeter $verbrauchsinfoCounterMeter)
     {
         //
     }
@@ -65,11 +64,11 @@ class CounterMeterController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatecounterMeterRequest  $request
-     * @param  \App\Models\counterMeter  $counterMeter
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\VerbrauchsinfoCounterMeter  $verbrauchsinfoCounterMeter
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatecounterMeterRequest $request, counterMeter $counterMeter)
+    public function update(Request $request, VerbrauchsinfoCounterMeter $verbrauchsinfoCounterMeter)
     {
         //
     }
@@ -77,10 +76,10 @@ class CounterMeterController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\counterMeter  $counterMeter
+     * @param  \App\Models\VerbrauchsinfoCounterMeter  $verbrauchsinfoCounterMeter
      * @return \Illuminate\Http\Response
      */
-    public function destroy(counterMeter $counterMeter)
+    public function destroy(VerbrauchsinfoCounterMeter $verbrauchsinfoCounterMeter)
     {
         //
     }
