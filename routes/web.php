@@ -49,11 +49,24 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         /* Startseite im user bereich */
         Route::get('/dashboard', function () {
             if (auth()->user()->isUser){
-                return view('backend.realestate.list');
+                return redirect('/realestates');
             }else{
-                return view('backend.show-verbrauchsinfo');
+                return redirect('/verbrauchsinfos');
             }
         })->name('dashboard');
+
+
+        Route::get('/realestates', function () {
+            if (auth()->user()->isUser){
+                return view('backend.realestate.list');
+            }
+        })->name('realestates');
+        
+        Route::get('/verbrauchsinfos', function () {
+            if (auth()->user()->isMieter){
+                return view('backend.show-verbrauchsinfo');
+            }
+        })->name('verbrauchsinfos');
 
         /* Controller Routing */
         Route::resource('/realestate', RealestateController::class);
