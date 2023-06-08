@@ -16,16 +16,6 @@
                     </div>
                 </div>
 
-                <div class="hidden md:visible md:flex md:items-center md:ml-6">
-                    <!-- Kontakt -->
-                    <div class="flex justify-end space-x-8 md:-my-px md:ml-10 md:flex">
-                       <x-button.navigation href="{{ route('guest.home') }}" :active="request()->routeIs('login')">
-                           {{ __('Startseite') }}
-                       </x-jet-nav-link>
-                   </div>
-               </div>
-
-
                 @if (Auth::user()->isMieter)
                     <div class="hidden md:visible md:flex md:items-center md:ml-6">
                         <!-- Nutzeeinheiten -->
