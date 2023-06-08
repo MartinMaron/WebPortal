@@ -16,8 +16,7 @@ class Verbrauchsinfo extends Model
         'nekoOccupant_id', 'occupant_id', 'art', 'einheit', 'nutzergrup_id', 'nutzergrup_name', 'nekoId', 'jahr_monat', 'durchschnitt',
         'zeitraum_akt', 'zeitraum_mon', 'zeitraum_vorj', 'verbrauch_akt', 'verbrauch_mon', 'verbrauch_vorj','hk','ww'
     ];
-
-
+    
     public function occupant()
     {
         return $this->belongsTo(Occupant::class);

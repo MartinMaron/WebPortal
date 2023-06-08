@@ -284,13 +284,18 @@ class JobController extends Controller
         $occupant = Occupant::where('nekoId','=', $data['nekoOccupant_id'])->firstOrFail();
         /* Anlage des Zählers */
         $counterMeter = VerbrauchsinfoCounterMeter::updateOrcreate(
-            ['nekoId' => $data['nekoId']],
+            [
+                'nekoId' => $data['nekoId'],
+                'jahr_monat' => $data['jahr_monat'],
+            ],
             ['nr'=> $data['nr'],
             'funkNr'=> $data['funkNr'],
             'art'=> $data['art'],
             'occupant_id' => $occupant->id,
             'einheit'=> $data['einheit'],
             'stichtag'=> $data['stichtag'],
+            'stand'=> $data['stand'],
+            'faktor'=> $data['faktor'],
             'stichtagStand'=> $data['stichtagStand'],
             'nutzergrup_id'=> $data['nutzergrup_id'],
             'nutzergrup_name'=> $data['nutzergrup_name'],

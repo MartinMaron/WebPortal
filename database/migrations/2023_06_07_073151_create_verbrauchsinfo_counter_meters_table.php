@@ -35,6 +35,10 @@ return new class extends Migration
             $table->double('verbrauch_mon')->default(-1);
             $table->double('verbrauch_vorj')->default(-1);
 
+            $table->string('jahr_monat');
+            $table->double('stand')->default(-1);
+            $table->double('faktor')->default(-1);
+       
             $table->timestamps();
         });
     }
