@@ -33,12 +33,9 @@ return new class extends Migration
 
     {
 
-        if (App::environment('production')) {
+        if (env('DB_HOST')!='127.0.0.1') {
             \Illuminate\Support\Facades\DB::statement('SET SESSION sql_require_primary_key=0');
         }
-
-    
-       
 
         Schema::create('sessions', function (Blueprint $table) {
 

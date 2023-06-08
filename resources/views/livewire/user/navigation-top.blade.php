@@ -1,5 +1,6 @@
 <nav x-data="{ open: false }" class="bg-sky-100 my-1.5border-b border-gray-100 rounded-md">
 
+  
 
     <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div class="flex justify-between h-16">

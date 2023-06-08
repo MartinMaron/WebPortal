@@ -4,6 +4,7 @@ namespace App\Http\Livewire\User\Occupant;
 
 use Livewire\Component;
 use App\Models\Occupant;
+use Illuminate\Support\Facades\App;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -18,7 +19,10 @@ class ShowVerbrauchsinfoCounterMeterReading extends Component
     {
         $this->neko_id = $neko_id;
         $this->occupant = $occupant;
-     
+        //dd($environment = App::environment());
+
+      
+
     }
 
    public function getRowsProperty()
@@ -28,9 +32,16 @@ class ShowVerbrauchsinfoCounterMeterReading extends Component
 
     public function getRowsQueryProperty()
     {
-           $result = $this->occupant->counterMeters()
-                ->where('nekoId', '=', $this->neko_id);
+        $result = $this->occupant->counterMeters()
+            ->where('nekoId', '=', $this->neko_id);
         return $result;
+    }
+
+
+    public function getLocale()
+    {
+        
+        
     }
 
  

@@ -1,6 +1,7 @@
 <div class="max-w-lg w-full mx-auto py-1 px-4 sm:px-6 lg:px-8">
     <div class="">
-            {{ $occupant->NutzerKennnummer. '-'. $occupant->lage. ' - '. $occupant->nachname }}
+     
+        {{ $occupant->NutzerKennnummer. '-'. $occupant->lage. ' - '. $occupant->nachname }}
     </div>
     @if ($rows->count()!=0) 
         <div class="">{{ $rows->first()->nr }} 
