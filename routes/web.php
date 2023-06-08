@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Realestate;
+use App\Models\Verbrauchsinfo;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DownloadFileController;
 use App\Http\Controllers\Web\RealestateController;
@@ -68,7 +69,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         })->name('costs');
 
         Route::get('/verbrauchsinfohistory', function () {
-                return view('backend.verbrauchsinfo-list');
+                return view('backend.verbrauchsinfo-list', ['show_verbrauchsinfo' => Verbrauchsinfo::all()]);
+
 
         })->name('verbrauchsinfohistory');
 

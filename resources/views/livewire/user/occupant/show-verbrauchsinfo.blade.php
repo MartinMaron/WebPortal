@@ -36,7 +36,7 @@
 
                 <span class = "text-md font-semibold text-black opacity-90 group-hover:opacity-100 transition duration-150 ease">
 
-                    {{ __('Verlauf') }}
+                    {{ __('Verlaufsliste') }}
 
                 </span>
 
@@ -50,7 +50,7 @@
 
                 <span class = "text-md font-semibold text-black opacity-90 group-hover:opacity-100 transition duration-150 ease">
 
-                    {{ __('Verlauf') }}
+                    {{ __('Verlaufsliste') }}
 
                 </span>
 

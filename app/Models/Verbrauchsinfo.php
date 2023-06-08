@@ -22,7 +22,7 @@ class Verbrauchsinfo extends Model
     {
         return $this->belongsTo(Occupant::class);
     }
-    
+
     public static function validateImportData($data) {
         return Validator::make($data, [
             'nekoId' => 'required|numeric',
@@ -48,8 +48,8 @@ class Verbrauchsinfo extends Model
     public function getDurchschnittDisplayAttribute(){
         return number_format($this->durchschnitt, 2, ',', '.');
     }
-    
 
-    
+
+
 
 }
