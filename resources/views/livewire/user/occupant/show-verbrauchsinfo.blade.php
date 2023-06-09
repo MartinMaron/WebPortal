@@ -38,6 +38,18 @@
             </a>
         </x-button.transparent>
 
+        <x-button.transparent class="flex-row bg-sky-100 px-2 py-1 mt-3" :active="request()->routeIs('user.occupantVerbrauchsinfoCounterMeters')">
+            <a href="{{route('user.occupantVerbrauchsinfoCounterMeters', ['occupant_id' => $occupant, 'jahr_monat' => '2023-6'])}}">
+
+                <span class = "text-md font-semibold text-black opacity-90 group-hover:opacity-100 transition duration-150 ease">
+
+                    {{ __('Zähler anzeigen') }}
+
+                </span>
+
+            </a>
+            </x-button.transparent>
+
         @if ($rows->count()==0)
             <div class="flex justify-center items-center space-x-2 bg-sky-100">
                 <span class="font-medium py-8 text-cool-gray-400 text-xl">nichts gefunden...</span>
