@@ -6,7 +6,7 @@
     <div >
         <div class="mt-16">
             @if ($nutzergruppen->count()!=0)
-            
+
             @foreach ($nutzergruppen as $counterMeter)
                 <div class="my-6">
                     <div class="my-2">
@@ -26,11 +26,11 @@
                             Stand am Ende des Monats
                         </div>
                         <div class="basis-1/6">
-                            Einheit 
-                        </div>   
+                            Einheit
+                        </div>
                         <div class="basis-1/6">
-                            
-                        </div>   
+
+                        </div>
                     </div>    @forelse ($this->getCounterMetersByNutzergrupe($counterMeter->nutzergrup_id) as $singleCounterMeter)
                         <div class= "flex flex-row  items-center m-1">
                             <div class="basis-1/6">
@@ -51,19 +51,18 @@
                             <div class="basis-1/6 border-2 rounded-md text-center">
                                 <a href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
                                     <span class="">Stände anzeigen</span>
-                                </a>  
+                                </a>
                             </div>
                         </div>
                     @endforeach
                 </div>
-                @endforeach    
+                @endforeach
             @endif
         </div>
         @if ($rows->count()==0)
             <div class="flex justify-center items-center space-x-2 bg-sky-100">
                 <span class="font-medium py-8 text-cool-gray-400 text-xl">nichts gefunden...</span>
             </div>
-        @endif 
+        @endif
     </div>
-</div> 
-    
+</div>
