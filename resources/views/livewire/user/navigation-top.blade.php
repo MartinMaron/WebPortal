@@ -1,5 +1,6 @@
 <nav x-data="{ open: false }" class="bg-sky-100 my-1.5border-b border-gray-100 rounded-md">
 
+  
 
     <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -15,36 +16,26 @@
                         </x-button.navigation>
                     </div>
                 </div>
-
-                <div class="hidden md:visible md:flex md:items-center md:ml-6">
+                @if (Auth::user()->isUser)
+                <div class="md:flex md:items-center md:ml-6">
                     <!-- Kontakt -->
                     <div class="flex justify-end space-x-8 md:-my-px md:ml-10 md:flex">
-                       <x-button.navigation href="{{ route('guest.home') }}" :active="request()->routeIs('login')">
-                           {{ __('Startseite') }}
-                       </x-jet-nav-link>
-                   </div>
-               </div>
-
-
+                    <x-jet-nav-link href="{{ route('user.realestates') }}" :active="request()->routeIs('login')">
+                        {{ __('Liegenschaftsliste') }}
+                    </x-jet-nav-link>
+                </div>
+                </div>
+            @endif
                 @if (Auth::user()->isMieter)
                     <div class="hidden md:visible md:flex md:items-center md:ml-6">
                         <!-- Nutzeeinheiten -->
                         <div class="flex justify-end space-x-8 md:-my-px md:ml-10 md:flex">
-                        <x-jet-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">
+                        <x-jet-nav-link href="{{ route('user.verbrauchsinfos') }}" :active="request()->routeIs('login')">
                             {{ __('Liste der Nutzeinheiten') }}
                         </x-jet-nav-link>
                     </div>
                 @endif
-                @if (Auth::user()->isUser)
-                    <div class="md:flex md:items-center md:ml-6">
-                        <!-- Kontakt -->
-                        <div class="flex justify-end space-x-8 md:-my-px md:ml-10 md:flex">
-                        <x-jet-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">
-                            {{ __('Liegenschaftsliste') }}
-                        </x-jet-nav-link>
-                    </div>
-                    </div>
-                @endif
+               
             </div>
         </div>
         <div class="flex items-center ml-6">

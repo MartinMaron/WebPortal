@@ -41,7 +41,10 @@
             <span class="font-medium py-8 text-cool-gray-400 text-xl">nichts gefunden...</span>
         </div>
     @endif 
-
-
+    
+    <a href="{{route('user.occupantVerbrauchsinfoCounterMeters', ['occupant_id' => $occupant, 'jahr_monat' => '2023-6'])}}" class="relative inline-flex items-center justify-center flex-1 w-0 py-4 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
+        <i class="text-lg fad fa-home"></i>
+        <span class="ml-3">zähler anzeigen</span>
+    </a>
 
 </div>

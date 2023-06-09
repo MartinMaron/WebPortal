@@ -2,15 +2,16 @@
 
 
 
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades;
 
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\App;
 
 use Illuminate\Support\Facades\Schema;
 
 use Illuminate\Validation\Rules\Unique;
 
-use Illuminate\Support\Facades;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 
 
@@ -32,11 +33,9 @@ return new class extends Migration
 
     {
 
-     
-
-     //   \Illuminate\Support\Facades\DB::statement('SET SESSION sql_require_primary_key=0');
-
-       
+        if (env('DB_HOST')!='127.0.0.1') {
+            \Illuminate\Support\Facades\DB::statement('SET SESSION sql_require_primary_key=0');
+        }
 
         Schema::create('sessions', function (Blueprint $table) {
 

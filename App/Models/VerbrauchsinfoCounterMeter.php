@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Models;
+namespace App\Models;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +12,7 @@ class VerbrauchsinfoCounterMeter extends Model
 
     protected $fillable = [
         'nekoOccupant_id', 'occupant_id', 'occupant_id', 'nekoId', 'nr', 'funkNr', 'art', 'einheit', 'stichtag', 'stichtagStand', 'nutzergrup_id', 'nutzergrup_name', 
-        'zeitraum_akt', 'zeitraum_mon', 'zeitraum_vorj', 'verbrauch_akt', 'verbrauch_mon', 'verbrauch_vorj', 
+        'jahr_monat','zeitraum_akt', 'zeitraum_mon', 'zeitraum_vorj', 'verbrauch_akt', 'verbrauch_mon', 'verbrauch_vorj', 'stand', 'faktor'
     ];
 
 

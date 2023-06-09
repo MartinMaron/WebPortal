@@ -3,6 +3,7 @@
 namespace App\Models;
 use Carbon\Carbon;
 use App\Http\Traits\Helpers;
+use App\Models\VerbrauchsinfoCounterMeter;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
@@ -30,7 +31,7 @@ class Occupant extends Model
 
     public function counterMeters()
     {
-        return $this->hasMany(CounterMeter::class);
+        return $this->hasMany(VerbrauchsinfoCounterMeter::class);
     }
 
     public static function validateImportData($data)
