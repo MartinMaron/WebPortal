@@ -19,13 +19,9 @@ class ShowVerbrauchsinfoCounterMeterReading extends Component
     {
         $this->neko_id = $neko_id;
         $this->occupant = $occupant;
-        //dd($environment = App::environment());
-
-      
-
     }
 
-   public function getRowsProperty()
+    public function getRowsProperty()
     {
         return $this->rowsQuery->get();
     }
@@ -37,14 +33,6 @@ class ShowVerbrauchsinfoCounterMeterReading extends Component
         return $result;
     }
 
-
-    public function getLocale()
-    {
-        
-        
-    }
-
- 
     public function render()
     {
         return view('livewire.user.occupant.show-verbrauchsinfo-counter-meter-reading', [

@@ -31,17 +31,11 @@
             @endif
         </div>
         <x-button.transparent class="flex-row bg-sky-100 px-2 py-1 mt-3" :active="request()->routeIs('user.verbrauchsinfohistory')">
-
-            <a href="{{route('user.verbrauchsinfohistory', $occupant)}}">
-
+            <a href="{{route('user.occupantVerbrauchsinfos', $occupant)}}">
                 <span class = "text-md font-semibold text-black opacity-90 group-hover:opacity-100 transition duration-150 ease">
-
                     {{ __('Verlaufsliste') }}
-
                 </span>
-
             </a>
-
         </x-button.transparent>
 
         @if ($rows->count()==0)
