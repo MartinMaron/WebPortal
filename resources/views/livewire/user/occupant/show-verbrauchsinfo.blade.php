@@ -30,23 +30,9 @@
                 @endforeach
             @endif
         </div>
-        <x-button.transparent class="flex-row bg-sky-100 px-2 py-1" :active="request()->routeIs('user.verbrauchsinfohistory')">
+        <x-button.transparent class="flex-row bg-sky-100 px-2 py-1 mt-3" :active="request()->routeIs('user.verbrauchsinfohistory')">
 
-            <a href="{{route('user.verbrauchsinfohistory')}}">
-
-                <span class = "text-md font-semibold text-black opacity-90 group-hover:opacity-100 transition duration-150 ease">
-
-                    {{ __('Verlaufsliste') }}
-
-                </span>
-
-            </a>
-
-        </x-button.transparent>
-
-        <x-button.transparent class="flex-row  bg-sky-100 px-2 py-1 m-3" :active="request()->routeIs('user.verbrauchsinfohistory')">
-
-            <a href="{{route('user.verbrauchsinfohistory')}}">
+            <a href="{{route('user.verbrauchsinfohistory', $occupant)}}">
 
                 <span class = "text-md font-semibold text-black opacity-90 group-hover:opacity-100 transition duration-150 ease">
 
@@ -57,6 +43,7 @@
             </a>
 
         </x-button.transparent>
+
         @if ($rows->count()==0)
             <div class="flex justify-center items-center space-x-2 bg-sky-100">
                 <span class="font-medium py-8 text-cool-gray-400 text-xl">nichts gefunden...</span>

@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Models\Verbrauchsinfo;
 
 use App\Models\Realestate;
 
@@ -157,12 +157,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         })->name('costs');
 
 
-            Route::get('/verbrauchsinfohistory', function () {
-
-            return view('backend.verbrauchsinfo-list', compact('realestate'));
+            Route::get('/verbrauchsinfohistory/{id}', function ($id) {
+                $occupant = Occupant::all()->find($id);
+            return view('backend.verbrauchsinfo-list', compact('occupant'));
 
         })->name('verbrauchsinfohistory');
-
 
 
 
