@@ -65,4 +65,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Realestate::class);
     }
+
+    public function userVerbrauchsinfoAccessControls()
+    {
+        return $this->hasMany(UserVerbrauchsinfoAccessControl::class);
+    }
 }

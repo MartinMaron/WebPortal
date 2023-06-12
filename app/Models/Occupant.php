@@ -34,6 +34,11 @@ class Occupant extends Model
         return $this->hasMany(VerbrauchsinfoCounterMeter::class);
     }
 
+    public function userVerbrauchsinfoAccessControls()
+    {
+        return $this->hasMany(UserVerbrauchsinfoAccessControl::class);
+    }
+
     public static function validateImportData($data)
     {
         return  Validator::make($data, [

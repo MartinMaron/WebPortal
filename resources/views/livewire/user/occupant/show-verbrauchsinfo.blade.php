@@ -19,7 +19,7 @@
                                     <p class="flex-1 mt-1 text-center text-gray-500 truncate text-md">{{ $occupant->street.', '. $occupant->postcode. ' '. $occupant->city }}</p>
                                 </div>
                                 <div x-show="open" x-transition>
-                                    <div class="my-5">
+                                    <div class="mt-5">
                                         <livewire:user.occupant.verbrauchsinfo.occupant-view :pOccupant='$occupant'/>
                                     </div>
                                 </div>

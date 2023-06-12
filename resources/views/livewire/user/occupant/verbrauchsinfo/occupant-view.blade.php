@@ -37,7 +37,7 @@
 
             @endforeach
             <div class="flex justify-around">
-            <x-button.transparent class="flex-row px-2 py-1 mt-3 bg-sky-100 border-1 border-sky-200" :active="request()->routeIs('user.verbrauchsinfohistory')">
+            <x-button.transparent class="flex-row px-2 py-1 mt-3 bg-sky-100 border-1 border-sky-200" :active="request()->routeIs('user.verbrauchsinfo')">
                 <a href="{{route('user.occupantVerbrauchsinfos', $occupant)}}">
                     <span class = "font-semibold text-black transition duration-150 text-md opacity-90 group-hover:opacity-100 ease">
                         {{ __('Verlaufsliste') }}
@@ -45,7 +45,7 @@
                 </a>
             </x-button.transparent>
     
-            <x-button.transparent class="flex-row px-2 py-1 mt-3 bg-sky-100" :active="request()->routeIs('user.occupantVerbrauchsinfoCounterMeters')">
+            <x-button.transparent class="flex-row px-2 py-1 mt-3 bg-sky-100 border-1 border-sky-200" :active="request()->routeIs('user.occupantVerbrauchsinfoCounterMeters')">
                 <a href="{{route('user.occupantVerbrauchsinfoCounterMeters', ['occupant_id' => $occupant, 'jahr_monat' => '2023-6'])}}">
     
                     <span class = "font-semibold text-black transition duration-150 text-md opacity-90 group-hover:opacity-100 ease">
