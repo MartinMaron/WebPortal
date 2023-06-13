@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+sdadadaddds
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -28,13 +29,13 @@
         {{-- <input type="text" id="datepicker"> --}}
 
         <div class="bg-white">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <livewire:user.navigation-top />
             </div>
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white">
-                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>

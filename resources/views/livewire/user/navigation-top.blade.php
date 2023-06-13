@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-sky-100 my-1.5border-b border-gray-100 rounded-md">
+<nav x-data="{ open: false }" class="my-1 border-b border-gray-100 rounded-md bg-sky-100">
 
   
 

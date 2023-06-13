@@ -23,7 +23,10 @@
             </div>
             
                  @forelse ($this->getVerbrauchsinfosByNutzergrupe($verbrauchsinfo->nutzergrup_id) as $singleVerbrauchsinfo)
-                <div class= "pb-4 m-1 sm:hidden">
+                
+                <!--loyal websites small screens-->
+
+                 <div class= "pb-4 m-1 sm:hidden">
                        
                     <div class="mt-2 text-sm font-bold text-center border-2 rounded-t-lg sm:flex-1 bg-sky-100 border-sky-100 basis-1/6">
                         <div class="mt-2 basis-1/2"> 
@@ -51,6 +54,9 @@
                         </div>
                     </div>
                 </div>
+                
+                <!--end loyal websites small screens-->
+
                    @endforeach
                </div>
                @endforeach
