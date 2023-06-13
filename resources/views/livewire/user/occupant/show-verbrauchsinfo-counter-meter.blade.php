@@ -21,6 +21,7 @@
                     <div class="mb-5 text-sm font-bold">
                         {{ $counterMeter->einheit }}
                     </div>
+            
             </div>                    
                     </div>    @forelse ($this->getCounterMetersByNutzergrupe($counterMeter->nutzergrup_id) as $singleCounterMeter)
                         <div class= "items-center justify-between m-1 sm:hidden">

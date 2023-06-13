@@ -7,15 +7,15 @@
         </div>
     @endif
 
-    <div class="mt-16">
+    <div class="mt-16 sm:hidden">
         <div class="mb-5 text-xl font-bold text-center">
             Stände anzeigen
         </div>
   
             @if ($rows->count()!=0)
-            <div class= "border-2 rounded-t-lg sm:hidden bg-sky-100 border-sky-100 ">
+            <div class= "border-2 rounded-t-lg bg-sky-100 border-sky-100 ">
                <div class="flex justify-around mt-2"> 
-                <div class="ml-3 font-bold text-center basis-1/6">
+                <div class="font-bold text-center basis-1/6">
                     Datum
                 </div>
                 <div class="font-bold text-center basis-1/6">
@@ -29,14 +29,14 @@
             <div class="border-2 rounded-b-lg border-sky-100">
                 
                 @foreach ($rows as $counterMeter)
-                <div class= "flex items-center justify-around ml-3 ">
-                    <div class="mt-2 text-center basis-1/6">
+                <div class= "flex justify-around">
+                    <div class="mt-2 text-center basis-1/2">
                         {{ '01 '.$counterMeter->zeitraum_akt }}
                 </div>
-                <div class="mt-2 text-center basis-1/6">
+                <div class="mt-2 text-center basis-1/2">
                     {{ $counterMeter->stand }}
                 </div>
-                <div class="mt-2 text-center basis-1/6">
+                <div class="mt-2 text-center basis-1/2">
                     {{ $counterMeter->einheit }}
                 </div>
 
