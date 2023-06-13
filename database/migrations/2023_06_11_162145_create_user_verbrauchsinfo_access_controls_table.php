@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('occupant_id');
             $table->foreign('occupant_id')->references('id')->on('occupants');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('neko_id');
             $table->string('jahr_monat');

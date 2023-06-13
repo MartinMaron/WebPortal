@@ -1,18 +1,11 @@
 
 
 
-<<<<<<< HEAD
-<nav class="rounded-md shadow-md bg-sky-100 border-sky-300">
-    <div class="justify-between hidden sm:flex">
-        <a class="m-1 ml-4" href="{{ route('guest.home') }}" :active="request()->routeIs('login')">
-            <x-jet-application-mark class="block w-auto h-9" />
-=======
 <nav class="bg-sky-100 shadow-md border-sky-300 rounded-md">
     <div class="hidden sm:flex justify-between">
      
         <a class="ml-4 m-1" href="{{ route('guest.home') }}" :active="request()->routeIs('login')">
             <x-jet-application-mark class="block h-9 w-auto" />
->>>>>>> 3328025a8c6ff579c4630d3908aecdbd76ef9654
         </a>
         <!-- Primary Navigation Menu -->
         <div class="items-center justify-start w-full my-1  sm:flex sm:flex-wrap max-w-7xl">
@@ -21,11 +14,7 @@
             <x-jet-dropdown align="left" :active="request()->routeIs('user.dashboard')" >
                 <x-slot name="trigger">
                         <x-button.navigation class="flex" >
-<<<<<<< HEAD
-                            <span class = "font-semibold transition duration-150 text-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
-=======
                             <span class = "sm:text-xs ext-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
->>>>>>> 3328025a8c6ff579c4630d3908aecdbd76ef9654
                                 {{ __('DIENSTLEISTUNGEN') }}
                             </span>
                             <i class="mt-1 ml-2 text-md fa fa-chevron-down"></i>
@@ -98,12 +87,8 @@
         </div>
     </div>
     @if(Route::current()->getName() != 'login')
-<<<<<<< HEAD
-        <div class="flex items-center justify-between sm:hidden">
-=======
         <div class="sm:hidden flex justify-between items-center">
            
->>>>>>> 3328025a8c6ff579c4630d3908aecdbd76ef9654
             <!-- Navigation -->
              <!-- Geräteservice -->
              <x-jet-dropdown align="left" href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')" >
