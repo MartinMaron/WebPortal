@@ -2,12 +2,12 @@
 
   
 
-    <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+    <div class="px-4 mx-auto max-w-7xl md:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <!-- Navigation Links -->
             <div class="flex">
                 <a href="{{ route('guest.home') }}" :active="request()->routeIs('login')">
-                    <x-jet-application-mark class="block h-9 w-auto" />
+                    <x-jet-application-mark class="block w-auto h-9" />
                 </a>
                 <div class="hidden md:visible md:flex md:items-center md:ml-6">
                     <div class="flex justify-end space-x-8 md:-my-px md:ml-10 md:flex">
@@ -17,14 +17,7 @@
                     </div>
                 </div>
                 @if (Auth::user()->isUser)
-                <div class="md:flex md:items-center md:ml-6">
-                    <!-- Kontakt -->
-                    <div class="flex justify-end space-x-8 md:-my-px md:ml-10 md:flex">
-                    <x-jet-nav-link href="{{ route('user.realestates') }}" :active="request()->routeIs('login')">
-                        {{ __('Liegenschaftsliste') }}
-                    </x-jet-nav-link>
-                </div>
-                </div>
+      
             @endif
                 @if (Auth::user()->isMieter)
                     <div class="hidden md:visible md:flex md:items-center md:ml-6">
@@ -34,17 +27,25 @@
                             {{ __('Liste der Nutzeinheiten') }}
                         </x-jet-nav-link>
                     </div>
+                    <div class="md:flex md:items-center md:ml-6">
+                        <!-- Kontakt -->
+                        <div class="flex justify-end space-x-8 md:-my-px md:ml-10 md:flex">
+                        <x-jet-nav-link href="{{ route('user.realestates') }}" :active="request()->routeIs('login')">
+                            {{ __('Liegenschaftsliste') }}
+                        </x-jet-nav-link>
+                    </div>
+                    </div>
                 @endif
                
             </div>
         </div>
         <div class="flex items-center ml-6">
                   <!-- Settings Dropdown -->
-                <div class="ml-3 relative">
+                <div class="relative ml-3">
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <span class="inline-flex rounded-md">
-                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-sky-50 hover:text-gray-700 focus:outline-none transition">
+                                <button type="button" class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition border border-transparent rounded-md bg-sky-50 hover:text-gray-700 focus:outline-none">
                                     {{ Auth::user()->name }}
 
                                     <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -93,15 +94,24 @@
                 </div>
             </div>
 
-            {{-- <!-- Hamburger -->
-            <div class="-mr-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+            
+            <div class="flex items-center -mr-2 sm:hidden">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 text-gray-400 transition rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500">
+                    <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        
+
+
+
+
+
+
+                        
+                        
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
-            </div> --}}
+            </div>
         </div>
 
 

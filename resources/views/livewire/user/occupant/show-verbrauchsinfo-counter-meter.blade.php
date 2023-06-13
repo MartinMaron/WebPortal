@@ -1,68 +1,82 @@
-<div class="max-w-7xl w-full mx-auto py-1 px-4 sm:px-6 lg:px-8">
-    <h3 class="flex-1 line-clamp-1 text-gray-900 truncate text-xl  text- md:font-bold md:text-md">{{ $occupant->lage. '-'. $occupant->nachname. ' '}}</h3>
-    <p>{{ $occupant->street.',  '. $occupant->postcode. ' '. $occupant->city }}</p>
+<div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div class="flex-1 text-xl text-gray-900 truncate line-clamp-1 text- md:font-bold md:text-md">{{ $occupant->lage. '-'. $occupant->nachname. ' '}}</div>
+    <div>{{ $occupant->street.',  '. $occupant->postcode. ' '. $occupant->city }}</div>
     <div>
         <x-input.search wire:model.debounce.2000="filter"/>
     </div>
     <div >
         <div>
             @if ($nutzergruppen->count()!=0)
-
+   
+            <div class="pb-4 mt-16">
+                <div class="mb-5 text-xl font-bold text-center">
+                    Zähler anzeigen
+                </div>
             @foreach ($nutzergruppen as $counterMeter)
-                <div class="my-6 max-w-1/4  bg-white shadow-md  divide-gray-200 rounded-lg">
-                    <div class=" md:font-bold text-center text-xl mb-5">
+            <div class="flex justify-center">    
+                <div class="text-sm font-bold">
                         {{ $counterMeter->nutzergrup_name }}
+                        -
+                    </div>  
+                    <div class="mb-5 text-sm font-bold">
+                        {{ $counterMeter->einheit }}
                     </div>
-                    <div class= "flex flex-row justify-between items-center ">
-                        <div class="basis-1/6 text-center  md:font-bold">
-                            Nummer
-                        </div>
-                        <div class="basis-1/6 text-center  md:font-bold">
-                            Funknummer
-                        </div>
-                        <div class="basis-1/6 text-center  md:font-bold">
-                            mon. Verbrauch
-                        </div>
-                        <div class="basis-1/6 text-center  md:font-bold">
-                            Stand am Ende des Monats
-                        </div>
-                        <div class="basis-1/6 text-center  md:font-bold">
-                            Einheit
-                        </div>
-                        <div class="basis-1/6">
-
-                        </div>
+            </div>                    
                     </div>    @forelse ($this->getCounterMetersByNutzergrupe($counterMeter->nutzergrup_id) as $singleCounterMeter)
-                        <div class= "flex flex-row  items-center">
-                            <div class="basis-1/6  text-center mt-2">
+                        <div class= "items-center justify-between m-1">
+                            <div class="pb-4 sm:hidden">
+                             <div class="mt-2 text-sm font-bold text-center border-2 rounded-t-lg bg-sky-100 border-sky-100 basis-1/6">
+                        <div class="justify-center">
+                            <div class="mt-2 basis-1/6">
+                                Nummer  (Funknummer)
+                            </div>
+
+                                </div>
+                                
+                                <div class="flex justify-center">
+                            <div class="mt-2 basis-1/6">
                                 {{ $singleCounterMeter->nr }}
                             </div>
-                            <div class="basis-1/6  text-center mt-2">
-                                {{ $singleCounterMeter->funkNr}}
+                            <div class="mt-2 basis-1/6">
+                                ({{$singleCounterMeter->funkNr}})
                             </div>
-                            <div class="basis-1/6 text-center mt-2">
+                                </div></div>
+        
+                                <div class="text-sm border-2 rounded-b-lg border-sky-100">
+                            
+                            <div class="flex justify-around">
+                            <div class="mt-2 text-center">
+                            <div class="font-bold basis-1/2">
+                                mon. Verbrauch
+                            </div>
+                            <div class="mt-2 basis-1/6">
                                 {{ $singleCounterMeter->verbrauch_akt }}
                             </div>
-                            <div class="basis-1/6 text-center mt-2">
+                            </div>
+
+                            <div class="mt-2 text-center">
+                                <div class="font-bold basis-1/2">
+                                Stand am Ende des Monats
+                            </div>
+                            <div class="mt-2 basis-1/6">
                                 {{ $singleCounterMeter->stand }}
                             </div>
-                            <div class="basis-1/6 text-center mt-2">
-                                {{ $singleCounterMeter->einheit }}
-                            </div>
-                            <div class="basis-1/6 border-2 rounded-md text-center bg-sky-100 ml-5">
-                                <a href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
-                                    <span class="">Stände anzeigen</span>
-                                </a>
-                            </div>
+                                </div></div>
+
+                          <div class="mt-2 mb-4 ml-20 text-center border-2 rounded-md w-44 bg-sky-100">
+                            <a href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
+                                <span class="">Stände anzeigen</span>
+                            </a>
                         </div>
+                        </div></div>
                     @endforeach
                 </div>
                 @endforeach
             @endif
         </div>
         @if ($rows->count()==0)
-            <div class="flex justify-center items-center space-x-2 bg-sky-100">
-                <span class="font-medium py-8 text-cool-gray-400 text-xl">nichts gefunden...</span>
+            <div class="flex items-center justify-center space-x-2 bg-sky-100">
+                <span class="py-8 text-xl font-medium text-cool-gray-400">nichts gefunden...</span>
             </div>
         @endif
     </div>

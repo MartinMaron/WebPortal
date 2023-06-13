@@ -6,7 +6,7 @@
                 <div class="flex-1 text-center font-semibold {{ $verbrauchsinfo->ww ? 'text-red-800 ' : 'text-green-600 ' }} ">
                     {{ $verbrauchsinfo->art. ' im '. $verbrauchsinfo->zeitraum_akt}}
                 </div>
-                <div class="flex-1 pt-4 font-semibold text-center p3 ">
+                <div class="flex-1 py-3 font-semibold text-center ">
                     Verbrauchswerte
                 </div>
                 <div class="grid w-full gap-4 sx:grid-cols-3">
@@ -37,7 +37,7 @@
 
             @endforeach
             <div class="flex justify-around">
-            <x-button.transparent class="flex-row px-2 py-1 mt-3 bg-sky-100 border-1 border-sky-200" :active="request()->routeIs('user.verbrauchsinfo')">
+            <x-button.transparent class="flex-row px-2 py-1 mt-3 bg-sky-100 border-1 border-sky-200" :active="request()->routeIs('user.verbrauchsinfohistory')">
                 <a href="{{route('user.occupantVerbrauchsinfos', $occupant)}}">
                     <span class = "font-semibold text-black transition duration-150 text-md opacity-90 group-hover:opacity-100 ease">
                         {{ __('Verlaufsliste') }}
