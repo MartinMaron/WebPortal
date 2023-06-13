@@ -33,9 +33,9 @@ return new class extends Migration
             $table->unsignedBigInteger('occupant_id');
             $table->foreign('occupant_id')->references('id')->on('occupants');
             $table->string('art',100);
-            $table->string('einheit',100);
-            $table->string('einheit_short', 10);
-            $table->integer('einheit_key');
+        //    $table->string('einheit',100);
+            $table->unsignedInteger('einheit_id');
+            $table->foreign('einheit_id')->references('id')->on('einheiten');
             $table->unsignedBigInteger('nutzergrup_id');
             $table->string('nutzergrup_name',150);
             $table->string('zeitraum_akt',21)->nullable();

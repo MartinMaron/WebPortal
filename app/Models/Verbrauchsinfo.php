@@ -13,13 +13,18 @@ class Verbrauchsinfo extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nekoOccupant_id', 'occupant_id', 'art', 'einheit', 'nutzergrup_id', 'nutzergrup_name', 'nekoId', 'jahr_monat', 'durchschnitt',
-        'zeitraum_akt', 'zeitraum_mon', 'zeitraum_vorj', 'verbrauch_akt', 'verbrauch_mon', 'verbrauch_vorj','hk','ww'
+        'nekoOccupant_id', 'occupant_id', 'art', 'einheit_id', 'nutzergrup_id', 'nutzergrup_name', 'nekoId', 'jahr_monat', 'durchschnitt',
+        'zeitraum_akt', 'zeitraum_mon', 'zeitraum_vorj', 'verbrauch_akt', 'verbrauch_mon', 'verbrauch_vorj','hk','ww', 'mess_einheit'
     ];
     
     public function occupant()
     {
         return $this->belongsTo(Occupant::class);
+    }
+
+    public function einheit()
+    {
+        return $this->belongsTo(Einheit::class);
     }
 
     public static function validateImportData($data) {
@@ -28,11 +33,10 @@ class Verbrauchsinfo extends Model
             'nekoOccupant_id' => 'required|string|max:40',
             'art' => 'required|string|max:255',
             'einheit' => 'required|string|max:255',
+            'einheit_id' => 'required|numeric',
             'nutzergrup_id' => 'required|numeric',
             'nutzergrup_name' => 'required|string|max:255',
         ]);
-
-
     }
 
     public function getVerbrauchAktDisplayAttribute(){
