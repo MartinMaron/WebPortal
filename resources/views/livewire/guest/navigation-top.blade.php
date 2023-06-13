@@ -1,20 +1,20 @@
 
 
 
-<nav class="bg-sky-100 shadow-md border-sky-300 rounded-md">
-    <div class="hidden sm:flex justify-between">
+<nav class="rounded-md shadow-md bg-sky-100 border-sky-300">
+    <div class="justify-between hidden sm:flex">
      
-        <a class="ml-4 m-1" href="{{ route('guest.home') }}" :active="request()->routeIs('login')">
-            <x-jet-application-mark class="block h-9 w-auto" />
+        <a class="m-1 ml-4" href="{{ route('guest.home')}}" :active="request()->routeIs('login')">
+            <x-jet-application-mark class="block w-auto h-9" />
         </a>
         <!-- Primary Navigation Menu -->
-        <div class="items-center justify-start w-full my-1  sm:flex sm:flex-wrap max-w-7xl">
+        <div class="items-center justify-start w-full my-1 sm:flex sm:flex-wrap max-w-7xl">
                <!-- Navigation Links -->
                <!-- Dienstleistungen -->
             <x-jet-dropdown align="left" :active="request()->routeIs('user.dashboard')" >
                 <x-slot name="trigger">
                         <x-button.navigation class="flex" >
-                            <span class = "sm:text-xs ext-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
+                            <span class = "font-semibold transition duration-150 sm:text-xs ext-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
                                 {{ __('DIENSTLEISTUNGEN') }}
                             </span>
                             <i class="mt-1 ml-2 text-md fa fa-chevron-down"></i>
@@ -76,7 +76,7 @@
                 </a>
             </x-button.navigation>
         </div>
-        <div class="items-center justify-end px-3 my-1  sm:flex sm:flex-wrap max-w-7xl">
+        <div class="items-center justify-end px-3 my-1 sm:flex sm:flex-wrap max-w-7xl">
             <x-button.navigation>
                 <a href="{{route('login')}}">
                     <span class = "font-semibold transition duration-150 text-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
@@ -87,7 +87,7 @@
         </div>
     </div>
     @if(Route::current()->getName() != 'login')
-        <div class="sm:hidden flex justify-between items-center">
+        <div class="flex items-center justify-between sm:hidden">
            
             <!-- Navigation -->
              <!-- Geräteservice -->

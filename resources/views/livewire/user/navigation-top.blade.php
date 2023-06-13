@@ -1,12 +1,10 @@
 <nav x-data="{ open: false }" class="my-1 border-b border-gray-100 rounded-md bg-sky-100">
 
-  
-
     <div class="px-4 mx-auto max-w-7xl md:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <!-- Navigation Links -->
             <div class="flex">
-                <a href="{{ route('guest.home') }}" :active="request()->routeIs('login')">
+                <a href="{{ route('guest.home')}}" :active="request()->routeIs('login')">
                     <x-jet-application-mark class="block w-auto h-9" />
                 </a>
                 <div class="hidden md:visible md:flex md:items-center md:ml-6">
