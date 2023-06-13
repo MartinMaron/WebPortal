@@ -3753,3 +3753,10 @@ select {
     line-height: 1.25rem;
   }
 }
+
+@media (min-width: 1280px) {
+
+  .xl\:visible {
+    visibility: visible;
+  }
+}

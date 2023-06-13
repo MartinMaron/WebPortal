@@ -1,4 +1,4 @@
-<div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8 sm:hidden">
+<div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
     <div class="flex-1 text-xl text-gray-900 truncate line-clamp-1 text- md:font-bold md:text-md">{{ $occupant->lage. '-'. $occupant->nachname. ' '}}</div>
     <div>{{ $occupant->street.',  '. $occupant->postcode. ' '. $occupant->city }}</div>
     <div>
@@ -23,7 +23,7 @@
                     </div>
             </div>                    
                     </div>    @forelse ($this->getCounterMetersByNutzergrupe($counterMeter->nutzergrup_id) as $singleCounterMeter)
-                        <div class= "items-center justify-between m-1">
+                        <div class= "items-center justify-between m-1 sm:hidden">
                             <div class="pb-4">
                              <div class="mt-2 text-sm font-bold text-center border-2 rounded-t-lg bg-sky-100 border-sky-100 basis-1/6">
                         <div class="justify-center">
@@ -70,6 +70,14 @@
                         </div>
 
                         </div></div></div>
+
+                        <div class="hidden md:visible text-md">
+                            
+                       <div class>     
+                        dededededede
+                       </div>
+                    
+                    </div>
 
                     @endforeach
                 </div>
