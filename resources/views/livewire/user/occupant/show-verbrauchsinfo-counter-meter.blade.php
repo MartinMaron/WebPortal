@@ -1,6 +1,6 @@
 <div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8 sm:hidden">
-    <livewire:occupants-show :occupant='$occupant'/>
-        <x-input.search wire:model.debounce.2000="filter"/>
+    <livewire:user.occupant.occupant-header  :occupant='$occupant'/>
+    <x-input.search wire:model.debounce.2000="filter"/>
     </div>
     <div >
         <div>

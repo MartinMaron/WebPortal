@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace app\Http\Livewire\User\Occupant;
 use App\Models\Occupant;
 use Livewire\Component;
 
-class OccupantsShow extends Component
+class OccupantHeader extends Component
 {
 
     public $occupant;
@@ -18,6 +18,6 @@ class OccupantsShow extends Component
 
     public function render()
     {
-        return view('livewire.occupants-show');
+        return view('livewire.user.occupant.occupant-header');
     }
 }

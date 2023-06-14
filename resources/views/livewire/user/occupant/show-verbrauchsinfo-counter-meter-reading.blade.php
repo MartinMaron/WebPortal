@@ -1,5 +1,6 @@
 <div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
-<livewire:occupants-show :occupant='$occupant'/>
+
+    <livewire:user.occupant.occupant-header :occupant='$occupant'/>
 
     @if ($rows->count()!=0)
         <div class="">{{ $rows->first()->nr }}
