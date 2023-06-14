@@ -1,6 +1,5 @@
 <div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
-    <h3 class="flex-1 text-xl text-gray-900 truncate line-clamp-1 text- md:font-bold md:text-md">{{ $occupant->lage. '-'. $occupant->nachname. ' '}}</h3>
-    <p>{{ $occupant->street.',  '. $occupant->postcode. ' '. $occupant->city }}</p>
+<livewire:occupants-show :occupant='$occupant'/>
 
     @if ($rows->count()!=0)
         <div class="">{{ $rows->first()->nr }}
@@ -8,16 +7,22 @@
     @endif
 
     <div class="mt-16 sm:hidden">
-        <div class="mb-5 text-xl font-bold text-center">
+        <div class="mb-5 text-xl font-bold text-center border-b-2 border-sky-400">
             Stände anzeigen
         </div>
 
             @if ($rows->count()!=0)
             <div class= "border-2 rounded-t-lg bg-sky-100 border-sky-100 ">
                <div class="flex justify-around mt-2">
+               <div class="flex">
                 <div class="font-bold text-center basis-1/6">
                     Datum
-                </div>
+               </div>
+               <div class="ml-1">
+               <i class="fa-solid fa-sort fa-sm mt-3"></i>
+               </div>
+               </div>
+
                 <div class="font-bold text-center basis-1/6">
                     Stand
                 </div>
@@ -29,7 +34,7 @@
             <div class="border-2 rounded-b-lg border-sky-100">
 
                 @foreach ($rows as $counterMeter)
-                <div class= "flex justify-around">
+                <div class= "flex">
                     <div class="mt-2 text-center basis-1/2">
                         {{ '01 '.$counterMeter->zeitraum_akt }}
                 </div>
