@@ -1,46 +1,50 @@
-<div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
+<div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8 sm:hidden">
     <div class="flex-1 text-xl text-gray-900 truncate line-clamp-1 text- md:font-bold md:text-md">{{ $occupant->lage. '-'. $occupant->nachname. ' '}}</div>
     <div>{{ $occupant->street.',  '. $occupant->postcode. ' '. $occupant->city }}</div>
     <div>
         <x-input.search wire:model.debounce.2000="filter"/>
     </div>
- 
+
     @if ($nutzergruppen->count()!=0)
-    
-    <div class="pb-4 mt-16">
+
+    <div class="pb-4 mt-16 sm:hidden">
             <div class="mb-5 text-xl font-bold text-center border-b-2 border-sky-400">
             VERLAUF DER VERBRÄUCHE
             </div>
             @foreach ($nutzergruppen as $verbrauchsinfo)
-            <div class="flex justify-center">    
+            <div class="flex justify-center">
                 <div class="mb-1 text-lg font-bold {{ $verbrauchsinfo->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
                 {{ $verbrauchsinfo->nutzergrup_name}}
                 -
-                </div>               
+                </div>
+                <span class="ml-2">
+                    <i class="fa fa-arrow-up"></i>
+                    <i class="fa fa-arrow-down"></i>
+                </span>
             </div>
-            
+
                 @forelse ($this->getVerbrauchsinfosByNutzergrupe($verbrauchsinfo->nutzergrup_id) as $singleVerbrauchsinfo)
-                
+
                 <!--loyal websites small screens-->
 
                 <div class= "pb-4 m-1 sm:hidden">
-                       
+
                     <div class="text-sm font-bold text-center border-2 rounded-t-lg sm:flex-1 bg-sky-100 border-sky-100 basis-1/6">
-                        <div class="basis-1/2"> 
+                        <div class="basis-1/2">
                             {{ $singleVerbrauchsinfo->zeitraum_akt}}
                         </div>
-                    </div>   
+                    </div>
 
                     <div class="text-sm border-2 rounded-b-lg border-sky-100">
                         <div class="flex justify-around mt-1 text-center">
                             <div class="basis-1/6">
-                                <span class="font-thin text-xs "> Aktuell</span>
+                                <span class="font-thin text-xs ">Aktuell</span>
                             </div>
                             <div class="basis-1/6">
                                 <span class="font-thin text-xs ">Vorjahr</span>
                             </div>
                         </div>
-                           
+
                         <div class="grid grid-cols-2 pb-1 mt-1">
                             <div class="text-center text-lg font-bold basis-1/6">
                                <span class="{{ $singleVerbrauchsinfo->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
@@ -61,7 +65,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!--end loyal websites small screens-->
 
                    @endforeach
@@ -76,3 +80,21 @@
        @endif
    </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

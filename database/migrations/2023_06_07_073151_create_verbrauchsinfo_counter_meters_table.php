@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('jahr_monat');
             $table->double('stand')->default(-1);
             $table->double('faktor')->default(-1);
-       
+
             $table->timestamps();
         });
     }

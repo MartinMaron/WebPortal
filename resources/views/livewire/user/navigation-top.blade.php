@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 @if (Auth::user()->isUser)
-      
+
             @endif
                 @if (Auth::user()->isMieter)
                     <div class="hidden md:visible md:flex md:items-center md:ml-6">
@@ -34,7 +34,7 @@
                     </div>
                     </div>
                 @endif
-               
+
             </div>
         </div>
         <div class="flex items-center ml-6">
@@ -92,16 +92,16 @@
                 </div>
             </div>
 
-            
+
             <div class="flex items-center -mr-2 sm:hidden">
-                
+
                         <x-jet-dropdown align="right" href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')" >
                             <x-slot name="trigger">
-                                <i class="mt-1 ml-2 text-2xl transition duration-150 fa-solid fa-bars text-sky-900 opacity-90 group-hover:opacity-100 ease"></i>
+                                <i class="mt-1 text-2xl transition duration-150 fa-solid fa-bars text-sky-900 opacity-90 group-hover:opacity-100 ease"></i>
                             </x-slot>
-            
+
                             <x-slot name="content">
-    
+
                                 <!-- sonstiges -->
                                 <div class="block px-4 py-2 text-xs text-gray-400">
                                     {{ __('Menu') }}
@@ -115,12 +115,12 @@
                                 <x-jet-dropdown-link href="{{ route('user.realestates') }}">
                                     {{ __('Liegenschaftsliste') }}
                                 </x-jet-dropdown-link>
-            
+
                             </x-slot>
                         </x-jet-dropdown>
 
-                 
-                
+
+
             </div>
         </div>
 

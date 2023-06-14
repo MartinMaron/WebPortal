@@ -11,10 +11,10 @@
         <div class="mb-5 text-xl font-bold text-center">
             Stände anzeigen
         </div>
-  
+
             @if ($rows->count()!=0)
             <div class= "border-2 rounded-t-lg bg-sky-100 border-sky-100 ">
-               <div class="flex justify-around mt-2"> 
+               <div class="flex justify-around mt-2">
                 <div class="font-bold text-center basis-1/6">
                     Datum
                 </div>
@@ -24,10 +24,10 @@
                 <div class="font-bold text-center basis-1/6">
                     Einheit
                 </div>
-               </div> 
+               </div>
             </div>
             <div class="border-2 rounded-b-lg border-sky-100">
-                
+
                 @foreach ($rows as $counterMeter)
                 <div class= "flex justify-around">
                     <div class="mt-2 text-center basis-1/2">
