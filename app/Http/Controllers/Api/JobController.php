@@ -303,6 +303,8 @@ class JobController extends Controller
             'zeitraum_mon'=> $data['zeitraum_mon'],
             'zeitraum_vorj'=> $data['zeitraum_vorj'],
             'verbrauch_akt'=> $data['verbrauch_akt'],
+            'hk'=> $data['hk'],
+            'ww'=> $data['ww'],
             'verbrauch_mon'=> $data['verbrauch_mon'],
             'verbrauch_vorj'=> $data['verbrauch_vorj']]
         );

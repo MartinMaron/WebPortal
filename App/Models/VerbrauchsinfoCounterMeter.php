@@ -12,7 +12,7 @@ class VerbrauchsinfoCounterMeter extends Model
 
     protected $fillable = [
         'nekoOccupant_id', 'occupant_id', 'occupant_id', 'nekoId', 'nr', 'funkNr', 'art', 'einheit', 'stichtag', 'stichtagStand', 'nutzergrup_id', 'nutzergrup_name', 
-        'jahr_monat','zeitraum_akt', 'zeitraum_mon', 'zeitraum_vorj', 'verbrauch_akt', 'verbrauch_mon', 'verbrauch_vorj', 'stand', 'faktor'
+        'hk','ww','jahr_monat','zeitraum_akt', 'zeitraum_mon', 'zeitraum_vorj', 'verbrauch_akt', 'verbrauch_mon', 'verbrauch_vorj', 'stand', 'faktor'
     ];
 
 
