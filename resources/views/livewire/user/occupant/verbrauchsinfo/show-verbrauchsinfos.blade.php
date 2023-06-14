@@ -15,9 +15,7 @@
                 {{ $verbrauchsinfo->nutzergrup_name}}
                 -
                 </div>
-                <span class="ml-2">
-                    <i class="fa-solid fa-sort fa-sm mt-3"></i>
-                </span>
+                
             </div>
 
                 @forelse ($this->getVerbrauchsinfosByNutzergrupe($verbrauchsinfo->nutzergrup_id) as $singleVerbrauchsinfo)
@@ -29,6 +27,9 @@
                     <div class="text-sm font-bold text-center border-2 rounded-t-lg sm:flex-1 bg-sky-100 border-sky-100 basis-1/6">
                         <div class="basis-1/2">
                             {{ $singleVerbrauchsinfo->zeitraum_akt}}
+                            <div class="inline-block align-bottom">
+                                <x-icon.fonts.sort class="text-gray-600 pl-2"></x-icon.fonts.sort>
+                            </div>
                         </div>
                     </div>
 
@@ -45,17 +46,17 @@
                         <div class="grid grid-cols-2 pb-1 mt-1">
                             <div class="text-center text-lg font-bold basis-1/6">
                                <span class="{{ $singleVerbrauchsinfo->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
-                                   {{ $singleVerbrauchsinfo->verbrauch_akt}}
+                                   {{ $singleVerbrauchsinfo->VerbrauchAktDisplay}}
                                </span>
-                               <span class="{{ $singleVerbrauchsinfo->ww ? 'text-red-600 ' : 'text-green-400 ' }}">
+                               <span class="{{ $singleVerbrauchsinfo->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
                                     {{ $singleVerbrauchsinfo->einheit->shortname}}
                                 </span>
                             </div>
                         <div class="text-center text-lg font-bold basis-1/6">
                             <span class="{{ $singleVerbrauchsinfo->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
-                                {{ $singleVerbrauchsinfo->verbrauch_vorj}}
+                                {{ $singleVerbrauchsinfo->VerbrauchVorjDisplay}}
                             </span>
-                            <span class="{{ $singleVerbrauchsinfo->ww ? 'text-red-600 ' : 'text-green-400 ' }}">
+                            <span class="{{ $singleVerbrauchsinfo->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
                                  {{ $singleVerbrauchsinfo->einheit->shortname}}
                              </span>
                         </div>

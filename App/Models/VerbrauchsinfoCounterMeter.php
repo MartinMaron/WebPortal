@@ -36,4 +36,14 @@ class VerbrauchsinfoCounterMeter extends Model
 
     }
 
+   
+    public function getStandDisplayAttribute(){
+        return number_format($this->stand, 2, ',', '.');
+    }
+
+    public function getVerbrauchAktDisplayAttribute(){
+        return number_format($this->verbrauch_akt, 2, ',', '.');
+   }
+
+
 }

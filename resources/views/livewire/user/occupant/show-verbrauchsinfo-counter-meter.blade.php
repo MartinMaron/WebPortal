@@ -5,94 +5,88 @@
         <div>
             @if ($nutzergruppen->count()!=0)
 
-            <div class="pb-2 mt-5 sm:hidden">
-                <div class="mb-4 text-xl font-bold text-center border-b-2 border-sky-400">
-                    Zähler anzeigen
+                <div class="pb-2 mt-5 sm:hidden">
+                    <div class="mb-4 text-xl font-bold text-center border-b-2 border-sky-400">
+                        Zähler anzeigen
+                    </div>
                 </div>
-            </div>
 
-            @foreach ($nutzergruppen as $counterMeter)
-            <div class="flex justify-center">
-                <div class="mb-1 text-lg font-bold {{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
-                    {{ $counterMeter->nutzergrup_name }}
-                </div>
-            </div>
-            @forelse ($this->getCounterMetersByNutzergrupe($counterMeter->nutzergrup_id) as $singleCounterMeter)
-            <div class= "items-center justify-between m-1 sm:hidden">
-                <div class="pb-4">
-                    <div class="mt-2 text-sm text-center border-2 rounded-t-lg bg-sky-100 border-sky-100">
-                        {{-- Nummer und Funknummer Header --}}                        
-                        <div class="flex justify-around x-12 my-1 ">
-                            <div class="flex justify-center">
-                                <div class="inline-block align-bottom">
-                                    <span class="font-thin text-xs">Nr.: </span> 
-                                </div>
-                                <div class="inline-block align-bottom">
-                                    <span class="font-bold text-sm">{{ $singleCounterMeter->nr }}
-                                    </span> 
-                                </div>
-                                <div class="inline-block align-bottom">
-                                    <x-icon.fonts.sort class="text-gray-600 pl-2"></x-icon.fonts.sort>
-                                </div>
-                            </div>
-                            <div class="flex justify-center {{ $counterMeter->nr == $counterMeter->funkNr ? 'hidden' : 'visible' }}">
-                                <div class="inline-block align-bottom">
-                                    <span class="font-thin text-xs">Funknr.: </span> 
-                                </div>
-                                <div class="inline-block align-bottom">
-                                    <span class="font-bold text-">{{ $singleCounterMeter->funkNr }}</span> 
-                                </div>
-                                <div class="inline-block align-bottom">
-                                    <x-icon.fonts.sort class="text-gray-600 pl-2"></x-icon.fonts.sort>
-                                </div>
-                            </div>
+                @foreach ($nutzergruppen as $counterMeter)
+                    <div class="flex justify-center">
+                        <div class="mb-1 text-lg font-bold {{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
+                            {{ $counterMeter->nutzergrup_name }}
                         </div>
                     </div>
-
-                    <div class="text-sm border-2 rounded-b-lg border-sky-100">
-                        <div class="grid grid-cols-2">
-                            <div class="justify-around text-center mt-1">
-                                <div class="basis-1/6">
-                                    <span class="font-thin text-xs ">mon. Verbrauch</span>
+                    @forelse ($this->getCounterMetersByNutzergrupe($counterMeter->nutzergrup_id) as $singleCounterMeter)
+                        <div class= "items-center justify-between m-1 sm:hidden">
+                            <div class="pb-4">
+                                <div class="mt-2 text-sm text-center border-2 rounded-t-lg bg-sky-100 border-sky-100">
+                                    {{-- Nummer und Funknummer Header --}}                        
+                                    <div class="flex justify-around x-12 my-1 ">
+                                        <div class="flex justify-center">
+                                            <div class="inline-block align-bottom">
+                                                <span class="font-thin text-xs">Nr.: </span> 
+                                            </div>
+                                            <div class="inline-block align-bottom">
+                                                <span class="font-bold text-sm">{{ $singleCounterMeter->nr }}
+                                                </span> 
+                                            </div>
+                                            <div class="inline-block align-bottom">
+                                                <x-icon.fonts.sort class="text-gray-600 pl-2"></x-icon.fonts.sort>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-center {{ $counterMeter->nr == $counterMeter->funkNr ? 'hidden' : 'visible' }}">
+                                            <div class="inline-block align-bottom">
+                                                <span class="font-thin text-xs">Funknr.: </span> 
+                                            </div>
+                                            <div class="inline-block align-bottom">
+                                                <span class="font-bold text-">{{ $singleCounterMeter->funkNr }}</span> 
+                                            </div>
+                                            <div class="inline-block align-bottom">
+                                                <x-icon.fonts.sort class="text-gray-600 pl-2"></x-icon.fonts.sort>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="text-center text-lg font-bold basis-1/6">
-                                    <span class='{{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">'>
-                                        {{ $singleCounterMeter->verbrauch_akt. " ".  $singleCounterMeter->einheit}}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="justify-around text-center mt-1">
-                                <div class="basis-1/6">
-                                    <span class="font-thin text-xs ">Stand am Ende des Monats</span>
-                                </div>
-                                <div class="text-center text-lg font-bold basis-1/6">
-                                    <span class='{{ $counterMeter->einheit=='(m³)' ? 'text-red-800 ' : 'text-green-600 ' }}">'>
-                                        {{ $singleCounterMeter->stand. " ".  $singleCounterMeter->einheit}}
-                                    </span>
+                                <div class="text-sm border-2 rounded-b-lg border-sky-100">
+                                    {{-- inhalt --}}                        
+                                    <div class="grid grid-cols-2">
+                                        <div class="justify-around text-center mt-1">
+                                            <div class="basis-1/6">
+                                                <span class="font-thin text-xs ">mon. Verbrauch</span>
+                                            </div>
+                                            <div class="text-center text-lg font-bold basis-1/6">
+                                                <span class='{{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">'>
+                                                    {{ $singleCounterMeter->VerbrauchAktDisplay. " ".  $singleCounterMeter->einheit}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="justify-around text-center mt-1">
+                                            <div class="basis-1/6">
+                                                <span class="font-thin text-xs ">Stand am Ende des Monats</span>
+                                            </div>
+                                            <div class="text-center text-lg font-bold basis-1/6">
+                                                <span class='{{ $counterMeter->einheit=='(m³)' ? 'text-red-800 ' : 'text-green-600 ' }}">'>
+                                                    {{ $singleCounterMeter->StandDisplay. " ".  $singleCounterMeter->einheit}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- Button --}}                        
+                                    <div class="mt-2 mb-1 ml-20 text-center border-2 rounded-md w-44 bg-sky-100">
+                                        <a href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
+                                            <span class="">Stände anzeigen</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-2 mb-1 ml-20 text-center border-2 rounded-md w-44 bg-sky-100">
-                            <a href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
-                                <span class="">Stände anzeigen</span>
-                            </a>
+                        <div class="hidden md:visible text-md">
+                            <div class="">duzy ekran</div>
                         </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-        <div class="hidden md:visible text-md">
-            <div class>
-            </div>
-        </div>
-        @endforeach
-    </div>
-@endforeach
-@endif
-
-
-
+                    @endforeach
+                @endforeach
+            @endif
         </div>
         @if ($rows->count()==0)
             <div class="flex items-center justify-center space-x-2 bg-sky-100">
