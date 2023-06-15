@@ -22,8 +22,9 @@ return new class extends Migration
             $table->string('funkNr', 40);
             $table->string('art',100);
             $table->string('einheit',100);
-            $table->date('stichtag')->nullable();
-            $table->double('stichtagStand')->nullable();
+            $table->unsignedInteger('einheit_id');
+            $table->foreign('einheit_id')->references('id')->on('einheiten');
+         
             $table->unsignedBigInteger('nutzergrup_id');
             $table->string('nutzergrup_name',150);
 
@@ -36,7 +37,10 @@ return new class extends Migration
             $table->double('verbrauch_vorj')->default(-1);
 
             $table->string('jahr_monat');
-            $table->double('stand')->default(-1);
+            
+            $table->double('stand_ende')->default(-1);
+            $table->double('stand_anfang')->default(-1);
+
             $table->double('faktor')->default(-1);
             $table->boolean('hk');
             $table->integer('ww');

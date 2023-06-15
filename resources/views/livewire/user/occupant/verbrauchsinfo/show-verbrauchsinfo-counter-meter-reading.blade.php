@@ -20,12 +20,21 @@
                     Datum
                </div>
                <div class="ml-1">
-               <i class="fa-solid fa-sort fa-sm mt-3"></i>
-               </div>
+               <x-icon.fonts.sort class="mt-3"><x-icon.fonts.sort>
+                </div>
                </div>
 
                 <div class="font-bold text-center basis-1/6">
-                    Stand
+                    Stand anfang
+                </div>
+                <div class="font-bold text-center basis-1/6">
+                    Stand ende
+                </div>
+                <div class="font-bold text-center basis-1/6">
+                    faktor
+                </div>
+                <div class="font-bold text-center basis-1/6">
+                    Verbrauch
                 </div>
                 <div class="font-bold text-center basis-1/6">
                     Einheit
@@ -37,16 +46,15 @@
                 @foreach ($rows as $counterMeter)
                 <div class= "flex">
                     <div class="mt-2 text-center basis-1/2">
-                        {{ '01 '.$counterMeter->zeitraum_akt }}
+                        {{ $counterMeter->zeitraum_akt }}
+                    </div>
+                    <div class="mt-2 text-center basis-1/2">
+                        {{ $counterMeter->stand }}
+                    </div>
+                    <div class="mt-2 text-center basis-1/2">
+                        {{ $counterMeter->einheit }}
+                    </div>
                 </div>
-                <div class="mt-2 text-center basis-1/2">
-                    {{ $counterMeter->stand }}
-                </div>
-                <div class="mt-2 text-center basis-1/2">
-                    {{ $counterMeter->einheit }}
-                </div>
-
-            </div>
                 @endforeach
             @endif
         </div></div>
