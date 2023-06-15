@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\User\Occupant;
+namespace App\Http\Livewire\User\Occupant\Verbrauchsinfo;
 
 use Livewire\Component;
 use App\Models\Occupant;
@@ -35,7 +35,7 @@ class ShowVerbrauchsinfoCounterMeterReading extends Component
 
     public function render()
     {
-        return view('livewire.user.occupant.show-verbrauchsinfo-counter-meter-reading', [
+        return view('livewire.user.occupant.verbrauchsinfo.show-verbrauchsinfo-counter-meter-reading', [
             'rows' => $this->rows,
         ]);
     }

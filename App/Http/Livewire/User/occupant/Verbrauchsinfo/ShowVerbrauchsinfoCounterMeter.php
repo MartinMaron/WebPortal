@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Livewire\User\Occupant;
+namespace App\Http\Livewire\User\Occupant\Verbrauchsinfo;
 
 use Livewire\Component;
 use App\Models\Occupant;
@@ -69,7 +69,7 @@ class ShowVerbrauchsinfoCounterMeter extends Component
         ->get()->unique('nutzergrup_id');
         ;
         
-        return view('livewire.user.occupant.show-verbrauchsinfo-counter-meter', [
+        return view('livewire.user.occupant.verbrauchsinfo.show-verbrauchsinfo-counter-meter', [
             'rows' => $this->rows,
             'nutzergruppen' => $nutzergruppen,
         ]);
