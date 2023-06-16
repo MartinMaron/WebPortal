@@ -1,9 +1,9 @@
 @props([
-    'hk' => false,
+    'hk' => true,
 ])
 
 @if ($hk)
-    <x-icon.fonts.warmwasser></x-icon.fonts.warmwasser>
+    <x-icon.fonts.heizung {{ $attributes->merge(['class' => 'text-green-600']) }}></x-icon.fonts.heizung>
 @else
-    <x-icon.fonts.heizung></x-icon.fonts.heizung>
+    <x-icon.fonts.warmwasser {{ $attributes->merge(['class' => 'text-red-800']) }}></x-icon.fonts.warmwasser>
 @endif

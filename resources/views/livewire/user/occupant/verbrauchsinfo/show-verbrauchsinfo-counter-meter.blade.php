@@ -12,9 +12,11 @@
                 @foreach ($nutzergruppen as $counterMeter)
 
                 <div class="flex justify-center sm:hidden">
-                    <x-icon.fonts.ww_hk :hk='$counterMeter->hk' class="text-lg"></x-icon.fonts.ww_hk>
                     <div class="mb-1 text-lg font-bold {{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
                         {{ $counterMeter->nutzergrup_name }}
+                    </div>
+                    <div class="px-4">
+                        <x-icon.fonts.ww_hk class="text-2xl" :hk='$counterMeter->hk' ></x-icon.fonts.ww_hk>
                     </div>
                 </div>
                 @forelse ($this->getCounterMetersByNutzergrupe($counterMeter->nutzergrup_id) as $singleCounterMeter)
@@ -50,7 +52,7 @@
                             </div>
                             <div class="text-sm border-2 rounded-b-lg border-sky-100">
                                 {{-- inhalt --}}
-                                <div class="grid grid-cols-2">
+                                <div class="grid grid-cols-1">
                                     <div class="justify-around text-center mt-1">
                                         <div class="basis-1/6">
                                             <span class="font-thin text-xs ">mon. Verbrauch</span>
@@ -61,7 +63,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="justify-around text-center mt-1">
+                                   {{--  <div class="justify-around text-center mt-1">
                                         <div class="basis-1/6">
                                             <span class="font-thin text-xs ">Stand am Monatende</span>
 
@@ -71,7 +73,7 @@
                                                 {{ $singleCounterMeter->StandDisplay. " ".  $singleCounterMeter->einheit}}
                                             </span>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 {{-- Button --}}
                                 <div class="mt-2 mb-1 m-auto text-center border-2 rounded-md w-44 bg-sky-100">
