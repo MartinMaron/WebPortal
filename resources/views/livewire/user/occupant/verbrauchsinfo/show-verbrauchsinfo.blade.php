@@ -24,16 +24,16 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
-                    
+
                 </div>
-                
+
                 @endforeach
             @endif
         </div>
- 
+
 
         @if ($rows->count()==0)
             <div class="flex items-center justify-center space-x-2 bg-sky-100">

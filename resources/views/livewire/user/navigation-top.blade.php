@@ -1,7 +1,7 @@
 <nav x-data="{ open: false }" class="my-1 border-b border-gray-100 rounded-md bg-sky-100">
 
 <div class="flex pt-1 pb-1 justify-between">
-    <div class="block items-center ml-2 sm:hidden">
+    <div class="items-center ml-2 sm:hidden">
 
         <x-jet-dropdown align="left" href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')" >
             <x-slot name="trigger">
@@ -29,7 +29,7 @@
 
 </div>
 
-<div class="block items-center pr-2 sm:hidden"">
+<div class="items-center pr-2 sm:hidden">
     <!-- Settings Dropdown -->
   <div class="relative ml-3 pr-5">
       <x-jet-dropdown align="right" width="48">

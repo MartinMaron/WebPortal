@@ -15,7 +15,7 @@
                 {{ $verbrauchsinfo->nutzergrup_name}}
                 -
                 </div>
-                
+
             </div>
 
                 @forelse ($this->getVerbrauchsinfosByNutzergrupe($verbrauchsinfo->nutzergrup_id) as $singleVerbrauchsinfo)

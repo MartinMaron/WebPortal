@@ -8,15 +8,18 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Builder;
 use app\Models\VerbrauchsinfoCounterMeter;
 use App\Http\Livewire\DataTable\WithCachedRows;
+use App\Http\Livewire\DataTable\WithSorting;
+
 
 class ShowVerbrauchsinfoCounterMeter extends Component
 {
-   
-    use WithCachedRows; 
+
+    use WithCachedRows;
     public Occupant $occupant;
     public VerbrauchsinfoCounterMeter $counterMeters;
     public $filter;
     public String $jahr_monat;
+    use WithSorting;
 
     /* initialization */
     public function mount(Occupant $occupant, String $jahr_monat)
@@ -29,7 +32,7 @@ class ShowVerbrauchsinfoCounterMeter extends Component
     {
         $this->reset('filter');
     }
-   
+
     public function getRowsQueryProperty()
     {
         if ($this->filter) {
@@ -68,7 +71,9 @@ class ShowVerbrauchsinfoCounterMeter extends Component
         $nutzergruppen = $this->rowsQuery
         ->get()->unique('nutzergrup_id');
         ;
-        
+
+
+
         return view('livewire.user.occupant.verbrauchsinfo.show-verbrauchsinfo-counter-meter', [
             'rows' => $this->rows,
             'nutzergruppen' => $nutzergruppen,

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Livewire\DataTable\WithSorting;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,11 +10,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class VerbrauchsinfoCounterMeter extends Model
 {
     use HasFactory;
+    use WithSorting;
 
     protected $fillable = [
-        'nekoOccupant_id', 'occupant_id', 'occupant_id', 'nekoId', 'nr', 'funkNr', 'art', 'einheit', 'einheit_id', 'nutzergrup_id', 'nutzergrup_name', 
+        'nekoOccupant_id', 'occupant_id', 'occupant_id', 'nekoId', 'nr', 'funkNr', 'art', 'einheit', 'einheit_id', 'nutzergrup_id', 'nutzergrup_name',
         'hk','ww','jahr_monat','zeitraum_akt', 'zeitraum_mon', 'zeitraum_vorj', 'verbrauch_akt', 'verbrauch_mon', 'verbrauch_vorj', 'stand_anfang','stand_ende', 'faktor'
     ];
+
+    public $sortBy  = ['nr','funkNr'];
+
 
 
     public function occupant()
@@ -43,7 +48,7 @@ class VerbrauchsinfoCounterMeter extends Model
     {
         return $this->belongsTo(Einheit::class);
     }
-   
+
     public function getStandDisplayAttribute(){
         return number_format($this->stand_ende, 2, ',', '.');
     }
@@ -52,7 +57,7 @@ class VerbrauchsinfoCounterMeter extends Model
         return number_format($this->verbrauch_akt, 2, ',', '.');
     }
 
-  
+
 
 
 }
