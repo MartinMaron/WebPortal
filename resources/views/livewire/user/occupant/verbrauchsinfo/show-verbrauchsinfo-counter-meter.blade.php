@@ -4,12 +4,51 @@
     <div>
 
             @if ($nutzergruppen->count()!=0)
-                <div class="pb-2 mt-5 sm:hidden">
-                    <div class="mb-4 text-xl font-bold text-center border-b-2 border-sky-400">
-                        Zähler anzeigen
+            <div class="pb-4 mt-16">
+                <div class="mb-5 text-xl font-bold text-center md:text-2xl border-b-2 border-sky-400 w-max-md md:bloc">
+                Zähler anzeigen
+                </div>
+            </div>
+                @foreach ($nutzergruppen as $counterMeter)
+            {{-- big screen website --}}
+
+
+            <div class="hidden md:flex justify-center w-full px-4 py-1 mx-auto max-w-7xl mt-8">
+                <div class="mb-1 text-lg font-bold {{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
+                        {{ $counterMeter->nutzergrup_name }}
+                    </div>
+                    <div class="px-4">
+                        <x-icon.fonts.ww_hk class="text-3xl" :hk='$counterMeter->hk' ></x-icon.fonts.ww_hk>
                     </div>
                 </div>
-                @foreach ($nutzergruppen as $counterMeter)
+
+
+                <div class="hidden md:flex mt-4">
+                    <div class="grid grid-cols-5 text-md font-bold text-center border-2 rounded-t-lg md:flex-1 bg-sky-100 border-sky-100 basis-1/6">
+                        <div class="basis-1/6">
+                            <span class="">Nr.: </span>
+                            <x-icon.fonts.sort class="text-gray-600 pl-2"></x-icon.fonts.sort>
+                        </div>
+                        <div class="flex justify-center">
+                            <div class="inline-block align-bottom">
+                                <span class="font-bold text-md">Funknr.: </span>
+                                <x-icon.fonts.sort class="text-gray-600 pl-2"></x-icon.fonts.sort>
+                            </div>
+                        </div>
+                        <div class="basis-1/6">
+                            <span class="">mon. Verbrauch</span>
+                        </div>
+                        <div class="basis-1/6">
+                            <span class="">Einheit</span>
+                        </div>
+                        <div class="basis-1/6">
+
+                        </div>
+                    </div>
+                </div>
+
+               {{--end big screen website --}}
+
 
                 <div class="flex justify-center sm:hidden">
                     <div class="mb-1 text-lg font-bold {{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
@@ -19,7 +58,35 @@
                         <x-icon.fonts.ww_hk class="text-2xl" :hk='$counterMeter->hk' ></x-icon.fonts.ww_hk>
                     </div>
                 </div>
+
                 @forelse ($this->getCounterMetersByNutzergrupe($counterMeter->nutzergrup_id) as $singleCounterMeter)
+
+
+                <div class="hidden md:block">
+                    <div class="grid grid-cols-5 text-center text-md mb-2 mt-2 odd:bg-white even:bg-slate-50">
+                        <div class="basis-1/6 ">
+                            <span class="font-thin text-md ">{{ $singleCounterMeter->nr }}</span>
+                        </div>
+                        <div class="basis-1/6">
+                            <span class="font-thin text-md {{ $counterMeter->nr == $counterMeter->funkNr ? 'hidden' : 'visible' }} ">{{ $singleCounterMeter->funkNr }}</span>
+                        </div>
+                        <div class="basis-1/6">
+                            <span class="font-thin text-md ">{{ $singleCounterMeter->VerbrauchAktDisplay}}</span>
+                        </div>
+                        <div class="basis-1/6">
+                            <span class="font-thin text-md ">{{ $singleCounterMeter->einheit}}</span>
+                        </div>
+                        <div class="mb-1 m-auto text-center border-2 rounded-md w-44 bg-sky-100">
+                            <a href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
+                                <span class="">Stände anzeigen</span>
+                            </a>
+                        </div>
+                    </div>
+                    </div>
+
+
+
+
                     <div class= "items-center justify-between m-1 sm:hidden">
                         <div class="pb-4">
                             <div class="mt-2 text-sm text-center border-2 rounded-t-lg bg-sky-100 border-sky-100">
@@ -85,13 +152,10 @@
                         </div>
                     </div>
                     {{-- big screen website --}}
-                    <div class="hidden md:block">
-                        <div class="mb-1 text-lg font-bold {{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
-                            {{ $counterMeter->nutzergrup_name }}
-                        </div>
-                    </div>
+
                     {{--end big screen website --}}
                     @endforeach
+    </div>
                 @endforeach
             @endif
         </div>
@@ -102,4 +166,5 @@
         @endif
     </div>
 </div>
+
 

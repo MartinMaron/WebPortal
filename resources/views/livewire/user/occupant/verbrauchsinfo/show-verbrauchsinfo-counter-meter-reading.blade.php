@@ -16,22 +16,22 @@
                 <div class= "border-2 rounded-t-lg bg-sky-100 border-sky-100 ">
                     <div class="flex flex-row justify-between mt-2 text-xs font-semibold items-center text-center ">
                         <div class="basis-1/5">
-                            Monat 
+                            Monat
                         </div>
                         <div class="basis-1/5">
-                            {{ 'Ende' }} 
+                            {{ 'Ende' }}
                         </div>
                         -
                         <div class="basis-1/5">
-                            Anfang 
+                            Anfang
                         </div>
                         x
                         <div class="basis-1/5">
-                            Faktor 
+                            Faktor
                         </div>
                         =
                         <div class="basis-1/5">
-                            Verbrauch 
+                            Verbrauch
                         </div>
                     </div>
                 </div>
@@ -64,5 +64,5 @@
         <div class="flex items-center justify-center space-x-2 bg-sky-100">
             <span class="py-8 text-xl font-medium text-cool-gray-400">nichts gefunden...</span>
         </div>
-    @endif  
+    @endif
 </div>

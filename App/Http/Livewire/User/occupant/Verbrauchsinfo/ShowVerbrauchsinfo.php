@@ -20,7 +20,6 @@ class ShowVerbrauchsinfo extends Component
     {
 
 
-
     }
     public function resetFilters()
     {

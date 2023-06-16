@@ -8,14 +8,18 @@ use App\Http\Livewire\DataTable\WithCachedRows;
 
 class ShowVerbrauchsinfos extends Component
 {
-  
-    use WithCachedRows; 
+
+    use WithCachedRows;
     public Occupant $occupant;
- 
+    public $pointer;
+
+
     /* initialization */
     public function mount(Occupant $occupant)
     {
         $this->occupant = $occupant;
+        $this->pointer = 0;
+
     }
 
     public function getRowsProperty()
@@ -34,18 +38,18 @@ class ShowVerbrauchsinfos extends Component
                 ->sortBy('hk')
         ;
     }
-    
+
 
     public function render()
     {
-        
+
         $nutzergruppen = $this->rowsQuery
         ->get()->unique('nutzergrup_id');
         ;
-        
+
         return view('livewire.user.occupant.verbrauchsinfo.show-verbrauchsinfos', [
             'rows' => $this->rows,
-            'nutzergruppen' => $nutzergruppen,    
+            'nutzergruppen' => $nutzergruppen,
         ]);
     }
 }

@@ -1,24 +1,73 @@
-<div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8 sm:hidden">
+<div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8 ">
     <livewire:user.occupant.occupant-header  :occupant='$occupant'/>
         <x-input.search wire:model.debounce.2000="filter"/>
     </div>
 
     @if ($nutzergruppen->count()!=0)
 
-    <div class="pb-4 mt-16 sm:hidden">
-            <div class="mb-5 text-xl font-bold text-center border-b-2 border-sky-400">
+        <div class="mb-5 text-xl font-bold text-center md:text-2xl border-b-2 border-sky-400 w-max-md md:bloc">
             VERLAUF DER VERBRÄUCHE
-            </div>
+        </div>
             @foreach ($nutzergruppen as $verbrauchsinfo)
-            <div class="flex justify-center">
+            {{-- big screen website --}}
+
+            <div class="hidden md:flex justify-center w-full px-4 py-1 mx-auto max-w-7xl mt-8">
+                <div class="mb-6">
+                <span class="font-thin text-xl md:font-bold {{ $verbrauchsinfo->ww ? 'text-red-800 ' : 'text-green-600 ' }}">{{ $verbrauchsinfo->nutzergrup_name}}</span>
+                </div>
+                <div class="px-4">
+                    <x-icon.fonts.ww_hk class="text-3xl" :hk='$verbrauchsinfo->hk' ></x-icon.fonts.ww_hk>
+                </div>
+            </div>
+
+        <div class="hidden md:flex pl-10 pr-10">
+            <div class="grid grid-cols-4 text-md font-bold text-center border-2 rounded-t-lg md:flex-1 bg-sky-100 border-sky-100 basis-1/6">
+                <div class="basis-1/6">
+                    <span class="">Monat</span>
+                    <x-icon.fonts.sort class="text-gray-600 pl-2"></x-icon.fonts.sort>
+                </div>
+                <div class="basis-1/6">
+                    <span class="">Aktuell</span>
+                </div>
+                <div class="basis-1/6">
+                    <span class="">Vorjahr</span>
+                </div>
+                <div class="basis-1/6">
+                    <span class="">Einheit</span>
+                </div>
+            </div>
+        </div>
+
+            {{--end big screen website --}}
+
+
+            <div class="flex justify-center sm:hidden">
                 <div class="mb-1 text-lg font-bold {{ $verbrauchsinfo->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
                 {{ $verbrauchsinfo->nutzergrup_name}}
-                -
                 </div>
-
+                <div class="px-4">
+                    <x-icon.fonts.ww_hk class="text-2xl" :hk='$verbrauchsinfo->hk' ></x-icon.fonts.ww_hk>
+                </div>
             </div>
 
                 @forelse ($this->getVerbrauchsinfosByNutzergrupe($verbrauchsinfo->nutzergrup_id) as $singleVerbrauchsinfo)
+
+            <div class="hidden md:block pl-10 pr-10">
+                <div class="grid grid-cols-4 text-center text-md mb-2 mt-2 odd:bg-white even:bg-slate-50">
+                    <div class="basis-1/6 ">
+                        <span class="font-thin text-md ">{{ $singleVerbrauchsinfo->zeitraum_akt}}</span>
+                    </div>
+                    <div class="basis-1/6">
+                        <span class="font-thin text-md ">{{ $singleVerbrauchsinfo->VerbrauchAktDisplay}}</span>
+                    </div>
+                    <div class="basis-1/6">
+                        <span class="font-thin text-md ">{{ $singleVerbrauchsinfo->VerbrauchVorjDisplay}}</span>
+                    </div>
+                    <div class="basis-1/6">
+                        <span class="font-thin text-md ">{{ $singleVerbrauchsinfo->einheit->shortname}}</span>
+                    </div>
+                </div>
+            </div>
 
                 <!--loyal websites small screens-->
 
@@ -60,14 +109,12 @@
                                  {{ $singleVerbrauchsinfo->einheit->shortname}}
                              </span>
                         </div>
-                        </div>
                     </div>
                 </div>
+            </div>
 
                 <!--end loyal websites small screens-->
-
                    @endforeach
-               </div>
                @endforeach
            @endif
        </div>
@@ -78,21 +125,4 @@
        @endif
    </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
