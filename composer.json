@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.7",
         "laravel/vapor-core": "^2.20",
         "livewire/livewire": "^2.5",
+        "nesbot/carbon": "^2.67",
         "usernotnull/tall-toasts": "^1.5"
     },
     "require-dev": {

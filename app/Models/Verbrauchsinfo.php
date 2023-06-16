@@ -7,6 +7,7 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 
 class Verbrauchsinfo extends Model
 {
@@ -48,11 +49,11 @@ class Verbrauchsinfo extends Model
     public function getVerbrauchVorjDisplayAttribute(){
         return number_format($this->verbrauch_vorj, 2, ',', '.');
     }
+    
     public function getDurchschnittDisplayAttribute(){
         return number_format($this->durchschnitt, 2, ',', '.');
     }
 
-
-
+ 
 
 }

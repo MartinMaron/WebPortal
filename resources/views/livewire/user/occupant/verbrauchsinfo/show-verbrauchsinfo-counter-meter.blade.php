@@ -74,7 +74,7 @@
                             <span class="font-thin text-md ">{{ $singleCounterMeter->VerbrauchAktDisplay}}</span>
                         </div>
                         <div class="basis-1/6">
-                            <span class="font-thin text-md ">{{ $singleCounterMeter->einheit}}</span>
+                            <span class="font-thin text-md ">{{ $singleCounterMeter->einheit->shortname}}</span>
                         </div>
                         <div class="mb-1 m-auto text-center border-2 rounded-md w-44 bg-sky-100">
                             <a href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
@@ -126,7 +126,7 @@
                                         </div>
                                         <div class="text-center text-lg font-bold basis-1/6">
                                             <span class='{{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">'>
-                                                {{ $singleCounterMeter->VerbrauchAktDisplay. " ".  $singleCounterMeter->einheit}}
+                                                {{ $singleCounterMeter->VerbrauchAktDisplay. " ".  $singleCounterMeter->einheit->shortname}}
                                             </span>
                                         </div>
                                     </div>

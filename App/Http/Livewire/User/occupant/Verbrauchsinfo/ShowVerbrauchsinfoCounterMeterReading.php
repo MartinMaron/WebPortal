@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Livewire\User\Occupant\Verbrauchsinfo;
+namespace App\Http\Livewire\User\occupant\Verbrauchsinfo;
 
+use App\Http\Livewire\DataTable\WithSorting;
 use Livewire\Component;
 use App\Models\Occupant;
 use Illuminate\Support\Facades\App;
@@ -11,6 +12,8 @@ use Illuminate\Database\Eloquent\Builder;
 class ShowVerbrauchsinfoCounterMeterReading extends Component
 {
     
+    use WithSorting;
+
     public $neko_id;
     public Occupant $occupant;
   
@@ -30,7 +33,8 @@ class ShowVerbrauchsinfoCounterMeterReading extends Component
     {
         $result = $this->occupant->counterMeters()
             ->where('nekoId', '=', $this->neko_id);
-        return $result;
+
+        return $this->applySorting($result);
     }
 
     public function render()

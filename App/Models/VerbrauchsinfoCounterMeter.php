@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use App\Http\Livewire\DataTable\WithSorting;
-use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Livewire\DataTable\WithSorting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class VerbrauchsinfoCounterMeter extends Model
@@ -17,9 +18,8 @@ class VerbrauchsinfoCounterMeter extends Model
         'hk','ww','jahr_monat','zeitraum_akt', 'zeitraum_mon', 'zeitraum_vorj', 'verbrauch_akt', 'verbrauch_mon', 'verbrauch_vorj', 'stand_anfang','stand_ende', 'faktor'
     ];
 
-    public $sortBy  = ['nr','funkNr'];
-
-
+    protected $appends = ['datum',
+    ];
 
     public function occupant()
     {
@@ -57,7 +57,9 @@ class VerbrauchsinfoCounterMeter extends Model
         return number_format($this->verbrauch_akt, 2, ',', '.');
     }
 
-
-
+    public function getDatumAttribute()
+    {
+        return Carbon::parse($this->jahr_monat)->format('d.m.Y');
+    }
 
 }
