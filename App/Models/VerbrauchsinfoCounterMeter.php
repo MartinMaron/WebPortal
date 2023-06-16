@@ -44,7 +44,7 @@ class VerbrauchsinfoCounterMeter extends Model
 
     }
 
-    public function einh()
+    public function einheit()
     {
         return $this->belongsTo(Einheit::class);
     }

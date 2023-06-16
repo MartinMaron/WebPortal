@@ -293,7 +293,6 @@ class JobController extends Controller
             'funkNr'=> $data['funkNr'],
             'art'=> $data['art'],
             'occupant_id' => $occupant->id,
-            'einheit'=> $data['einheit'],
             'einheit_id'=> $data['einheit_id'],
             'stand_ende'=> $data['stand_ende'],
             'stand_anfang'=> $data['stand_anfang'],
