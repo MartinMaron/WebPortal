@@ -11,8 +11,11 @@ class ShowVerbrauchsinfos extends Component
 
     use WithCachedRows;
     public Occupant $occupant;
+<<<<<<< Updated upstream
     public $pointer;
 
+=======
+>>>>>>> Stashed changes
 
     /* initialization */
     public function mount(Occupant $occupant)
@@ -37,6 +40,7 @@ class ShowVerbrauchsinfos extends Component
         return $this->rows->where('nutzergrup_id','=',$nutzergrupe_id)
                 ->sortBy('hk')
         ;
+
     }
 
 
@@ -45,7 +49,10 @@ class ShowVerbrauchsinfos extends Component
 
         $nutzergruppen = $this->rowsQuery
         ->get()->unique('nutzergrup_id');
+<<<<<<< Updated upstream
         ;
+=======
+>>>>>>> Stashed changes
 
         return view('livewire.user.occupant.verbrauchsinfo.show-verbrauchsinfos', [
             'rows' => $this->rows,

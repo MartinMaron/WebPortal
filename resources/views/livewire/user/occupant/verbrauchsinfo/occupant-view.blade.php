@@ -28,11 +28,11 @@
                 <div class="flex-1 pt-3 font-semibold text-center ">
                     Gebäudedurchschnitt
                 </div>
-                
+
                 <div class="flex-1 text-center">
                     {{ $verbrauchsinfo->durchschnitt_display }}
                 </div>
-                
+
             </div>
 
             @endforeach
@@ -44,16 +44,16 @@
                     </span>
                 </a>
             </x-button.transparent>
-    
+
             <x-button.transparent class="flex-row px-2 py-1 mt-3 bg-sky-100 border-1 border-sky-200" :active="request()->routeIs('user.occupantVerbrauchsinfoCounterMeters')">
                 <a href="{{route('user.occupantVerbrauchsinfoCounterMeters', ['occupant_id' => $occupant, 'jahr_monat' => '2023-6'])}}">
-    
+
                     <span class = "font-semibold text-black transition duration-150 text-md opacity-90 group-hover:opacity-100 ease">
-    
+
                         {{ __('Zähler anzeigen') }}
-    
+
                     </span>
-    
+
                 </a>
                 </x-button.transparent>
             </div>

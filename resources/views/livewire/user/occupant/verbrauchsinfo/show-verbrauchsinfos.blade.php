@@ -5,10 +5,16 @@
 
     @if ($nutzergruppen->count()!=0)
 
+<<<<<<< Updated upstream
         <div class="mb-5 text-xl font-bold text-center md:text-2xl border-b-2 border-sky-400 w-max-md md:bloc">
+=======
+    <div class="pb-4 mt-16 sm:hidden max-w-sm">
+            <div class="mb-5 text-xl font-bold text-center border-b-2 border-sky-400">
+>>>>>>> Stashed changes
             VERLAUF DER VERBRÄUCHE
         </div>
             @foreach ($nutzergruppen as $verbrauchsinfo)
+<<<<<<< Updated upstream
             {{-- big screen website --}}
 
             <div class="hidden md:flex justify-center w-full px-4 py-1 mx-auto max-w-7xl mt-8">
@@ -42,6 +48,9 @@
 
 
             <div class="flex justify-center sm:hidden">
+=======
+            <div class="flex justify-center max-w-sm">
+>>>>>>> Stashed changes
                 <div class="mb-1 text-lg font-bold {{ $verbrauchsinfo->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
                 {{ $verbrauchsinfo->nutzergrup_name}}
                 </div>
@@ -71,7 +80,7 @@
 
                 <!--loyal websites small screens-->
 
-                <div class= "pb-4 m-1 sm:hidden">
+                <div class= "pb-4 m-1 sm:hidden max-w-sm">
 
                     <div class="text-sm font-bold text-center border-2 rounded-t-lg sm:flex-1 bg-sky-100 border-sky-100 basis-1/6">
                         <div class="basis-1/2">
@@ -125,4 +134,7 @@
        @endif
    </div>
 </div>
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes

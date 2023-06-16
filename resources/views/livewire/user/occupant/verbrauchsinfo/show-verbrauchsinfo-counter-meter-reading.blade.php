@@ -7,7 +7,7 @@
         </div>
     @endif
 
-    <div class="mt-16 sm:hidden">
+    <div class="mt-16 sm:hidden max-w-sm">
         <div class="mb-5 text-xl font-bold text-center border-b-2 border-sky-400">
             Stände anzeigen {{ '['. $rows->first()->einheit->shortname. ']' }}
         </div>
