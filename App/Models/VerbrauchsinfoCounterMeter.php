@@ -39,6 +39,10 @@ class VerbrauchsinfoCounterMeter extends Model
 
     }
 
+    public function einh()
+    {
+        return $this->belongsTo(Einheit::class);
+    }
    
     public function getStandDisplayAttribute(){
         return number_format($this->stand_ende, 2, ',', '.');
@@ -46,7 +50,9 @@ class VerbrauchsinfoCounterMeter extends Model
 
     public function getVerbrauchAktDisplayAttribute(){
         return number_format($this->verbrauch_akt, 2, ',', '.');
-   }
+    }
+
+  
 
 
 }
