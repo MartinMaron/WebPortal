@@ -37,6 +37,7 @@ return new class extends Migration
             $table->double('verbrauch_vorj')->default(-1);
 
             $table->string('jahr_monat');
+            $table->date('datum')->nullable();
             
             $table->double('stand_ende')->default(-1);
             $table->double('stand_anfang')->default(-1);

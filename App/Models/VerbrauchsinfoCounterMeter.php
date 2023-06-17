@@ -15,10 +15,7 @@ class VerbrauchsinfoCounterMeter extends Model
 
     protected $fillable = [
         'nekoOccupant_id', 'occupant_id', 'occupant_id', 'nekoId', 'nr', 'funkNr', 'art', 'einheit', 'einheit_id', 'nutzergrup_id', 'nutzergrup_name',
-        'hk','ww','jahr_monat','zeitraum_akt', 'zeitraum_mon', 'zeitraum_vorj', 'verbrauch_akt', 'verbrauch_mon', 'verbrauch_vorj', 'stand_anfang','stand_ende', 'faktor'
-    ];
-
-    protected $appends = ['datum',
+        'hk','ww','jahr_monat', 'datum','zeitraum_akt', 'zeitraum_mon', 'zeitraum_vorj', 'verbrauch_akt', 'verbrauch_mon', 'verbrauch_vorj', 'stand_anfang','stand_ende', 'faktor'
     ];
 
     public function occupant()
@@ -55,11 +52,6 @@ class VerbrauchsinfoCounterMeter extends Model
 
     public function getVerbrauchAktDisplayAttribute(){
         return number_format($this->verbrauch_akt, 2, ',', '.');
-    }
-
-    public function getDatumAttribute()
-    {
-        return Carbon::parse($this->jahr_monat)->format('d.m.Y');
     }
 
 }

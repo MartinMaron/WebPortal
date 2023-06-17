@@ -12,20 +12,13 @@
             <div class="flex justify-center">{{ $rows->first()->nr }}
             </div>
             
-            
-            <div class="flex justify-center">{{ $rows->first()->nr }}
-            </div>
-            
-            
             <div class= "border-2 rounded-t-lg bg-sky-100 border-sky-100 ">
                     <div class="flex flex-row justify-between mt-2 text-xs font-semibold items-center text-center ">
                         <div class="items-center">
-                            <x-table.heading class="" sortable multi-column wire:click="sortBy('jahr_monat')" :direction="$sorts['jahr_monat'] ?? null">
+                            <x-table.heading class="" sortable multi-column wire:click="sortBy('datum')" :direction="$sorts['datum'] ?? null">
                                 Monat
                             </x-table.heading>
                         </div>
-
-                      
                         <div class="basis-1/5">
                             {{ 'Ende' }}
                         </div>

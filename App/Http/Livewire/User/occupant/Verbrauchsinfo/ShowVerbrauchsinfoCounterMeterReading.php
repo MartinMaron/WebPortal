@@ -14,6 +14,7 @@ class ShowVerbrauchsinfoCounterMeterReading extends Component
     
     use WithSorting;
 
+
     public $neko_id;
     public Occupant $occupant;
   
@@ -22,6 +23,7 @@ class ShowVerbrauchsinfoCounterMeterReading extends Component
     {
         $this->neko_id = $neko_id;
         $this->occupant = $occupant;
+        $this->sorts = ['datum' => 'desc'];
     }
 
     public function getRowsProperty()

@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\RealestateResource;
 use App\Models\RealestateAbrechnungssetting;
 use App\Models\VerbrauchsinfoCounterMeter;
+use Carbon\Carbon;
 
 class JobController extends Controller
 {
@@ -280,8 +281,8 @@ class JobController extends Controller
                 ];
         }
 
-
-
+        $dat = new Carbon($data['jahr_monat']);
+  
         $occupant = Occupant::where('nekoId','=', $data['nekoOccupant_id'])->firstOrFail();
         /* Anlage des Zählers */
         $counterMeter = VerbrauchsinfoCounterMeter::updateOrcreate(
@@ -306,9 +307,12 @@ class JobController extends Controller
             'hk'=> $data['hk'],
             'ww'=> $data['ww'],
             'verbrauch_mon'=> $data['verbrauch_mon'],
-            'verbrauch_vorj'=> $data['verbrauch_vorj']]
+            'verbrauch_vorj'=> $data['verbrauch_vorj'],
+            'datum'=> $dat->year.'/'.$dat->month.'/'.$dat->day ,
+            ]
         );
 
+      
          return [
             'function' => 'JobController.counterMeter',
             'result' => 'success',
