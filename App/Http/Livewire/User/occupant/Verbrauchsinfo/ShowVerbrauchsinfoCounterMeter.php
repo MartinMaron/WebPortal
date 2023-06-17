@@ -14,7 +14,8 @@ use App\Http\Livewire\DataTable\WithSorting;
 class ShowVerbrauchsinfoCounterMeter extends Component
 {
 
-    use WithCachedRows;
+    use WithCachedRows, WithSorting;
+
     public Occupant $occupant;
     public VerbrauchsinfoCounterMeter $counterMeters;
     public $filter;
@@ -26,7 +27,11 @@ class ShowVerbrauchsinfoCounterMeter extends Component
     {
          $this->occupant = $occupant;
          $this->jahr_monat = $jahr_monat;
-    }
+         $this->sorts = [
+            'hk' => 'desc',
+            'nr' => 'asc'
+            ];
+        }
 
     public function resetFilters()
     {
@@ -48,6 +53,8 @@ class ShowVerbrauchsinfoCounterMeter extends Component
             $result = $this->occupant->counterMeters()
                 ->where('jahr_monat', '=', $this->jahr_monat);
         };
+  
+        $this->applySorting($result);
         return $result;
     }
 
