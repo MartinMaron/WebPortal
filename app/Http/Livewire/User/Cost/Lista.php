@@ -124,6 +124,8 @@ class Lista extends Component
         $this->currentCostAmount->delete();
     }
 
+     
+
 
     public function getCostByType($costTypeId){
         return Cost::where('realestate_id','=',$this->realestate->id)

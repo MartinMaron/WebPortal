@@ -1,7 +1,4 @@
 
-
-
-
     <form wire:submit.prevent="closeCostAmountDetailModal(true)">
         <x-modal.dialog class="bg-sky-50" minWidth="640px" maxWidth="800px"
                wire:model="showCostAmountEditModal">

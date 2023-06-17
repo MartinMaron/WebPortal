@@ -3,13 +3,11 @@
     <div id="user-costamount-listitem-consumption{{ $current->id }}"
         style="-moz-appearance: textfield; margin: 0;"
         class="{{ $cost->consumption ? 'block' : 'invisible' }} basis-1/5 md:text-md text-right "   >
-       
             <span class="text-right mr-2">{{ $current->consumption }}</span>                      
     </div>
     <div id="user-costamount-listitem-haushaltsnah{{ $current->id }}"
         style="-moz-appearance: textfield; margin: 0;"
         class="{{ $cost->haushaltsnah ? 'block' : 'invisible' }} basis-1/5 md:text-md text-right "   >
-       
             <span class="text-right mr-2">{{ $current->haushaltsnah }}</span>                      
     </div>
     <div id="user-costamount-listitem-datum{{ $current->id }}"
@@ -24,13 +22,11 @@
         @if($netto)
             <span class="text-right mr-2">{{ $current->netto }}</span>              
         @else
-        <span class="text-right mr-2">{{ $current->brutto }}</span>  
+            <span class="text-right mr-2">{{ $current->brutto }}</span>  
         @endif
     </div>
        
-    <div 
-        class="basis-1/5 "   
-    >
+    <div class="basis-1/5 ">
         <div class="flex">
             <div
                 wire:click="raise_EditCostAmountModal" 
@@ -39,12 +35,11 @@
                 </x-icon.fonts.pencil>
             </div>
             <div
-                wire:click="questionDelete" 
+                wire:click="questionDeleteCostAmount" 
                 class="border text-center bg-red-300 md:text-md hover:bg-red-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 ml-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-red-600 rounded-md ">
                 <i class="text-red-800 fa-solid fa-trash-can"></i>
             </div>
         </div>
-    
     </div>
 </div>
 

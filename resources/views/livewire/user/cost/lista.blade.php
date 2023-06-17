@@ -104,7 +104,7 @@
                                     </button>   
                                 </div>
                                 @if ($showEditFields)
-                                    <div class="basis-2/3 py-1 ">
+                                    <div class="basis-2/3 py-1 bg-orange-800">
                                         <livewire:user.costamount.detail-input :cost='$singleCost' :netto='$nettoInputMode' :inputWithoutDatum='$withoutDateInputMode' :wire:key="'list-cost-costamountinput-'.$singleCost->id"/>
                                     </div>
                                 @else 
@@ -192,8 +192,9 @@
                                                                     </x-icon.fonts.pencil>
                                                                 </div>
                                                                 <div
+                                                                    wire:click="questionDeleteCostAmount({{ $singleCostAmount }})" 
                                                                     class="border text-center bg-red-300 md:text-md hover:bg-red-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 ml-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-red-600 rounded-md ">
-                                                                    <i class="text-red-800 fa-solid fa-trash-can"></i>
+                                                                    <i class="text-blue-800 fa-solid fa-trash-can"></i>
                                                                 </div>
                                                             </div>
                                                         
@@ -266,46 +267,40 @@
             @endforelse
         
         </div>
-      
     </div>
-
-
-
-<div class="xs:max-w-xs xs:w-xs">
-
-<!-- Save Cost Modal -->
-<div>
-    <livewire:user.cost.detail :wire:key="'modal-realestate-cost-detail'"/>  
+    <div class="xs:max-w-xs xs:w-xs">
+        <!-- Save Cost Modal -->
+        <div>
+            <livewire:user.cost.detail :wire:key="'modal-realestate-cost-detail'"/>  
+        </div>
+        <div>
+            <livewire:user.costamount.detail :wire:key="'modal-realestate-costamount-detail'"/>                 
+        </div>
+        <!-- Delete CostAmount Modal -->
+        <div class="{{ $showDeleteCostAmountModal ? 'visible' : 'invisible' }}">
+            <form wire:submit.prevent="deleteCostAmountModal({{ $current }})">
+                <x-modal.dialog class="bg-sky-50" minWidth="640px" maxWidth="800px" wire:model.defer="showDeleteCostAmountModal">
+                    <!-- Dialog Title -->
+                    <x-slot name="title">
+                        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                            <i class="text-red-800 fa-solid fa-trash-can"></i>
+                        </div>
+                    </x-slot>
+                    <!-- Dialog Content -->
+                    <x-slot name="content">
+                        <div class="mt-3 text-center sm:mt-5">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Eintrag wirklich löschen</h3>
+                        </div>
+                    </x-slot>
+                    <x-slot name="footer">
+                        <x-button.secondary wire:click="$set('showDeleteCostAmountModal', false)">Abbrechen</x-button.secondary>
+                        <x-button.delete type="submit">Löschen</x-button.delete>
+                    </x-slot>
+                </x-modal.dialog>
+            </form>
+        </div>
+    </div>
 </div>
-<div>
-    <livewire:user.costamount.detail :wire:key="'modal-realestate-costamount-detail'"/>                 
-</div>
-
-<!-- Delete CostAmount Modal -->
-<div class="{{ $showDeleteCostAmountModal ? 'visible' : 'invisible' }}">
-    <form wire:submit.prevent="deleteCostAmountModal({{ $current }})">
-        <x-modal.dialog class="bg-sky-50" minWidth="640px" maxWidth="800px" wire:model.defer="showDeleteCostAmountModal">
-            <!-- Dialog Title -->
-            <x-slot name="title">
-                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                    <i class="text-red-800 fa-solid fa-trash-can"></i>
-                </div>
-            </x-slot>
-            <!-- Dialog Content -->
-            <x-slot name="content">
-                <div class="mt-3 text-center sm:mt-5">
-                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Eintrag wirklich löschen</h3>
-                </div>
-            </x-slot>
-            <x-slot name="footer">
-                <x-button.secondary wire:click="$set('showDeleteCostAmountModal', false)">Abbrechen</x-button.secondary>
-                <x-button.delete type="submit">Löschen</x-button.delete>
-            </x-slot>
-        </x-modal.dialog>
-    </form>
-</div>
-
-     
 
 
 

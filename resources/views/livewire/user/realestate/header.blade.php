@@ -1,5 +1,4 @@
 
-
 <div class="text-xl text-right xl p-4 bg-sky-100 rounded-md">
     <div class="flex justify-between items-center">
         <div class="flex justify-between items-center">
@@ -13,7 +12,11 @@
                     <x-icon.fonts.file-signature class="h-30 text-sky-700"></x-icon.fonts.file-signature>
                 </a>
             </div>
-
+            <div class="px-4">
+                <a href="{{route('user.realestateVerbrauchsinfoUserEmails', $realestate)}}">
+                    <i class="fa-light fa-poll-people"></i>
+                </a>
+            </div>
             <div class="px-4">
                 <a href="{{route('labor')}}">
                     <x-icon.fonts.vials class="h-30 text-sky-700"></x-icon.fonts.vials>

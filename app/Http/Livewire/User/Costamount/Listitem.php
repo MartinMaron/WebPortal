@@ -37,8 +37,9 @@ class Listitem extends Component
         }        
     }
 
-    public function questionDelete()
+    public function questionDeleteCostAmount()
     {
+       dd();
         $this->emit('deleteCostAmount', $this->current);   
     }
 

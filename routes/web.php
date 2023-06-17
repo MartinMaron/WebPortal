@@ -77,12 +77,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             }
         })->name('realestates');
 
-        Route::get('/verbrauchsinfos', function () {
-            if (auth()->user()->isMieter){
-                return view('backend.verbrauchsinfo.show-verbrauchsinfo');
-            }
-        })->name('verbrauchsinfos');
-
         /* Controller Routing */
         Route::resource('/realestate', RealestateController::class);
 
@@ -91,25 +85,43 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             return view('backend.realestate.show-occupants', compact('realestate'));
         })->name('occupants');
 
+        Route::get('/realestateVerbrauchsinfoUserEmails/{id}', function ($id) {
+            $realestate = Realestate::all()->find($id);
+            return view('backend.realestate.show-verbrauchsinfo-user-email', compact('realestate'));
+        })->name('realestateVerbrauchsinfoUserEmails');
+
         Route::get('/costs/{id}', function ($id) {
             $realestate = Realestate::all()->find($id);
             return view('backend.realestate.show-costs', compact('realestate'));
         })->name('costs');
 
+        /* Verbrauchsinfos */
+        Route::get('/verbrauchsinfos', function () {
+            if (auth()->user()->isMieter){
+                return view('backend.verbrauchsinfo.show-verbrauchsinfo');
+            }
+        })->name('verbrauchsinfos');
+
         Route::get('/occupantVerbrauchsinfos/{id}', function ($id) {
-            $occupant = Occupant::all()->find($id);
-            return view('backend.verbrauchsinfo.show-verbrauchsinfo-list', compact('occupant'));
+            if (auth()->user()->isMieter){
+                $occupant = Occupant::all()->find($id);
+                return view('backend.verbrauchsinfo.show-verbrauchsinfo-list', compact('occupant'));
+              }
         })->name('occupantVerbrauchsinfos');
 
         Route::get('/occupantVerbrauchsinfoCounterMeters/{occupant_id}/{jahr_monat}', function ($occupant_id, $jahr_monat) {
-            $occupant = Occupant::all()->find($occupant_id);
-            return view('backend.verbrauchsinfo.show-verbrauchsinfo-counter-meters', compact('occupant','jahr_monat'));
+            if (auth()->user()->isMieter){
+                $occupant = Occupant::all()->find($occupant_id);
+                return view('backend.verbrauchsinfo.show-verbrauchsinfo-counter-meters', compact('occupant','jahr_monat'));
+            } 
         })->name('occupantVerbrauchsinfoCounterMeters');
 
         Route::get('/occupantVerbrauchsinfoCounterMetersReading/{occupant_id}/{id}', function ($occupant_id, $id) {
-            $occupant = Occupant::all()->find($occupant_id);
-            return view('backend.verbrauchsinfo.show-verbrauchsinfo-counter-meters-readings', compact('occupant','id'));
-        })->name('occupantVerbrauchsinfoCounterMetersReading');
+            if (auth()->user()->isMieter){
+                $occupant = Occupant::all()->find($occupant_id);
+                return view('backend.verbrauchsinfo.show-verbrauchsinfo-counter-meters-readings', compact('occupant','id'));
+            }
+            })->name('occupantVerbrauchsinfoCounterMetersReading');
 
     });
 
