@@ -39,7 +39,7 @@
                 <div class="border-2 rounded-b-lg border-sky-100 ">
 
                     @foreach ($rows as $counterMeter)
-                    <div class= "even:bg-100 odd:bg-slate-200 flex flex-row py-1 text-center justify-between text-xs">
+                    <div class= "{{ $rows->first()->hk ? 'even:bg-green-50 odd:bg-green-100' :'even:bg-red-50 odd:bg-red-100'}}  flex flex-row py-1 text-center justify-between text-xs">
                         <div class="basis-1/5">
                             {{ $counterMeter->zeitraum_akt }}
                         </div>

@@ -137,10 +137,10 @@
                                             </span>
                                         </div>
                                     </div> --}}
-                                    <div class="mt-2 mb-1 min-w-min m-auto text-center border-2 rounded-md bg-sky-100">
+                                    <div class="mt-1 mb-1 min-w-min m-auto text-center border-2 rounded-md bg-sky-100">
                                         <a href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
                                             {{-- <span class="">Stände</span>  --}}
-                                            <i class="text-xl text-green-400 fa-regular fa-chart-mixed"></i>
+                                            <i class="text-xl {{ $singleCounterMeter->hk ? 'text-green-600': 'text-red-800' }} fa-regular fa-chart-mixed"></i>
                                         </a>
                                     </div>
                                 </div>

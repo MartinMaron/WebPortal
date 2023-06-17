@@ -340,7 +340,9 @@ class JobController extends Controller
 
         $occupant = Occupant::where('nekoId','=', $data['nekoOccupant_id'])->firstOrFail();
 
-
+        $dat = new Carbon($data['jahr_monat']);
+  
+        
         /* Anlage des Zählers */
         $verbrauchsinfo = Verbrauchsinfo::updateOrcreate(
             [
@@ -356,6 +358,7 @@ class JobController extends Controller
             'nutzergrup_name'=> $data['nutzergrup_name'],
             'hk'=> $data['hk'],
             'ww'=> $data['ww'],
+            'datum'=> $dat->year.'/'.$dat->month.'/'.$dat->day ,
             'durchschnitt'=> $data['durchschnitt'],
             'zeitraum_akt'=> $data['zeitraum_akt'],
             'zeitraum_mon'=> $data['zeitraum_mon'],

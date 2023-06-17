@@ -38,6 +38,7 @@ return new class extends Migration
             $table->foreign('einheit_id')->references('id')->on('einheiten');
             $table->unsignedBigInteger('nutzergrup_id');
             $table->string('nutzergrup_name',150);
+            $table->date('datum')->nullable();
             $table->string('zeitraum_akt',21)->nullable();
             $table->string('zeitraum_mon',21)->nullable();
             $table->string('zeitraum_vorj',21)->nullable();

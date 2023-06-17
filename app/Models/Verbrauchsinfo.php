@@ -14,7 +14,7 @@ class Verbrauchsinfo extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nekoOccupant_id', 'occupant_id', 'art', 'einheit_id', 'nutzergrup_id', 'nutzergrup_name', 'nekoId', 'jahr_monat', 'durchschnitt',
+        'nekoOccupant_id', 'occupant_id', 'art', 'einheit_id', 'nutzergrup_id', 'nutzergrup_name', 'nekoId', 'jahr_monat', 'datum', 'durchschnitt',
         'zeitraum_akt', 'zeitraum_mon', 'zeitraum_vorj', 'verbrauch_akt', 'verbrauch_mon', 'verbrauch_vorj','hk','ww', 'mess_einheit'
     ];
     
