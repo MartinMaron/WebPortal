@@ -91,6 +91,7 @@ class Lista extends Component
         $this->setCurrent($cost);
         $this->emit('showCostDetailModal', $this->current);   
     }
+    
     public function editCostAmountModal(CostAmount $costAmount)
     {
         $this->emit('showCostAmountDetailModal', $costAmount);   

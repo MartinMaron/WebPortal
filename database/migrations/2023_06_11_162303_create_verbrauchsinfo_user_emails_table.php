@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('neko_id', 40);
             $table->boolean('aktiv')->nullable();
             $table->string('email', 255);
-            $table->boolean('webupdate');
-            $table->string('firstinitUsername');
+            $table->boolean('webupdate')->default(0);
+            $table->string('firstinitUsername')->nullable();
             $table->timestamps();
         });
     }

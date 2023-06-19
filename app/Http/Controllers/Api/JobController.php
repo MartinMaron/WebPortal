@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use App\Models\Cost;
 use App\Models\User;
 use App\Models\CostKey;
@@ -17,12 +18,13 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\CostKeyResource;
 use App\Http\Resources\JobDataResource;
-use App\Http\Resources\RealestateAbrechnungssettingResource;
+use App\Models\VerbrauchsinfoUserEmail;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\RealestateResource;
-use App\Models\RealestateAbrechnungssetting;
 use App\Models\VerbrauchsinfoCounterMeter;
-use Carbon\Carbon;
+use App\Models\RealestateAbrechnungssetting;
+use App\Http\Resources\RealestateAbrechnungssettingResource;
+use App\Http\Resources\VerbrauchsinfoUserEmailResource;
 
 class JobController extends Controller
 {
@@ -188,6 +190,21 @@ class JobController extends Controller
                     return $retval;
                 }
             }
+
+          
+            $verbrauchsinfoUserEmails = $data['verbrauchsinfoUserEmails'];
+            foreach ($verbrauchsinfoUserEmails as $verbrauchsinfoUserEmail){
+                /* Resoource wird erzeugt*/
+                $res = new VerbrauchsinfoUserEmailResource($verbrauchsinfoUserEmail);
+                /* Filtern der Daten welche zu weiterer Verwendung benötig werden*/
+                $settingsdata = $res->toArray($res->resource);
+                /* Verarbeitn der Daten */
+                $retval = $this->importVerbrauchsinfoUserEmail($settingsdata, $realestate);
+                if ($retval['result'] == 'error'){
+                    return $retval;
+                }
+            }
+
 
             /* Realestate-id wird zurückgegeben */
             return response()->json([
@@ -578,7 +595,51 @@ class JobController extends Controller
          'id' => $settingObj->id,
      ];
 
- }
+    }
+
+    public function importVerbrauchsinfoUserEmail(Array $data, Realestate $realestate)
+ {
+
+     /* Validierung der Daten vor Anlage  */
+     $validator = VerbrauchsinfoUserEmail::validateImportData($data);
+     if ($validator->fails()) {
+         return [
+             'function' => 'JobController.verbrauchsinfoUserEmail',
+             'result' => 'error',
+             'errortype' => 'invalid data',
+             'errors' => $validator->errors(),
+             'data' => $data,
+             'id' => 0
+             ];
+     }
+
+      /* Anlage der Emailsteuerungstabelle für Verbraucherinformationen */
+     $importObj = VerbrauchsinfoUserEmail::updateOrcreate(
+         [
+             'neko_id' => $data['neko_id']
+         ],
+         [
+            'realestate_id' => $realestate->id,
+            'dateFrom'=> $data['dateFrom'],
+            'tryWebDelete'=> $data['TryWebDelete'],
+            'dateTo'=> $data['dateTo'],
+            'nutzeinheitNo'=> $data['msk_nr'],
+            'aktiv'=> $data['aktiv'],
+            'email'=> $data['email'],
+         ]
+     );
+
+     return [
+         'function' => 'JobController.importVerbrauchsinfoUserEmail',
+         'result' => 'success',
+         'id' => $importObj->id,
+     ];
+
+    }
+
+
+
+
 
 
 }

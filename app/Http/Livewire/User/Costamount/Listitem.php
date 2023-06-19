@@ -45,6 +45,7 @@ class Listitem extends Component
 
     public function raise_EditCostAmountModal()
     {
+        dd();
         $this->emit('showCostAmountDetailModal', $this->current);   
     }
 

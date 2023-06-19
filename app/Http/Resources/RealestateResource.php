@@ -31,6 +31,7 @@ class RealestateResource extends JsonResource
             'costs'=> $this['costs'],
             'costsKeys'=> $this['costsKeys'],
             'abrechnungSettings'=> $this['abrechnungSettings'],
+            'verbrauchsinfoUserEmails'=> $this['verbrauchsinfoUserEmails'],
         ];
     }
 }

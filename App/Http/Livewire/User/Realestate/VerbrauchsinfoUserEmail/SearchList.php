@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\User\Realestate;
+namespace App\Http\Livewire\User\Realestate\VerbrauchsinfoUserEmail;
 
 use Livewire\Component;
 use App\Models\Realestate;
 use App\Http\Livewire\DataTable\WithSorting;
 
-class VerbrauchsinfoUserEmails extends Component
+class SearchList extends Component
 {
     use WithSorting; 
 
@@ -46,9 +46,12 @@ class VerbrauchsinfoUserEmails extends Component
         ->get()->unique('nutzeinheitNo');
         ;
 
-        return view('livewire.user.realestate.verbrauchsinfo-user-emails', [
+        return view('livewire.user.realestate.verbrauchsinfo-user-email.search-list', [
             'rows' => $this->rows,
             'nutzeinheiten' => $nutzeinheiten,
         ]);
     }
 }
+
+    
+

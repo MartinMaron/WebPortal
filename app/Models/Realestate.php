@@ -48,6 +48,11 @@ class Realestate extends Model
         return $this->hasMany(RealestateAbrechnungssetting::class);
     }
 
+    public function verbrauchsinfoUserEmails()
+    {
+        return $this->hasMany(VerbrauchsinfoUserEmail::class);
+    }
+   
     public static function validateImportData($data)
     {
         return  Validator::make($data, [

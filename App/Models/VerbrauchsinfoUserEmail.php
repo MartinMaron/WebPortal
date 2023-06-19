@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class VerbrauchsinfoUserEmail extends Model
@@ -16,6 +17,15 @@ class VerbrauchsinfoUserEmail extends Model
         'neko_id', 'aktiv', 'email', 'webupdate','firstinitUsername'
     ];
 
+    public static function validateImportData($data) {
+        return Validator::make($data, [
+            'neko_id' => 'required|numeric',
+            'dateFrom' => 'required|date',
+            'dateTo' => 'nullable|date',
+            'msk_nr' => 'required|numeric',
+            'email' => 'required|string|max:255',
+        ]);
+    }
 
     public function realestate()
     {
@@ -57,9 +67,9 @@ class VerbrauchsinfoUserEmail extends Model
     public function getZeitraumAttribute(){
 
         if ($this->dateTo){
-            return Carbon::parse($this->dateFrom)->format('DD.MM.YYYY') . ' - '. Carbon::parse($this->dateTo)->format('DD.MM.YYYY');
+            return 'vom '. Carbon::parse($this->dateFrom)->format('d.m.Y') . ' bis '. Carbon::parse($this->dateTo)->format('d.m.Y');
         }else{
-            return Carbon::parse($this->dateFrom)->format('DD.MM.YYYY') . ' - __.__.____';
+            return 'seit '. Carbon::parse($this->dateFrom)->format('d.m.Y') ;
         }
 
     }

@@ -195,6 +195,7 @@
                                                                     wire:click="questionDeleteCostAmount({{ $singleCostAmount }})" 
                                                                     class="border text-center bg-red-300 md:text-md hover:bg-red-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 ml-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-red-600 rounded-md ">
                                                                     <i class="text-blue-800 fa-solid fa-trash-can"></i>
+                                                                    <x-icon.fonts.trash class="text-blue-800 "></x-icon.fonts.trash>
                                                                 </div>
                                                             </div>
                                                         
