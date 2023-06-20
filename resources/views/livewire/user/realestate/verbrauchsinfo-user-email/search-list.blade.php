@@ -1,23 +1,23 @@
 <div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8 ">
     @if ($nutzeinheiten->count()!=0)
         @foreach ($nutzeinheiten as $nutzeinheit)
-        
+
         <div class="">
             {{-- pokazac ostatniego lokatora mieszkania --}}
-            <livewire:user.occupant.occupant-header  :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' key="{{ now() }}"/>
+            <livewire:user.occupant.occupant-header  :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' />
         </div>
-            
-       
+
+
         @forelse ($this->getUserEmailsForNutzeinheitNo($nutzeinheit->nutzeinheitNo) as $userEmail)
         {{-- pokazac wiersze email-ow --}}
         <div>
-            <livewire:user.realestate.verbrauchsinfo-user-email.listitem  :userEmail='$userEmail' :wire:key="'verbrauchsinfo-user-email-listitem-'.$userEmail->id" key="{{ now() }}"/>
+            <livewire:user.realestate.verbrauchsinfo-user-email.listitem  :userEmail='$userEmail' :wire:key="'verbrauchsinfo-user-email-listitem-'.$userEmail->id" />
         </div>
 
         @endforeach
 
         @endforeach
-    
+
     @else
     {{-- pokazac komunikat 'brak wierszy' --}}
     @endif
@@ -26,9 +26,9 @@
     <div class="xs:max-w-xs xs:w-xs">
         <!-- Save Cost Modal -->
         <div>
-            <livewire:user.realestate.verbrauchsinfo-user-email.detail :wire:key="'modal-realestate-verbrauchsinfo-user-email-detail'"/>  
+            <livewire:user.realestate.verbrauchsinfo-user-email.detail :wire:key="'modal-realestate-verbrauchsinfo-user-email-detail'"/>
         </div>
-       
+
         <!-- Delete CostAmount Modal -->
        {{--  <div class="{{ $showDeleteCostAmountModal ? 'visible' : 'invisible' }}">
             <form wire:submit.prevent="deleteCostAmountModal({{ $current }})">

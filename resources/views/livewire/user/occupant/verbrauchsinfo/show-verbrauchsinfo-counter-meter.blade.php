@@ -5,7 +5,7 @@
 
             @if ($nutzergruppen->count()!=0)
             <div class="pb-4 mt-16">
-                <div class="mb-5 text-lg font-bold text-center md:text-2xl border-b-2 border-sky-400 w-max-md md:bloc">
+                <div class="mb-5 text-lg font-bold text-center md:text-2xl border-b-2 border-sky-400 w-max-md md:block">
                     Zählerverbräuche in {{ $rows->first()->zeitraum_akt }}
                 </div>
             </div>
@@ -13,7 +13,7 @@
             {{-- big screen website --}}
 
 
-            <div class="hidden md:flex justify-center w-full px-4 py-1 mx-auto max-w-7xl mt-8">
+            <div class="hidden md:flex text-2xl justify-center w-full px-4 py-1 mx-auto max-w-7xl mt-8">
                 <div class="mb-1 text-lg font-bold {{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
                         {{ $counterMeter->nutzergrup_name }}
                     </div>
@@ -24,10 +24,12 @@
 
 
                 <div class="hidden md:flex mt-4">
-                    <div class="grid grid-cols-5 text-md font-bold text-center border-2 rounded-t-lg md:flex-1 bg-sky-100 border-sky-100 basis-1/6">
-                        <div class="basis-1/6">
-                            <span class="">Nr.: </span>
-                            <x-icon.fonts.sort class="text-gray-600 pl-2"></x-icon.fonts.sort>
+                    <div class="grid grid-cols-5 mt-1 text-lg font-bold text-center border-2 rounded-t-lg md:flex-1 bg-sky-100 border-sky-100 basis-1/6">
+                        <div class="grid grid-cols-2 mt-1">
+                            <div class="font-bold text-md ml-11">Nr.: </div>
+                            <div class="mt-1"><x-table.heading class="" sortable multi-column wire:click="sortBy('nr')" :direction="$sorts['nr'] ?? null">
+                                </x-table.heading>
+                            </div>
                         </div>
                         <div class="flex justify-center">
                             <div class="inline-block align-bottom">
@@ -50,7 +52,7 @@
 
 
                 <div class="flex justify-center sm:hidden">
-                    <div class="mb-1 text-lg font-bold {{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
+                    <div class="mb-1 text-lg md:text-xl font-bold {{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
                         {{ $counterMeter->nutzergrup_name }}
                     </div>
                     <div class="px-4">
@@ -58,31 +60,31 @@
                     </div>
                 </div>
 
+                    <div class="border-2 rounded-b-lg border-sky-100">
+
                 @forelse ($this->getCounterMetersByNutzergrupe($counterMeter->nutzergrup_id) as $singleCounterMeter)
-
-
-                    <div class="hidden md:block">
-                        <div class="grid grid-cols-5 text-center text-md mb-2 mt-2 odd:bg-white even:bg-slate-50">
-                            <div class="basis-1/6 ">
-                                <span class="font-thin text-md ">{{ $singleCounterMeter->nr }}</span>
+                    <div class="hidden md:block ">
+                        <div class="grid grid-cols-5 pt-1 text-lg text-center {{ $counterMeter->hk ? 'even:bg-green-50 odd:bg-green-100' :'even:bg-red-50 odd:bg-red-100'}}">
+                            <div class="basis-1/6">
+                                <span class="">{{ $singleCounterMeter->nr }}</span>
                             </div>
                             <div class="basis-1/6">
-                                <span class="font-thin text-md {{ $counterMeter->nr == $counterMeter->funkNr ? 'hidden' : 'visible' }} ">{{ $singleCounterMeter->funkNr }}</span>
+                                <span class="{{ $counterMeter->nr == $counterMeter->funkNr ? 'hidden' : 'visible' }} ">{{ $singleCounterMeter->funkNr }}</span>
                             </div>
                             <div class="basis-1/6">
-                                <span class="font-thin text-md ">{{ $singleCounterMeter->VerbrauchAktDisplay}}</span>
+                                <span class="">{{ $singleCounterMeter->VerbrauchAktDisplay}}</span>
                             </div>
                             <div class="basis-1/6">
-                                <span class="font-thin text-md ">{{ $singleCounterMeter->einheit->shortname}}</span>
+                                <span class="">{{ $singleCounterMeter->einheit->shortname}}</span>
                             </div>
-                            <div class="mb-1 m-auto text-center border-2 rounded-md w-44 bg-sky-100">
+                            <div class=" mb-1 min-w-min m-auto text-center border-2 rounded-md bg-sky-100">
                                 <a href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
-                                    <span class="">Stände anzeigen</span>
+                                    {{-- <span class="">Stände</span>  --}}
+                                    <i class="text-xl {{ $singleCounterMeter->hk ? 'text-green-600': 'text-red-800' }} fa-regular fa-chart-mixed"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
-
 
 
 
@@ -145,7 +147,7 @@
                                     </div>
                                 </div>
                                 {{-- Button --}}
-                                
+
                             </div>
                         </div>
                     </div>
@@ -164,5 +166,4 @@
         @endif
     </div>
 </div>
-
 

@@ -2,22 +2,21 @@
 
     <livewire:user.occupant.occupant-header :occupant='$occupant'/>
 
-    <div class="mt-16 sm:hidden max-w-sm">
-        <div class="mb-5 text-xl font-bold text-center border-b-2 border-sky-400">
+    @if ($rows->count()!=0)
+        <div class="md:text-center">{{ $rows->first()->nr }}
+        </div>
+    @endif
+
+    <div class="mt-16">
+        <div class="mb-5 text-xl font-bold text-center border-b-2 border-sky-400 md:text-2xl">
             Stände anzeigen {{ '['. $rows->first()->einheit->shortname. ']' }}
         </div>
 
             @if ($rows->count()!=0)
-            
-            <div class="flex justify-center">{{ $rows->first()->nr }}
-            </div>
-            
-            <div class= "border-2 rounded-t-lg bg-sky-100 border-sky-100 ">
-                    <div class="flex flex-row justify-between mt-2 text-xs font-semibold items-center text-center ">
-                        <div class="items-center">
-                            <x-table.heading class="" sortable multi-column wire:click="sortBy('datum')" :direction="$sorts['datum'] ?? null">
-                                Monat
-                            </x-table.heading>
+                <div class= "border-2 rounded-t-lg bg-sky-100 border-sky-100 md:w-5/6 m-auto">
+                    <div class="flex flex-row justify-between mt-2 text-xs font-bold items-center text-center md:text-lg">
+                        <div class="basis-1/5">
+                            Monat
                         </div>
                         <div class="basis-1/5">
                             {{ 'Ende' }}
@@ -33,21 +32,21 @@
                         =
                         <div class="basis-1/5">
                             Verbrauch
-                        </div>  
+                        </div>
                     </div>
                 </div>
-                <div class="border-2 rounded-b-lg border-sky-100 ">
+                <div class="border-2 rounded-b-lg border-sky-100 md:w-5/6 m-auto">
 
                     @foreach ($rows as $counterMeter)
-                    <div class= "{{ $rows->first()->hk ? 'even:bg-green-50 odd:bg-green-100' :'even:bg-red-50 odd:bg-red-100'}}  flex flex-row py-1 text-center justify-between text-xs">
+                    <div class= "{{ $rows->first()->hk ? 'even:bg-green-50 odd:bg-green-100' :'even:bg-red-50 odd:bg-red-100'}}  flex flex-row py-1 text-center justify-between text-xs md:text-lg">
                         <div class="basis-1/5">
                             {{ $counterMeter->zeitraum_akt }}
                         </div>
                         <div class="basis-1/5">
-                            {{ $counterMeter->stand_ende }}
+                            {{ $counterMeter->stand_anfang }}
                         </div>
                         <div class="basis-1/5">
-                            {{ $counterMeter->stand_anfang }}
+                            {{ $counterMeter->stand_ende }}
                         </div>
                         <div class="basis-1/5">
                             {{ $counterMeter->faktor }}

@@ -19,11 +19,14 @@
                 </div>
             </div>
 
-        <div class="hidden md:flex pl-10 pr-10">
-            <div class="grid grid-cols-4 text-md font-bold text-center border-2 rounded-t-lg md:flex-1 bg-sky-100 border-sky-100 basis-1/6">
-                <div class="basis-1/6">
-                    <span class="">Monat</span>
-                    <x-icon.fonts.sort class="text-gray-600 pl-2"></x-icon.fonts.sort>
+        <div class="hidden md:flex">
+            <div class="grid grid-cols-4 text-lg font-bold text-center border-2 rounded-t-lg md:flex-1 bg-sky-100 border-sky-100 basis-1/6">
+                <div class="grid grid-cols-2 mt-1">
+                    <div class="">Monat</div>
+                    <div class="mt-1">
+                    <x-table.heading class=" items-center text-center text-md" sortable multi-column wire:click="sortBy('datum')" :direction="$sorts['datum'] ?? null">
+                    </x-table.heading>
+                    </div>
                 </div>
                 <div class="basis-1/6">
                     <span class="">Aktuell</span>
@@ -41,28 +44,29 @@
 
 
             <div class="flex justify-center sm:hidden">
-                <div class="mb-1 text-lg font-bold {{ $verbrauchsinfo->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
+                <div class="mb-1 text-lg md:text-xl font-bold {{ $verbrauchsinfo->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
                 {{ $verbrauchsinfo->nutzergrup_name}}
                 </div>
                 <div class="px-4">
                     <x-icon.fonts.ww_hk class="text-2xl" :hk='$verbrauchsinfo->hk' ></x-icon.fonts.ww_hk>
                 </div>
             </div>
+                    <div class="border-2 rounded-b-lg border-sky-100">
 
                 @forelse ($this->getVerbrauchsinfosByNutzergrupe($verbrauchsinfo->nutzergrup_id) as $singleVerbrauchsinfo)
-                    <div class="hidden md:block pl-10 pr-10">
-                        <div class="grid grid-cols-4 text-center text-md mb-2 mt-2">
+                    <div class="hidden md:block">
+                        <div class="grid grid-cols-4 text-lg text-center font-thin {{ $verbrauchsinfo->hk ? 'even:bg-green-50 odd:bg-green-100' :'even:bg-red-50 odd:bg-red-100'}}">
                             <div class="basis-1/6 ">
-                                <span class="font-thin text-md ">{{ $singleVerbrauchsinfo->datum}}</span>
+                                 {{ $singleVerbrauchsinfo->datum}}
                             </div>
                             <div class="basis-1/6">
-                                <span class="font-thin text-md ">{{ $singleVerbrauchsinfo->VerbrauchAktDisplay}}</span>
+                                {{ $singleVerbrauchsinfo->VerbrauchAktDisplay}}
                             </div>
                             <div class="basis-1/6">
-                                <span class="font-thin text-md ">{{ $singleVerbrauchsinfo->VerbrauchVorjDisplay}}</span>
+                                {{ $singleVerbrauchsinfo->VerbrauchVorjDisplay}}
                             </div>
                             <div class="basis-1/6">
-                                <span class="font-thin text-md ">{{ $singleVerbrauchsinfo->einheit->shortname}}</span>
+                                {{ $singleVerbrauchsinfo->einheit->shortname}}
                             </div>
                         </div>
                     </div>
@@ -108,6 +112,7 @@
 
                 <!--end loyal websites small screens-->
                 @endforeach
+                </div>
             @endforeach
     @endif
     @if ($rows->count()==0)
