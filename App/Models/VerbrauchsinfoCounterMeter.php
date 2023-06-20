@@ -13,6 +13,17 @@ class VerbrauchsinfoCounterMeter extends Model
     use HasFactory;
     use WithSorting;
 
+
+    public function scopeHasDifferentNumbers($query)
+    {
+        $query->where('nr','funkNr');
+    }
+
+    public function hasEqualsNumbers()
+    {
+      return $this->nr == $this->funkNr;
+    }
+
     protected $fillable = [
         'nekoOccupant_id', 'occupant_id', 'occupant_id', 'nekoId', 'nr', 'funkNr', 'art', 'einheit', 'einheit_id', 'nutzergrup_id', 'nutzergrup_name',
         'hk','ww','jahr_monat', 'datum','zeitraum_akt', 'zeitraum_mon', 'zeitraum_vorj', 'verbrauch_akt', 'verbrauch_mon', 'verbrauch_vorj', 'stand_anfang','stand_ende', 'faktor'

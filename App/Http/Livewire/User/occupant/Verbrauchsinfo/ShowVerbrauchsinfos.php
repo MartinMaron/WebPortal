@@ -18,7 +18,7 @@ class ShowVerbrauchsinfos extends Component
         $this->occupant = $occupant;
         $this->sorts = [
             'hk' => 'desc',
-            'datum' => 'desc'            
+            'datum' => 'desc'
             ];
     }
 

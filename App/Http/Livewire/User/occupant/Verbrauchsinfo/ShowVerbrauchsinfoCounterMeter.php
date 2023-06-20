@@ -33,6 +33,13 @@ class ShowVerbrauchsinfoCounterMeter extends Component
             ];
         }
 
+
+    public function checkIfShowFunknr($nutzergrupe_id)
+    {
+        $query = $this->getCounterMetersByNutzergrupe($nutzergrupe_id)
+        ->where(function (Builder $query) {$query->scopeNrFunknrEquals();});
+    }
+
     public function resetFilters()
     {
         $this->reset('filter');
@@ -53,7 +60,7 @@ class ShowVerbrauchsinfoCounterMeter extends Component
             $result = $this->occupant->counterMeters()
                 ->where('jahr_monat', '=', $this->jahr_monat);
         };
-  
+
         $this->applySorting($result);
         return $result;
     }
