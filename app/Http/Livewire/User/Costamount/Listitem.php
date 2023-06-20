@@ -5,10 +5,11 @@ namespace App\Http\Livewire\User\Costamount;
 use App\Models\Cost;
 use Livewire\Component;
 use App\Models\CostAmount;
+use App\Http\Livewire\DataTable\WithCachedRows;
 
 class Listitem extends Component
 {
-
+    
     public CostAmount $current;
     public bool $netto;
     public Cost $cost;
@@ -48,6 +49,8 @@ class Listitem extends Component
         dd();
         $this->emit('showCostAmountDetailModal', $this->current);   
     }
+
+
 
     
     public function refreshByid($id){

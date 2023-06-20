@@ -32,7 +32,6 @@ class SearchList extends Component
         }
 
         public function mount($realestate) {
-            dd();
             $this->realestate = $realestate;
             $this->editing = $this->makeBlankOccupant();
         }

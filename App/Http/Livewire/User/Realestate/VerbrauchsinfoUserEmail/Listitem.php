@@ -4,10 +4,12 @@ namespace App\Http\Livewire\User\Realestate\VerbrauchsinfoUserEmail;
 
 use App\Models\VerbrauchsinfoUserEmail;
 use Livewire\Component;
+use App\Http\Livewire\DataTable\WithCachedRows;
 
 class Listitem extends Component
 {
-   
+    use WithCachedRows;
+
     public VerbrauchsinfoUserEmail $userEmail;
 
     public function mount(VerbrauchsinfoUserEmail $userEmail)
@@ -15,6 +17,8 @@ class Listitem extends Component
         $this->userEmail = $userEmail;
     }
     
+   
+
     public function raise_EditModal()
     {
         $this->emit('showUserEmailModal', $this->userEmail);   

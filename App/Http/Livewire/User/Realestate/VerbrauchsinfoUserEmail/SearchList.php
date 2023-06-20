@@ -26,6 +26,9 @@ class SearchList extends Component
         return $result;
     }
 
+    protected $listeners = [
+        'refreshParent' => '$refresh',
+    ];
 
     public function getRowsProperty()
     {

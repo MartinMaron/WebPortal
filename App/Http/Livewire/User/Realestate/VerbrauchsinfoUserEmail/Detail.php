@@ -2,28 +2,25 @@
 
 namespace App\Http\Livewire\User\Realestate\VerbrauchsinfoUserEmail;
 
+use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Models\VerbrauchsinfoUserEmail;
 use Livewire\Component;
 
 class Detail extends Component
 {
-    
     public VerbrauchsinfoUserEmail $userEmail;
     public $showEditModal = false;
-
-
 
     protected $listeners = [
         'showUserEmailModal' => 'showModal',
         'closeUserEmailModal' => 'closeModal',
     ];
-    
    
     public function rules()
     {
         return [
             'userEmail.aktiv' => 'nullable',      
-            'userEmail.email' => 'nullable',
+            'userEmail.email' => 'required',
             'userEmail.dateFrom' => 'nullable|date', 
             'userEmail.dateTo' => 'nullable|date',
             'userEmail.firstinitUsername' => 'nullable',                   
@@ -33,24 +30,21 @@ class Detail extends Component
     public function showModal (VerbrauchsinfoUserEmail $userEmail){
         $this->userEmail = $userEmail;
         $this->showEditModal = true;
-    
     }
 
     public function closeModal($save){
-        dd('closeModal');
-   
-        /*  if ($save && $this->costAmount){  
+        if ($save && $this->userEmail){  
             if ($this->validate())
             {
-                $this->costAmount->save();
-                $this->showCostAmountEditModal = false ;
-                $this->emit('refreshComponents');    
+                $this->userEmail->save();
+                $this->emit('refreshParent');    
+                $this->showEditModal = false ;
             }else{
-                $this->showCostAmountEditModal = false;              
+                $this->showEditModal = true;              
             };
         }else{
-            $this->showCostAmountEditModal = false;
-        }     */         
+            $this->showEditModal = false;
+        }         
    }
 
     public function render()
