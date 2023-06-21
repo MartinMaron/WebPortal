@@ -2753,6 +2753,16 @@ select {
   align-items: center;
 }
 
+.before\:basis-1\/5::before {
+  content: var(--tw-content);
+  flex-basis: 20%;
+}
+
+.after\:font-bold::after {
+  content: var(--tw-content);
+  font-weight: 700;
+}
+
 .odd\:bg-green-100:nth-child(odd) {
   --tw-bg-opacity: 1;
   background-color: rgb(220 252 231 / var(--tw-bg-opacity));

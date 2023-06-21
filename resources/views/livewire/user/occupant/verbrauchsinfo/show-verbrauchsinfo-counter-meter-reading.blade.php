@@ -14,10 +14,12 @@
 
             @if ($rows->count()!=0)
                 <div class= "border-2 rounded-t-lg bg-sky-100 border-sky-100 md:w-5/6 m-auto">
-                    <div class="flex flex-row justify-between mt-2 text-xs font-bold items-center text-center md:text-lg">
-                        <div class="basis-1/5">
-                            Monat
-                        </div>
+                    <div class="flex justify-between mt-2 text-xs font-bold items-center text-center md:text-lg">
+                        <x-table.heading class="flex justify-center text-center basis-1/5" sortable multi-column wire:click="sortBy('datum')" :direction="$sorts['datum'] ?? null">
+                            <div class="items-center">
+                                Monat
+                            </div>
+                        </x-table.heading>
                         <div class="basis-1/5">
                             {{ 'Ende' }}
                         </div>
