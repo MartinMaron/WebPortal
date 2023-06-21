@@ -3,9 +3,6 @@
 namespace app\Http\Livewire\User\Occupant;
 use App\Models\Occupant;
 use Livewire\Component;
-use App\Http\Livewire\DataTable\WithSorting;
-
-
 
 class OccupantHeader extends Component
 {

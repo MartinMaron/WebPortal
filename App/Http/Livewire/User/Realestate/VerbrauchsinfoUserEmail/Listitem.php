@@ -16,8 +16,6 @@ class Listitem extends Component
     {
         $this->userEmail = $userEmail;
     }
-    
-   
 
     public function raise_EditModal()
     {

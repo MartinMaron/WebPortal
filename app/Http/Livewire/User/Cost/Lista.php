@@ -97,23 +97,6 @@ class Lista extends Component
         $this->emit('showCostAmountDetailModal', $costAmount);   
     }
 
-  
-    // public function editCostAmountModal(CostAmount $costAmount)
-    // {
-    //     $this->currentCostAmount = $costAmount;     
-    //     $this->emit('showCostAmountDetailModal', $this->currentCostAmount);      
-    // }
-    
-    // public function closeCostAmountModal($save) {
-    //     if($save == 'yes') {
-    //         // dd($this->currentCostAmount);    
-    //         $this->emit('cos');
-    //         $this->emit('saveCostAmountDetailModal');   
-    //     }
-    //     $this->showEditCostAmountModal = false;
-    //     $this->currentCostAmount = null;
-    // }
-
     public function questionDeleteCostAmount(CostAmount $costAmount)
     {
         $this->currentCostAmount = $costAmount;

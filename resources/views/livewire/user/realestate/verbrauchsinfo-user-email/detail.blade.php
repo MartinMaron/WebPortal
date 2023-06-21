@@ -15,17 +15,17 @@
         <!-- Dialog Content -->
         <x-slot name="content">
             <div>
-                <x-input.group class="border-0" for="costAmount-detailModal-datum" label="seit" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10">
+                <x-input.group class="border-0" for="costAmount-detailModal-dateFrom" label="seit" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10">
                     <x-input.date
                         wire:model.lazy="userEmail.dateFrom"
-                        :error="$errors->first('userEmail.dateFrom')"
+                        :error="$errors->first('userEmail.date_from_editing')"
                         hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                        id="verbrauchsinfoUserEmail-detailmodal-dateFrom"
+                        id="verbrauchsinfoUserEmail-detailmodal-date_from_editing"
                         class="bg-sky-50 sm:h-8"
                     >
                     </x-input.date>
                 </x-input.group>
-                <x-input.group class="border-0" for="costAmount-detailModal-datum" label="bis" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10">
+                <x-input.group class="border-0" for="costAmount-detailModal-dateTo" label="bis" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10">
                     <x-input.date
                         wire:model.lazy="userEmail.dateTo"
                         :error="$errors->first('userEmail.dateTo')"
@@ -44,6 +44,11 @@
                             </x-input.checkbox>
                         </div>
                     </div>
+                </x-input.group>
+                <x-input.group 
+                    class="border-0" for="userEmail.firstinitUsername" label="Username für Webaccount" :error="$errors->first('userEmail.firstinitUsername')"
+                    hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10">
+                    <x-input.text class="bg-sky-50 sm:h-8" wire:model.lazy="userEmail.firstinitUsername" id="userEmail.firstinitUsername" />
                 </x-input.group>
                 <x-input.group 
                     class="border-0" for="userEmail.email" label="Email" :error="$errors->first('userEmail.email')"

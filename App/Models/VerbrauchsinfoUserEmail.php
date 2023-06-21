@@ -14,7 +14,8 @@ class VerbrauchsinfoUserEmail extends Model
 
     protected $fillable = [
         'realestate_id', 'dateFrom', 'dateTo', 'nutzeinheitNo',
-        'neko_id', 'aktiv', 'email', 'webupdate','firstinitUsername'
+        'neko_id', 'aktiv', 'email', 'webupdate','firstinitUsername', 'date_from_editing',
+        'date_to_editing'
     ];
 
     public static function validateImportData($data) {
@@ -38,7 +39,7 @@ class VerbrauchsinfoUserEmail extends Model
 
     protected $appends = ['date_from_editing',
       'date_to_editing'
-    ];
+    ]; 
 
     public function getDateFromEditingAttribute()
     {
@@ -47,7 +48,6 @@ class VerbrauchsinfoUserEmail extends Model
 
     public function setDateFromEditingAttribute($value)
     {
-        Debugbar::info('VerbrauchsinfoUserEmail-setDateFromEditingAttribute:'. $value);
         $this->dateFrom = Carbon::parse($value);
     }
 

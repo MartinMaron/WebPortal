@@ -6,8 +6,9 @@
             {{-- pokazac ostatniego lokatora mieszkania --}}
             <livewire:user.occupant.occupant-header  :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' />
         </div>
-
-
+        
+        <livewire:user.realestate.verbrauchsinfo-user-email.detail-input :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' key="{{ now() }}"/>
+        
         @forelse ($this->getUserEmailsForNutzeinheitNo($nutzeinheit->nutzeinheitNo) as $userEmail)
         {{-- pokazac wiersze email-ow --}}
         <div>
@@ -15,6 +16,7 @@
         </div>
 
         @endforeach
+       
 
         @endforeach
 

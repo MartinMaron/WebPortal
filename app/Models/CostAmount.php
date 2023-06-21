@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Http\Traits\Helpers;
 use App\Events\CostAmountAdded;
 use App\Events\CostAmountDeleted;
+use App\Events\CostAmountUpdated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Usernotnull\Toast\Concerns\WireToast;
@@ -114,6 +115,7 @@ class CostAmount extends Model
 
     protected $dispatchesEvents = [
         'created' => CostAmountAdded::class,
+        'updated' => CostAmountUpdated::class,
         'deleted' => CostAmountDeleted::class,
     ];
 

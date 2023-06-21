@@ -2,15 +2,18 @@
 
 namespace App\Http\Livewire\User\Realestate\VerbrauchsinfoUserEmail;
 
+use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Realestate;
+use App\Models\VerbrauchsinfoUserEmail;
 use App\Http\Livewire\DataTable\WithSorting;
 
 class SearchList extends Component
 {
     use WithSorting; 
-
     public Realestate $realestate;
+    public VerbrauchsinfoUserEmail $currentUserEmail;
+    
 
     public function mount($realestate)
     {
@@ -20,14 +23,14 @@ class SearchList extends Component
     public function getUserEmailsForNutzeinheitNo($nutzeinheitNo){
         return $this->rows->where('nutzeinheitNo','=',$nutzeinheitNo);
     }
-
+    
     public function lastOccupant($nutzeinheitNo){
         $result = $this->realestate->occupants->where('nutzeinheitNo','=',$nutzeinheitNo)->sortBy('dateFrom')->first();
         return $result;
     }
 
     protected $listeners = [
-        'refreshParent' => '$refresh',
+        'refreshParent' => '$refresh', 
     ];
 
     public function getRowsProperty()
@@ -38,11 +41,9 @@ class SearchList extends Component
     public function getRowsQueryProperty()
     {
         $result = $this->realestate->verbrauchsinfoUserEmails();
-
         return $this->applySorting($result);
     }
 
-    
     public function render()
     {
         $nutzeinheiten = $this->rowsQuery

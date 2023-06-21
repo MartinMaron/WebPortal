@@ -7,6 +7,7 @@ use App\Events\CostAmountDeleted;
 use App\Events\CostUpdated;
 use App\Listeners\CostAmountAddedNotification;
 use App\Listeners\CostAmountDeletedNotification;
+use App\Listeners\CostAmountUpdatedNotification;
 use App\Listeners\CostUpdatedNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -33,6 +34,10 @@ class EventServiceProvider extends ServiceProvider
         CostAmountDeleted::class => [
             CostAmountDeletedNotification::class,
         ],
+        CostAmountUpdated::class => [
+            CostAmountUpdatedNotification::class,
+        ],
+
     ];
 
     /**

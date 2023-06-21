@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('verbrauchsinfo_user_emails', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('realestate_id');
+            $table->unsignedBigInteger('realestate_id')->nullable();
             $table->foreign('realestate_id')->references('id')->on('realestates');
             $table->date('dateFrom');
             $table->date('dateTo')->nullable();
-            $table->unsignedInteger('nutzeinheitNo');
-            $table->string('neko_id', 40);
+            $table->unsignedInteger('nutzeinheitNo')->default(0);
+            $table->string('neko_id', 40)->nullable();
             $table->boolean('aktiv')->nullable();
             $table->string('email', 255);
             $table->boolean('webupdate')->default(0);
