@@ -5,9 +5,15 @@
     <div >
         <div>
             @if ($nutzergruppen->count()!=0)
+<<<<<<< Updated upstream
 
             <div class="pb-4 mt-16 sm:hidden max-w-sm">
                 <div class="mb-5 text-xl font-bold text-center border-b-2 border-sky-400">
+=======
+   
+            <div class="pb-4 mt-16 sm:hidden">
+                <div class="mb-5 text-xl font-bold text-center">
+>>>>>>> Stashed changes
                     Zähler anzeigen
                 </div>
             @foreach ($nutzergruppen as $counterMeter)
