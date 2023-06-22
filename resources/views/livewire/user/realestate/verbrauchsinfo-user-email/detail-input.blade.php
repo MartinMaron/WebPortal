@@ -1,4 +1,5 @@
 <div class="">
+    {{-- small screen --}}
     <div class="hidden sm:block">
         <div class="flex items-center justify-center sm:grid-cols-5 sm:gap-2">
             duzy ekran
@@ -11,6 +12,7 @@
             </button>
         </div>
     </div>
+    {{-- big screen --}}
     <div class="sm:hidden block ">
         maly ekran
         <button 

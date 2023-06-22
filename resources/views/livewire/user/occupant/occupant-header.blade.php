@@ -1,4 +1,5 @@
 <div>
+    {{-- small screen --}}
     <div class="sm:hidden">
         <div class="flex">
             <x-icon.fonts.poeple class="fa-2xl mt-6 mr-3 text-sky-900"></x-icon.fonts.poeple>
@@ -8,6 +9,7 @@
             </div>
         </div>
     </div>
+    {{-- big screen --}}
     <div class="hidden md:block">
         <div class="flex justify-center items-baseline">
             <x-icon.fonts.poeple class="pr-2  text-sky-900 inline-block align-text-bottom"></x-icon.fonts.poeple>

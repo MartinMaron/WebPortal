@@ -1,4 +1,5 @@
 <div class="">
+    {{-- small screen --}}
     <div class="hidden sm:block">
         <div class="flex items-center justify-center sm:grid-cols-5 sm:gap-2">
             <div class="py-1 sm:w-64 bg-orange-400">
@@ -18,7 +19,8 @@
         
         </div>
     </div>
-    <div class="sm:hidden block ">
+    {{-- big screen --}}
+    <div class="sm:hidden block">
         <div class="flex">
             <div class="basis-2/3">
                 <div class="">
