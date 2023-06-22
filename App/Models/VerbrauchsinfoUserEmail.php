@@ -61,7 +61,9 @@ class VerbrauchsinfoUserEmail extends Model
 
     public function setDateToEditingAttribute($value)
     {
-        $this->dateTo = Carbon::parse($value);
+        $value ? $this->dateTo = Carbon::parse($value) : $this->dateTo = null;
+ 
+ //       $this->dateTo = Carbon::parse($value);
     }
 
     public function getZeitraumAttribute(){

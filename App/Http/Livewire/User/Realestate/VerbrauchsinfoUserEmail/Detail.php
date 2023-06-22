@@ -6,21 +6,25 @@ use Livewire\Component;
 use App\Models\Occupant;
 use App\Models\Verbrauchsinfo;
 use App\Models\VerbrauchsinfoUserEmail;
-
+use DateTime;
 
 class Detail extends Component
 {
-    public VerbrauchsinfoUserEmail $userEmail;
+    public $userEmail;
     public Occupant $occupant;
     public $showEditModal = false;
     public string $dialogMode = '';
 
-
-
+    public bool $aktiv;
+    public string $email;
+    public DateTime $dateFrom; 
+    public Datetime $dateTo;
+    public string $firstinitUsername;                
+    
     protected $listeners = [
         'showUserEmailModal' => 'showModal',
         'closeUserEmailModal' => 'closeModal',
-        'showCreateUserEmailModal' => 'showCreateUserEmailModal'
+        'showCreateUserEmailModal' => 'createModal'
     ];
    
     public function rules()
@@ -37,7 +41,7 @@ class Detail extends Component
         ];
     }
 
-    public function showModal (VerbrauchsinfoUserEmail $userEmail){
+    public function showModal ($userEmail){
         $this->dialogMode = 'edit';
         $this->userEmail = $userEmail;
         $this->showEditModal = true;
@@ -49,12 +53,24 @@ class Detail extends Component
             {
                 if($this->dialogMode == 'create')
                 {
-                    VerbrauchsinfoUserEmail::create($this->userEmail);
-                    $this->userEmail->save();
+                    $ret_val = VerbrauchsinfoUserEmail::create($this->userEmail);
+           //         $ret_val->save();
                 }
                 if($this->dialogMode == 'edit')
                 {
-                    $this->userEmail->save();
+             //       dd($this->userEmail);
+               
+
+                    $ret_val = VerbrauchsinfoUserEmail::updateOrcreate(
+                        ['id' => $this->userEmail['id']],
+                        ['aktiv' => $this->userEmail['aktiv'],
+                        'email' => $this->userEmail['email'],
+                        'dateFrom' => $this->userEmail['dateFrom'],
+                        'date_to_editing' => $this->userEmail['dateTo'],
+                        'firstinitUsername' => $this->userEmail['firstinitUsername'],
+                        ]
+                        );
+                //    $this->ret_val->save();
                     
                 }
                 $this->emit('refreshParent');    
@@ -67,7 +83,7 @@ class Detail extends Component
         }       
    }
 
-    public function showCreateUserEmailModal($userEmail)
+    public function createModal($userEmail)
     {
         $this->dialogMode = 'create';
         $this->userEmail = $userEmail;
