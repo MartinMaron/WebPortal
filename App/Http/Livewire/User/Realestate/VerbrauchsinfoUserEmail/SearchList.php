@@ -13,12 +13,24 @@ class SearchList extends Component
     use WithSorting; 
     public Realestate $realestate;
     public VerbrauchsinfoUserEmail $currentUserEmail;
-    
-
+        
     public function mount($realestate)
     {
         $this->realestate = $realestate;
     }
+    
+    protected $listeners = [
+        'refreshParent' => '$refresh', 
+        'deleteConfirmed' => 'delete',
+    ];
+
+    public function delete($objectId, $objectType)
+    {
+        if ($objectType != 'VerbrauchsinfoUserEmail') return;
+        $object = VerbrauchsinfoUserEmail::find($objectId);
+        $object->delete();
+    }
+
 
     public function getUserEmailsForNutzeinheitNo($nutzeinheitNo){
         return $this->rows->where('nutzeinheitNo','=',$nutzeinheitNo);
@@ -28,10 +40,6 @@ class SearchList extends Component
         $result = $this->realestate->occupants->where('nutzeinheitNo','=',$nutzeinheitNo)->sortBy('dateFrom')->first();
         return $result;
     }
-
-    protected $listeners = [
-        'refreshParent' => '$refresh', 
-    ];
 
     public function getRowsProperty()
     {

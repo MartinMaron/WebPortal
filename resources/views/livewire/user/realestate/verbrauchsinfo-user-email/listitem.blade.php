@@ -12,10 +12,14 @@
             <x-icon.fonts.email-active :value='$userEmail->aktiv' class="py-1 px-4 border-2 border-sky-200 text-sm" ></x-icon.fonts.email-active>
             <x-icon.fonts.pencil 
                 class="py-1 px-4 border-2 border-sky-200 text-sm" 
-                wire:click="raise_EditModal()"
+                wire:click="emit_EditModal()"
                 >
             </x-icon.fonts.pencil>
-            <x-icon.fonts.trash class="h-full py-1 px-4 border-2 border-sky-200 text-sm" ></x-icon.fonts.trash>
+            <x-icon.fonts.trash 
+                class="h-full py-1 px-4 border-2 border-sky-200 text-sm" 
+                wire:click="emit_QuestionDeleteModal()" 
+                >
+            </x-icon.fonts.trash>
         
         </div>
     </div>
@@ -36,12 +40,16 @@
             <div class="basis-1/6 ">
                 <x-icon.fonts.pencil 
                 class="py-1 px-4 border-2 text-sky-800 text-sm"
-                wire:click="raise_EditModal()" 
+                wire:click="emit_EditModal()" 
                 >
                 </x-icon.fonts.pencil>
             </div>
             <div class="basis-1/6 ">
-                <x-icon.fonts.trash class="py-1 px-4 border-2 border-sky-200 text-sm" ></x-icon.fonts.trash>
+                <x-icon.fonts.trash 
+                wire:click="emit_QuestionDeleteModal()" 
+                class="py-1 px-4 border-2 border-sky-200 text-sm" 
+                >
+            </x-icon.fonts.trash>
             </div>
         </div>
     </div>

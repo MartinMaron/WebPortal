@@ -7,6 +7,7 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use PhpParser\Node\Scalar\MagicConst\Dir;
 
 class VerbrauchsinfoUserEmail extends Model
 {
@@ -28,6 +29,8 @@ class VerbrauchsinfoUserEmail extends Model
         ]);
     }
 
+
+
     public function realestate()
     {
         return $this->belongsTo(Realestate::class);
@@ -37,8 +40,10 @@ class VerbrauchsinfoUserEmail extends Model
         'dateTo' => 'date:d.m.Y',
     ];
 
-    protected $appends = ['date_from_editing',
-      'date_to_editing'
+    protected $appends = [
+        'date_from_editing',
+        'date_to_editing',
+        'display',
     ]; 
 
     public function getDateFromEditingAttribute()
@@ -75,6 +80,11 @@ class VerbrauchsinfoUserEmail extends Model
         }
 
     }
+
+    public function getDisplayAttribute(){
+       return $this->email . ' (' . $this->zeitraum . ')';
+    }
+
 
 
 }

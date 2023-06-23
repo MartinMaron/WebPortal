@@ -30,6 +30,10 @@
         <div>
             <livewire:user.realestate.verbrauchsinfo-user-email.detail :wire:key="'modal-realestate-verbrauchsinfo-user-email-detail'"/>
         </div>
+        <div class="">
+            <livewire:user.dialog.delete-modal :wire:key="'modal-realestate-verbrauchsinfo-user-email-delete'"/>            
+        </div>
+
 
         <!-- Delete CostAmount Modal -->
        {{--  <div class="{{ $showDeleteCostAmountModal ? 'visible' : 'invisible' }}">
