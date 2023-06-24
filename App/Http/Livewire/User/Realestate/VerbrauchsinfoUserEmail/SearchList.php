@@ -17,7 +17,7 @@ class SearchList extends Component
     public Realestate $realestate;
     public VerbrauchsinfoUserEmail $currentUserEmail;
         
-    public function mount($realestate, $page)
+    public function mount($realestate)
     {
         $this->realestate = $realestate;
     }
