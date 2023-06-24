@@ -86,7 +86,6 @@ class JobController extends Controller
             'isUser' => $data['isUser'],
             'isAdmin' => $data['isAdmin'],
             'isMieter' => $data['isMieter'],
-            'kundennummer' => $data['kundennummer']
             ]
             );
 
