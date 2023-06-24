@@ -2,17 +2,25 @@
 
 namespace App\Providers;
 
+use App\Events;
+use App\Events\CostUpdated;
 use App\Events\CostAmountAdded;
 use App\Events\CostAmountDeleted;
-use App\Events\CostUpdated;
+use App\Events\CostAmountUpdated;
+use App\Events\VerbrauchsinfoUserEmailAdded;
+use App\Events\VerbrauchsinfoUserEmailDeleted;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Auth\Events\Registered;
+
+use App\Listeners;
+use App\Listeners\CostUpdatedNotification;
 use App\Listeners\CostAmountAddedNotification;
 use App\Listeners\CostAmountDeletedNotification;
 use App\Listeners\CostAmountUpdatedNotification;
-use App\Listeners\CostUpdatedNotification;
-use Illuminate\Auth\Events\Registered;
+use App\Listeners\VerbrauchsinfoUserEmailNotification;
+
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -38,6 +46,10 @@ class EventServiceProvider extends ServiceProvider
             CostAmountUpdatedNotification::class,
         ],
 
+     /*    VerbrauchsinfoUserEmailAdded::class => [
+            VerbrauchsinfoUserEmailAddedNotification::class,
+        ], */
+
     ];
 
     /**
@@ -48,6 +60,16 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        /* Event::listen( 
+            VerbrauchsinfoUserEmailAdded::class,
+            [VerbrauchsinfoUserEmailNotification::class, 'created']
+        ); */
+
+      /*   Event::listen( 
+            VerbrauchsinfoUserEmailDeleted::class,
+            [VerbrauchsinfoUserEmailNotification::class, 'deleted']
+        ); */
+
     }
 
     /**

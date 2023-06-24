@@ -6,8 +6,10 @@ use Carbon\Carbon;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use PhpParser\Node\Scalar\MagicConst\Dir;
+use App\Events\VerbrauchsinfoUserEmailAdded;
+use App\Events\VerbrauchsinfoUserEmailDeleted;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class VerbrauchsinfoUserEmail extends Model
 {
@@ -28,8 +30,6 @@ class VerbrauchsinfoUserEmail extends Model
             'email' => 'required|string|max:255',
         ]);
     }
-
-
 
     public function realestate()
     {
@@ -67,8 +67,6 @@ class VerbrauchsinfoUserEmail extends Model
     public function setDateToEditingAttribute($value)
     {
         $value ? $this->dateTo = Carbon::parse($value) : $this->dateTo = null;
- 
- //       $this->dateTo = Carbon::parse($value);
     }
 
     public function getZeitraumAttribute(){
@@ -84,7 +82,4 @@ class VerbrauchsinfoUserEmail extends Model
     public function getDisplayAttribute(){
        return $this->email . ' (' . $this->zeitraum . ')';
     }
-
-
-
 }

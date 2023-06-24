@@ -7,14 +7,17 @@ use Livewire\Component;
 use App\Models\Realestate;
 use App\Models\VerbrauchsinfoUserEmail;
 use App\Http\Livewire\DataTable\WithSorting;
+use Usernotnull\Toast\Concerns\WireToast;
 
 class SearchList extends Component
 {
-    use WithSorting; 
+    use WithSorting, WireToast; 
+
+
     public Realestate $realestate;
     public VerbrauchsinfoUserEmail $currentUserEmail;
         
-    public function mount($realestate)
+    public function mount($realestate, $page)
     {
         $this->realestate = $realestate;
     }
@@ -29,12 +32,14 @@ class SearchList extends Component
         if ($objectType != 'VerbrauchsinfoUserEmail') return;
         $object = VerbrauchsinfoUserEmail::find($objectId);
         $object->delete();
+        toast()->success('Emailadresse für Verbraucherinformationen gelöscht','Achtung')->push();      
     }
-
 
     public function getUserEmailsForNutzeinheitNo($nutzeinheitNo){
         return $this->rows->where('nutzeinheitNo','=',$nutzeinheitNo);
     }
+
+
     
     public function lastOccupant($nutzeinheitNo){
         $result = $this->realestate->occupants->where('nutzeinheitNo','=',$nutzeinheitNo)->sortBy('dateFrom')->first();

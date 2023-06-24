@@ -1,15 +1,18 @@
 <?php
 
 namespace App\Http\Livewire\User\Realestate\VerbrauchsinfoUserEmail;
+use DateTime;
 use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Occupant;
 use App\Models\Verbrauchsinfo;
 use App\Models\VerbrauchsinfoUserEmail;
-use DateTime;
+use Usernotnull\Toast\Concerns\WireToast;
 
 class Detail extends Component
 {
+    use WireToast;
+    
     public $userEmail;
     public Occupant $occupant;
     public $showEditModal = false;
@@ -53,34 +56,36 @@ class Detail extends Component
             {
                 if($this->dialogMode == 'create')
                 {
-                    $ret_val = VerbrauchsinfoUserEmail::create($this->userEmail);
-           //         $ret_val->save();
-                }
+                    VerbrauchsinfoUserEmail::create($this->userEmail);
+                    $this->emit('refreshParent');   
+                    toast()->success('Emailadresse für Verbraucherinformationen hinzugefügt','Achtung')->push();   
+           
+                 }
                 if($this->dialogMode == 'edit')
                 {
-             //       dd($this->userEmail);
-               
 
-                    $ret_val = VerbrauchsinfoUserEmail::updateOrcreate(
-                        ['id' => $this->userEmail['id']],
-                        ['aktiv' => $this->userEmail['aktiv'],
-                        'email' => $this->userEmail['email'],
-                        'dateFrom' => $this->userEmail['dateFrom'],
-                        'date_to_editing' => $this->userEmail['dateTo'],
-                        'firstinitUsername' => $this->userEmail['firstinitUsername'],
-                        ]
-                        );
-                //    $this->ret_val->save();
-                    
+                    VerbrauchsinfoUserEmail::updateOrcreate(
+                            ['id' => $this->userEmail['id']],
+                            ['aktiv' => $this->userEmail['aktiv'],
+                            'email' => $this->userEmail['email'],
+                            'dateFrom' => $this->userEmail['dateFrom'],
+                            'date_to_editing' => $this->userEmail['dateTo'],
+                            'firstinitUsername' => $this->userEmail['firstinitUsername'],
+                            ]
+                            );
+                    toast()->success('Emailadresse für Verbraucherinformationen wurde geändert','Achtung')->push();      
+          
                 }
-                $this->emit('refreshParent');    
+                $this->emit('refreshParent');   
+                
+
                 $this->showEditModal = false ;
             }else{
                 $this->showEditModal = true;              
             };
         }else{
             $this->showEditModal = false;
-        }       
+        } 
    }
 
     public function createModal($userEmail)
