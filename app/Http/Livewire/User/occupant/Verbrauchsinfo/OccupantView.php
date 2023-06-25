@@ -19,14 +19,13 @@ class OccupantView extends Component
         $this->occupant = $pOccupant;
     }
 
-
-
     public function render()
     {
-        $datumYear = date("Y", time());
-        $datumMonth =  intval(date("m", time()));
-        $datumCrit = $datumYear. '-'. rtrim($datumMonth, '0') ;
-        $result = $this->occupant->verbrauchsinfos->where('jahr_monat', '=', $datumCrit) ;
+        $res = $this->occupant->userVerbrauchsinfoAccessControls
+        ->where('user_id', '=', auth()->user()->id)
+        ->sortBy('jahr_monat')->last();
+
+        $result = $this->occupant->verbrauchsinfos->where('jahr_monat', '=', $res['jahr_monat']) ;
 
         return view('livewire.user.occupant.verbrauchsinfo.occupant-view', [
             'rows' => $result,

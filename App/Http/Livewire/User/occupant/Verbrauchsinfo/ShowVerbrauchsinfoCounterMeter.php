@@ -7,8 +7,9 @@ use App\Models\Occupant;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Builder;
 use app\Models\VerbrauchsinfoCounterMeter;
-use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithSorting;
+use App\Http\Livewire\DataTable\WithCachedRows;
+use App\Models\UserVerbrauchsinfoAccessControl;
 
 
 class ShowVerbrauchsinfoCounterMeter extends Component
@@ -47,18 +48,27 @@ class ShowVerbrauchsinfoCounterMeter extends Component
 
     public function getRowsQueryProperty()
     {
+   
+        $q = $this->occupant->userVerbrauchsinfoAccessControls
+        ->where('user_id', '=', auth()->user()->id)
+        ->sortByDesc('jahr_monat')
+        ->map(function (UserVerbrauchsinfoAccessControl $userControl) {
+            return $userControl->jahr_monat ;
+        })->first();
+
+     
+        $result = $this->occupant->counterMeters
+        ->where('jahr_monat', $q)->toquery();
+     //   dd($result);
+
+
+
         if ($this->filter) {
-            Debugbar::info($this->filter);
-            $result = $this->occupant->counterMeters()
-                ->where('jahr_monat', '=', $this->jahr_monat)
+            $result = $result
                 ->where(function (Builder $query) {
                     $query->where('nr', 'LIKE', '%' . $this->filter . '%')
                         ->orWhere('funkNr', 'LIKE', '%' . $this->filter . '%');
                 });
-
-        } else {
-            $result = $this->occupant->counterMeters()
-                ->where('jahr_monat', '=', $this->jahr_monat);
         };
 
         $this->applySorting($result);

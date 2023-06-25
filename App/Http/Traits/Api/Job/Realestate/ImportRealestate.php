@@ -61,7 +61,7 @@ trait ImportRealestate
                 }
             }
 
-
+         
 
             /* Falls nutzer dabei sind werden die daten aktualisert */
             /* die Zuordnung erfogt über die nekoId der Liegenschaft und Mieter */

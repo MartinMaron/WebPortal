@@ -2,24 +2,25 @@
 
 namespace App\Http\Livewire\User\occupant\Verbrauchsinfo;
 
+use App\Models\User;
 use Livewire\Component;
 use App\Models\Occupant;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Livewire\DataTable\WithCachedRows;
+use App\Models\UserVerbrauchsinfoAccessControl;
 
 class ShowVerbrauchsinfo extends Component
 {
     use WithCachedRows;
-
+    public User $user;
     public $occupants;
     public $filter;
 
     /* initialization */
     public function mount()
     {
-
-
+        $this->user = User::query()->where('email', '=', Auth()->User()->email)->get()->first();
     }
     public function resetFilters()
     {
@@ -28,22 +29,20 @@ class ShowVerbrauchsinfo extends Component
 
     public function getRowsQueryProperty()
     {
+        $result =  $this->user->userVerbrauchsinfoAccessControls->map(function (UserVerbrauchsinfoAccessControl $userControl) {
+            return $userControl->occupant ;
+        })->unique();
+      
         if ($this->filter) {
-            Debugbar::info($this->filter);
-            $result = Occupant::query()
-                ->where('email', '=', Auth()->User()->email)
+            $result = $result
                 ->where(function (Builder $query) {
                     $query->where('address', 'LIKE', '%' . $this->filter . '%')
                         ->orWhere('lage', 'LIKE', '%' . $this->filter . '%')
                         ->orWhere('unvid', 'LIKE', '%' . $this->filter . '%');
                 });
 
-        } else {
-            $result = Occupant::query()
-            ->where('email', '=', Auth()->User()->email);
         };
-
-        return $result;
+        return $result->toquery();
     }
 
     public function getRowsProperty()
@@ -55,7 +54,6 @@ class ShowVerbrauchsinfo extends Component
 
     public function render()
     {
-
         return view('livewire.user.occupant.verbrauchsinfo.show-verbrauchsinfo', [
             'rows' => $this->Rows,
         ]);

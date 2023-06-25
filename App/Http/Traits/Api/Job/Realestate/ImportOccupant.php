@@ -3,16 +3,20 @@ namespace App\Http\Traits\Api\Job\Realestate;
 
 use App\Models\Occupant;
 use App\Models\Realestate;
+use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchinfo;
+use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchsinfoCounterMeter;
+use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchsinfoAccessControl;
 
 trait ImportOccupant
 {
-    use ImportVerbrauchsinfoCounterMeter, importVerbrauchinfo;
+    use ImportVerbrauchsinfoCounterMeter, ImportVerbrauchinfo, ImportVerbrauchsinfoAccessControl;
 
 
      /* Anlage des Mieters  */
      public function importOccupant(Array $data)
      {
-         $validator = Occupant::validateImportData($data);
+          
+        $validator = Occupant::validateImportData($data);
  
          if ($validator->fails()) {
              return [
@@ -60,16 +64,29 @@ trait ImportOccupant
              }
          }
  
-         /* Falls verbrauchsinfo dabei sind werden die daten aktualisert */
-         $verbrauchsinfos = $data['verbrauchsinfos'];
-         foreach ($verbrauchsinfos as $verbrauchsinfo){
-             $retval = $this->importVerbrauchinfo($verbrauchsinfo);
-             if ($retval['result'] == 'error'){
-                 return $retval;
-             }
-         }
- 
-         return [
+     
+
+        /* Falls dabei ...  werden die daten aktualisert */
+        $verbrauchsinfos = $data['verbrauchsinfos'];
+        foreach ($verbrauchsinfos as $verbrauchsinfo){
+            $retval = $this->importVerbrauchinfo($verbrauchsinfo);
+            if ($retval['result'] == 'error'){
+                return $retval;
+            }
+        }
+
+      
+        /* Falls verbrauchsinfo dabei sind werden die daten aktualisert */
+        $verbrauchsinfosAccs = $data['verbrauchsinfoAccessControls'];
+        foreach ($verbrauchsinfosAccs as $verbrauchsinfosAcc){
+            $retval = $this->importVerbrauchsinfoAccessControl($verbrauchsinfosAcc);
+            if ($retval['result'] == 'error'){
+                return $retval;
+            }
+        }
+
+
+        return [
              'function' => 'JobController.occupant',
              'result' => 'success',
              'id' => $occupant->id,

@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Occupant;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithSorting;
+use App\Models\UserVerbrauchsinfoAccessControl;
 
 class ShowVerbrauchsinfos extends Component
 {
@@ -29,7 +30,16 @@ class ShowVerbrauchsinfos extends Component
 
     public function getRowsQueryProperty()
     {
-        $result = $this->occupant->verbrauchsinfos();
+        $q = $this->occupant->userVerbrauchsinfoAccessControls
+            ->where('user_id', '=', auth()->user()->id)
+            ->map(function (UserVerbrauchsinfoAccessControl $userControl) {
+                return $userControl->jahr_monat ;
+            })   
+            ;
+
+        $result = $this->occupant->verbrauchsinfos
+            ->whereIn('jahr_monat', $q)->toquery();
+
         $this->applySorting($result);
         return $result;
     }

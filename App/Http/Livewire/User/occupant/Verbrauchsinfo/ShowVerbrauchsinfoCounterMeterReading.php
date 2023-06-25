@@ -2,12 +2,13 @@
 
 namespace App\Http\Livewire\User\occupant\Verbrauchsinfo;
 
-use App\Http\Livewire\DataTable\WithSorting;
 use Livewire\Component;
 use App\Models\Occupant;
 use Illuminate\Support\Facades\App;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Builder;
+use App\Http\Livewire\DataTable\WithSorting;
+use App\Models\UserVerbrauchsinfoAccessControl;
 
 class ShowVerbrauchsinfoCounterMeterReading extends Component
 {
@@ -33,9 +34,16 @@ class ShowVerbrauchsinfoCounterMeterReading extends Component
 
     public function getRowsQueryProperty()
     {
-        $result = $this->occupant->counterMeters()
-            ->where('nekoId', '=', $this->neko_id);
+        $q = $this->occupant->userVerbrauchsinfoAccessControls
+        ->where('user_id', '=', auth()->user()->id)
+        ->map(function (UserVerbrauchsinfoAccessControl $userControl) {
+            return $userControl->jahr_monat ;
+        });
 
+        $result = $this->occupant->counterMeters
+        ->where('nekoId', '=', $this->neko_id)
+        ->whereIn('jahr_monat', $q)->toquery();
+   
         return $this->applySorting($result);
     }
 

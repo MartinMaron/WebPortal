@@ -40,13 +40,11 @@ class Listitem extends Component
 
     public function questionDeleteCostAmount()
     {
-       dd();
         $this->emit('deleteCostAmount', $this->current);   
     }
 
     public function raise_EditCostAmountModal()
     {
-        dd();
         $this->emit('showCostAmountDetailModal', $this->current);   
     }
 
