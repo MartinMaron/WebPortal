@@ -1,22 +1,22 @@
 <div class="">
     {{-- small screen --}}
-    <div class="hidden sm:block">
+    <div class="hidden mt-2 mb-4 border-b-2 shadow-md sm:block sm:w-96 "> 
         <div class="flex items-center justify-center sm:grid-cols-5 sm:gap-2">
-            <div class="py-1 sm:w-64 bg-orange-400">
+            <div class="py-1 sm:w-64">
                 {{ $userEmail->email }}
             </div>
             <div 
-                class="py-1 sm:w-64 bg-orange-800 {{ $userEmail->aktiv ? 'text-black' : 'text-gray-500' }} ">
+                class="py-1 sm:w-64 {{ $userEmail->aktiv ? 'text-black' : 'text-gray-500' }} ">
                 {{ $userEmail->Zeitraum }} 
             </div>
-            <x-icon.fonts.email-active :value='$userEmail->aktiv' class="py-1 px-4 border-2 border-sky-200 text-sm" ></x-icon.fonts.email-active>
+            <x-icon.fonts.email-active :value='$userEmail->aktiv' class="px-4 py-1 text-sm border-2 rounded-lg border-sky-200" ></x-icon.fonts.email-active>
             <x-icon.fonts.pencil 
-                class="py-1 px-4 border-2 border-sky-200 text-sm" 
+                class="px-4 py-1 text-sm border-2 rounded-lg border-sky-200" 
                 wire:click="emit_EditModal()"
                 >
             </x-icon.fonts.pencil>
             <x-icon.fonts.trash 
-                class="h-full py-1 px-4 border-2 border-sky-200 text-sm" 
+                class="h-full px-4 py-1 text-sm border-2 rounded-lg border-sky-200" 
                 wire:click="emit_QuestionDeleteModal()" 
                 >
             </x-icon.fonts.trash>
@@ -24,7 +24,7 @@
         </div>
     </div>
     {{-- big screen --}}
-    <div class="sm:hidden block">
+    <div class="block mt-2 mb-4 border-b-2 shadow-sm sm:hidden ">
         <div class="flex">
             <div class="basis-2/3">
                 <div class="">
@@ -34,12 +34,12 @@
                     {{ $userEmail->Zeitraum }} 
                 </div>
             </div>
-            <div class="basis-1/6 inline-block align-bottom">
-                <x-icon.fonts.email-active :value='$userEmail->aktiv' class="py-1 px-4 border-2 text-sm" ></x-icon.fonts.email-active>
+            <div class="inline-block align-bottom basis-1/6">
+                <x-icon.fonts.email-active :value='$userEmail->aktiv' class="px-4 py-1 text-sm border-2 rounded-lg border-sky-200" ></x-icon.fonts.email-active>
             </div>
             <div class="basis-1/6 ">
                 <x-icon.fonts.pencil 
-                class="py-1 px-4 border-2 text-sky-800 text-sm"
+                class="px-4 py-1 text-sm border-2 rounded-lg border-sky-200 text-sky-800"
                 wire:click="emit_EditModal()" 
                 >
                 </x-icon.fonts.pencil>
@@ -47,7 +47,7 @@
             <div class="basis-1/6 ">
                 <x-icon.fonts.trash 
                 wire:click="emit_QuestionDeleteModal()" 
-                class="py-1 px-4 border-2 border-sky-200 text-sm" 
+                class="px-4 py-1 text-sm border-2 rounded-lg border-sky-200" 
                 >
             </x-icon.fonts.trash>
             </div>

@@ -20,7 +20,6 @@ class JobController extends Controller
     {
         /* angaben um welchen Job es sich handelt und dazugehörigen Daten */
         $jobData = New JobDataResource($request);
-
         /* auswahl des Jobs und anschliessende Bearbeitung  */
         if($jobData['job']=='register')
         {

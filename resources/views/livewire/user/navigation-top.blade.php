@@ -1,6 +1,6 @@
 <nav x-data="{ open: false }" class="my-1 border-b border-gray-100 rounded-md bg-sky-100">
 
-<div class="flex pt-1 pb-1 justify-between">
+<div class="flex justify-between pt-1 pb-1">
     <div class="items-center ml-2 sm:hidden">
 
         <x-jet-dropdown align="left" href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')" >
@@ -31,7 +31,7 @@
 
 <div class="items-center pr-2 sm:hidden">
     <!-- Settings Dropdown -->
-  <div class="relative ml-3 pr-5">
+  <div class="relative pr-5 ml-3">
       <x-jet-dropdown align="right" width="48">
           <x-slot name="trigger">
               <span class="inline-flex rounded-md">
@@ -85,7 +85,7 @@
 </div>
 </div>
 
-    <div class="hidden md:visible md:flex  px-4 mx-auto max-w-7xl md:px-6 lg:px-8">
+    <div class="hidden max-w-full px-4 mx-auto md:visible md:flex md:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <!-- Navigation Links -->
             <div class="flex">
@@ -122,13 +122,13 @@
 
             </div>
         </div>
-        <div class="flex items-center ml-6">
+        <div class="flex items-center justify-evenly">
                   <!-- Settings Dropdown -->
-                <div class="relative ml-3">
+                <div class="">
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <span class="inline-flex rounded-md">
-                                <button type="button" class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition border border-transparent rounded-md bg-sky-50 hover:text-gray-700 focus:outline-none">
+                            <span class="rounded-md">
+                                <button type="button" class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition border border-transparent rounded-md ml-80 bg-sky-50 hover:text-gray-700 focus:outline-none">
                                     {{ Auth::user()->name }}
 
                                     <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

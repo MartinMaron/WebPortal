@@ -1,26 +1,26 @@
 <div class="">
     {{-- small screen --}}
-    <div class="hidden sm:block">
+    <div class="hidden mt-2 sm:block">
         <div class="flex items-center justify-center sm:grid-cols-5 sm:gap-2">
-            duzy ekran
+        {{-- duzy ekran --}}
             <button 
                 wire:click="raise_CreateModal()"                                          
-                class="basis-1/5 border text-justify bg-sky-300 md:text-md hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-900 rounded-md"   
+                class="block w-full p-1 px-2 m-0 mt-2 mb-2 text-justify border rounded-md hover:bg-sky-400 basis-1/5 bg-sky-200 md:text-md focus:bg-sky-500 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"   
                 >
-                <span class="md:text-md "><i class="text-left pr-2 fa-solid fa-layer-plus"></i></i></span>
-                <span class="md:text-md text-right">hinzufügen</span>
+                <span class="md:text-md "><i class="pr-2 text-left fa-solid fa-layer-plus"></i></i></span>
+                <span class="text-right md:text-md">hinzufügen</span>
             </button>
         </div>
     </div>
     {{-- big screen --}}
-    <div class="sm:hidden block ">
-        maly ekran
+    <div class="block sm:hidden ">
+        {{-- maly ekran --}}
         <button 
         wire:click="raise_CreateModal()"                                          
-        class="basis-1/5 border text-justify bg-sky-300 md:text-md hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-900 rounded-md"   
+        class="block w-full p-1 px-2 m-0 mt-2 mb-2 text-justify border rounded-md border-sky-100 basis-1/5 bg-sky-200 md:text-md hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"   
         >
-        <span class="md:text-md "><i class="text-left pr-2 fa-solid fa-layer-plus"></i></i></span>
-        <span class="md:text-md text-right">hinzufügen</span>
+        <span class="md:text-md "><i class="pr-2 text-left fa-solid fa-layer-plus"></i></i></span>
+        <span class="text-right md:text-md">hinzufügen</span>
     </button>
     </div>
 </div>
