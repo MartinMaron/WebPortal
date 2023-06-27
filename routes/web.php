@@ -1,16 +1,17 @@
 <?php
 
-use App\Models\Verbrauchsinfo;
+use App\Models\User;
+
+use App\Models\Occupant;
 
 use App\Models\Realestate;
+
+use App\Models\Verbrauchsinfo;
 
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DownloadFileController;
-
 use App\Http\Controllers\Web\RealestateController;
-
-use App\Models\Occupant;
 
 
 
@@ -66,8 +67,17 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/dashboard', function () {
             if (auth()->user()->isUser){
                 return redirect('/realestates');
-            }else{
-                return redirect('/verbrauchsinfos');
+            }else
+            {
+                if (auth()->user()->isMieter)
+                {
+                    if (auth()->user()->userVerbrauchsinfoAccessControls->count() > 0)
+                    {
+                        return redirect('/verbrauchsinfos');
+                    }else{
+                        return redirect('/');
+                    }
+                }
             }
         })->name('dashboard');
 
