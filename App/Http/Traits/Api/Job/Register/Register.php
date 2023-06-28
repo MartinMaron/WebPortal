@@ -26,17 +26,27 @@ trait Register
                 ]);
         }
 
-        $user = User::updateOrcreate(
-            ['email' => $data['email']],
-            ['name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'isUser' => $data['isUser'],
-            'isAdmin' => $data['isAdmin'],
-            'isMieter' => $data['isMieter'],
-            ]
-            );
 
+        if (User::where('email', $data['email'])->exists()) {
+            $user = User::updateOrcreate(
+                ['email' => $data['email']],
+                ['name' => $data['name'],
+                'isUser' => $data['isUser'],
+                'isAdmin' => $data['isAdmin'],
+                'isMieter' => $data['isMieter'],
+                ]
+                );
+        }else{
+            $user = User::updateOrcreate(
+                ['email' => $data['email']],
+                ['name' => $data['name'],
+                'password' => Hash::make($data['password']),
+                'isUser' => $data['isUser'],
+                'isAdmin' => $data['isAdmin'],
+                'isMieter' => $data['isMieter'],
+                ]
+                );
+        }
 
         return response()->json([
             'function' => 'JobController.register',
