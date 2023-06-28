@@ -1,7 +1,7 @@
 
-<div class="text-xl text-right xl p-4 bg-sky-100 rounded-md">
-    <div class="flex justify-between items-center">
-        <div class="flex justify-between items-center">
+<div class="p-4 text-xl text-right rounded-md xl bg-sky-100">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between">
             <div class="px-4">
                 <a href="{{route('user.occupants', $realestate)}}">
                     <x-icon.fonts.users class="h-30 text-sky-700 hover:text-sky-300"></x-icon.fonts.users>

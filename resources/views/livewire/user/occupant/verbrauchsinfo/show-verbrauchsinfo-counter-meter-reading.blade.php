@@ -13,8 +13,8 @@
         </div>
 
             @if ($rows->count()!=0)
-                <div class= "border-2 rounded-t-lg bg-sky-100 border-sky-100 md:w-5/6 m-auto">
-                    <div class="flex justify-between mt-2 text-xs font-bold items-center text-center md:text-lg">
+                <div class= "m-auto border-2 rounded-t-lg bg-sky-100 border-sky-100 md:w-5/6">
+                    <div class="flex items-center justify-between mt-2 text-xs font-bold text-center md:text-lg">
                         <x-table.heading class="flex justify-center text-center basis-1/5" sortable multi-column wire:click="sortBy('datum')" :direction="$sorts['datum'] ?? null">
                             <div class="items-center">
                                 Monat
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="border-2 rounded-b-lg border-sky-100 md:w-5/6 m-auto">
+                <div class="m-auto border-2 rounded-b-lg border-sky-100 md:w-5/6">
 
                     @foreach ($rows as $counterMeter)
                     <div class= "{{ $rows->first()->hk ? 'even:bg-green-50 odd:bg-green-100' :'even:bg-red-50 odd:bg-red-100'}}  flex flex-row py-1 text-center justify-between text-xs md:text-lg">
@@ -63,8 +63,6 @@
         </div>
     </div>
     @if ($rows->count()==0)
-        <div class="flex items-center justify-center space-x-2 bg-sky-100">
-            <span class="py-8 text-xl font-medium text-cool-gray-400">nichts gefunden...</span>
-        </div>
+        <livewire:message-nichts-gefunden />
     @endif
 </div>

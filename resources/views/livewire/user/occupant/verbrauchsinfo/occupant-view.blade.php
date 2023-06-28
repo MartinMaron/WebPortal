@@ -1,5 +1,5 @@
 <div>
-    <div class="w-full  bg-white rounded-lg shadow-md">
+    <div class="w-full bg-white rounded-lg shadow-md">
         @if ($rows->count()!=0)
             @foreach ($rows as $verbrauchsinfo)
             <div class="mt-6 {{ $verbrauchsinfo->ww ? 'border-y-2 border-red-600' : 'border-y-2 border-green-400' }} selection:items-center justify-between w-full p-2 ">
@@ -62,9 +62,7 @@
     </div>
 
     @if ($rows->count()==0)
-        <div class="flex items-center justify-center space-x-2 bg-sky-100 ">
-            <span class="py-8 text-xl font-medium text-cool-gray-400">nichts gefunden...</span>
-        </div>
+        <livewire:message-nichts-gefunden />
     @endif
 
 

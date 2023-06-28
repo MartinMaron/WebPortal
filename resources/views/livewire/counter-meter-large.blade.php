@@ -1,0 +1,53 @@
+        {{-- Duzy ekran --}}
+<div class="justify-center hidden w-full px-4 py-1 mx-auto mt-8 text-2xl md:flex max-w-7xl">
+    <div class="mb-1 text-lg font-bold 
+    {{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
+    {{ $counterMeter->nutzergrup_name }}
+    </div>
+
+    <div class="px-4">
+    <x-icon.fonts.ww_hk class="text-3xl" 
+    :hk='$counterMeter->hk' ></x-icon.fonts.ww_hk>
+    </div>
+</div>
+
+<div class="hidden mt-4 md:flex md:justify-betweeen md:items-center">
+    <div class="flex mt-1 text-lg font-bold text-center border-2 rounded-t-lg md:flex-1 bg-sky-100 border-sky-100 basis-1/6">
+        <div class="grid grid-cols-2 mt-1 basis-1/5">
+            <div class="font-bold text-right text-md">Nr.: </div>
+                <div class="mt-1"><x-table.heading class="" sortable multi-column wire:click="sortBy('nr')" :direction="$sorts['nr'] ?? null">
+                        </x-table.heading>
+                </div>
+            </div>
+            <div class="flex justify-center basis-1/5">
+                <div class="inline-block align-bottom">
+                <span class="font-bold text-md">Funknr.: </span>
+                </div>
+            </div>
+            <div class="basis-1/5">
+            <span class="">mon. Verbrauch</span>
+            </div>
+            <div class="basis-1/5">
+            <span class="">Einheit</span>
+            </div>
+            <div class="basis-1/5">
+
+            </div>
+            </div>
+        </div>
+
+               {{-- Maly ekran --}}
+
+        <div class="flex justify-center sm:hidden">
+            <div class="mb-1 text-lg md:text-xl font-bold 
+            {{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
+            {{ $counterMeter->nutzergrup_name }}
+            </div>
+            <div class="px-4">
+            <x-icon.fonts.ww_hk class="text-2xl" 
+            :hk='$counterMeter->hk' >
+            </x-icon.fonts.ww_hk>
+            </div>
+        </div>
+
+        <div class="md:border-2 md:rounded-b-lg md:border-sky-100">
