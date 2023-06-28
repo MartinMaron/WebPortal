@@ -1,13 +1,12 @@
-
 <form wire:submit.prevent="closeModal(true)">
     <x-modal.dialog class="bg-sky-50" minWidth="640px" maxWidth="800px"
            wire:model="showEditModal">
         <!-- Dialog Title -->
         <x-slot name="title">
             <div class="flex flex-row justify-between">
-                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-sky-100">
+                <div class="flex items-center justify-center w-12 h-12 mx-auto rounded-full bg-sky-100">
                     {{-- <i class="text-sky-800 fa-solid fa-trash-can"></i> --}}
-                    <x-icon.fonts.pencil class="text-xs text-sky-500 hover:text-sky-800  px-2 ">                                       
+                    <x-icon.fonts.pencil class="px-2 text-xs text-sky-500 hover:text-sky-800 ">                                       
                     </x-icon.fonts.pencil>
                 </div>
             </div>
@@ -38,8 +37,8 @@
                 <x-input.group 
                     class="my-2 " paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10" 
                     for="aktiv" label="aktiv" :error="$errors->first('userEmail.aktiv')">
-                    <div class="flex justify-between items-center h-10 sm:h-8">
-                        <div class="basis-2/5 pl-1">
+                    <div class="flex items-center justify-between h-10 sm:h-8">
+                        <div class="pl-1 basis-2/5">
                             <x-input.checkbox wire:model="userEmail.aktiv">
                             </x-input.checkbox>
                         </div>

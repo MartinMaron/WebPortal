@@ -122,9 +122,9 @@
 
             </div>
         </div>
-        <div class="flex items-center justify-evenly">
+        <div class="flex items-center">
                   <!-- Settings Dropdown -->
-                <div class="">
+                <div  class="mx-8">
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <span class="rounded-md">

@@ -1,6 +1,6 @@
 <div class="">
     {{-- small screen --}}
-    <div class="hidden mt-2 mb-4 border-b-2 shadow-md sm:block sm:w-96 "> 
+    <div class="hidden m-auto mt-2 mb-4 border-b-2 shadow-md sm:block md:w-4/6"> 
         <div class="flex items-center justify-center sm:grid-cols-5 sm:gap-2">
             <div class="py-1 sm:w-64">
                 {{ $userEmail->email }}
@@ -37,7 +37,7 @@
             <div class="inline-block align-bottom basis-1/6">
                 <x-icon.fonts.email-active :value='$userEmail->aktiv' class="px-4 py-1 text-sm border-2 rounded-lg border-sky-200" ></x-icon.fonts.email-active>
             </div>
-            <div class="basis-1/6 ">
+            <div class="basis-1/6">
                 <x-icon.fonts.pencil 
                 class="px-4 py-1 text-sm border-2 rounded-lg border-sky-200 text-sky-800"
                 wire:click="emit_EditModal()" 
