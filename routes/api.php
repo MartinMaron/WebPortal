@@ -30,6 +30,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/job', [JobController::class, 'job']);
 
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/me', function(Request $request) {
         $user = User::where('email', auth()->user()['email'])->firstOrFail();
