@@ -39,8 +39,9 @@ Trait VerbrauchsinfoAccessControlAdapter
                     ];
         }    
 
-        $occupant = Occupant::where('nekoId','=', $data['neko_lokator_id'])->first();
-        if ($occupant){
+       // $occupant = Occupant::where('nekoId','=', $data['neko_lokator_id'])->first();
+        $occupant = DB::table('occupants')->where('nekoId', $data['neko_lokator_id'])->first();
+        if (is_null($occupant)){
             return [
                 'function' => 'JobController.UserVerbrauchsinfoAccessControl',
                 'result' => 'error',
@@ -50,9 +51,7 @@ Trait VerbrauchsinfoAccessControlAdapter
                 ];
         }
 
-
-        /* Anlage des Zählers */
-         $userVerbrauchsinfoAccessControl = UserVerbrauchsinfoAccessControl::updateOrcreate(
+        $userVerbrauchsinfoAccessControl = UserVerbrauchsinfoAccessControl::updateOrcreate(
             [
                     'occupant_id' => $occupant->id,
                     'jahr_monat' => $data['jahr_monat'],

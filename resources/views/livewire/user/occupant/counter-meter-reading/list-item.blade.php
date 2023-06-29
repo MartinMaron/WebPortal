@@ -1,7 +1,4 @@
 <div class="flex justify-between">
-
- {{--! Wyswietlanie stanow licznika --}}   
-
     <div class="basis-1/5"> 
         {{ $counterMeter->zeitraum_akt }}
     </div>

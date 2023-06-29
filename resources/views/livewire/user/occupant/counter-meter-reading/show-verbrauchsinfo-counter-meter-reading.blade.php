@@ -15,14 +15,14 @@
         @if ($rows->count()!=0)
             
             <div class="">
-            <livewire:user.occupant.counter-meter-reading.list-header/>
+                <livewire:user.occupant.counter-meter-reading.list-header :sorts='$sorts' :wire:key="'counter-meter-reading-listitem-header'.$counterMeter->id" key="{{ now() }}"/>
             </div>
 
                 @foreach ($rows as $counterMeter)
 
                 <div class= "{{ $rows->first()->hk ? 'even:bg-green-50 odd:bg-green-100' :'even:bg-red-50 odd:bg-red-100'}}  
                     py-1 m-auto text-center  text-xs md:text-lg border-2 border-sky-100 rounded-b-lg md:w-5/6">
-                <livewire:user.occupant.counter-meter-reading.list-item :counterMeter='$counterMeter'/>
+                    <livewire:user.occupant.counter-meter-reading.list-item :counterMeter='$counterMeter' :wire:key="'counter-meter-reading-listitem-'.$counterMeter->id"  key="{{ now() }}"/>
                 </div>
                 
                 @endforeach

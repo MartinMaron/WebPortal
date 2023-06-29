@@ -1,16 +1,24 @@
 <?php
 
 namespace App\Http\Livewire\User\Occupant\CounterMeterReading;
-use App\Http\Livewire\DataTable\WithSorting;
+use Carbon\Carbon;
 use Livewire\Component;
+use Barryvdh\Debugbar\Facades\Debugbar;
+use App\Http\Livewire\DataTable\WithSorting;
 
 class ListHeader extends Component
 {
 
-    public function sortBy(string $field)
-    {
-      $this->emit('SortByDatum',$field);
+    public $sorts = [];
 
+    public function mount($sorts)
+    {
+        $this->sorts  = $sorts;
+      }
+
+    public function sortByDatum()
+    {
+        $this->emit('SortByDatum');
     }
 
 

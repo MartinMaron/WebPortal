@@ -4,7 +4,7 @@ namespace App\Http\Traits\Api\Job\Realestate;
 use App\Models\Realestate;
 use App\Models\VerbrauchsinfoUserEmail;
 
-Trait ImportVerbrauchsinfoUserEmail
+Trait VerbrauchsinfoUserEmailAdapter
 {
     
     
@@ -46,9 +46,11 @@ Trait ImportVerbrauchsinfoUserEmail
             'id' => $importObj->id,
         ];
    
-       }
-   
-   
-   
+    }
+
+
+
+
+
 
 }

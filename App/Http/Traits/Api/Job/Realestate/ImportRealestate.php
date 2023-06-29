@@ -8,11 +8,12 @@ use App\Http\Resources\CostKeyResource;
 use App\Http\Resources\VerbrauchsinfoUserEmailResource;
 use App\Http\Resources\RealestateAbrechnungssettingResource;
 use App\Http\Traits\Api\Job\Realestate\ImportAbrechnungssetting;
+use App\Http\Traits\Api\Job\Realestate\VerbrauchsinfoUserEmailAdapter;
 
 
 trait ImportRealestate
 {
-    use ImportOccupant, ImportAbrechnungssetting, ImportCost, ImportCostKey, ImportVerbrauchsinfoUserEmail;
+    use ImportOccupant, ImportAbrechnungssetting, ImportCost, ImportCostKey, VerbrauchsinfoUserEmailAdapter;
 
     /*   Anlage der Liegenschaft */
     public function importRealestate(Array $data)

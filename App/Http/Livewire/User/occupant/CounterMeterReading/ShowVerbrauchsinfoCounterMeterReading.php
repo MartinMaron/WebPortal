@@ -9,6 +9,7 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Livewire\DataTable\WithSorting;
 use App\Models\UserVerbrauchsinfoAccessControl;
+use Carbon\Carbon;
 
 class ShowVerbrauchsinfoCounterMeterReading extends Component
 {
@@ -25,14 +26,12 @@ class ShowVerbrauchsinfoCounterMeterReading extends Component
     {
         $this->neko_id = $neko_id;
         $this->occupant = $occupant;
-        /*$this->sorts = ['datum' => 'desc'];*/
+        $this->sorts = ['datum' => 'asc'];  
     }
 
-    public function sortByDatum(string $field)
+    public function sortByDatum()
     {
-        $this->sortBy($field);
-        $this->sorts = ['datum' => $this->sorts['datum'] ?? null ];      
-       /* dd($this->sorts);*/
+        $this->sortBy('datum');
     }
 
     public function getRowsProperty()
@@ -59,6 +58,7 @@ class ShowVerbrauchsinfoCounterMeterReading extends Component
     {
         return view('livewire.user.occupant.counter-meter-reading.show-verbrauchsinfo-counter-meter-reading', [
             'rows' => $this->rows,
+            'sorts' => $this->sorts,
         ]);
     }
 }

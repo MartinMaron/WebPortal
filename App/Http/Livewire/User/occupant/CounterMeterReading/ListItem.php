@@ -6,11 +6,7 @@ use Livewire\Component;
 
 class ListItem extends Component
 {
-
-
-    
     public $counterMeter;
-
 
     public function mount(VerbrauchsinfoCounterMeter $counterMeter)
     {
