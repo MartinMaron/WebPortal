@@ -24,4 +24,3 @@
         </div>
     </div>
 </div>
-<div class="m-auto border-2 rounded-b-lg border-sky-100 md:w-5/6">

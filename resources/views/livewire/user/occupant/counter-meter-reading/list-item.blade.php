@@ -1,6 +1,8 @@
-{{--! Wyswietlanie danych --}}
+<div class="flex justify-between">
 
-    <div class="basis-1/5">
+ {{--! Wyswietlanie stanow licznika --}}   
+
+    <div class="basis-1/5"> 
         {{ $counterMeter->zeitraum_akt }}
     </div>
     <div class="basis-1/5">
@@ -15,4 +17,4 @@
     <div class="basis-1/5">
         {{ $counterMeter->VerbrauchAktDisplay }}
     </div>
-
+</div>

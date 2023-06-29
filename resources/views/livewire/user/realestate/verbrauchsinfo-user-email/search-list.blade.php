@@ -2,12 +2,16 @@
     @if ($nutzeinheiten->count()!=0)
         @foreach ($nutzeinheiten as $nutzeinheit)
 
-        <div class="">
+        <div class="flex items-center justify-center">
             {{-- pokazac ostatniego lokatora mieszkania --}}
+            <div class="mt-4 mb-4 w-96">
             <livewire:user.occupant.occupant-header  :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' key="{{ now() }}"/>
+            </div>
+            <div class="">
+            <livewire:user.realestate.verbrauchsinfo-user-email.detail-input :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' key="{{ now() }}"/>
+            </div>
         </div>
         
-        <livewire:user.realestate.verbrauchsinfo-user-email.detail-input :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' key="{{ now() }}"/>
         
         @forelse ($this->getUserEmailsForNutzeinheitNo($nutzeinheit->nutzeinheitNo) as $userEmail)
         {{-- pokazac wiersze email-ow --}}
@@ -41,14 +45,14 @@
                 <x-modal.dialog class="bg-sky-50" minWidth="640px" maxWidth="800px" wire:model.defer="showDeleteCostAmountModal">
                     <!-- Dialog Title -->
                     <x-slot name="title">
-                        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                        <div class="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 rounded-full">
                             <i class="text-red-800 fa-solid fa-trash-can"></i>
                         </div>
                     </x-slot>
                     <!-- Dialog Content -->
                     <x-slot name="content">
                         <div class="mt-3 text-center sm:mt-5">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Eintrag wirklich löschen</h3>
+                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Eintrag wirklich löschen</h3>
                         </div>
                     </x-slot>
                     <x-slot name="footer">

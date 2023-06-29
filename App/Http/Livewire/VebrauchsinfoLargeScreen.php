@@ -12,7 +12,7 @@ class VebrauchsinfoLargeScreen extends Component
 
     public function mount(Verbrauchsinfo $verbrauchsinfo)
     {
-        $this->Verbrauchsinfo = $verbrauchsinfo;
+        $this->verbrauchsinfo = $verbrauchsinfo;
     }
 
     public function render()
