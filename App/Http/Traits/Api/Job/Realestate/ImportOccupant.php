@@ -5,11 +5,11 @@ use App\Models\Occupant;
 use App\Models\Realestate;
 use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchinfo;
 use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchsinfoCounterMeter;
-use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchsinfoAccessControl;
+use App\Http\Traits\Api\Job\Realestate\VerbrauchsinfoAccessControlAdapter;
 
 trait ImportOccupant
 {
-    use ImportVerbrauchsinfoCounterMeter, ImportVerbrauchinfo, ImportVerbrauchsinfoAccessControl;
+    use ImportVerbrauchsinfoCounterMeter, ImportVerbrauchinfo, VerbrauchsinfoAccessControlAdapter;
 
 
      /* Anlage des Mieters  */

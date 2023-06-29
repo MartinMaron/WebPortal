@@ -3,15 +3,18 @@ namespace App\Http\Traits\Api\Job\Realestate;
 
 use App\Models\User;
 use App\Models\Occupant;
+use Illuminate\Support\Facades\DB;
+
+use function PHPUnit\Framework\isEmpty;
 use App\Models\UserVerbrauchsinfoAccessControl;
 
-Trait ImportVerbrauchsinfoAccessControl
+Trait VerbrauchsinfoAccessControlAdapter
 {
     
    /* Anlage Der Zähler */
    public function importVerbrauchsinfoAccessControl(Array $data)
    {
-
+        
        /* Validierung der Daten bevor Anlage des Zählers */
        $validator = UserVerbrauchsinfoAccessControl::validateImportData($data);
        if ($validator->fails()) {
@@ -23,19 +26,32 @@ Trait ImportVerbrauchsinfoAccessControl
                'data' => $data,
                'id' => 0
                ];
-       }
+        }
 
-       
+        $user = DB::table('users')->where('email', $data['email'])->first();
+        if (is_null($user)){
+                return [
+                    'function' => 'JobController.UserVerbrauchsinfoAccessControl',
+                    'result' => 'error',
+                    'errortype' => 'invalid data',
+                    'errors' => 'User not found',
+                    'data' => $data,
+                    ];
+        }    
 
-        $occupant = Occupant::where('nekoId','=', $data['neko_lokator_id'])->firstOrFail();
-     
-     
-        $user = User::where('email','=', $data['email'])->firstOrFail();
-     
-        
-   
+        $occupant = Occupant::where('nekoId','=', $data['neko_lokator_id'])->first();
+        if ($occupant){
+            return [
+                'function' => 'JobController.UserVerbrauchsinfoAccessControl',
+                'result' => 'error',
+                'errortype' => 'invalid data',
+                'errors' => 'Occupant not found',
+                'data' => $data,
+                ];
+        }
 
-     /* Anlage des Zählers */
+
+        /* Anlage des Zählers */
          $userVerbrauchsinfoAccessControl = UserVerbrauchsinfoAccessControl::updateOrcreate(
             [
                     'occupant_id' => $occupant->id,
