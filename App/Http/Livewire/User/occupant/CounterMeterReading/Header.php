@@ -6,7 +6,7 @@ use Livewire\Component;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use App\Http\Livewire\DataTable\WithSorting;
 
-class ListHeader extends Component
+class Header extends Component
 {
 
     public $sorts = [];
@@ -24,6 +24,6 @@ class ListHeader extends Component
 
     public function render()
     {
-        return view('livewire.user.occupant.counter-meter-reading.list-header');
+        return view('livewire.user.occupant.counter-meter-reading.header');
     }
 }

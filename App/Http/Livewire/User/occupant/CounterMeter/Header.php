@@ -4,7 +4,7 @@ namespace App\Http\Livewire\User\Occupant\CounterMeter;
 use App\Models\VerbrauchsinfoCounterMeter;
 use Livewire\Component;
 
-class ListHeader extends Component
+class Header extends Component
 {
 
 
@@ -26,6 +26,6 @@ class ListHeader extends Component
 
     public function render()
     {
-        return view('livewire.user.occupant.counter-meter.list-header');
+        return view('livewire.user.occupant.counter-meter.header');
     }
 }

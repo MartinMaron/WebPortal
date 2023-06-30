@@ -28,10 +28,10 @@
                 </div>
             </div>
             <div class="basis-1/5">
-            <span class="">mon. Verbrauch</span>
+                <span class="">mon. Verbrauch</span>
             </div>
             <div class="basis-1/5">
-            <span class="">Einheit</span>
+                <span class="">Einheit</span>
             </div>
             <div class="basis-1/5">
 

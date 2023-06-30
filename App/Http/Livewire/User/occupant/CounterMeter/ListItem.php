@@ -5,7 +5,7 @@ use App\Models\VerbrauchsinfoCounterMeter;
 use App\Models\Occupant;
 use Livewire\Component;
 
-class ListItem extends Component
+class Listitem extends Component
 {
 
 
@@ -20,6 +20,6 @@ class ListItem extends Component
     
     public function render()
     {
-        return view('livewire.user.occupant.counter-meter.list-item');
+        return view('livewire.user.occupant.counter-meter.listitem');
     }
 }

@@ -104,7 +104,7 @@ class ShowVerbrauchsinfoCounterMeter extends Component
 
 
 
-        return view('livewire.user.occupant.counter-meter.show-verbrauchsinfo-counter-meter', [
+        return view('livewire.user.occupant.counter-meter.search-list', [
             'rows' => $this->rows,
             'nutzergruppen' => $nutzergruppen,
         ]);

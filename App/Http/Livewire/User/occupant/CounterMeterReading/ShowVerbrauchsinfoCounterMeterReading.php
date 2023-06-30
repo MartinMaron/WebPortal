@@ -56,7 +56,7 @@ class ShowVerbrauchsinfoCounterMeterReading extends Component
 
     public function render()
     {
-        return view('livewire.user.occupant.counter-meter-reading.show-verbrauchsinfo-counter-meter-reading', [
+        return view('livewire.user.occupant.counter-meter-reading.search-list', [
             'rows' => $this->rows,
             'sorts' => $this->sorts,
         ]);
