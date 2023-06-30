@@ -25,15 +25,27 @@
     <div class="block mt-2 mb-4 border-b-2 shadow-sm sm:hidden ">
         <div class="flex">
             <div>
-            <div class="">
-                {{ $userEmail->email }}
-            </div>
-            <div class="text-xs {{ $userEmail->aktiv ? 'text-black' : 'text-gray-500' }} ">
-                {{ $userEmail->Zeitraum }} 
-            </div>
+                <div class="">
+                    {{ $userEmail->email }}
+                </div>
+                <div class="text-xs {{ $userEmail->aktiv ? 'text-black' : 'text-gray-500' }} ">
+                    {{ $userEmail->Zeitraum }} 
+                </div>
             </div>
             <div>
-                <x-edit-menu />
+                <x-popup-menu>
+                    <li>
+                        <x-icon.fonts.pencil 
+                        class="px-4 py-1 text-sm border-2 rounded-lg border-sky-200"
+                        wire:click="emit_EditModal()">
+                        </x-icon.fonts.pencil>
+                        <span>Bearbeiten</span>  
+                    </li>
+                    <li wire:click="emit_QuestionDeleteModal()">
+                        <x-icon.fonts.trash class="px-4 py-1 text-sm border-2 rounded-lg border-sky-200"/>
+                        <span>Löschen</span>
+                    </li>
+                </x-popup-menu>
             </div>
         </div>
     </div>
