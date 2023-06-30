@@ -17,9 +17,9 @@
 
             <div class="md:border-2 md:rounded-b-lg md:border-sky-100">
                 @forelse ($this->getVerbrauchsinfosByNutzergrupe($verbrauchsinfo->nutzergrup_id) as $singleVerbrauchsinfo)
-                <livewire:user.occupant.verbrauchsinfo.listitem :singleVerbrauchsinfo='$singleVerbrauchsinfo' :wire:key="'verbrauchsinfo-listitem-'.$verbrauchsinfo->id"  key="{{ now() }}"/>
+                <livewire:user.occupant.verbrauchsinfo.listitem :singleVerbrauchsinfo='$singleVerbrauchsinfo' :wire:key="'verbrauchsinfo-listitem'.$verbrauchsinfo->id"  key="{{ now() }}"/>
 
-            @endforeach
+                @endforeach
             </div>
         @endforeach
 

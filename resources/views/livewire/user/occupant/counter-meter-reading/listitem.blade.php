@@ -14,4 +14,7 @@
     <div class="basis-1/5">
         {{ $counterMeter->VerbrauchAktDisplay }}
     </div>
+
+    <div class="">
+    </div>
 </div>
