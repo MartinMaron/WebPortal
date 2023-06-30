@@ -1,28 +1,30 @@
 <div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8 ">
-    <livewire:user.occupant.occupant-header :occupant='$occupant'/>
+    <div class="">
+        <livewire:user.occupant.occupant-header :occupant='$occupant'/>
+    </div>
     <x-input.search wire:model.debounce.2000="filter"/>
 
     @if ($nutzergruppen->count()!=0)
-
+    <div class="pb-4 mt-16">
         <div class="mb-5 text-xl font-bold text-center border-b-2 md:text-2xl border-sky-400 w-max-md md:bloc">
             VERLAUF DER VERBRÄUCHE
         </div>
-            @foreach ($nutzergruppen as $verbrauchsinfo)
-            {{-- Duzy ekran --}}
-            
-                <livewire:vebrauchsinfo-large-screen :verbrauchsinfo='$verbrauchsinfo'/>
 
-            @forelse ($this->getVerbrauchsinfosByNutzergrupe($verbrauchsinfo->nutzergrup_id) as $singleVerbrauchsinfo)
-            
-            {{-- Maly ekran --}}
+        @foreach ($nutzergruppen as $verbrauchsinfo)
+            <div class="">
+                <livewire:user.occupant.verbrauchsinfo.header :verbrauchsinfo='$verbrauchsinfo' :sorts='$sorts' :wire:key="'verbrauchsinfo-listitem-header'.$verbrauchsinfo->id" key="{{ now() }}"/>
+            </div>
 
-                <livewire:vebrauchsinfo-small-screen :singleVerbrauchsinfo='$singleVerbrauchsinfo'/>
+            <div class="md:border-2 md:rounded-b-lg md:border-sky-100">
+                @forelse ($this->getVerbrauchsinfosByNutzergrupe($verbrauchsinfo->nutzergrup_id) as $singleVerbrauchsinfo)
+                <livewire:user.occupant.verbrauchsinfo.listitem :singleVerbrauchsinfo='$singleVerbrauchsinfo' :wire:key="'verbrauchsinfo-listitem-'.$verbrauchsinfo->id"  key="{{ now() }}"/>
 
-                @endforeach
-                </div>
             @endforeach
-    @endif
-    @if ($rows->count()==0)
+            </div>
+        @endforeach
+
+    @else 
         <livewire:not-found />
     @endif
+    </div>
 </div>

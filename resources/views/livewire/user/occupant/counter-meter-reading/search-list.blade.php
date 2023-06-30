@@ -18,15 +18,15 @@
                 <livewire:user.occupant.counter-meter-reading.header :sorts='$sorts' :wire:key="'counter-meter-reading-listitem-header'.$counterMeter->id" key="{{ now() }}"/>
             </div>
 
-                @foreach ($rows as $counterMeter)
+            @foreach ($rows as $counterMeter)
 
-                <div class= "{{ $rows->first()->hk ? 'even:bg-green-50 odd:bg-green-100' :'even:bg-red-50 odd:bg-red-100'}}  
-                    py-1 m-auto text-center  text-xs md:text-lg border-2 border-sky-100 rounded-b-lg md:w-5/6">
-                    <livewire:user.occupant.counter-meter-reading.listitem :counterMeter='$counterMeter' :wire:key="'counter-meter-reading-listitem-'.$counterMeter->id"  key="{{ now() }}"/>
-                </div>
-                
-                @endforeach
-        
+            <div class= "{{ $rows->first()->hk ? 'even:bg-green-50 odd:bg-green-100' :'even:bg-red-50 odd:bg-red-100'}}  
+                py-1 m-auto text-center  text-xs md:text-lg border-2 border-sky-100 rounded-b-lg md:w-5/6">
+                <livewire:user.occupant.counter-meter-reading.listitem :counterMeter='$counterMeter' :wire:key="'counter-meter-reading-listitem-'.$counterMeter->id"  key="{{ now() }}"/>
+            </div>
+            
+            @endforeach
+    
         @else 
             <livewire:not-found />
         @endif

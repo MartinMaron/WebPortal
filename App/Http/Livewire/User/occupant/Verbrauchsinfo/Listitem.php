@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\User\Occupant\Verbrauchsinfo;
 use App\Models\Verbrauchsinfo;
 use Livewire\Component;
 
-class VebrauchsinfoSmallScreen extends Component
+class Listitem extends Component
 {
 
     public $singleVerbrauchsinfo;
@@ -15,9 +15,8 @@ class VebrauchsinfoSmallScreen extends Component
         $this->verbrauchsinfo = $singleVerbrauchsinfo;
     }
 
-
     public function render()
     {
-        return view('livewire.vebrauchsinfo-small-screen');
+        return view('livewire.user.occupant.verbrauchsinfo.listitem');
     }
 }

@@ -8,7 +8,6 @@ use Livewire\Component;
 class Listitem extends Component
 {
 
-
     public VerbrauchsinfoCounterMeter $singleCounterMeter;
     public Occupant $occupant;
 

@@ -11,6 +11,7 @@ use App\Models\UserVerbrauchsinfoAccessControl;
 class ShowVerbrauchsinfos extends Component
 {
     use WithCachedRows, WithSorting;
+    protected $listeners = ['SortByDatum' => 'sortByDatum'];
     public Occupant $occupant;
 
     /* initialization */
@@ -21,6 +22,11 @@ class ShowVerbrauchsinfos extends Component
             'hk' => 'desc',
             'datum' => 'desc'
             ];
+    }
+
+    public function sortByDatum()
+    {
+        $this->sortBy('datum');
     }
 
     public function getRowsProperty()
@@ -56,7 +62,7 @@ class ShowVerbrauchsinfos extends Component
         ->orderBy('ww')
         ->get()->unique('nutzergrup_id');
 
-        return view('livewire.user.occupant.verbrauchsinfo.show-verbrauchsinfos', [
+        return view('livewire.user.occupant.verbrauchsinfo.search-list', [
             'rows' => $this->rows,
             'nutzergruppen' => $nutzergruppen,
         ]);
