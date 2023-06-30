@@ -23,6 +23,6 @@
             @endforeach
     @endif
     @if ($rows->count()==0)
-        <livewire:message-nichts-gefunden />
+        <livewire:not-found />
     @endif
 </div>

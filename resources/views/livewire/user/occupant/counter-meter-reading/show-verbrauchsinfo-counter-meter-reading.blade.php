@@ -28,7 +28,7 @@
                 @endforeach
         
         @else 
-            <livewire:message-nichts-gefunden />
+            <livewire:not-found />
         @endif
     </div>
 </div>

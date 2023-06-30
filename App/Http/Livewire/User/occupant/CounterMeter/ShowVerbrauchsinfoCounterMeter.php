@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\User\occupant\Verbrauchsinfo;
+namespace App\Http\Livewire\User\occupant\CounterMeter;
 
 use Livewire\Component;
 use App\Models\Occupant;
@@ -17,6 +17,7 @@ class ShowVerbrauchsinfoCounterMeter extends Component
 
     use WithCachedRows, WithSorting;
 
+    protected $listeners = ['SortByNr' => 'sortByNr'];
     public Occupant $occupant;
     public VerbrauchsinfoCounterMeter $counterMeters;
     public $filter;
@@ -33,6 +34,11 @@ class ShowVerbrauchsinfoCounterMeter extends Component
             'nr' => 'asc'
             ];
         }
+
+    public function sortByNr()
+    {
+        $this->sortBy('nr');
+    }    
 
 
     public function checkIfShowFunknr($nutzergrupe_id)
@@ -98,7 +104,7 @@ class ShowVerbrauchsinfoCounterMeter extends Component
 
 
 
-        return view('livewire.user.occupant.verbrauchsinfo.show-verbrauchsinfo-counter-meter', [
+        return view('livewire.user.occupant.counter-meter.show-verbrauchsinfo-counter-meter', [
             'rows' => $this->rows,
             'nutzergruppen' => $nutzergruppen,
         ]);
