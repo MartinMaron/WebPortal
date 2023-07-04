@@ -14,35 +14,27 @@
         <!-- Dialog Content -->
         <x-slot name="content">
             <div>
-                <x-input.group class="border-0" for="costAmount-detailModal-dateFrom" label="seit" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10">
+                <x-input.group class="border-0" 
+                    :error="$errors->first('userEmail.seit')"
+                    for="costAmount-detailModal-dateFrom" label="seit" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10">
                     <x-input.date
-                        wire:model.lazy="userEmail.dateFrom"
-                        :error="$errors->first('userEmail.date_from_editing')"
+                        wire:model.lazy="userEmail.seit"
                         hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
                         id="verbrauchsinfoUserEmail-detailmodal-date_from_editing"
                         class="bg-sky-50 sm:h-8"
                     >
                     </x-input.date>
                 </x-input.group>
-                <x-input.group class="border-0" for="costAmount-detailModal-dateTo" label="bis" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10">
+                <x-input.group class="border-0" 
+                    for="costAmount-detailModal-dateTo" label="bis" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                    :error="$errors->first('userEmail.bis')">
                     <x-input.date
-                        wire:model.lazy="userEmail.dateTo"
-                        :error="$errors->first('userEmail.dateTo')"
+                        wire:model.lazy="userEmail.bis"
                         hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
                         id="verbrauchsinfoUserEmail-detailmodal-dateTo"
                         class="bg-sky-50 sm:h-8"
                     >
                     </x-input.date>
-                </x-input.group>
-                <x-input.group 
-                    class="my-2 " paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10" 
-                    for="aktiv" label="aktiv" :error="$errors->first('userEmail.aktiv')">
-                    <div class="flex items-center justify-between h-10 sm:h-8">
-                        <div class="pl-1 basis-2/5">
-                            <x-input.checkbox wire:model="userEmail.aktiv">
-                            </x-input.checkbox>
-                        </div>
-                    </div>
                 </x-input.group>
                 <x-input.group 
                     class="border-0" for="userEmail.firstinitUsername" label="Username für Webaccount" :error="$errors->first('userEmail.firstinitUsername')"

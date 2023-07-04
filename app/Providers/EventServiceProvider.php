@@ -17,6 +17,7 @@ use App\Listeners\CostUpdatedNotification;
 use App\Listeners\CostAmountAddedNotification;
 use App\Listeners\CostAmountDeletedNotification;
 use App\Listeners\CostAmountUpdatedNotification;
+use App\Listeners\VerbrauchsinfoUserEmailAddedListner;
 use App\Listeners\VerbrauchsinfoUserEmailNotification;
 
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -46,6 +47,11 @@ class EventServiceProvider extends ServiceProvider
             CostAmountUpdatedNotification::class,
         ],
 
+        VerbrauchsinfoUserEmailAdded::class => [
+            VerbrauchsinfoUserEmailAddedListner::class,
+        ],
+
+        
      /*    VerbrauchsinfoUserEmailAdded::class => [
             VerbrauchsinfoUserEmailAddedNotification::class,
         ], */

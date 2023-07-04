@@ -11,11 +11,13 @@ use App\Http\Resources\RealestateResource;
 use App\Http\Traits\Api\Job\Register\Register;
 use App\Models\UserVerbrauchsinfoAccessControl;
 use App\Http\Traits\Api\Job\Realestate\ImportRealestate;
+use App\Http\Traits\Api\Job\SetRealestateDataInTransactionmode;
+
 
 class JobController extends Controller
 {
     use Register;
-    use ImportRealestate;
+    use ImportRealestate, SetRealestateDataInTransactionmode;
     
     public function job(Request $request)
     {
@@ -34,12 +36,15 @@ class JobController extends Controller
             /* Verarbeitn der Daten */
             $retval = $this->importRealestate($data);
             return response()->json($retval);
+        }elseif($jobData['job']=='setIntransactionMode'){
+            /* Realestate-Resoource wird erzeugt*/
+            $retval = $this->SetRealestateDataInTransactionmode($jobData['data']);
+            return response()->json($retval);
         }elseif($jobData['job']=='deleteUserVerbrauchsinfoAccessControl'){
             
             /* extrahieren der Daten */
             $neko_id = ($jobData['data']);
             $result = DB::table('user_verbrauchsinfo_access_controls')->where('neko_id', $neko_id)->delete();
-            
 
             if($result==1)
             {

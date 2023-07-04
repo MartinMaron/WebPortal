@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use App\Events\VerbrauchsinfoUserEmailAdded;
 use App\Events\VerbrauchsinfoUserEmailDeleted;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class VerbrauchsinfoUserEmail extends Model
@@ -17,8 +18,8 @@ class VerbrauchsinfoUserEmail extends Model
 
     protected $fillable = [
         'realestate_id', 'dateFrom', 'dateTo', 'nutzeinheitNo',
-        'neko_id', 'aktiv', 'email', 'webupdate','firstinitUsername', 'date_from_editing',
-        'date_to_editing'
+        'neko_id', 'email', 'webupdate','firstinitUsername', 'seit',
+        'bis'
     ];
 
     public static function validateImportData($data) {
@@ -41,22 +42,26 @@ class VerbrauchsinfoUserEmail extends Model
     ];
 
     protected $appends = [
-        'date_from_editing',
-        'date_to_editing',
+        'seit',
+        'bis',
         'display',
     ]; 
 
-    public function getDateFromEditingAttribute()
+    public function getSeitAttribute()
     {
         return Carbon::parse($this->dateFrom)->format('d.m.Y');
     }
 
-    public function setDateFromEditingAttribute($value)
+    public function setSeitAttribute($value)
     {
+        Debugbar::info('VerbrauchsinfoUserEmail-setDateFromEditingAttribute:'. $value);
+  
         $this->dateFrom = Carbon::parse($value);
-    }
+    } 
 
-    public function getDateToEditingAttribute()
+
+
+    public function getBisAttribute()
     {
         if($this->dateTo){
             return Carbon::parse($this->dateTo)->format('d.m.Y');
@@ -64,10 +69,21 @@ class VerbrauchsinfoUserEmail extends Model
         return '';
     }
 
-    public function setDateToEditingAttribute($value)
+    public function setBisAttribute($value)
     {
+        Debugbar::info('VerbrauchsinfoUserEmail-setDateToEditingAttribute:'. $value);
         $value ? $this->dateTo = Carbon::parse($value) : $this->dateTo = null;
     }
+
+   /*  protected function datestart(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => Carbon::parse($value)->format('d.m.Y'),
+            set: fn (string $value) => $value ? Carbon::parse($value) : null,
+        );
+    }
+ */
+
 
     public function getZeitraumAttribute(){
 
@@ -82,4 +98,12 @@ class VerbrauchsinfoUserEmail extends Model
     public function getDisplayAttribute(){
        return $this->email . ' (' . $this->zeitraum . ')';
     }
+
+    protected $dispatchesEvents = [
+        'created' => VerbrauchsinfoUserEmailAdded::class,
+  
+    ];
+
+
+    
 }
