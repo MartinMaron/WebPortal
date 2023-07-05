@@ -14,7 +14,7 @@
         <div class="invisible sm:visible">
             duzy ekran
         </div>
-        <div class="sm:invisible block ">
+        <div class="block sm:invisible ">
             <div class="flex">
                 <div class="basis-2/3">
                     <div class="">
@@ -24,14 +24,14 @@
                         {{ $userEmail->Zeitraum }} 
                     </div>
                 </div>
-                <div class="basis-1/6 inline-block align-bottom">
-                    <x-icon.fonts.email-active :value='$userEmail->aktiv' class="py-1 px-4 border-2 text-sm" ></x-icon.fonts.email-active>
+                <div class="inline-block align-bottom basis-1/6">
+                    <x-icon.fonts.email-active :value='$userEmail->aktiv' class="px-4 py-1 text-sm border-2" ></x-icon.fonts.email-active>
                 </div>
                 <div class="basis-1/6 ">
-                    <x-icon.fonts.pencil class="py-1 px-4 border-2 border-sky-200 text-sm" ></x-icon.fonts.pencil>
+                    <x-icon.fonts.pencil class="px-4 py-1 text-sm border-2 border-sky-200" ></x-icon.fonts.pencil>
                 </div>
                 <div class="basis-1/6 ">
-                    <x-icon.fonts.trash class="py-1 px-4 border-2 border-sky-200 text-sm" ></x-icon.fonts.trash>
+                    <x-icon.fonts.trash class="px-4 py-1 text-sm border-2 border-sky-200" ></x-icon.fonts.trash>
                 </div>
             </div>
         </div>

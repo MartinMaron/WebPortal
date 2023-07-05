@@ -1,5 +1,5 @@
 <div
-      class="h-8 w-10 items-center mx-auto rounded-lg md:flex-1 bg-sky-100 border-sky-100"
+      class="items-center w-10 h-8 mx-auto rounded-lg md:flex-1 bg-sky-100 border-sky-100"
       x-data="{ 'isHamburgerOpen': false }"
       @keydown.escape="isHamburgerOpen = false"
 >
@@ -19,7 +19,7 @@
             x-show="isHamburgerOpen"
             x-cloak
             @click.away="isHamburgerOpen = false"
-            class="absolute -mt-10 -ml-12 text-left bg-white border shadow-md ">
+            class="absolute -mt-8 text-left -ml-36">
             {{ $slot }}
         </ul>
     </div>

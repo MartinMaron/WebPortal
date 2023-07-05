@@ -38,14 +38,17 @@
                 <x-popup-menu>
                     <li>
                         <x-icon.fonts.pencil 
-                        class="flex w px-4 py-1 text-sm border-2 rounded-lg border-sky-200"
+                        class="flex px-4 py-1 mr-40 text-sm bg-white border-2 rounded-lg cursor-pointer w-36 border-sky-200 hover:bg-sky-400"
                         wire:click="emit_EditModal()">
-                        <span>Bearbeiten</span>  
-                    </x-icon.fonts.pencil>
+                        <span class="font-mono">Bearbeiten</span>  
+                        </x-icon.fonts.pencil>
                     </li>
-                    <li wire:click="emit_QuestionDeleteModal()">
-                        <x-icon.fonts.trash class="px-4 py-1 text-sm border-2 rounded-lg border-sky-200"/>
-                        <span>Löschen</span>
+                    <li>
+                        <x-icon.fonts.trash 
+                        class="flex px-4 py-1 mt-1 mr-40 text-sm bg-white border-2 rounded-lg cursor-pointer w-36 border-sky-200 hover:bg-sky-400"
+                        wire:click="emit_QuestionDeleteModal()">
+                        <span class="font-mono">Löschen</span>
+                        </x-icon.fonts.trash>
                     </li>
                 </x-popup-menu>
             </div>
