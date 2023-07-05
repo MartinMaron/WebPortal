@@ -46,7 +46,6 @@ class DetailInput extends Component
             'realestate_id' => $this->occupant->realestate_id,
             'nutzeinheitNo' => $this->occupant->nutzeinheitNo,
             'dateFrom' => Carbon::now(),
-            'aktiv' => 1,
             'webupdate' => 1,
             'email' => 'info@e-neko.de',
         ]);

@@ -27,16 +27,16 @@ Trait VerbrauchsinfoUserEmailAdapter
          /* Anlage der Emailsteuerungstabelle für Verbraucherinformationen */
         $importObj = VerbrauchsinfoUserEmail::updateOrcreate(
             [
-                'neko_id' => $data['neko_id']
+                'id' => $data['id']
             ],
             [
-               'realestate_id' => $realestate->id,
-               'dateFrom'=> $data['dateFrom'],
-               'tryWebDelete'=> $data['TryWebDelete'],
-               'dateTo'=> $data['dateTo'],
-               'nutzeinheitNo'=> $data['msk_nr'],
-               'aktiv'=> $data['aktiv'],
-               'email'=> $data['email'],
+                'neko_id' => $data['neko_id'],
+                'realestate_id' => $realestate->id,
+                'dateFrom'=> $data['dateFrom'],
+                'tryWebDelete'=> $data['TryWebDelete'],
+                'dateTo'=> $data['dateTo'],
+                'nutzeinheitNo'=> $data['msk_nr'],
+                'email'=> $data['email'],
             ]
         );
    

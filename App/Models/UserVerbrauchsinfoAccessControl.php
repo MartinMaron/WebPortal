@@ -14,9 +14,9 @@ class UserVerbrauchsinfoAccessControl extends Model
     protected $fillable = [
         'occupant_id', 'user_id', 'neko_id', 'jahr_monat', 'datum'
     ];
+    
     public function user()
     {
-        
         return $this->belongsTo(User::class);
     }
 

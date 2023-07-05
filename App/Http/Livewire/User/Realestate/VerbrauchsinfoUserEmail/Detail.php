@@ -33,10 +33,7 @@ class Detail extends Component
     public function rules()
     {
         return [
-            'userEmail.aktiv' => 'nullable',      
             'userEmail.email' => 'required',
-            'userEmail.dateFrom' => 'nullable|date', 
-            'userEmail.dateTo' => 'nullable|date',
             'userEmail.firstinitUsername' => 'nullable',                   
             'userEmail.nutzeinheitNo' => 'required',      
             'userEmail.realestate_id' => 'required',      
@@ -63,13 +60,11 @@ class Detail extends Component
                  }
                 if($this->dialogMode == 'edit')
                 {
-
                     VerbrauchsinfoUserEmail::updateOrcreate(
                             ['id' => $this->userEmail['id']],
-                            ['aktiv' => $this->userEmail['aktiv'],
-                            'email' => $this->userEmail['email'],
-                            'dateFrom' => $this->userEmail['dateFrom'],
-                            'date_to_editing' => $this->userEmail['dateTo'],
+                            ['email' => $this->userEmail['email'],
+                            'seit' => $this->userEmail['seit'],
+                            'bis' => $this->userEmail['bis'],
                             'firstinitUsername' => $this->userEmail['firstinitUsername'],
                             ]
                             );
