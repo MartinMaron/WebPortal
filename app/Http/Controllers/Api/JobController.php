@@ -62,6 +62,28 @@ class JobController extends Controller
                     'error' => ' datensatz existiert nicht mehr oder konnte nicht gelöscht werden',
                 ]);
             }          
+        }elseif($jobData['job']=='deleteVerbrauchsinfoUserEmail'){
+            
+            /* extrahieren der Daten */
+            $neko_id = ($jobData['data']);
+            $result = DB::table('verbrauchsinfo_user_emails')->where('neko_id', $neko_id)->delete();
+
+            if($result==1)
+            {
+                return response()->json([
+                    'function' => 'JobController.job.deleteVerbrauchsinfoUserEmail',
+                    'result' => 'success',
+                    'id' => $neko_id,
+                    'data' => $jobData['data'],
+                ]);
+            }else {
+                /* Fehlermeldung falls ein Job unbekannt ist */
+                return response()->json([
+                    'function' => 'JobController.job',
+                    'result' => 'error',
+                    'error' => ' datensatz existiert nicht mehr oder konnte nicht gelöscht werden',
+                ]);
+            }          
         }else {
             /* Fehlermeldung falls ein Job unbekannt ist */
             return response()->json([

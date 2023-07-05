@@ -7,7 +7,7 @@ use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchinfo;
 use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchsinfoCounterMeter;
 use App\Http\Traits\Api\Job\Realestate\VerbrauchsinfoAccessControlAdapter;
 
-trait ImportOccupant
+trait OccupantAdapter
 {
     use ImportVerbrauchsinfoCounterMeter, ImportVerbrauchinfo, VerbrauchsinfoAccessControlAdapter;
 
@@ -30,6 +30,7 @@ trait ImportOccupant
          }
  
          $realestate = Realestate::where('nekoId','=', $data['budguid'])->firstOrFail();
+    
          $occupant = Occupant::updateOrcreate(
              ['nekoId' => $data['nekoId']],
              ['unvid' => $data['unvid'],
@@ -62,10 +63,8 @@ trait ImportOccupant
              if ($retval['result'] == 'error'){
                  return $retval;
              }
-         }
+        }
  
-     
-
         /* Falls dabei ...  werden die daten aktualisert */
         $verbrauchsinfos = $data['verbrauchsinfos'];
         foreach ($verbrauchsinfos as $verbrauchsinfo){
@@ -74,17 +73,6 @@ trait ImportOccupant
                 return $retval;
             }
         }
-
-      
-        /* Falls verbrauchsinfo dabei sind werden die daten aktualisert */
-        $verbrauchsinfosAccs = $data['verbrauchsinfoAccessControls'];
-        foreach ($verbrauchsinfosAccs as $verbrauchsinfosAcc){
-            $retval = $this->importVerbrauchsinfoAccessControl($verbrauchsinfosAcc);
-            if ($retval['result'] == 'error'){
-                return $retval;
-            }
-        }
-
 
         return [
              'function' => 'JobController.occupant',

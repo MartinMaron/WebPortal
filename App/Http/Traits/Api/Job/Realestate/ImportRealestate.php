@@ -6,6 +6,7 @@ use App\Models\Realestate;
 use App\Http\Resources\CostResource;
 use App\Http\Resources\CostKeyResource;
 use App\Http\Resources\VerbrauchsinfoUserEmailResource;
+use App\Http\Traits\Api\Job\Realestate\OccupantAdapter;
 use App\Http\Resources\RealestateAbrechnungssettingResource;
 use App\Http\Traits\Api\Job\Realestate\ImportAbrechnungssetting;
 use App\Http\Traits\Api\Job\Realestate\VerbrauchsinfoUserEmailAdapter;
@@ -13,7 +14,7 @@ use App\Http\Traits\Api\Job\Realestate\VerbrauchsinfoUserEmailAdapter;
 
 trait ImportRealestate
 {
-    use ImportOccupant, ImportAbrechnungssetting, ImportCost, ImportCostKey, VerbrauchsinfoUserEmailAdapter;
+    use OccupantAdapter, ImportAbrechnungssetting, ImportCost, ImportCostKey, VerbrauchsinfoUserEmailAdapter;
 
     /*   Anlage der Liegenschaft */
     public function importRealestate(Array $data)
@@ -118,6 +119,16 @@ trait ImportRealestate
                     return $retval;
                 }
             }
+
+            /* Falls verbrauchsinfo dabei sind werden die daten aktualisert */
+            $verbrauchsinfosAccs = $data['verbrauchsinfoAccessControls'];
+            foreach ($verbrauchsinfosAccs as $verbrauchsinfosAcc){
+                $retval = $this->importVerbrauchsinfoAccessControl($verbrauchsinfosAcc);
+                if ($retval['result'] == 'error'){
+                    return $retval;
+                }
+            }
+
 
 
             /* Realestate-id wird zurückgegeben */
