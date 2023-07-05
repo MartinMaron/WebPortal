@@ -33,8 +33,10 @@ class Detail extends Component
     public function rules()
     {
         return [
-            'userEmail.email' => 'required',
+            'userEmail.email' => 'required|email',
             'userEmail.firstinitUsername' => 'nullable',                   
+            'userEmail.bis' => 'nullable|date',                   
+            'userEmail.seit' => 'required|date',                   
             'userEmail.nutzeinheitNo' => 'required',      
             'userEmail.realestate_id' => 'required',      
             'userEmail.webupdate' => 'nullable',      

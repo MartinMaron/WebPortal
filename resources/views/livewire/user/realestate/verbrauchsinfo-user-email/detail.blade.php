@@ -1,5 +1,5 @@
 <form wire:submit.prevent="closeModal(true)">
-    <x-modal.dialog class="bg-sky-50" minWidth="640px" maxWidth="800px"
+    <x-modal.dialog class="bg-sky-50" 
            wire:model="showEditModal">
         <!-- Dialog Title -->
         <x-slot name="title">
