@@ -23,7 +23,7 @@
     </div>
     {{-- big screen --}}
     <div class="block mt-2 mb-4 border-b-2 shadow-sm sm:hidden ">
-        <div class="flex">
+        <div class="grid grid-cols-3">
             <div>
                 <div class="">
                     {{ $userEmail->email }}
@@ -32,14 +32,16 @@
                     {{ $userEmail->Zeitraum }} 
                 </div>
             </div>
-            <div>
+            <div class="">
+            </div>
+            <div class="items-center ml-auto">
                 <x-popup-menu>
                     <li>
                         <x-icon.fonts.pencil 
-                        class="px-4 py-1 text-sm border-2 rounded-lg border-sky-200"
+                        class="flex w px-4 py-1 text-sm border-2 rounded-lg border-sky-200"
                         wire:click="emit_EditModal()">
-                        </x-icon.fonts.pencil>
                         <span>Bearbeiten</span>  
+                    </x-icon.fonts.pencil>
                     </li>
                     <li wire:click="emit_QuestionDeleteModal()">
                         <x-icon.fonts.trash class="px-4 py-1 text-sm border-2 rounded-lg border-sky-200"/>

@@ -1,5 +1,5 @@
 <div
-      class="h-8 max-w-4xl mx-auto rounded-lg md:flex-1 bg-sky-100 border-sky-100"
+      class="h-8 w-10 items-center mx-auto rounded-lg md:flex-1 bg-sky-100 border-sky-100"
       x-data="{ 'isHamburgerOpen': false }"
       @keydown.escape="isHamburgerOpen = false"
 >
