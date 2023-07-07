@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\isEmpty;
 use App\Models\UserVerbrauchsinfoAccessControl;
+use Brick\Math\BigInteger;
 
 Trait VerbrauchsinfoAccessControlAdapter
 {
@@ -68,6 +69,31 @@ Trait VerbrauchsinfoAccessControlAdapter
            'result' => 'success',
            'id' => $userVerbrauchsinfoAccessControl->id,
        ];
+
+   }
+
+   public function deleteUserVerbrauchsinfoAccessControl($data)
+   {
+        /* extrahieren der Daten */
+        $neko_id = $data;
+        $result = DB::table('user_verbrauchsinfo_access_controls')->where('neko_id', $neko_id)->delete();
+
+        if($result==1)
+        {
+            return response()->json([
+                'function' => 'JobController.job.deleteUserVerbrauchsinfoAccessControl',
+                'result' => 'success',
+                'id' => $neko_id,
+                'data' => $data,
+            ]);
+        }else {
+            /* Fehlermeldung falls ein Job unbekannt ist */
+            return response()->json([
+                'function' => 'JobController.job',
+                'result' => 'error',
+                'error' => ' datensatz existiert nicht mehr oder konnte nicht gelöscht werden',
+            ]);
+        }        
 
    }
 

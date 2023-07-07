@@ -2,14 +2,14 @@
 namespace App\Http\Traits\Api\Job\Realestate; 
 
 use App\Models\Realestate;
+use Illuminate\Support\Facades\DB;
 use App\Models\VerbrauchsinfoUserEmail;
 
 Trait VerbrauchsinfoUserEmailAdapter
 {
     
     
-    public function importVerbrauchsinfoUserEmail(Array $data, Realestate $realestate)
-    {
+    public function importVerbrauchsinfoUserEmail(Array $data, Realestate $realestate)    {
 
         /* Validierung der Daten vor Anlage  */
         $validator = VerbrauchsinfoUserEmail::validateImportData($data);
@@ -48,9 +48,28 @@ Trait VerbrauchsinfoUserEmailAdapter
    
     }
 
+    public function deleteVerbrauchsinfoUserEmail($data){
+          /* extrahieren der Daten */
+          $neko_id = $data;
+          $result = DB::table('verbrauchsinfo_user_emails')->where('neko_id', $neko_id)->delete();
 
-
-
-
+          if($result==1)
+          {
+              return response()->json([
+                  'function' => 'JobController.job.deleteVerbrauchsinfoUserEmail',
+                  'result' => 'success',
+                  'id' => $neko_id,
+                  'data' => $data,
+              ]);
+          }else {
+              /* Fehlermeldung falls ein Job unbekannt ist */
+              return response()->json([
+                  'function' => 'JobController.job',
+                  'result' => 'error',
+                  'error' => ' datensatz existiert nicht mehr oder konnte nicht gelöscht werden',
+              ]);
+          }       
+        
+    }
 
 }
