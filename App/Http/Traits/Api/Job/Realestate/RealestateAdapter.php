@@ -12,7 +12,7 @@ use App\Http\Traits\Api\Job\Realestate\ImportAbrechnungssetting;
 use App\Http\Traits\Api\Job\Realestate\VerbrauchsinfoUserEmailAdapter;
 
 
-trait ImportRealestate
+trait RealestateAdapter
 {
     use OccupantAdapter, ImportAbrechnungssetting, ImportCost, ImportCostKey, VerbrauchsinfoUserEmailAdapter;
 
@@ -31,11 +31,10 @@ trait ImportRealestate
                 ]);
         }
 
-
-        /* Finden des users über email */
-        $users = User::where('email','=', $data['email'])->get();
-        /* upsert der Daten der Liegenschaft */
-        foreach($users as $user) {
+        
+        if(User::where('email', $data['email'])->exists() && $data['nekoToWebUpdate'] == true) {
+            /* Finden des users über email */
+            $user = User::where('email','=', $data['email'])->firstOrFail();
             /* Realestate-Objekt aktualisieren */
             $realestate = Realestate::updateOrcreate(
                 ['nekoId' => $data['nekoId']],
@@ -51,6 +50,7 @@ trait ImportRealestate
                 'heizkosten' => $data['heizkosten'],
                 'rauchmelder' => $data['rauchmelder']]
             );
+        }
 
 
             /* Falls nutzer dabei sind werden die daten aktualisert */
@@ -137,8 +137,7 @@ trait ImportRealestate
                 'result' => 'success',
                 'id' => $realestate->id,
             ]);
-        }
+        
     }
-
 
 }

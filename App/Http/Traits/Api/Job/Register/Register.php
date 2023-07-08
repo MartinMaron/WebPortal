@@ -26,28 +26,28 @@ trait Register
                 ]);
         }
 
-
-        if (User::where('email', $data['email'])->exists()) {
-            $user = User::updateOrcreate(
-                ['email' => $data['email']],
-                ['name' => $data['name'],
-                'isUser' => $data['isUser'],
-                'isAdmin' => $data['isAdmin'],
-                'isMieter' => $data['isMieter'],
-                ]
-                );
+        if ($data['email'] != 'info@e-neko.de')
+        {
+            if(User::where('email', $data['email'])->exists()) {
+                $user = User::updateOrcreate(
+                    ['email' => $data['email']],
+                    ['name' => $data['name']]
+                    );
+            }else{
+                $user = User::updateOrcreate(
+                    ['email' => $data['email']],
+                    ['name' => $data['name'],
+                    'password' => Hash::make($data['password'])]
+                    );
+            }  
+            $user->isMieter = max($user->isMieter, $data['isMieter']);
+            $user->isUser = max($user->isUser, $data['isUser']);
+            $user->isAdmin = max($user->isAdmin, $data['isAdmin']);
+            $user->save();
         }else{
-            $user = User::updateOrcreate(
-                ['email' => $data['email']],
-                ['name' => $data['name'],
-                'password' => Hash::make($data['password']),
-                'isUser' => $data['isUser'],
-                'isAdmin' => $data['isAdmin'],
-                'isMieter' => $data['isMieter'],
-                ]
-                );
+            $user = User::where('email', $data['email'])->first();
         }
-
+        
         return response()->json([
             'function' => 'JobController.register',
             'result' => 'success',

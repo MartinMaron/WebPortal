@@ -9,15 +9,14 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\JobDataResource;
 use App\Http\Resources\RealestateResource;
 use App\Http\Traits\Api\Job\Register\Register;
-use App\Models\UserVerbrauchsinfoAccessControl;
-use App\Http\Traits\Api\Job\Realestate\ImportRealestate;
+use App\Http\Traits\Api\Job\Realestate\RealestateAdapter;
 use App\Http\Traits\Api\Job\SetRealestateDataInTransactionmode;
 
 
 class JobController extends Controller
 {
     use Register;
-    use ImportRealestate, SetRealestateDataInTransactionmode;
+    use RealestateAdapter, SetRealestateDataInTransactionmode;
     
     public function job(Request $request)
     {
@@ -37,15 +36,16 @@ class JobController extends Controller
             $retval = $this->importRealestate($data);
             return response()->json($retval);
         }elseif($jobData['job']=='setIntransactionMode'){
-            /* Realestate-Resoource wird erzeugt*/
+            /* Alle Daten einer Tabele werden in synchronisationsstatus versetzt oder aufgehoben */
             $retval = $this->SetRealestateDataInTransactionmode($jobData['data']);
             return response()->json($retval);
         }elseif($jobData['job']=='deleteUserVerbrauchsinfoAccessControl'){
+            /* Daten mit TryWebDelete werden entfernt */
             $retval = $this->deleteUserVerbrauchsinfoAccessControl($jobData['data']);
             return response()->json($retval);
         }elseif($jobData['job']=='deleteVerbrauchsinfoUserEmail'){
-            
-         
+            $retval = $this->deleteVerbrauchsinfoUserEmail($jobData['data']);
+            return response()->json($retval);
         }else {
             /* Fehlermeldung falls ein Job unbekannt ist */
             return response()->json([

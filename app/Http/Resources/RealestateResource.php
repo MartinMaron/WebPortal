@@ -27,6 +27,7 @@ class RealestateResource extends JsonResource
             'dateFrom' => $this['dateFrom'],
             'dateTo' => $this['dateTo'],
             'miete' => $this['miete'],
+            'nekoToWebUpdate' => $this['nekoToWebUpdate'],
             'occupants'=> $this['occupants'],
             'costs'=> $this['costs'],
             'costsKeys'=> $this['costsKeys'],
