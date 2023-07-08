@@ -99,7 +99,9 @@
                     <div class="flex items-center ml-6">
                         <div class="flex justify-end space-x-8 md:-my-px md:ml-10 md:flex">
                         <x-jet-nav-link href="{{ route('user.realestates') }}" :active="request()->routeIs('login')">
-                            {{ __('Liegenschaften') }}
+                            <span class="sm:text-lg">
+                                Liegenschaften
+                            </span>
                         </x-jet-nav-link>
                         </div>
                     </div>
@@ -109,7 +111,9 @@
                     <!-- Nutzereinheiten -->
                     <div class="flex justify-end space-x-8 md:-my-px md:ml-10 md:flex">
                         <x-jet-nav-link href="{{ route('user.verbrauchsinfos') }}" :active="request()->routeIs('login')">
-                            {{ __('Verbraucherinformationen') }}
+                            <span class="sm:text-lg">
+                                Verbraucherinformationen
+                            </span>
                         </x-jet-nav-link>
                     </div>
                 </div>

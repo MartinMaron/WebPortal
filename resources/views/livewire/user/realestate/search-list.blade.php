@@ -47,7 +47,7 @@
                             </a>
                         </div>
                         <div class="flex flex-1 w-0 -ml-px">
-                            <a href="{{route('user.occupants', $realestate)}}" class="relative inline-flex items-center justify-center flex-1 w-0 py-4 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
+                            <a href="{{route('user.realestate', $realestate)}}" class="relative inline-flex items-center justify-center flex-1 w-0 py-4 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
                                 <i class="text-lg fad fa-home"></i>
                                 <span class="ml-3">Bearbeiten</span>
                             </a>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Models\Realestate;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Termwind\Components\Dd;
 
 class RealestateController extends Controller
 {
@@ -47,7 +48,7 @@ class RealestateController extends Controller
      */
     public function show(Realestate $realestate)
     {
-        return view('backend.realestate.show-occupants', compact('realestate'));
+        return view('backend.realestate.dashboard', compact('realestate'));
     }
 
     /**

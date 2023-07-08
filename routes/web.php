@@ -88,7 +88,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         })->name('realestates');
 
         /* Controller Routing */
-        Route::resource('/realestate', RealestateController::class);
+        /* Route::resource('/realestate', RealestateController::class)->name('occupants');*/
+
+        Route::controller(RealestateController::class)->group(function ($realestate) {
+            Route::get('/realestate/{realestate}', 'show')->name('realestate');
+        });
+
 
         Route::get('/occupants/{id}', function ($id) {
             $realestate = Realestate::all()->find($id);
