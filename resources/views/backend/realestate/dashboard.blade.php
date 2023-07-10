@@ -36,7 +36,7 @@
                     <a href="{{route('user.realestateVerbrauchsinfoUserEmails', $realestate)}}" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         <p class="text-md font-medium text-gray-900">Emailadressen für den Versand der Verbraucherinformationen</p>
-                        <p class="line-clamp-2 text-md text-gray-500 line-clamp-4 md:line-clamp-2">Hier bestimmen Sie an wer die Verbraucherinformationen einsehen kann</p>
+                        <p class="line-clamp-2 text-md text-gray-500 line-clamp-4 md:line-clamp-2">Hier bestimmen Sie wer die Verbraucherinformationen einsehen kann</p>
                     </a>
                 </div>
             </div>

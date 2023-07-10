@@ -94,6 +94,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('/realestate/{realestate}', 'show')->name('realestate');
         });
 
+        Route::get('/realestateOccupantList/{id}', function ($id) {
+            $realestate = Realestate::all()->find($id);
+            return view('backend.realestate.show-occupant-list', compact('realestate'));
+        })->name('realestateOccupantList');
 
         Route::get('/occupants/{id}', function ($id) {
             $realestate = Realestate::all()->find($id);
