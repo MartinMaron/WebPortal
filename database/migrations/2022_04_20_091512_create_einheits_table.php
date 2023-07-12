@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('einheiten', function (Blueprint $table) {
+        Schema::create('einheits', function (Blueprint $table) {
             $table->increments('id');
             $table->string('caption');
             $table->string('shortname');
