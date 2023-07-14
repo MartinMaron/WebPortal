@@ -14,9 +14,9 @@
         <!-- Dialog Content -->
         <x-slot name="content">
             <div>
-                <x-input.group class="border-0" 
+                <x-input.group class="pb-2 border-0" 
                     :error="$errors->first('userEmail.seit')"
-                    for="costAmount-detailModal-dateFrom" label="seit" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10">
+                    for="costAmount-detailModal-dateFrom" label="seit" hoheLabel="h-6 sm:h-8 sm:pt-1 sm:pb-2" hohe="h-20 sm:h-10">
                     <x-input.date
                         wire:model.lazy="userEmail.seit"
                         hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"

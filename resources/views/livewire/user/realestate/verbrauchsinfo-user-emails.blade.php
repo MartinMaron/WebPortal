@@ -2,7 +2,7 @@
     @if ($nutzeinheiten->count()!=0)
     @foreach ($nutzeinheiten as $nutzeinheit)
 
-    <div class="">
+    <div class="text-sm">
         <livewire:user.occupant.occupant-header  :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)'/>
     </div>
 

@@ -4,11 +4,11 @@
 
         <div class="flex items-center justify-center">
             {{-- pokazac ostatniego lokatora mieszkania --}}
-            <div class="mt-4 mb-4 w-96">
-            <livewire:user.occupant.occupant-header  :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' key="{{ now() }}"/>
+            <div class="mt-4 mb-4 text-sm">
+            <livewire:user.occupant.occupant-header-add :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' key="{{ now() }}"/>
             </div>
-            <div class="">
-            <livewire:user.realestate.verbrauchsinfo-user-email.detail-input :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' key="{{ now() }}"/>
+            <div class="ml-10">
+        {{--    <livewire:user.realestate.verbrauchsinfo-user-email.detail-input :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' key="{{ now() }}"/>--}}
             </div>
         </div>
         

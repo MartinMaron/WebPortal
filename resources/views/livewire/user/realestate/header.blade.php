@@ -1,5 +1,5 @@
 
-<div class="p-4 text-lg sm:text-3xl text-right rounded-md bg-sky-100">
+<div class="p-4 text-lg text-right rounded-md sm:text-3xl bg-sky-100">
     <div class="flex items-center justify-between">
         <div class="flex items-center justify-between">
             <div class="px-2 sm:px-4">
@@ -23,7 +23,7 @@
                 </a>
             </div>
         </div>
-        <span>
+        <span class="flex w-32 text-sm text-center md:w-auto md:text-xl">
             {{ $this->realestate->address }}
         </span>
     </div>

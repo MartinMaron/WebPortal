@@ -19,7 +19,7 @@
         </span>
     </div>
     <div class="mb-1 basis-1/5">
-        <a class="text-center border-2 rounded-md bg-sky-100" href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
+        <a class="text-center" href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-green-900">
             {{-- <span class="">Stände</span>  --}}
             <i class="text-xl 
             {{ $singleCounterMeter->hk ? 'text-green-600': 'text-red-800' }} 

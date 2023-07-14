@@ -19,7 +19,7 @@
             x-show="isHamburgerOpen"
             x-cloak
             @click.away="isHamburgerOpen = false"
-            class="absolute -mt-8 text-left -ml-36">
+            class="absolute pl-2 -mt-8 text-left -ml-28">
             {{ $slot }}
         </ul>
     </div>
