@@ -22,7 +22,7 @@
         </div>
     </div>
     {{-- big screen --}}
-    <div class="block pt-2 pb-4 border-b-2 shadow-sm sm:hidden ">
+    <div class="block px-3 py-2 pt-2 border-b-2 shadow-sm sm:hidden ">
         <div class="grid grid-cols-3">
             <div>
                 <div class="text-sm">

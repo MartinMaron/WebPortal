@@ -23,8 +23,9 @@
                 </a>
             </div>
         </div>
-        <span class="flex w-32 text-sm text-center md:w-auto md:text-xl">
-            {{ $this->realestate->address }}
-        </span>
+        <div>
+            <livewire:user.realestate.header-address :baseobject='$realestate' />        
+        </div>
+    
     </div>
 </div>
