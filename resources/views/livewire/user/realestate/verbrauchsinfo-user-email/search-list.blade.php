@@ -2,12 +2,12 @@
     @if ($nutzeinheiten->count()!=0)
         @foreach ($nutzeinheiten as $nutzeinheit)
 
-        <div class="flex items-center justify-center">
+        <div class="flex items-center py-3 md:justify-center sm:px-5">
             {{-- pokazac ostatniego lokatora mieszkania --}}
-            <div class="mt-4 mb-4 text-sm">
+            <div class="text-sm ">
             <livewire:user.occupant.occupant-header-add :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' key="{{ now() }}"/>
             </div>
-            <div class="ml-10">
+            <div class="">
         {{--    <livewire:user.realestate.verbrauchsinfo-user-email.detail-input :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' key="{{ now() }}"/>--}}
             </div>
         </div>
