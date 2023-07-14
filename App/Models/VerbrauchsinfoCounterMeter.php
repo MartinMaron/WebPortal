@@ -13,6 +13,7 @@ class VerbrauchsinfoCounterMeter extends Model
     use HasFactory;
     use WithSorting;
 
+    protected $table = 'verbrauchsinfo_counter_meters';
 
     public function scopeHasDifferentNumbers($query)
     {
