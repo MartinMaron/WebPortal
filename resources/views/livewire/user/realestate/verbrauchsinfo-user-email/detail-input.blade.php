@@ -20,7 +20,7 @@
         wire:click="raise_CreateModal()"                                          
         class="ml-5 cursor-pointer fa-md text-sky-900"   
         >
-    </x-icon.fonts.add>
+        </x-icon.fonts.add>
     </div>
 </div> 
 
