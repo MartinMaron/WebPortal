@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('art',100);
         
             $table->unsignedInteger('einheit_id');
-            $table->foreign('einheit_id')->references('id')->on('einheiten');
+            $table->foreign('einheit_id')->references('id')->on('einheits');
          
             $table->unsignedBigInteger('nutzergrup_id');
             $table->string('nutzergrup_name',150);

@@ -1,6 +1,6 @@
 <div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
     <div>
-        <livewire:user.occupant.occupant-header :occupant='$occupant'/>
+        <livewire:user.occupant.occupant-header :occupant='$occupant' />
     </div>
     @if ($rows->count()!=0)
         <div class="md:text-center">{{ $rows->first()->nr }}

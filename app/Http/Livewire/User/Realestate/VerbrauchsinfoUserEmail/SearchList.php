@@ -25,6 +25,7 @@ class SearchList extends Component
     protected $listeners = [
         'refreshParent' => '$refresh', 
         'deleteConfirmed' => 'delete',
+        'createUserEmailModal' => 'createUserEmailModal'
     ];
 
     public function delete($objectId, $objectType)
@@ -39,6 +40,37 @@ class SearchList extends Component
         return $this->rows->where('nutzeinheitNo','=',$nutzeinheitNo);
     }
 
+    
+    public function rules()
+    {
+        return [
+            'userEmail.aktiv' => 'nullable',      
+            'userEmail.email' => 'required',
+            'userEmail.dateFrom' => 'nullable|date', 
+            'userEmail.dateTo' => 'nullable|date',
+            'userEmail.firstinitUsername' => 'nullable',                   
+            'userEmail.nutzeinheitNo' => 'required',      
+            'userEmail.realestate_id' => 'required',      
+            'userEmail.webupdate' => 'nullable',      
+        ];
+    }
+
+    public function makeBlankObject()
+    {
+        $ret_val = VerbrauchsinfoUserEmail::make([
+            'realestate_id' => $this->realestate->id,
+            'dateFrom' => Carbon::now(),
+            'webupdate' => 1,
+            'email' => 'info@e-neko.de',
+        ]);
+        return $ret_val;
+    }
+
+    public function createUserEmailModal($NutzeinheitNo){
+        $this->currentUserEmail = $this->makeBlankObject();
+        $this->currentUserEmail->nutzeinheitNo = $NutzeinheitNo;
+        $this->emit('showCreateUserEmailModal', $this->currentUserEmail); 
+    }
 
     
     public function lastOccupant($nutzeinheitNo){

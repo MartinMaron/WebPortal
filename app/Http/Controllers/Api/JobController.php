@@ -25,7 +25,6 @@ class JobController extends Controller
         /* auswahl des Jobs und anschliessende Bearbeitung  */
         if($jobData['job']=='register')
         {
-            dd($jobData['data']);
             $data = new UserResource($jobData['data']);
             return $this->register($data->resource) ;
         }elseif($jobData['job']=='realestate'){

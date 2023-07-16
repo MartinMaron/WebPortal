@@ -5,6 +5,7 @@
             <div class="py-1 sm:w-64">
                 {{ $userEmail->email }}
             </div>
+            {{-- TODO: refaktor sm:w-64--}}
             <div 
                 class="py-1 sm:w-64 {{ $userEmail->aktiv ? 'text-black' : 'text-gray-500' }} ">
                 {{ $userEmail->Zeitraum }} 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('caption');
             $table->unsignedInteger('einheit_id');
-            $table->foreign('einheit_id')->references('id')->on('einheiten');
+            $table->foreign('einheit_id')->references('id')->on('einheits');
             $table->string('sort_reihenfolge');
             $table->timestamps();
         });
