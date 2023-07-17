@@ -2,7 +2,7 @@
 <div class="">
     <!-- Small Screen -->
     <nav class="sm:hidden my-1 border-b border-gray-100 rounded-md bg-sky-100 flex justify-between pt-1 pb-1">
-        
+
         <!-- Dropdown (hamburger) rechts-->
         <div class="items-center ml-2">
             <x-jet-dropdown align="left" href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')" >
@@ -87,7 +87,7 @@
 
 
  <!-- Big Screen -->
-    
+
     <nav class="hidden sm:block">
         <div class="flex justify-between sm:justify-items-start sm:max-w-full bg-sky-100 rounded-md px-4 py-1">
             <div class="flex items-center">
@@ -132,19 +132,19 @@
                             </button>
                         </span>
                     </x-slot>
-        
+
                     <x-slot name="content">
                         <!-- Account Management -->
                         <div class="block px-4 py-2 text-xs text-gray-400">
                             {{ __('Kontodaten bearbeiten') }}
                         </div>
-        
+
                         <x-jet-dropdown-link href="{{ route('profile.show') }}">
                             {{ __('Kundenkonto') }}
                         </x-jet-dropdown-link>
-        
+
                         <div class="border-t border-gray-100"></div>
-        
+
                         <!-- Logout -->
                         <div class="hidden md:block">
                             <form method="POST" action="{{ route('logout') }}">
@@ -166,7 +166,7 @@
                                 </x-jet-dropdown-link>
                             </form>
                         </div>
-        
+
                     </x-slot>
                 </x-jet-dropdown>
             </div>
@@ -181,4 +181,3 @@
 
 
 </div>
-   

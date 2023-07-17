@@ -22,9 +22,9 @@
         </div>
     </div>
     {{-- big screen --}}
-    <div class="block px-3 py-2 border-b-2 shadow-sm sm:hidden ">
-        <div class="flex">
-            <div class="basis-4/5">
+    <div class="block py-2 border-b-2 shadow-sm sm:hidden ">
+        <div class="flex justify-between">
+            <div class="pl-1">
                 <div class="text-sm">
                     {{ $userEmail->email }}
                 </div>
@@ -32,7 +32,27 @@
                     {{ $userEmail->Zeitraum }}
                 </div>
             </div>
-            <x-popup-menu class="">
+            <x-jet-dropdown align="right" class="align-middle">
+                <x-slot name="trigger">
+                    <button class="py-1 px-2 rounded-lg bg-sky-100 border-sky-100 duration-150 text-xl text-sky-900 opacity-90 group-hover:opacity-100 ease">&ctdot;</button>
+                </x-slot>
+
+                <x-slot name="content">
+
+                    <x-jet-dropdown-link class="cursor-pointer"
+                    wire:click="emit_EditModal()"
+                    >
+                    <x-icon.fonts.pencil></x-icon.fonts.pencil>{{ __('Bearbeiten') }}
+                    </x-jet-dropdown-link>
+                    <x-jet-dropdown-link class="cursor-pointer"
+                    wire:click="emit_QuestionDeleteModal()"
+                    >
+                    <x-icon.fonts.trash></x-icon.fonts.trash>{{ __('Löschen') }}
+                    </x-jet-dropdown-link>
+
+                </x-slot>
+            </x-jet-dropdown>
+        {{--<x-popup-menu class="">
                 <ul class="bg-white border-1 border-gray-600 rounded-md shadow-md">
                     <li class="">
                         <x-icon.fonts.pencil
@@ -49,7 +69,7 @@
                         </x-icon.fonts.trash>
                     </li>
                 </ul>
-            </x-popup-menu>
+            </x-popup-menu>--}}
         </div>
     </div>
 </div>
