@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\User\Occupant\CounterMeterReading;
+namespace app\Http\Livewire\User\Occupant\CounterMeterReading;
 use Carbon\Carbon;
 use Livewire\Component;
 use Barryvdh\Debugbar\Facades\Debugbar;

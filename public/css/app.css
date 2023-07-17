@@ -1212,17 +1212,11 @@ select {
 .ml-1 {
   margin-left: 0.25rem;
 }
-.ml-11 {
-  margin-left: 2.75rem;
-}
 .ml-12 {
   margin-left: 3rem;
 }
 .ml-2 {
   margin-left: 0.5rem;
-}
-.ml-24 {
-  margin-left: 6rem;
 }
 .ml-28 {
   margin-left: 7rem;
@@ -1247,12 +1241,6 @@ select {
 }
 .mr-3 {
   margin-right: 0.75rem;
-}
-.mr-4 {
-  margin-right: 1rem;
-}
-.mr-5 {
-  margin-right: 1.25rem;
 }
 .mr-6 {
   margin-right: 1.5rem;
@@ -1410,9 +1398,6 @@ select {
 .w-40 {
   width: 10rem;
 }
-.w-44 {
-  width: 11rem;
-}
 .w-48 {
   width: 12rem;
 }
@@ -1513,12 +1498,6 @@ select {
 .basis-5\/6 {
   flex-basis: 83.333333%;
 }
-.basis-1 {
-  flex-basis: 0.25rem;
-}
-.basis-3\/4 {
-  flex-basis: 75%;
-}
 .origin-top {
   transform-origin: top;
 }
@@ -1586,12 +1565,6 @@ select {
 }
 .grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.grid-cols-4 {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-.grid-cols-5 {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 .grid-cols-6 {
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -1995,10 +1968,6 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(79 70 229 / var(--tw-bg-opacity));
 }
-.bg-orange-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(251 146 60 / var(--tw-bg-opacity));
-}
 .bg-orange-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(154 52 18 / var(--tw-bg-opacity));
@@ -2227,9 +2196,6 @@ select {
 .pr-4 {
   padding-right: 1rem;
 }
-.pr-5 {
-  padding-right: 1.25rem;
-}
 .pr-9 {
   padding-right: 2.25rem;
 }
@@ -2256,12 +2222,6 @@ select {
 }
 .pt-8 {
   padding-top: 2rem;
-}
-.pr-3 {
-  padding-right: 0.75rem;
-}
-.pr-0 {
-  padding-right: 0px;
 }
 .text-left {
   text-align: left;
@@ -3810,11 +3770,6 @@ select {
     padding-bottom: 1rem;
   }
 
-  .sm\:px-8 {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-
   .sm\:pb-0 {
     padding-bottom: 0px;
   }
@@ -3978,10 +3933,6 @@ select {
     justify-content: center;
   }
 
-  .md\:justify-between {
-    justify-content: space-between;
-  }
-
   .md\:justify-around {
     justify-content: space-around;
   }
@@ -4010,11 +3961,6 @@ select {
   .md\:border-sky-100 {
     --tw-border-opacity: 1;
     border-color: rgb(224 242 254 / var(--tw-border-opacity));
-  }
-
-  .md\:px-6 {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
   }
 
   .md\:py-6 {
