@@ -15,11 +15,11 @@
           &ctdot;
     </button>
 
-        <ul 
+        <ul
             x-show="isHamburgerOpen"
             x-cloak
             @click.away="isHamburgerOpen = false"
-            class="absolute pl-2 -mt-8 text-left -ml-28">
+            class="absolute pl-2 text-left -ml-28">
             {{ $slot }}
         </ul>
     </div>

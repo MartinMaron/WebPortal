@@ -16,17 +16,17 @@ use App\Http\Resources\UserDataResource;
 
 class AuthController extends Controller
 {
-    
+
     public function login(Request $request)
     {
-   
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                     'message' => 'Invalid login details'
                     ], 401);
         }
-    
-    
+
+        dd($request);
+
         $user = User::where('email', $request['email'])->firstOrFail();
 
 
@@ -41,10 +41,10 @@ class AuthController extends Controller
         return response()->json([
                 'access_token' => $token,
                 'token_type' => 'Bearer',
-                'NekoWebId' => $user->id,    
+                'NekoWebId' => $user->id,
         ]);
     }
-  
+
     /**
      * Show the form for creating a new resource.
      *

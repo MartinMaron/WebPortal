@@ -19,7 +19,7 @@
                 <x-icon.fonts.poeple class="mt-10 mr-3 fa-2xl text-sky-900"></x-icon.fonts.poeple>
             @endif
             @if ($addAction)
-                <x-icon.fonts.users-add wire:click='raise_CreateVerbrauchsinfoUserEmailModal' class="mt-10 mr-3 fa-2xl text-sky-900 hover:text-sky-400"></x-icon.fonts.poeple-add>
+                <x-icon.fonts.users-add wire:click='raise_CreateVerbrauchsinfoUserEmailModal' class="mt-10 mr-3 fa-2xl text-sky-900 hover:text-sky-400"></x-icon.fonts.users-add>
             @endif
             <div class="px-2 text-gray-900 truncate line-clamp-1 font-bold text-xl">{{ $occupant->lage. '-'. $occupant->nachname. ' '}}</div>
             <div class="px-2 text-gray-900 truncate line-clamp-1 text-xl">{{ $occupant->street.', '. $occupant->postcode. ' '. $occupant->city }}</div>
