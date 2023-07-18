@@ -51,7 +51,7 @@
                     </x-jet-dropdown-link>
 
                 </x-slot>
-            </x-jet-dropdown>Lukasz Wisowaty
+            </x-jet-dropdown>
         {{--<x-popup-menu class="">
                 <ul class="bg-white border-1 border-gray-600 rounded-md shadow-md">
                     <li class="">
