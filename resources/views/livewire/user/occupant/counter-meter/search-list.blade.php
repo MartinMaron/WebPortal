@@ -2,7 +2,9 @@
     <div class="">
         <livewire:user.occupant.occupant-header :occupant='$occupant'/>
     </div>
-    <x-input.search wire:model.debounce.2000="filter"/>
+    <div class="">
+        <x-input.search wire:model.lazy="filter"/>
+    </div>
         
     @if ($nutzergruppen->count()!=0)
     <div class="pb-4 mt-16">
@@ -18,9 +20,8 @@
             </div>
 
             <div class="md:border-2 md:rounded-b-lg md:border-sky-100">
-                @forelse ($this->getCounterMetersByNutzergrupe($counterMeter->nutzergrup_id) as $singleCounterMeter)
-                <livewire:user.occupant.counter-meter.listitem :singleCounterMeter='$singleCounterMeter' :wire:key="'counter-meter-listitem-'.$counterMeter->id"  key="{{ now() }}"/>
-                
+                @foreach ($this->getCounterMetersByNutzergrupe($counterMeter->nutzergrup_id) as $singleCounterMeter)
+                    <livewire:user.occupant.counter-meter.listitem :singleCounterMeter='$singleCounterMeter' :wire:key="'counter-meter-listitem-'.$counterMeter->id"  key="{{ now() }}"/>
                 @endforeach 
             </div>
 

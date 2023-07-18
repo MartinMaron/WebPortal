@@ -10,6 +10,9 @@ use Symfony\Component\HttpKernel\DependencyInjection\AddAnnotatedClassesToCacheP
 class OccupantHeader extends Component
 {
 
+
+    git remote add live ssh://root@104.248.18.246/var/repo/html.git
+
     public $occupant;
     public $showStandardIcon = true;
     public $addAction = null;
@@ -19,7 +22,6 @@ class OccupantHeader extends Component
         $this->occupant = $occupant;
         if ($this->addAction != null)
         {
-            /* $this->addAction = $addAction; */
             $this->showStandardIcon = false;
         }
     }

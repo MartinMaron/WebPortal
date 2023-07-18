@@ -22,7 +22,6 @@ class SalutationsEdit extends Component
     public function mount()
     {
         $this->salutations = Salutation::all();
-        Debugbar::info($this->salutations);
     }
 
     public function getRowsQueryProperty()
