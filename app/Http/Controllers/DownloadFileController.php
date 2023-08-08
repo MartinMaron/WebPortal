@@ -13,14 +13,14 @@ class DownloadFileController extends Controller
 
 
     function downloadFile($file_name){
-        return Storage::download($this->subpath. $file_name);
+        return Storage::disk('public')->downloadFile($file_name);
     }
 
     function showFile($file_name){
-        $file = Storage::disk('public')->get($file_name);    
+        $file = Storage::disk('public')->get($file_name);
         if (str_ends_with($file_name, '.pdf')) { $this->contentType = "application/pdf";}
         if (str_ends_with($file_name, '.jpg')) { $this->contentType = "image/jpeg";}
         return (new Response($file, 200))
-              ->header('Content-Type', $this->contentType);  
+              ->header('Content-Type', $this->contentType);
     }
 }
