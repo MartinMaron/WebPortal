@@ -1,18 +1,18 @@
 <x-guest-layout>
     <x-slot name="slot">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            
+
             <h2 class="font-semibold py-2 text-2xl text-gray-800 leading-tight">
                 HEIZKOSTEN
             </h2>
-            <img class="rounded-md py-2 w-full " src="img/home/heizkosten.jpg" alt="">
+            <img class="rounded-md py-2 w-full " src="{{route('imgshow', 'heizkosten.jpg') }}" alt="">
             <p class="pt-3 pb-6">
-                Unser Dienstleistungspaket für die Heizkosten-, Kaltwasser- und Wärmeabrechnung entspricht höchsten Qualitätsansprüchen. Den Anforderungen an Transparenz und Genauigkeit entsprechen wir ebenso wie dem Bedürfnis nach Schnelligkeit und Qualität in der Bearbeitung.                        
-            </p>            
+                Unser Dienstleistungspaket für die Heizkosten-, Kaltwasser- und Wärmeabrechnung entspricht höchsten Qualitätsansprüchen. Den Anforderungen an Transparenz und Genauigkeit entsprechen wir ebenso wie dem Bedürfnis nach Schnelligkeit und Qualität in der Bearbeitung.
+            </p>
             <p class="py-3">
                 <strong>Abrechnung</strong>
             </p>
-            <ul class="pl-2" >                
+            <ul class="pl-2" >
                 <x-listitem.guest-standard>Kontrolle der Erfassungswerte mit den Werten der letzten Jahre</x-listitem.guest-standard>
                 <x-listitem.guest-standard>transparente und bedarfsgerechte Abrechnung</x-listitem.guest-standard>
                 <x-listitem.guest-standard>Versandübernahme</x-listitem.guest-standard>
@@ -20,7 +20,7 @@
                 <x-listitem.guest-standard>monatliche Erstellung von Heizkosten für zeitlich bedingte Objekte</x-listitem.guest-standard>
                 <x-listitem.guest-standard>Erfassung und Abrechnung von Anlagen</x-listitem.guest-standard>
                 <x-listitem.guest-standard>Nutzergruppentrennung</x-listitem.guest-standard>
-                <x-listitem.guest-standard>Verbrauchsgruppentrennung</x-listitem.guest-standard>               
+                <x-listitem.guest-standard>Verbrauchsgruppentrennung</x-listitem.guest-standard>
             </ul>
 
             <p class="py-3">
@@ -40,6 +40,6 @@
 
             </p>
 
-        </div>    
+        </div>
     </x-slot>
 </x-guest-layout>

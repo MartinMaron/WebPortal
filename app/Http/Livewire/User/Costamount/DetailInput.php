@@ -12,7 +12,7 @@ use Usernotnull\Toast\Concerns\WireToast;
 class DetailInput extends Component
 {
     use WireToast;
-    
+
     public Cost $cost;
     public $datum;
     public Double $comsumption;
@@ -26,8 +26,8 @@ class DetailInput extends Component
 
     public function mount(Cost $cost, $netto, $inputWithoutDatum) {
         $this->cost = $cost;
-        $this->vat = $netto;  
-        $this->inputWithoutDatum = $inputWithoutDatum; 
+        $this->vat = $netto;
+        $this->inputWithoutDatum = $inputWithoutDatum;
         if ($this->cost->consumption) {
             $this->inputStartField = 'consumption';
         }else{
@@ -39,47 +39,47 @@ class DetailInput extends Component
         }
         $this->current = $this->makeBlankObject();
     }
-    
-   
+
+
 
     protected $listeners = [
          'refreshDetailInput' => 'refreshByid',
     ];
-    
+
     public function makeBlankObject()
     {
        return CostAmount::make([
             'nekoCostId' => $this->cost->nekoId,
-            'cost_id' => $this->cost->id,        
-            'bemerkung' =>'', 
+            'cost_id' => $this->cost->id,
+            'bemerkung' =>'',
             'description' => '',
-            'netAmount' => 0, 
+            'netAmount' => 0,
             'grosAmount' => 0,
-            'grosAmount_HH'=> 0,  
+            'grosAmount_HH'=> 0,
         ]);
     }
 
-  
+
     public function refreshByid($id){
         if ($id == $this->cost->id){
             $this->emit('$refresh');
-        }    
+        }
     }
 
 
     public function rules()
     {
         return [
-            'current.cost_id' => 'required',       
-            'current.datum' => 'date|nullable',       
-            'current.netAmount' => 'nullable',       
-            'current.grosAmount_HH' => 'nullable',       
-            'current.consumption' => 'required_if:cost.consumption,==,1|numeric|nullable',       
-            'current.consumption_editing' => 'nullable',       
-            'current.brutto' => 'nullable',       
-            'current.netto' => 'nullable',       
-            'current.haushaltsnah' => 'nullable', 
-            'current.description' => 'nullable', 
+            'current.cost_id' => 'required',
+            'current.datum' => 'date|nullable',
+            'current.netAmount' => 'nullable',
+            'current.grosAmount_HH' => 'nullable',
+            'current.consumption' => 'required_if:cost.consumption,==,1|numeric|nullable',
+            'current.consumption_editing' => 'nullable',
+            'current.brutto' => 'nullable',
+            'current.netto' => 'nullable',
+            'current.haushaltsnah' => 'nullable',
+            'current.description' => 'nullable',
        ];
     }
 
@@ -89,7 +89,7 @@ class DetailInput extends Component
         if ($this->validate()){
             if(CostAmount::create(collect($this->current)->toArray()))  {
                 $this->current = $this->makeBlankObject();
-                $this->emit('refreshComponents');                  
+                $this->emit('refreshComponents');
             }
         };
     }

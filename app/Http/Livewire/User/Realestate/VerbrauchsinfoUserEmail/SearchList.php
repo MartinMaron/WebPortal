@@ -8,22 +8,24 @@ use App\Models\Realestate;
 use App\Models\VerbrauchsinfoUserEmail;
 use App\Http\Livewire\DataTable\WithSorting;
 use Usernotnull\Toast\Concerns\WireToast;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class SearchList extends Component
 {
-    use WithSorting, WireToast; 
-
-
+    use WithSorting, WireToast;
     public Realestate $realestate;
     public VerbrauchsinfoUserEmail $currentUserEmail;
-        
+    public $filter;
+
+
     public function mount($realestate)
     {
         $this->realestate = $realestate;
     }
-    
+
     protected $listeners = [
-        'refreshParent' => '$refresh', 
+        'refreshParent' => '$refresh',
         'deleteConfirmed' => 'delete',
         'createUserEmailModal' => 'createUserEmailModal'
     ];
@@ -33,25 +35,25 @@ class SearchList extends Component
         if ($objectType != 'VerbrauchsinfoUserEmail') return;
         $object = VerbrauchsinfoUserEmail::find($objectId);
         $object->delete();
-        toast()->success('Emailadresse für Verbraucherinformationen gelöscht','Achtung')->push();      
+        toast()->success('Emailadresse für Verbraucherinformationen gelöscht','Achtung')->push();
     }
 
     public function getUserEmailsForNutzeinheitNo($nutzeinheitNo){
         return $this->rows->where('nutzeinheitNo','=',$nutzeinheitNo);
     }
 
-    
+
     public function rules()
     {
         return [
-            'userEmail.aktiv' => 'nullable',      
+            'userEmail.aktiv' => 'nullable',
             'userEmail.email' => 'required',
-            'userEmail.dateFrom' => 'nullable|date', 
+            'userEmail.dateFrom' => 'nullable|date',
             'userEmail.dateTo' => 'nullable|date',
-            'userEmail.firstinitUsername' => 'nullable',                   
-            'userEmail.nutzeinheitNo' => 'required',      
-            'userEmail.realestate_id' => 'required',      
-            'userEmail.webupdate' => 'nullable',      
+            'userEmail.firstinitUsername' => 'nullable',
+            'userEmail.nutzeinheitNo' => 'required',
+            'userEmail.realestate_id' => 'required',
+            'userEmail.webupdate' => 'nullable',
         ];
     }
 
@@ -69,10 +71,10 @@ class SearchList extends Component
     public function createUserEmailModal($NutzeinheitNo){
         $this->currentUserEmail = $this->makeBlankObject();
         $this->currentUserEmail->nutzeinheitNo = $NutzeinheitNo;
-        $this->emit('showCreateUserEmailModal', $this->currentUserEmail); 
+        $this->emit('showCreateUserEmailModal', $this->currentUserEmail);
     }
 
-    
+
     public function lastOccupant($nutzeinheitNo){
         $result = $this->realestate->occupants->where('nutzeinheitNo','=',$nutzeinheitNo)->sortBy('dateFrom')->first();
         return $result;
@@ -102,5 +104,5 @@ class SearchList extends Component
     }
 }
 
-    
+
 

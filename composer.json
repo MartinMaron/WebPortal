@@ -6,14 +6,19 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "dietercoopman/smart": "*",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.2",
         "laravel/jetstream": "^2.6",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "laravel/vapor-core": "^2.20",
+        "league/flysystem-aws-s3-v3": "^3.15",
+        "league/flysystem-path-prefixing": "^3.15",
         "livewire/livewire": "^2.5",
         "nesbot/carbon": "^2.67",
+        "statikbe/laravel-cookie-consent": "^1.5",
+        "twbs/bootstrap": "5.0.2",
         "usernotnull/tall-toasts": "^1.5"
     },
     "require-dev": {

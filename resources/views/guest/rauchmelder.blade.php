@@ -5,7 +5,7 @@
             <h2 class="font-semibold py-2 text-2xl text-gray-800 leading-tight">
                 RAUCHMELDER
             </h2>
-            <img class="rounded-md pt-2 pb-8 w-full " src="img/home/Rauchmelderservice.jpg" alt="">
+            <img class="rounded-md pt-2 pb-8 w-full " src="{{route('imgshow', 'Rauchmelderservice.jpg') }}" alt="">
             <div>
                 <p class="py-3"><strong>Für ein sicheres Zuhause</strong></p>
                 <p class="py-3">Kompromisslos in puncto Qualität und Sicherheit.&nbsp;Ei Electronics Rauchwarnmelder müssen zuverlässig und schnell vor Brandgefahren warnen.&nbsp;Deshalb wird jeder Melder in echtem Rauch getestet, bevor er unser Werk verlässt.&nbsp;</p>
@@ -38,7 +38,7 @@
                             <div class="flex items-top">
                                 <div class="py-2 w-28">
                                     <strong class="ml-3" >Ei650i</strong>
-                                    <img class="ml-1 rounded-md w-16 pt-2" src="img/home/EiElectronics_Ei-650.png" alt="">
+                                    <img class="ml-1 rounded-md w-16 pt-2" src="{{route('imgshow', 'EiElectronics_Ei-650.png') }}" alt="">
                                 </div>
                                 <div class="w-full">
                                     <p class="pt-2 pr-2">
@@ -46,13 +46,13 @@
                                     </p>
 
                                     <div class="mb-2 flex">
-                                        <a class="underline flex bg-white" href="{{route('downloadpublicfile', 'Datenblatt_Ei650i.pdf')}}">
+                                        <a class="underline flex bg-white" href="{{ route('downloadpublicfile', 'app/pdf/Datenblatt_Ei650i.pdf')}}">
                                             <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
                                                 {{ __('download .pdf') }}
                                             </span>
                                         </a>
 
-                                        <a class="underline ml-3 flex bg-white" href="{{route('showpublicfile', 'Datenblatt_Ei650i.pdf')}}">
+                                        <a target="_blank" class="underline ml-3 flex bg-white" href="{{route('showpublicfile', 'Datenblatt_Ei650i.pdf')}}">
                                             <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
                                                 {{ __('ansehen .pdf') }}
                                             </span>
@@ -66,7 +66,7 @@
                             <div class="flex items-top ">
                                 <div class="py-2 w-28">
                                     <strong class="ml-3" >Ei650iW</strong>
-                                    <img class="ml-1 rounded-md w-16 pt-2" src="img/home/EiElectronics_Ei-650.png" alt="">
+                                    <img class="ml-1 rounded-md w-16 pt-2" src="{{route('imgshow', 'EiElectronics_Ei-650.png') }}" alt="">
                                 </div>
                                 <div class="w-full">
                                     <p class="pt-2 pr-2">
@@ -74,13 +74,13 @@
                                     </p>
 
                                     <div class="mb-2 flex">
-                                        <a class="underline flex bg-white" href="{{route('downloadpublicfile', 'Datenblatt_Ei650iW.pdf')}}">
+                                        <a class="underline flex bg-white" href="{{ route('downloadpublicfile', 'Datenblatt_Ei650iW.pdf') }}">
                                             <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
                                                 {{ __('download .pdf') }}
                                             </span>
                                         </a>
 
-                                        <a class="underline ml-3 flex bg-white" href="{{route('showpublicfile', 'Datenblatt_Ei650iW.pdf')}}">
+                                        <a class="underline ml-3 flex bg-white" href="{{route('showpublicfile', "Datenblatt_Ei650iW.pdf")}}">
                                             <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
                                                 {{ __('ansehen .pdf') }}
                                             </span>
@@ -93,7 +93,7 @@
                             <div class="flex items-top ">
                                 <div class="py-2 w-28">
                                     <strong class="ml-3" >Ei650iC</strong>
-                                    <img class="ml-1 rounded-md w-16 pt-2" src="img/home/EiElectronics_Ei-650.png" alt="">
+                                    <img class="ml-1 rounded-md w-16 pt-2" src="{{route('imgshow', 'EiElectronics_Ei-650.png') }}" alt="">
                                 </div>
                                 <div class="w-full">
                                     <p class="pt-2 pr-2">
@@ -132,7 +132,7 @@
                             <div class="flex items-top">
                                 <div class="py-2 w-40">
                                     <strong class="ml-3" >Ei6500-OMS</strong>
-                                    <img class="ml-1 mx-auto rounded-md w-28     pt-2" src="img/home/EiElectronics_Ei6500-OMS.png" alt="">
+                                    <img class="ml-1 mx-auto rounded-md w-28     pt-2" src="{{route('imgshow', 'EiElectronics_Ei6500-OMS.png') }}" alt="">
                                 </div>
                                 <div class="w-full">
                                     <p class="pt-2 pr-2">

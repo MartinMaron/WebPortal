@@ -10,7 +10,7 @@
                 {{ $userEmail->Zeitraum }}
             </div>
             <x-icon.fonts.pencil
-                class="px-4 py-1 text-sm border-2 rounded-lg cursor-pointer text-sky-800 border-sky-200 hover:text-sky-300"
+                class="px-4 py-1 text-sm border-2 rounded-lg cursor-pointer text-sky-700 border-sky-200 hover:text-sky-300"
                 wire:click="emit_EditModal()"
                 >
             </x-icon.fonts.pencil>
@@ -34,7 +34,7 @@
             </div>
             <x-jet-dropdown align="right" class="align-middle">
                 <x-slot name="trigger">
-                    <button class="py-1 px-2 rounded-lg bg-sky-100 border-sky-100 duration-150 text-xl text-sky-900 opacity-90 group-hover:opacity-100 ease">&ctdot;</button>
+                    <button class="py-1 px-2 rounded-lg bg-sky-100 border-sky-100 duration-150 text-xl text-sky-700 opacity-90 group-hover:opacity-100 ease">&ctdot;</button>
                 </x-slot>
 
                 <x-slot name="content">

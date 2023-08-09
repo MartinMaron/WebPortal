@@ -1,22 +1,22 @@
 <x-guest-layout>
     <x-slot name="slot">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            
+
             <h2 class="font-semibold py-2 text-2xl text-gray-800 leading-tight">
                 BETRIEBSKOSTEN
             </h2>
-            <img class="rounded-md py-2 w-full " src="img/home/betriebskosten.jpg" alt="">
+            <img class="rounded-md py-2 w-full " src="{{route('imgshow', 'betriebskosten.jpg') }}" alt="">
             <p class="pt-3 pb-6">
                 Ersparen Sie sich Zeit, Ärger und Arbeit und legen Sie diese Aufgaben in die Hände unserer Fachleute. Einmal in Anspruch genommen, wollen Sie diesen Service nie wieder missen.
-            </p>            
+            </p>
             <p class="pt-3 pb-6">
-                Die Betriebskostenabrechnungen setzen sich aus zahlreichen Positionen mit den unterschiedlichsten Umlageschlüsseln zusammen. Dadurch ist der Verwaltungsaufwand für eine exakte Berechnung oft hoch. Unsere Fachleute erstellen Ihnen schnell und wirtschaftlich eine Betriebskostenabrechnung, die aufgrund der von uns entwickelten und ständig aktualisierten Software, detailliert und verständlich ist.           </p>            
+                Die Betriebskostenabrechnungen setzen sich aus zahlreichen Positionen mit den unterschiedlichsten Umlageschlüsseln zusammen. Dadurch ist der Verwaltungsaufwand für eine exakte Berechnung oft hoch. Unsere Fachleute erstellen Ihnen schnell und wirtschaftlich eine Betriebskostenabrechnung, die aufgrund der von uns entwickelten und ständig aktualisierten Software, detailliert und verständlich ist.           </p>
             <p class="pt-3 pb-6">
-                Die Datenaufnahme erfolgt in einem persönlichen Gespräch in unseren Räumen oder auf Anfrage vor Ort.  </p>            
+                Die Datenaufnahme erfolgt in einem persönlichen Gespräch in unseren Räumen oder auf Anfrage vor Ort.  </p>
             <p class="py-3">
                 <strong>Für die erstmalige Erstellung benötigen wir:</strong>
             </p>
-            <ul class="pl-2" >                
+            <ul class="pl-2" >
                 <x-listitem.guest-standard>Nennung der gesamten Wohn- bzw. Nutzfläche des Objektes</x-listitem.guest-standard>
                 <x-listitem.guest-standard>Einsicht in die Mietverträge</x-listitem.guest-standard>
                 <x-listitem.guest-standard>Versandübernahme</x-listitem.guest-standard>
@@ -39,7 +39,7 @@
                 <x-listitem.guest-standard>mieterspezifische Zuordnung aller Kosten</x-listitem.guest-standard>
                 <x-listitem.guest-standard>Erläuterungen sämtlicher Sonderumlagen</x-listitem.guest-standard>
             </ul>
-        </div>    
+        </div>
     </x-slot>
 </x-guest-layout>
 

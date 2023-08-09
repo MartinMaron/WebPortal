@@ -1,26 +1,27 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use function PHPUnit\Framework\returnArgument;
 
 class DownloadFileController extends Controller
 {
-    private $contentType = '';
-    private $subpath = 'public/';
-
 
     function downloadFile($file_name){
-        return Storage::disk('public')->downloadFile($file_name);
+        return Storage::disk('spaces')->download('app/pdf/'.$file_name);
+
     }
 
     function showFile($file_name){
-        $file = Storage::disk('public')->get($file_name);
-        if (str_ends_with($file_name, '.pdf')) { $this->contentType = "application/pdf";}
-        if (str_ends_with($file_name, '.jpg')) { $this->contentType = "image/jpeg";}
-        return (new Response($file, 200))
-              ->header('Content-Type', $this->contentType);
+        $file = Storage::disk('spaces')->get('app/pdf/'.$file_name);
+        $headers = [
+            'Content-Type' => 'application/pdf',
+        ];
+
+        return response($file, 200, $headers);
+
     }
 }

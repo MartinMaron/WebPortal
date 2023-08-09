@@ -11,7 +11,11 @@ use App\Models\Verbrauchsinfo;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DownloadFileController;
+use App\Http\Controllers\ImgShow;
 use App\Http\Controllers\Web\RealestateController;
+use App\Http\Livewire\Guest\Kontakt;
+use Illuminate\Support\Facades\Storage;
+
 
 
 
@@ -59,6 +63,7 @@ Route::name('guest.')->group(function () {
 
 Route::get('/downloadpublicfile/{file_name}', [DownloadFileController::class, 'downloadFile'])->name('downloadpublicfile');
 Route::get('/showpublicfile/{file_name}', [DownloadFileController::class, 'showFile'])->name('showpublicfile');
+Route::get('/imgshow/{file_name}', [ImgShow::class, 'showImg'])->name('imgshow');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::name('user.')->group(function () {
@@ -132,7 +137,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             if (auth()->user()->isMieter){
                 $occupant = Occupant::all()->find($occupant_id);
                 return view('backend.verbrauchsinfo.show-verbrauchsinfo-counter-meters', compact('occupant','jahr_monat'));
-            } 
+            }
         })->name('occupantVerbrauchsinfoCounterMeters');
 
         Route::get('/occupantVerbrauchsinfoCounterMetersReading/{occupant_id}/{id}', function ($occupant_id, $id) {

@@ -3,7 +3,7 @@
 
 <nav class="rounded-md shadow-md bg-sky-100 border-sky-300">
     <div class="justify-between hidden sm:flex">
-     
+
         <a class="m-1 ml-4" href="{{ route('guest.home')}}" :active="request()->routeIs('login')">
             <x-jet-application-mark class="block w-auto h-9" />
         </a>
@@ -14,7 +14,7 @@
             <x-jet-dropdown align="left" :active="request()->routeIs('user.dashboard')" >
                 <x-slot name="trigger">
                         <x-button.navigation class="flex" >
-                            <span class = "font-semibold transition duration-150 sm:text-xs ext-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
+                            <span class = "font-semibold transition duration-150 text-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
                                 {{ __('DIENSTLEISTUNGEN') }}
                             </span>
                             <i class="mt-1 ml-2 text-md fa fa-chevron-down"></i>
@@ -88,7 +88,7 @@
     </div>
     @if(Route::current()->getName() != 'login')
         <div class="flex items-center justify-between sm:hidden">
-           
+
             <!-- Navigation -->
              <!-- Geräteservice -->
              <x-jet-dropdown align="left" href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')" >

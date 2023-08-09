@@ -41,6 +41,9 @@
                 </div>
             </div>
         </div>
+        <div class="flex">
+            <x-input.search wire:model="filter.search" />
+        </div>
         @foreach ($nutzeinheiten as $nutzeinheit)
         <div class="flex items-center py-3 md:justify-center">
             {{-- pokazac ostatniego lokatora mieszkania --}}

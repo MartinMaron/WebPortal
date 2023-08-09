@@ -1,16 +1,16 @@
 <x-guest-layout>
     <x-slot name="slot">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            
+
             <h2 class="font-semibold py-2 text-2xl text-gray-800 leading-tight">
                 HEIZKOSTENVERTEILER
             </h2>
-            <img class="rounded-md py-2 w-full " src="img/home/heizkostenverteiler.jpg" alt="">
+            <img class="rounded-md py-2 w-full " src="{{route('imgshow', 'heizkostenverteiler.jpg')}}" alt="">
             <p class="pt-3">
-                Der Sontex EHKV steht für Sontex-Präzision mit maximalen Messkomfort und garantiert eine hohe Messauflösung der Verbrauchswerte. Dank der intelligenten Erfassung unterscheidet der Heizkostenverteiler die Sommer und Wintermonate eindeutig.  
-            </p>            
+                Der Sontex EHKV steht für Sontex-Präzision mit maximalen Messkomfort und garantiert eine hohe Messauflösung der Verbrauchswerte. Dank der intelligenten Erfassung unterscheidet der Heizkostenverteiler die Sommer und Wintermonate eindeutig.
+            </p>
             <p class="pt-3 pb-6">
-                Im Vergleich zu herkömmlichen Funksystemen, entstehen keine Belastungen durch permanente Funksignale, denn das bidirektionale Funksystem sendet nur, wenn es tatsächlich abgefragt wird. Dank der Möglichkeit der mobilen oder fixen Datenerfassung passt sich das System sämtlichen Kundenbedürfnissen an.           </p>            
+                Im Vergleich zu herkömmlichen Funksystemen, entstehen keine Belastungen durch permanente Funksignale, denn das bidirektionale Funksystem sendet nur, wenn es tatsächlich abgefragt wird. Dank der Möglichkeit der mobilen oder fixen Datenerfassung passt sich das System sämtlichen Kundenbedürfnissen an.           </p>
             <p class="py-3">
                 <strong>Sontex 566, 868</strong>
             </p>
@@ -36,21 +36,20 @@
                 <p class="py-2">
                     <strong>weitere informationen zu Sontex 566 u. 868 als pdf</strong>
                 </p>
-                
-                    <a class="py-2 underline ml-3 flex bg-white" href="{{route('downloadpublicfile', 'Sontex_565_566_868_DE.pdf')}}">
+
+                    <a class="py-2 underline ml-3 flex bg-white"  href="{{route('downloadpublicfile', 'Sontex_565_566_868_DE.pdf')}}">
                         <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
                             {{ __('download .pdf') }}
-                        </span>                         
+                        </span>
                     </a>
-                
-                     <a class="py-2 underline ml-3 flex bg-white" href="{{route('showpublicfile', 'Sontex_565_566_868_DE.pdf')}}">
+
+                     <a target="_blank" class="py-2 underline ml-3 flex bg-white" href="{{route('showpublicfile', 'Sontex_565_566_868_DE.pdf')}}">
                         <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
                             {{ __('ansehen .pdf') }}
-                        </span>                         
-            
+                        </span>
+
                     </a>
             </div>
-            
-        </div>    
+        </div>
     </x-slot>
 </x-guest-layout>
