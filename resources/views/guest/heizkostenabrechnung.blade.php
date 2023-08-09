@@ -1,11 +1,11 @@
 <x-guest-layout>
     <x-slot name="slot">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
 
-            <h2 class="font-semibold py-2 text-2xl text-gray-800 leading-tight">
+            <h2 class="py-2 text-2xl font-semibold leading-tight text-gray-800">
                 HEIZKOSTEN
             </h2>
-            <img class="rounded-md py-2 w-full " src="{{route('imgshow', 'heizkosten.jpg') }}" alt="">
+            <img class="w-full py-2 rounded-md " src="/img/home/heizkosten.jpg" alt="">
             <p class="pt-3 pb-6">
                 Unser Dienstleistungspaket für die Heizkosten-, Kaltwasser- und Wärmeabrechnung entspricht höchsten Qualitätsansprüchen. Den Anforderungen an Transparenz und Genauigkeit entsprechen wir ebenso wie dem Bedürfnis nach Schnelligkeit und Qualität in der Bearbeitung.
             </p>

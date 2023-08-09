@@ -13,7 +13,7 @@ class ImgShow extends Controller
 {
 
     function showImg($file_name){
-        $file = Storage::disk('public')->get($file_name);
+        $file = Storage::disk('spaces')->get('app/img/home/'.$file_name);
         $headers = [
             'Content-Type' => "image/jpeg",
         ];

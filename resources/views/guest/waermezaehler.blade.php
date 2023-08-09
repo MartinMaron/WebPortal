@@ -1,11 +1,11 @@
 <x-guest-layout>
     <x-slot name="slot">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
 
-            <h2 class="font-semibold py-2 text-2xl text-gray-800 leading-tight">
+            <h2 class="py-2 text-2xl font-semibold leading-tight text-gray-800">
                 WÄRMEZÄHLER
             </h2>
-            <img class="rounded-md py-2 w-full " src="{{route('imgshow', 'Waermezaehler_gross.jpg') }}" alt="">
+            <img class="w-full py-2 rounded-md " src="/img/home/Waermezaehler_gross.jpg" alt="">
             <p class="pt-3">
                 Wärmezähler empfehlen sich für die präzise Messung des Wärmeverbrauchs von Wohnungen und Nutzergruppen innerhalb geschlossener Heiz- und Regelkreise. Platin-Widerstands-Temperaturfühler sorgen für exakte Messungen, hochwertige Werkstoffe für hohe Betriebssicherheit bei den Volumenmessteilen. Individuelle Messung des Wärmeverbrauchs für alle Heizungsanlagen inklusive Niedertemperaturanlagen, Fußboden- und Deckenheizungen, Lufterhitzer etc.
             </p>
@@ -13,7 +13,7 @@
                 <h2 class="text-xl font-semibold" >Supercal 739</h2>
             </p>
             <p class="pt-3">
-                <strong class="text-md font-bold" >Hauptmerkmale</strong>
+                <strong class="font-bold text-md" >Hauptmerkmale</strong>
             </p>
 
             <ul>
@@ -36,14 +36,14 @@
                     <strong>weitere Wärmezähler (PDF)</strong>
                 </p>
 
-                    <a class="py-2 underline ml-3 flex bg-white" href="{{route('downloadpublicfile', 'Waeremezaehler.pdf')}}">
-                        <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
+                    <a class="flex py-2 ml-3 underline bg-white" href="{{route('downloadpublicfile', 'Waeremezaehler.pdf')}}">
+                        <span class = "font-semibold transition duration-150 text-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
                             {{ __('download .pdf') }}
                         </span>
                     </a>
 
-                     <a target="_blank" class="py-2 underline ml-3 flex bg-white" href="{{route('showpublicfile', 'Waeremezaehler.pdf')}}">
-                        <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
+                     <a target="_blank" class="flex py-2 ml-3 underline bg-white" href="{{route('showpublicfile', 'Waeremezaehler.pdf')}}">
+                        <span class = "font-semibold transition duration-150 text-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
                             {{ __('ansehen .pdf') }}
                         </span>
                     </a>

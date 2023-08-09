@@ -1,11 +1,11 @@
 <x-guest-layout>
     <x-slot name="slot">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
 
-            <h2 class="font-semibold py-2 text-2xl text-gray-800 leading-tight">
+            <h2 class="py-2 text-2xl font-semibold leading-tight text-gray-800">
                 RAUCHMELDERSERVICE
             </h2>
-            <img class="rounded-md pt-2 pb-8 w-full " src="{{route('imgshow', 'Rauchmelderservice.jpg') }}" alt="">
+            <img class="w-full pt-2 pb-8 rounded-md " src="/img/home/Rauchmelderservice.jpg" alt="">
             <div>
                 <p class="py-3">Vermieter, Mieter und selbstnutzende Eigentümer haben die Rauchwarnmelder-Pflicht zu beachten. Vermieter und selbstnutzende Eigentümer müssen Rauchwarnmelder in den Wohnungen einbauen und in Betrieb setzen. Wir beraten Sie gerne bei der Umsetzung der seit 31. Dezember 2013 bestehenden Rauchwarnmelder-Pflicht. Die fachgerechte Montage gehört selbstverständlich mit zu unserem Service.</p>
                 <p class="py-3"><strong>Wer muss die Rauchwarnmelder-Pflicht beachten?</strong></p>

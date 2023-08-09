@@ -1,11 +1,11 @@
 <x-guest-layout>
     <x-slot name="slot">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
 
-            <h2 class="font-semibold py-2 text-2xl text-gray-800 leading-tight">
+            <h2 class="py-2 text-2xl font-semibold leading-tight text-gray-800">
                 RAUCHMELDER
             </h2>
-            <img class="rounded-md pt-2 pb-8 w-full " src="{{route('imgshow', 'Rauchmelderservice.jpg') }}" alt="">
+            <img class="w-full pt-2 pb-8 rounded-md " src="/img/home/Rauchmelderservice.jpg" alt="">
             <div>
                 <p class="py-3"><strong>Für ein sicheres Zuhause</strong></p>
                 <p class="py-3">Kompromisslos in puncto Qualität und Sicherheit.&nbsp;Ei Electronics Rauchwarnmelder müssen zuverlässig und schnell vor Brandgefahren warnen.&nbsp;Deshalb wird jeder Melder in echtem Rauch getestet, bevor er unser Werk verlässt.&nbsp;</p>
@@ -25,7 +25,7 @@
                     Ob direkt in der Wohneinheit oder aus der Ferne - Rauchwarnmelder müssen in regelmäßigen Abständen einer Inspektion unterzogen werden. Ei Electronics unterstützt alle nach DIN 14676-1 beschriebenen Inspektionsverfahren und bietet Melder für die bewährte Sichtprüfung sowie Geräte, die eine Teil- oder komplette Ferninspektion ermöglichen.
                 </p>
             </div>
-            <div class="grid xs:grid-cols-1 md:grid-cols-2 gap-10">
+            <div class="grid gap-10 xs:grid-cols-1 md:grid-cols-2">
                 <!-- Ei650i – der Vielseitige -->
                 <div class="block">
                     <p class="py-2 text-md "><strong>Ei650i – der Vielseitige</strong></p>
@@ -34,26 +34,26 @@
 
                     <ul class="productteaser-large-new">
 
-                        <li class="rounded-sm border-2 my-1">
+                        <li class="my-1 border-2 rounded-sm">
                             <div class="flex items-top">
                                 <div class="py-2 w-28">
                                     <strong class="ml-3" >Ei650i</strong>
-                                    <img class="ml-1 rounded-md w-16 pt-2" src="{{route('imgshow', 'EiElectronics_Ei-650.png') }}" alt="">
+                                    <img class="w-16 pt-2 ml-1 rounded-md" src="{{route('imgshow', 'EiElectronics_Ei-650.png') }}" alt="">
                                 </div>
                                 <div class="w-full">
                                     <p class="pt-2 pr-2">
                                         mit fest eingebauter 3V-Lithiumbatterie, stand-alone Gerät, AudioLINK-Funktion, 5 Jahre Garantie, 10 Jahre Lebensdauer
                                     </p>
 
-                                    <div class="mb-2 flex">
-                                        <a class="underline flex bg-white" href="{{ route('downloadpublicfile', 'app/pdf/Datenblatt_Ei650i.pdf')}}">
-                                            <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
+                                    <div class="flex mb-2">
+                                        <a class="flex underline bg-white" href="{{ route('downloadpublicfile', 'app/pdf/Datenblatt_Ei650i.pdf')}}">
+                                            <span class = "font-semibold transition duration-150 text-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
                                                 {{ __('download .pdf') }}
                                             </span>
                                         </a>
 
-                                        <a target="_blank" class="underline ml-3 flex bg-white" href="{{route('showpublicfile', 'Datenblatt_Ei650i.pdf')}}">
-                                            <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
+                                        <a target="_blank" class="flex ml-3 underline bg-white" href="{{route('showpublicfile', 'Datenblatt_Ei650i.pdf')}}">
+                                            <span class = "font-semibold transition duration-150 text-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
                                                 {{ __('ansehen .pdf') }}
                                             </span>
                                         </a>
@@ -62,26 +62,26 @@
                             </div>
                         </li>
 
-                        <li class="rounded-sm border-2 my-1">
+                        <li class="my-1 border-2 rounded-sm">
                             <div class="flex items-top ">
                                 <div class="py-2 w-28">
                                     <strong class="ml-3" >Ei650iW</strong>
-                                    <img class="ml-1 rounded-md w-16 pt-2" src="{{route('imgshow', 'EiElectronics_Ei-650.png') }}" alt="">
+                                    <img class="w-16 pt-2 ml-1 rounded-md" src="{{route('imgshow', 'EiElectronics_Ei-650.png') }}" alt="">
                                 </div>
                                 <div class="w-full">
                                     <p class="pt-2 pr-2">
                                         mit fest eingebauter 3V-Lithiumbatterie, optional funkvernetzbar mit Funkmodul Ei600MRF, AudioLINK-Funktion, 5 Jahre Garantie, 10 Jahre Lebensdauer
                                     </p>
 
-                                    <div class="mb-2 flex">
-                                        <a class="underline flex bg-white" href="{{ route('downloadpublicfile', 'Datenblatt_Ei650iW.pdf') }}">
-                                            <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
+                                    <div class="flex mb-2">
+                                        <a class="flex underline bg-white" href="{{ route('downloadpublicfile', 'Datenblatt_Ei650iW.pdf') }}">
+                                            <span class = "font-semibold transition duration-150 text-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
                                                 {{ __('download .pdf') }}
                                             </span>
                                         </a>
 
-                                        <a class="underline ml-3 flex bg-white" href="{{route('showpublicfile', "Datenblatt_Ei650iW.pdf")}}">
-                                            <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
+                                        <a class="flex ml-3 underline bg-white" href="{{route('showpublicfile', "Datenblatt_Ei650iW.pdf")}}">
+                                            <span class = "font-semibold transition duration-150 text-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
                                                 {{ __('ansehen .pdf') }}
                                             </span>
                                         </a>
@@ -89,25 +89,25 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="rounded-sm border-2 my-1">
+                        <li class="my-1 border-2 rounded-sm">
                             <div class="flex items-top ">
                                 <div class="py-2 w-28">
                                     <strong class="ml-3" >Ei650iC</strong>
-                                    <img class="ml-1 rounded-md w-16 pt-2" src="{{route('imgshow', 'EiElectronics_Ei-650.png') }}" alt="">
+                                    <img class="w-16 pt-2 ml-1 rounded-md" src="{{route('imgshow', 'EiElectronics_Ei-650.png') }}" alt="">
                                 </div>
                                 <div class="w-full">
                                     <p class="pt-2 pr-2">
                                         mit fest eingebauter 3V-Lithiumbatterie, optional draht- oder funkvernetzbar mit Funkmodul Ei600MRF, AudioLINK-Funktion, 5 Jahre Garantie, 10 Jahre Lebensdauer        </p>
 
-                                    <div class="mb-2 flex">
-                                        <a class="underline flex bg-white" href="{{route('downloadpublicfile', 'Datenblatt_Ei650iC.pdf')}}">
-                                            <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
+                                    <div class="flex mb-2">
+                                        <a class="flex underline bg-white" href="{{route('downloadpublicfile', 'Datenblatt_Ei650iC.pdf')}}">
+                                            <span class = "font-semibold transition duration-150 text-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
                                                 {{ __('download .pdf') }}
                                             </span>
                                         </a>
 
-                                        <a class="underline ml-3 flex bg-white" href="{{route('showpublicfile', 'Datenblatt_Ei650iC.pdf')}}">
-                                            <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
+                                        <a class="flex ml-3 underline bg-white" href="{{route('showpublicfile', 'Datenblatt_Ei650iC.pdf')}}">
+                                            <span class = "font-semibold transition duration-150 text-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
                                                 {{ __('ansehen .pdf') }}
                                             </span>
                                         </a>
@@ -128,25 +128,25 @@
 
                     <ul class="productteaser-large-new">
 
-                        <li class="rounded-sm border-2 my-1">
+                        <li class="my-1 border-2 rounded-sm">
                             <div class="flex items-top">
-                                <div class="py-2 w-40">
+                                <div class="w-40 py-2">
                                     <strong class="ml-3" >Ei6500-OMS</strong>
-                                    <img class="ml-1 mx-auto rounded-md w-28     pt-2" src="{{route('imgshow', 'EiElectronics_Ei6500-OMS.png') }}" alt="">
+                                    <img class="pt-2 mx-auto ml-1 rounded-md w-28" src="{{route('imgshow', 'EiElectronics_Ei6500-OMS.png') }}" alt="">
                                 </div>
                                 <div class="w-full">
                                     <p class="pt-2 pr-2">
                                         mit fest eingebauter 3V-Lithiumbatterie und wM-Bus Ferninspektionsmodul für eine komplette Ferninspektion gemäß DIN 14676-1 (Verfahren C), OMS Generation 4, 5 Jahre Garantie, 10 Jahre Lebensdauer   </p>
 
-                                    <div class="mb-2 flex">
-                                        <a class="underline flex bg-white" href="{{route('downloadpublicfile', 'Datenblatt_Ei6500-OMS.pdf')}}">
-                                            <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
+                                    <div class="flex mb-2">
+                                        <a class="flex underline bg-white" href="{{route('downloadpublicfile', 'Datenblatt_Ei6500-OMS.pdf')}}">
+                                            <span class = "font-semibold transition duration-150 text-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
                                                 {{ __('download .pdf') }}
                                             </span>
                                         </a>
 
-                                        <a class="underline ml-3 flex bg-white" href="{{route('showpublicfile', 'Datenblatt_Ei6500-OMS.pdf')}}">
-                                            <span class = "text-md font-semibold text-sky-900 opacity-90 group-hover:opacity-100 transition duration-150 ease">
+                                        <a class="flex ml-3 underline bg-white" href="{{route('showpublicfile', 'Datenblatt_Ei6500-OMS.pdf')}}">
+                                            <span class = "font-semibold transition duration-150 text-md text-sky-900 opacity-90 group-hover:opacity-100 ease">
                                                 {{ __('ansehen .pdf') }}
                                             </span>
                                         </a>

@@ -13,20 +13,20 @@ use Carbon\Carbon;
 
 class ShowVerbrauchsinfoCounterMeterReading extends Component
 {
-    
+
     use WithSorting;
 
     protected $listeners = ['SortByDatum' => 'sortByDatum'];
     public $neko_id;
     public Occupant $occupant;
-  
+
     /* initialization */
 
     public function mount(Occupant $occupant, $neko_id)
     {
         $this->neko_id = $neko_id;
         $this->occupant = $occupant;
-        $this->sorts = ['datum' => 'asc'];  
+        $this->sorts = ['datum' => 'asc'];
     }
 
     public function sortByDatum()
@@ -50,7 +50,7 @@ class ShowVerbrauchsinfoCounterMeterReading extends Component
         $result = $this->occupant->counterMeters
         ->where('nekoId', '=', $this->neko_id)
         ->whereIn('jahr_monat', $q)->toquery();
-   
+
         return $this->applySorting($result);
     }
 

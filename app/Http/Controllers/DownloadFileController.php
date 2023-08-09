@@ -11,12 +11,12 @@ class DownloadFileController extends Controller
 {
 
     function downloadFile($file_name){
-        return Storage::disk('spaces')->download('app/pdf/'.$file_name);
+        return Storage::disk('public')->download($file_name);
 
     }
 
     function showFile($file_name){
-        $file = Storage::disk('spaces')->get('app/pdf/'.$file_name);
+        $file = Storage::disk('public')->get($file_name);
         $headers = [
             'Content-Type' => 'application/pdf',
         ];

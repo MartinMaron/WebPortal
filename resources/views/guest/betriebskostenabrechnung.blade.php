@@ -1,11 +1,11 @@
 <x-guest-layout>
     <x-slot name="slot">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
 
-            <h2 class="font-semibold py-2 text-2xl text-gray-800 leading-tight">
+            <h2 class="py-2 text-2xl font-semibold leading-tight text-gray-800">
                 BETRIEBSKOSTEN
             </h2>
-            <img class="rounded-md py-2 w-full " src="{{route('imgshow', 'betriebskosten.jpg') }}" alt="">
+            <img class="w-full py-2 rounded-md " src="/img/home/betriebskosten.jpg" alt="">
             <p class="pt-3 pb-6">
                 Ersparen Sie sich Zeit, Ärger und Arbeit und legen Sie diese Aufgaben in die Hände unserer Fachleute. Einmal in Anspruch genommen, wollen Sie diesen Service nie wieder missen.
             </p>
