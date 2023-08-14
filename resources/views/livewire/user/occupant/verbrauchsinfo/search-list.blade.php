@@ -2,6 +2,7 @@
     <div class="">
         <livewire:user.occupant.occupant-header :occupant='$occupant'/>
     </div>
+
     <x-input.search wire:model.debounce.2000="filter"/>
 
     @if ($nutzergruppen->count()!=0)
@@ -23,7 +24,7 @@
             </div>
         @endforeach
 
-    @else 
+    @else
         <livewire:not-found />
     @endif
     </div>

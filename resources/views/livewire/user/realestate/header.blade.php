@@ -23,7 +23,7 @@
                 </a>
             </div>
             <div class="px-2 sm:px-4">
-                <a href="{{route('user.realestateVerbrauchsinfoUserEmails', $realestate)}}">
+                <a href="{{route('user.realestateHerunterladen', $realestate)}}">
                     <x-icon.fonts.pdf-download class="text-sky-700 hover:text-sky-300"></x-icon.fonts.pdf-download>
                 </a>
             </div>

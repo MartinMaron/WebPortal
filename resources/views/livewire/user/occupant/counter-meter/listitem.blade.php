@@ -1,32 +1,32 @@
-<div class="hidden md:flex pt-1 text-lg text-center 
+<div class="hidden md:flex pt-1 text-lg text-center
 {{ $singleCounterMeter->hk ? 'odd:bg-green-100 even:bg-green-50' :'even:bg-red-50 odd:bg-red-100'}} ">
-    <div class="basis-1/5">
+    <div class="{{ $singleCounterMeter->nr == $singleCounterMeter->funkNr ? 'basis-1/4' : 'basis-1/5' }}">
         <span class="">{{ $singleCounterMeter->nr }}</span>
     </div>
-    <div class="basis-1/5">
+    <div class="{{ $singleCounterMeter->nr == $singleCounterMeter->funkNr ? '' : 'basis-1/5' }}">
         <span class="{{ $singleCounterMeter->nr == $singleCounterMeter->funkNr ? 'hidden' : 'visible' }} ">
             {{ $singleCounterMeter->funkNr }}
         </span>
     </div>
-    <div class="basis-1/5">
+    <div class="{{ $singleCounterMeter->nr == $singleCounterMeter->funkNr ? 'basis-1/4' : 'basis-1/5' }}">
         <span class="">
             {{ $singleCounterMeter->VerbrauchAktDisplay}}
         </span>
     </div>
-    <div class="basis-1/5">
+    <div class="{{ $singleCounterMeter->nr == $singleCounterMeter->funkNr ? 'basis-1/4' : 'basis-1/5' }}">
         <span class="">
             {{ $singleCounterMeter->einheit->shortname}}
         </span>
     </div>
-    <div class="mb-1 basis-1/5">
-        <a class="text-center" href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-green-900">
+    <div class="{{ $singleCounterMeter->nr == $singleCounterMeter->funkNr ? 'basis-1/4' : 'basis-1/5' }}mb-1">
+        <a class="" href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-green-900">
             {{-- <span class="">Stände</span>  --}}
-            <i class="text-xl 
-            {{ $singleCounterMeter->hk ? 'text-green-600': 'text-red-800' }} 
+            <i class="text-xl
+            {{ $singleCounterMeter->hk ? 'text-green-600': 'text-red-800' }}
             fa-regular fa-chart-mixed"></i>
         </a>
     </div>
-</div>    
+</div>
 
 <div>
 </div>
@@ -41,8 +41,8 @@
                         <span class="text-xs font-thin">Nr.: </span>
                     </div>
                     <div class="inline-block align-bottom">
-                        <x-table.heading class="" 
-                        sortable multi-column wire:click="sortBy('nr')" 
+                        <x-table.heading class=""
+                        sortable multi-column wire:click="sortBy('nr')"
                         :direction="$sorts['nr'] ?? null">
                         <span class="text-sm font-bold">
                             {{ $singleCounterMeter->nr }}
@@ -91,8 +91,8 @@
                 <div class="m-auto mt-1 mb-1 text-center border-2 rounded-md min-w-min bg-sky-100">
                     <a href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
                         {{-- <span class="">Stände</span>  --}}
-                        <i class="text-xl 
-                        {{ $singleCounterMeter->hk ? 'text-green-600': 'text-red-800' }} 
+                        <i class="text-xl
+                        {{ $singleCounterMeter->hk ? 'text-green-600': 'text-red-800' }}
                         fa-regular fa-chart-mixed"></i>
                     </a>
                 </div>

@@ -40,7 +40,7 @@ class ShowVerbrauchsinfos extends Component
             ->where('user_id', '=', auth()->user()->id)
             ->map(function (UserVerbrauchsinfoAccessControl $userControl) {
                 return $userControl->jahr_monat ;
-            })   
+            })
             ;
 
         $result = $this->occupant->verbrauchsinfos

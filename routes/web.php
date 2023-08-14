@@ -11,6 +11,7 @@ use App\Models\Verbrauchsinfo;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DownloadFileController;
+use App\Http\Controllers\DownloadFileSpacesController;
 use App\Http\Controllers\ImgShow;
 use App\Http\Controllers\Web\RealestateController;
 use App\Http\Livewire\Guest\Kontakt;
@@ -63,7 +64,9 @@ Route::name('guest.')->group(function () {
 
 Route::get('/downloadpublicfile/{file_name}', [DownloadFileController::class, 'downloadFile'])->name('downloadpublicfile');
 Route::get('/showpublicfile/{file_name}', [DownloadFileController::class, 'showFile'])->name('showpublicfile');
-Route::get('/imgshow/{file_name}', [ImgShow::class, 'showImg'])->name('imgshow');
+Route::get('/downloadspacesfile/{folder}{id}{file_name}', [DownloadFileSpacesController::class, 'downloadFile'])->name('downloadspacesfile');
+Route::get('/showspacesfile/{folder}{id}{file_name}', [DownloadFileSpacesController::class, 'showFile'])->name('showspacesfile');
+
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::name('user.')->group(function () {
@@ -113,6 +116,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             $realestate = Realestate::all()->find($id);
             return view('backend.realestate.show-verbrauchsinfo-user-email', compact('realestate'));
         })->name('realestateVerbrauchsinfoUserEmails');
+
+        Route::get('/realestateHerunterladen/{id}', function ($id) {
+            $realestate = Realestate::all()->find($id);
+            return view('backend.realestate.show-herunterladen', compact('realestate'));
+        })->name('realestateHerunterladen');
 
         Route::get('/costs/{id}', function ($id) {
             $realestate = Realestate::all()->find($id);

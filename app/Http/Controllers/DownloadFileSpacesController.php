@@ -7,15 +7,15 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use function PHPUnit\Framework\returnArgument;
 
-class DownloadFileController extends Controller
+class DownloadFileSpacesController extends Controller
 {
-    function downloadFile($file_name){
-        return Storage::disk('public')->download($file_name);
+    public function downloadFile($id){
+        return Storage::disk('spaces')->download('app/rechnung/'.$id);
 
     }
 
-    function showFile($file_name){
-        $file = Storage::disk('public')->get($file_name);
+    public function showFile($id){
+        $file = Storage::disk('spaces')->get('app/rechnung/'.$id);
         $headers = [
             'Content-Type' => 'application/pdf',
         ];
@@ -23,4 +23,5 @@ class DownloadFileController extends Controller
         return response($file, 200, $headers);
 
     }
+
 }
