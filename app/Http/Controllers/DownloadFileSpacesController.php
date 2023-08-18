@@ -9,13 +9,13 @@ use function PHPUnit\Framework\returnArgument;
 
 class DownloadFileSpacesController extends Controller
 {
-    public function downloadFile($id){
-        return Storage::disk('spaces')->download('app/rechnung/'.$id);
+    function  downloadFile($folder,$id,$file_name){
+        return Storage::disk('spaces')->download($folder,$id,$file_name);
 
     }
 
-    public function showFile($id){
-        $file = Storage::disk('spaces')->get('app/rechnung/'.$id);
+    function  showFile($folder,$id,$file_name){
+        $file = Storage::disk('spaces')->get($folder,$id,$file_name);
         $headers = [
             'Content-Type' => 'application/pdf',
         ];

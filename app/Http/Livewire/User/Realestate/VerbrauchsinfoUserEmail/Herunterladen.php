@@ -4,29 +4,29 @@ namespace App\Http\Livewire\User\Realestate\VerbrauchsinfoUserEmail;
 
 use Livewire\Component;
 use App\Models\Realestate;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use function PHPUnit\Framework\returnArgument;
 
 
+
 class Herunterladen extends Component
 {
+    public Invoice $invoice;
 
-
-    public Realestate $realestate;
-
-    public function mount($realestate)
+    public function mount($invoice)
     {
-        $this->realestate = $realestate;
+        $this->invoice = $invoice;
     }
 
-    public function downloadFile($id){
-        return Storage::disk('spaces')->download('app/rechnung/'.$id);
+    public function downloadFile($folder,$id,$file_name){
+        return Storage::disk('spaces')->download($folder,$id,$file_name);
 
     }
 
-    public function showFile($id){
-        $file = Storage::disk('spaces')->get('app/rechnung/'.$id);
+    public function showFile($folder,$id,$file_name){
+        $file = Storage::disk('spaces')->get($folder,$id,$file_name);
         $headers = [
             'Content-Type' => 'application/pdf',
         ];
@@ -37,6 +37,8 @@ class Herunterladen extends Component
 
     public function render()
     {
-        return view('livewire.user.realestate.herunterladen');
+        $invoices = Invoice::all();
+
+        return view('livewire.user.realestate.herunterladen', ['invoices' => $invoices]);
     }
 }

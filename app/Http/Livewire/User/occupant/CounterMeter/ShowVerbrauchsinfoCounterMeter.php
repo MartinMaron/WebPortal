@@ -38,7 +38,7 @@ class ShowVerbrauchsinfoCounterMeter extends Component
     public function sortByNr()
     {
         $this->sortBy('nr');
-    }    
+    }
 
 
     public function checkIfShowFunknr($nutzergrupe_id)
@@ -54,7 +54,7 @@ class ShowVerbrauchsinfoCounterMeter extends Component
 
     public function getRowsQueryProperty()
     {
-   
+
         $q = $this->occupant->userVerbrauchsinfoAccessControls
         ->where('user_id', '=', auth()->user()->id)
         ->sortByDesc('jahr_monat')
@@ -62,7 +62,7 @@ class ShowVerbrauchsinfoCounterMeter extends Component
             return $userControl->jahr_monat ;
         })->first();
 
-     
+
         $result = $this->occupant->counterMeters
         ->where('jahr_monat', $q)->toquery();
      //   dd($result);

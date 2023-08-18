@@ -4,7 +4,7 @@
             <livewire:user.realestate.header :baseobject='$realestate'/>
         </x-slot>
         <div class="">
-            <livewire:user.realestate.verbrauchsinfo-user-email.herunterladen :realestate='$realestate'/>
+            <livewire:user.realestate.verbrauchsinfo-user-email.herunterladen :invoice='$invoice'/>
         </div>
     </x-slot>
 </x-app-layout>

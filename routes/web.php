@@ -6,6 +6,9 @@ use App\Models\Occupant;
 
 use App\Models\Realestate;
 
+use App\Models\Invoice;
+
+
 use App\Models\Verbrauchsinfo;
 
 use Illuminate\Support\Facades\Route;
@@ -64,8 +67,8 @@ Route::name('guest.')->group(function () {
 
 Route::get('/downloadpublicfile/{file_name}', [DownloadFileController::class, 'downloadFile'])->name('downloadpublicfile');
 Route::get('/showpublicfile/{file_name}', [DownloadFileController::class, 'showFile'])->name('showpublicfile');
-Route::get('/downloadspacesfile/{folder}{id}{file_name}', [DownloadFileSpacesController::class, 'downloadFile'])->name('downloadspacesfile');
-Route::get('/showspacesfile/{folder}{id}{file_name}', [DownloadFileSpacesController::class, 'showFile'])->name('showspacesfile');
+Route::get('/downloadspacesfile/{folder}/{id}/{file_name}', [DownloadFileSpacesController::class, 'downloadFile'])->name('downloadspacesfile');
+Route::get('/showspacesfile/{folder}/{id}/{file_name}', [DownloadFileSpacesController::class, 'showFile'])->name('showspacesfile');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -119,7 +122,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
         Route::get('/realestateHerunterladen/{id}', function ($id) {
             $realestate = Realestate::all()->find($id);
-            return view('backend.realestate.show-herunterladen', compact('realestate'));
+            $invoice = Invoice::all()->find($id);
+            return view('backend.realestate.show-herunterladen', compact('realestate','invoice'));
         })->name('realestateHerunterladen');
 
         Route::get('/costs/{id}', function ($id) {

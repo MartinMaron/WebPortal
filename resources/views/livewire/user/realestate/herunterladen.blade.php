@@ -33,12 +33,47 @@
         </div>
     </div>
 
-    <div class="flex items-center">
-        <div class="flex justify-start mx-2">
-
-
-
+    <div class="items-center py-10">
+        <div class="flex mt-1 font-bold text-center border-2 rounded-t-lg sm:text-md md:flex-1 bg-sky-100 border-sky-100">
+            <div class="basis-1/4">
+                Beschreibung
+            </div>
+            <div class="basis-1/4">
+                Dateiname
+            </div>
+            <div class="basis-1/4">
+                Erstellungsdatum
+            </div>
+            <div class="basis-1/4">
+            </div>
         </div>
+        @foreach ($invoices as $invoice)
+
+        <div class="flex justify-around pt-2 mx-2 text-sm text-center even:bg-sky-500 odd:bg-sky-600">
+                <div class="basis-1/4">
+                {{ $invoice->description }}
+                </div>
+                <div class="basis-1/4">
+                {{ $invoice->fileName }}
+                </div>
+                <div class="basis-1/4">
+                {{ $invoice->createDate }}
+                </div>
+                <div class="flex items-center basis-1/4">
+                    <div class="basis-1/5">
+                        <a href="{{route('downloadspacesfile', ['app/rechnung', 'id' => $invoice->nekoId, 'file_name' => $invoice->fileName ])}}" class="flex items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
+                            <x-icon.fonts.file-download class="text-2xl sm:text-2xl text-sky-700 hover:text-sky-300"></x-icon.fonts.file-download>
+                        </a>
+                    </div>
+                    <div class="basis-1/5">
+                        <a href="{{route('showspacesfile', ['app/rechnung', 'id' => $invoice->nekoId, 'file_name' => $invoice->fileName ])}}" class="flex items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
+                            <x-icon.fonts.pdf-download class="text-2xl sm:text-2xl text-sky-700 hover:text-sky-300"></x-icon.fonts.pdf-download>
+                        </a>
+                    </div>
+                </div>
+        </div>
+
+        @endforeach
     </div>
 
 </div>

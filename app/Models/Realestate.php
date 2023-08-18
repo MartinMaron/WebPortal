@@ -39,6 +39,11 @@ class Realestate extends Model
         return $this->hasMany(Occupant::class);
     }
 
+    public function invoice()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
     public function costs()
     {
         return $this->hasMany(Cost::class);
@@ -52,7 +57,7 @@ class Realestate extends Model
     {
         return $this->hasMany(VerbrauchsinfoUserEmail::class);
     }
-   
+
     public static function validateImportData($data)
     {
         return  Validator::make($data, [
@@ -72,7 +77,7 @@ class Realestate extends Model
 
     }
 
- 
+
 
 
 

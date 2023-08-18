@@ -38,7 +38,7 @@
                             <div class="flex items-top">
                                 <div class="py-2 w-28">
                                     <strong class="ml-3" >Ei650i</strong>
-                                    <img class="w-16 pt-2 ml-1 rounded-md" src="{{route('imgshow', 'EiElectronics_Ei-650.png') }}" alt="">
+                                    <img class="w-16 pt-2 ml-1 rounded-md" src="/img/home/EiElectronics_Ei-650.png') }}" alt="">
                                 </div>
                                 <div class="w-full">
                                     <p class="pt-2 pr-2">
@@ -66,7 +66,7 @@
                             <div class="flex items-top ">
                                 <div class="py-2 w-28">
                                     <strong class="ml-3" >Ei650iW</strong>
-                                    <img class="w-16 pt-2 ml-1 rounded-md" src="{{route('imgshow', 'EiElectronics_Ei-650.png') }}" alt="">
+                                    <img class="w-16 pt-2 ml-1 rounded-md" src="/img/home/EiElectronics_Ei-650.png') }}" alt="">
                                 </div>
                                 <div class="w-full">
                                     <p class="pt-2 pr-2">
@@ -93,7 +93,7 @@
                             <div class="flex items-top ">
                                 <div class="py-2 w-28">
                                     <strong class="ml-3" >Ei650iC</strong>
-                                    <img class="w-16 pt-2 ml-1 rounded-md" src="{{route('imgshow', 'EiElectronics_Ei-650.png') }}" alt="">
+                                    <img class="w-16 pt-2 ml-1 rounded-md" src="/img/home/EiElectronics_Ei-650.png') }}" alt="">
                                 </div>
                                 <div class="w-full">
                                     <p class="pt-2 pr-2">
@@ -132,7 +132,7 @@
                             <div class="flex items-top">
                                 <div class="w-40 py-2">
                                     <strong class="ml-3" >Ei6500-OMS</strong>
-                                    <img class="pt-2 mx-auto ml-1 rounded-md w-28" src="{{route('imgshow', 'EiElectronics_Ei6500-OMS.png') }}" alt="">
+                                    <img class="pt-2 mx-auto ml-1 rounded-md w-28" src="/img/home/EiElectronics_Ei6500-OMS.png') }}" alt="">
                                 </div>
                                 <div class="w-full">
                                     <p class="pt-2 pr-2">
