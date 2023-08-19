@@ -23,3 +23,5 @@ public/js/app.js
 .env.example
 .env.org
 .env.example
+.env.dev
+.env.test
