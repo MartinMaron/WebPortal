@@ -41,14 +41,14 @@
                                 </div>
                                 <div class="">
                                     <span class="font-bold text-md sm:text-md">Vorauszahlung:</span>
-                                    <x-icon.fonts.editable-pencil class="cursor-pointer text-sky-700 hover:text-sky-300" value={{$editVorauszahlungen}}> Vorausz.
+                                {{-- <x-icon.fonts.editable-pencil class="cursor-pointer text-sky-700 hover:text-sky-300" value={{$editVorauszahlungen}}> Vorausz.
                                     </x-icon.fonts.editable-pencil>
                                     @if ($editVorauszahlungen)
                                     <livewire:user.occupant.vorauszahlung-edit :occupant='$occupant'/>
                                 @else
                                     <span class="pr-2 ">{{number_format($occupant->vorauszahlung,  2, ',', '.') }}</span>
-                                @endif
-
+                                @endif --}}
+                                    <span class="pr-2 ">{{number_format($occupant->vorauszahlung,  2, ',', '.') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -301,7 +301,23 @@
                     bottom=false for="bemerkung" label="Bemerkung" :error="$errors->first('current.bemerkung')">
                     <x-input.textarea  wire:model="current.bemerkung" id="bemerkung" placeholder="..." />
                 </x-input.group>
-            </div></div></div></div></div></div>
+
+            </div></div></div></div>
+            <div class="px-6 py-6 item" x-data="{isOpen : false}">
+                <a href="#" class="flex items-center justify-between" @click.prevent="isOpen = true">
+                    <h4 :class="{'text-blue-600 font-bold text-lg' : isOpen == true}">Zähler</h4>
+                    <svg
+                        class="w-5 h-5 text-lg text-gray-500"
+                        fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </a>
+                <div x-show="isOpen" @click.away="isOpen = false" class="mt-3" :class="{'text-gray-600 text-lg' : isOpen == true}">
+            <div>
+
+        </div></div></div></div></div>
 
         </x-slot>
 
