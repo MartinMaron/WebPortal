@@ -8,7 +8,7 @@
             </a>
             </div>
             <div class="px-2 sm:px-4">
-                <a href="{{route('user.occupants', $realestate)}}">
+                <a href="{{route('user.realestateOccupantList', $realestate)}}">
                     <x-icon.fonts.users class="text-sky-700 hover:text-sky-300"></x-icon.fonts.users>
                 </a>
             </div>

@@ -113,7 +113,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/occupants/{id}', function ($id) {
             $realestate = Realestate::all()->find($id);
             return view('backend.realestate.show-occupants', compact('realestate'));
-        })->name('occupants');
+        })->name('occupant');
 
         Route::get('/realestateVerbrauchsinfoUserEmails/{id}', function ($id) {
             $realestate = Realestate::all()->find($id);

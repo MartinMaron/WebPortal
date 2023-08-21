@@ -9,7 +9,7 @@
                     <x-icon.fonts.users class="text-2xl sm:text-4xl text-sky-700 hover:text-sky-300"></x-icon.fonts.users>
                 </div>
                 <div class="flex-1 min-w-0">
-                    <a href="{{route('user.occupants', $realestate)}}" class="focus:outline-none">
+                    <a href="{{route('user.realestateOccupantList', $realestate)}}" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         <p class="font-medium text-gray-900 text-md">Nutzerliste</p>
                         <p class="text-gray-500 text-md line-clamp-4 md:line-clamp-2">Hier können Sie den Nutzerwechsel durchführen, Vorauszahlungen eintragen, Personenzahl oder Flächen ändern</p>
