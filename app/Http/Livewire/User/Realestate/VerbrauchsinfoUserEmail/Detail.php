@@ -12,7 +12,7 @@ use Usernotnull\Toast\Concerns\WireToast;
 class Detail extends Component
 {
     use WireToast;
-    
+
     public $userEmail;
     public Occupant $occupant;
     public $showEditModal = false;
@@ -20,26 +20,26 @@ class Detail extends Component
 
     public bool $aktiv;
     public string $email;
-    public DateTime $dateFrom; 
+    public DateTime $dateFrom;
     public Datetime $dateTo;
-    public string $firstinitUsername;                
-    
+    public string $firstinitUsername;
+
     protected $listeners = [
         'showUserEmailModal' => 'showModal',
         'closeUserEmailModal' => 'closeModal',
         'showCreateUserEmailModal' => 'createModal'
     ];
-   
+
     public function rules()
     {
         return [
-            'userEmail.email' => 'required|email',
-            'userEmail.firstinitUsername' => 'nullable',                   
-            'userEmail.bis' => 'nullable|date',                   
-            'userEmail.seit' => 'required|date',                   
-            'userEmail.nutzeinheitNo' => 'required',      
-            'userEmail.realestate_id' => 'required',      
-            'userEmail.webupdate' => 'nullable',      
+            'userEmail.email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
+            'userEmail.firstinitUsername' => 'nullable',
+            'userEmail.bis' => 'nullable|date',
+            'userEmail.seit' => 'required|date',
+            'userEmail.nutzeinheitNo' => 'required',
+            'userEmail.realestate_id' => 'required',
+            'userEmail.webupdate' => 'nullable',
         ];
     }
 
@@ -50,15 +50,15 @@ class Detail extends Component
     }
 
     public function closeModal($save){
-        if ($save && $this->userEmail){  
+        if ($save && $this->userEmail){
             if ($this->validate())
             {
                 if($this->dialogMode == 'create')
                 {
                     VerbrauchsinfoUserEmail::create($this->userEmail);
-                    $this->emit('refreshParent');   
-                    toast()->success('Emailadresse für Verbraucherinformationen hinzugefügt','Achtung')->push();   
-           
+                    $this->emit('refreshParent');
+                    toast()->success('Emailadresse für Verbraucherinformationen hinzugefügt','Achtung')->push();
+
                  }
                 if($this->dialogMode == 'edit')
                 {
@@ -70,19 +70,19 @@ class Detail extends Component
                             'firstinitUsername' => $this->userEmail['firstinitUsername'],
                             ]
                             );
-                    toast()->success('Emailadresse für Verbraucherinformationen wurde geändert','Achtung')->push();      
-          
+                    toast()->success('Emailadresse für Verbraucherinformationen wurde geändert','Achtung')->push();
+
                 }
-                $this->emit('refreshParent');   
-                
+                $this->emit('refreshParent');
+
 
                 $this->showEditModal = false ;
             }else{
-                $this->showEditModal = true;              
+                $this->showEditModal = true;
             };
         }else{
             $this->showEditModal = false;
-        } 
+        }
    }
 
     public function createModal($userEmail)

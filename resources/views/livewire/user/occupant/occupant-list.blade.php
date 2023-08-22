@@ -11,23 +11,14 @@
                     <div class="flex items-center justify-between w-full p-2 space-x-6 ">
                         <div class="flex-1 truncate border-sky-100 ">
                             <div class="w-full text-gray-700">
-                                <div class="flex items-center">
+                                <div class="items-center ">
 
-
-                                <div class="container max-w-4xl px-4 mx-auto sm:px-8">
-                                <div class="flex flex-col mb-8 text-base text-gray-800 divide-y main-question">
-                                <div class="px-1 py-1 item" x-data="{isOpen : false}">
-                                    <a href="#" class="flex items-center justify-center" @click.prevent="isOpen = true">
-                                        <h4 :class="{'text-sky-700 font-bold text-lg' : isOpen == true}">{{ $occupant->nachname.' '.$occupant->vorname}}</h4>
-                                        <svg
-                                            class="w-5 h-5 text-lg text-gray-500"
-                                            fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round" stroke-width="2"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path d="M19 9l-7 7-7-7"></path>
-                                        </svg>
-                                    </a>
-                                <div x-show="isOpen" @click.away="isOpen = false" class="mt-3" :class="{'text-gray-500 text-sm' : isOpen == true}">
+                                <div x-data="{ open: false }" class="">
+                                <div x-on:click="open = ! open"  class="w-full">
+                                <div class="m-auto">
+                                <h4 class="text-lg font-bold text-sky-700">{{ $occupant->nachname.' '.$occupant->vorname}}</h4>
+                                </div>
+                                <div x-show="open" x-transition>
 
                                 <div class="flex space-x-3">
                                     <span class="font-bold text-md sm:text-md">Lage:</span>
@@ -77,8 +68,7 @@
                             <x-icon.fonts.editable-pencil wire:click="edit({{ $occupant->id }})" class="cursor-pointer text-sky-700 hover:text-sky-300"></x-icon.fonts.editable-pencil>
                             <span class="ml-3">Bearbeiten</span>
                         </div>
-                    </div>
-                </div></div></div></div></div></div></div>
+                    </div></div></div></div></div></div></div>
             @endforeach
         </div>
 
@@ -358,6 +348,42 @@
             </a>
             <div x-show="isOpen" @click.away="isOpen = false" class="mt-3" :class="{'text-gray-600 text-sm' : isOpen == true}">
         <div>
+
+
+            <div>
+                <x-input.group class="pb-2 border-0"
+                    :error="$errors->first('userEmail.seit')"
+                    for="costAmount-detailModal-dateFrom" label="seit" hoheLabel="h-6 sm:h-8 sm:pt-1 sm:pb-2" hohe="h-20 sm:h-10">
+                    <x-input.date
+                        wire:model.lazy="userEmail.seit"
+                        hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                        id="verbrauchsinfoUserEmail-detailmodal-date_from_editing"
+                        class="bg-sky-50 sm:h-8"
+                    >
+                    </x-input.date>
+                </x-input.group>
+                <x-input.group class="border-0"
+                    for="costAmount-detailModal-dateTo" label="bis" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                    :error="$errors->first('userEmail.bis')">
+                    <x-input.date
+                        wire:model.lazy="userEmail.bis"
+                        hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                        id="verbrauchsinfoUserEmail-detailmodal-dateTo"
+                        class="bg-sky-50 sm:h-8"
+                    >
+                    </x-input.date>
+                </x-input.group>
+                <x-input.group
+                    class="border-0" for="userEmail.firstinitUsername" label="Username für Webaccount" :error="$errors->first('userEmail.firstinitUsername')"
+                    hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10">
+                    <x-input.text class="bg-sky-50 sm:h-8" wire:model.lazy="userEmail.firstinitUsername" id="userEmail.firstinitUsername" />
+                </x-input.group>
+                <x-input.group
+                    class="border-0" for="userEmail.email" label="Email" :error="$errors->first('userEmail.email')"
+                    hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10">
+                    <x-input.text class="bg-sky-50 sm:h-8" wire:model.lazy="userEmail.email" id="userEmail.email" />
+                </x-input.group>
+            </div>
 
         </div></div></div></div></div>
 

@@ -33,6 +33,7 @@ class OccupantList extends Component
 
     public Occupant $current;
     public Realestate $realestate;
+    public Verbrauchsinfo_user_emails $verbrauchsinfo_user_emails;
 
     protected $queryString = ['sorts'];
     // protected $listeners = [c];
@@ -74,7 +75,7 @@ class OccupantList extends Component
             'current.customEinheitNo' => 'nullable',
             'current.lage' => 'nullable',
             'current.qmkc_editing' => 'nullable',
-            'current.email' => 'nullable',
+            'current.email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
             'current.telephone_number' => 'nullable',
 
 

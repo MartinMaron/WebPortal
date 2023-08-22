@@ -45,7 +45,7 @@ class VerbrauchsinfoUserEmail extends Model
         'seit',
         'bis',
         'display',
-    ]; 
+    ];
 
     public function getSeitAttribute()
     {
@@ -55,9 +55,9 @@ class VerbrauchsinfoUserEmail extends Model
     public function setSeitAttribute($value)
     {
         Debugbar::info('VerbrauchsinfoUserEmail-setDateFromEditingAttribute:'. $value);
-  
+
         $this->dateFrom = Carbon::parse($value);
-    } 
+    }
 
 
 
@@ -101,9 +101,9 @@ class VerbrauchsinfoUserEmail extends Model
 
     protected $dispatchesEvents = [
         'created' => VerbrauchsinfoUserEmailAdded::class,
-  
+
     ];
 
 
-    
+
 }

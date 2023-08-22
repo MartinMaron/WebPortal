@@ -47,7 +47,7 @@ class SearchList extends Component
     {
         return [
             'userEmail.aktiv' => 'nullable',
-            'userEmail.email' => 'required',
+            'userEmail.email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
             'userEmail.dateFrom' => 'nullable|date',
             'userEmail.dateTo' => 'nullable|date',
             'userEmail.firstinitUsername' => 'nullable',

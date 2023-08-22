@@ -11,7 +11,7 @@ use DateTime;
 
 class DetailInput extends Component
 {
-    
+
     public Occupant $occupant;
     public VerbrauchsinfoUserEmail $current;
     public DateTime $datumStart;
@@ -24,18 +24,18 @@ class DetailInput extends Component
     {
         $this->occupant = $occupant;
     }
- 
+
     public function rules()
     {
         return [
-            'userEmail.aktiv' => 'nullable',      
-            'userEmail.email' => 'required',
-            'userEmail.dateFrom' => 'nullable|date', 
+            'userEmail.aktiv' => 'nullable',
+            'userEmail.email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
+            'userEmail.dateFrom' => 'nullable|date',
             'userEmail.dateTo' => 'nullable|date',
-            'userEmail.firstinitUsername' => 'nullable',                   
-            'userEmail.nutzeinheitNo' => 'required',      
-            'userEmail.realestate_id' => 'required',      
-            'userEmail.webupdate' => 'nullable',      
+            'userEmail.firstinitUsername' => 'nullable',
+            'userEmail.nutzeinheitNo' => 'required',
+            'userEmail.realestate_id' => 'required',
+            'userEmail.webupdate' => 'nullable',
         ];
     }
 
@@ -56,7 +56,7 @@ class DetailInput extends Component
     public function raise_CreateModal()
     {
         $this->current = $this->makeBlankObject();
-        $this->emit('showCreateUserEmailModal', $this->current);   
+        $this->emit('showCreateUserEmailModal', $this->current);
     }
 
     public function render()
