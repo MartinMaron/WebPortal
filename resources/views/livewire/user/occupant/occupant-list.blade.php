@@ -11,9 +11,24 @@
                     <div class="flex items-center justify-between w-full p-2 space-x-6 ">
                         <div class="flex-1 truncate border-sky-100 ">
                             <div class="w-full text-gray-700">
-                                <div class="flex items-center justify-center">
-                                    <span class="text-xl font-bold text-sky-700 sm:text-md">{{ $occupant->nachname.' '.$occupant->vorname}}</span>
-                                </div>
+                                <div class="flex items-center">
+
+
+                                <div class="container max-w-4xl px-4 mx-auto sm:px-8">
+                                <div class="flex flex-col mb-8 text-base text-gray-800 divide-y main-question">
+                                <div class="px-1 py-1 item" x-data="{isOpen : false}">
+                                    <a href="#" class="flex items-center justify-center" @click.prevent="isOpen = true">
+                                        <h4 :class="{'text-sky-700 font-bold text-lg' : isOpen == true}">{{ $occupant->nachname.' '.$occupant->vorname}}</h4>
+                                        <svg
+                                            class="w-5 h-5 text-lg text-gray-500"
+                                            fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="2"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </a>
+                                <div x-show="isOpen" @click.away="isOpen = false" class="mt-3" :class="{'text-gray-500 text-sm' : isOpen == true}">
+
                                 <div class="flex space-x-3">
                                     <span class="font-bold text-md sm:text-md">Lage:</span>
                                     <span class="text-md sm:text-mdmr-2">{{ $occupant->lage}}</span>
@@ -52,7 +67,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                         <!-- <div class="flex -mt-px divide-x divide-gray-200"> -->
                     <div class="flex h-8">
                         <div class="relative flex items-center justify-center flex-1 w-0 py-4 -ml-px text-sm font-medium text-gray-700 border border-transparent rounded-br-lg">
@@ -64,7 +78,7 @@
                             <span class="ml-3">Bearbeiten</span>
                         </div>
                     </div>
-                </div>
+                </div></div></div></div></div></div></div>
             @endforeach
         </div>
 
@@ -72,7 +86,7 @@
 
  <!-- Save Nutzer Modal -->
  <form wire:submit.prevent="save">
-    <x-modal.dialog class=" bg-sky-50" minWidth="640px" maxWidth="800px" wire:model.defer="showEditModal">
+    <x-modal.dialog class=" bg-sky-50" minWidth="680px" maxWidth="800px" wire:model.defer="showEditModal">
     <div>
 
        <!-- Dialog Title -->
@@ -89,7 +103,7 @@
         <x-slot name="content">
             <div class="container max-w-3xl px-4 mx-auto sm:px-8">
             <div class="flex flex-col mb-8 text-base text-gray-800 divide-y main-question">
-            <div class="px-6 py-6 item" x-data="{isOpen : false}">
+            <div class="px-1 py-1 item" x-data="{isOpen : false}">
                 <a href="#" class="flex items-center justify-between" @click.prevent="isOpen = true">
                     <h4 :class="{'text-blue-600 font-bold text-lg' : isOpen == true}">Nutzer info</h4>
                     <svg
@@ -100,7 +114,7 @@
                         <path d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </a>
-                <div x-show="isOpen" @click.away="isOpen = false" class="mt-3" :class="{'text-gray-600 text-lg' : isOpen == true}">
+                <div x-show="isOpen" @click.away="isOpen = false" class="mt-3" :class="{'text-gray-600 text-sm' : isOpen == true}">
             <div>
             <!-- Anrede -->
             <x-input.group
@@ -195,12 +209,24 @@
                     bottom=true for="address" label="Adresse" :error="$errors->first('current.address')">
                     <x-input.textarea wire:model.lazy="current.address" id="address" placeholder="..." />
                 </x-input.group>
+            <!-- E-mail -->
+            <x-input.group
+                class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                for="email" label="E-mail" :error="$errors->first('current.email')">
+                <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.email" id="email" placeholder="..." />
+            </x-input.group>
+            <!-- Telefonnummer -->
+            <x-input.group
+                class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                for="telephone_number" label="Telefonnummer" :error="$errors->first('current.telephone_number')">
+                <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.telephone_number" id="telephone_number" placeholder="..." />
+            </x-input.group>
             </div></div></div></div>
 
 
 
 
-            <div class="px-6 py-6 item" x-data="{isOpen : false}">
+            <div class="px-1 py-1 item" x-data="{isOpen : false}">
                 <a href="#" class="flex items-center justify-between" @click.prevent="isOpen = true">
                     <h4 :class="{'text-blue-600 font-bold text-lg' : isOpen == true}">Wohnung info</h4>
                     <svg
@@ -211,7 +237,7 @@
                         <path d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </a>
-                <div x-show="isOpen" @click.away="isOpen = false" class="mt-3" :class="{'text-gray-600 text-lg' : isOpen == true}">
+                <div x-show="isOpen" @click.away="isOpen = false" class="mt-3" :class="{'text-gray-600 text-sm' : isOpen == true}">
             <div>
             <!-- Umlageausfallwagnis-->
             <x-input.group
@@ -303,7 +329,7 @@
                 </x-input.group>
 
             </div></div></div></div>
-            <div class="px-6 py-6 item" x-data="{isOpen : false}">
+            <div class="px-1 py-1 item" x-data="{isOpen : false}">
                 <a href="#" class="flex items-center justify-between" @click.prevent="isOpen = true">
                     <h4 :class="{'text-blue-600 font-bold text-lg' : isOpen == true}">Zähler</h4>
                     <svg
@@ -314,10 +340,27 @@
                         <path d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </a>
-                <div x-show="isOpen" @click.away="isOpen = false" class="mt-3" :class="{'text-gray-600 text-lg' : isOpen == true}">
+                <div x-show="isOpen" @click.away="isOpen = false" class="mt-3" :class="{'text-gray-600 text-sm' : isOpen == true}">
             <div>
 
+        </div></div></div>
+
+        <div class="px-1 py-1 item" x-data="{isOpen : false}">
+            <a href="#" class="flex items-center justify-between" @click.prevent="isOpen = true">
+                <h4 :class="{'text-blue-600 font-bold text-lg' : isOpen == true}">Verbrauchsinfo</h4>
+                <svg
+                    class="w-5 h-5 text-lg text-gray-500"
+                    fill="none" stroke-linecap="round"
+                    stroke-linejoin="round" stroke-width="2"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </a>
+            <div x-show="isOpen" @click.away="isOpen = false" class="mt-3" :class="{'text-gray-600 text-sm' : isOpen == true}">
+        <div>
+
         </div></div></div></div></div>
+
 
         </x-slot>
 

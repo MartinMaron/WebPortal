@@ -1,5 +1,4 @@
 
-
 <div class="flex rounded-md">
     <input {{ $attributes }}
         type="checkbox"

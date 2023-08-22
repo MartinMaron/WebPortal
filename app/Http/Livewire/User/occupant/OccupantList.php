@@ -74,6 +74,10 @@ class OccupantList extends Component
             'current.customEinheitNo' => 'nullable',
             'current.lage' => 'nullable',
             'current.qmkc_editing' => 'nullable',
+            'current.email' => 'nullable',
+            'current.telephone_number' => 'nullable',
+
+
         ];
     }
 
