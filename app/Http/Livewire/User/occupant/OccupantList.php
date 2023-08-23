@@ -12,6 +12,7 @@ use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithBulkActions;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
+use App\Models\VerbrauchsinfoUserEmail;
 
 class OccupantList extends Component
 {
@@ -33,7 +34,7 @@ class OccupantList extends Component
 
     public Occupant $current;
     public Realestate $realestate;
-    public Verbrauchsinfo_user_emails $verbrauchsinfo_user_emails;
+    public VerbrauchsinfoUserEmail $verbrauchsinfo_user_emails;
 
     protected $queryString = ['sorts'];
     // protected $listeners = [c];

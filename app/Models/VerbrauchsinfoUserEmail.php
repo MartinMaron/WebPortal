@@ -71,7 +71,6 @@ class VerbrauchsinfoUserEmail extends Model
 
     public function setBisAttribute($value)
     {
-        Debugbar::info('VerbrauchsinfoUserEmail-setDateToEditingAttribute:'. $value);
         $value ? $this->dateTo = Carbon::parse($value) : $this->dateTo = null;
     }
 

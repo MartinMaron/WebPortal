@@ -16,7 +16,8 @@ class Occupant extends Model
 
     protected $fillable = [
         'nekoId', 'realestate_id', 'unvid', 'budguid','nutzeinheitNo', 'dateFrom', 'dateTo', 'anrede', 'title', 'nachname', 'vorname', 'address', 
-        'street', 'postcode', 'houseNr', 'city', 'vat', 'uaw', 'qmkc', 'qmww', 'pe', 'bemerkung', 'vorauszahlung', 'lokalart', 'customEinheitNo', 'lage', 'email'
+        'street', 'postcode', 'houseNr', 'city', 'vat', 'uaw', 'qmkc', 'qmww', 'pe', 'bemerkung', 'vorauszahlung', 'lokalart', 'customEinheitNo', 'lage', 'email',
+        'telephone_number', 'eigentumer'
     ];
 
     public function user()
@@ -118,11 +119,19 @@ class Occupant extends Model
     }
 
     public function getZeitraumAttribute(){
+        if ($this->dateTo){
+            return Carbon::parse($this->dateFrom)->format('d.m.Y') . ' - '. Carbon::parse($this->dateTo)->format('d.m.Y');
+        }else{
+            return Carbon::parse($this->dateFrom)->format('d.m.Y') . ' - __.__.____';
+        }
+    }
+
+    public function getZeitraumTextAttribute(){
 
         if ($this->dateTo){
-            return Carbon::parse($this->dateFrom)->format('DD.MM.YYYY') . ' - '. Carbon::parse($this->dateTo)->format('DD.MM.YYYY');
+            return 'vom '. Carbon::parse($this->dateFrom)->format('d.m.Y') . ' bis '. Carbon::parse($this->dateTo)->format('d.m.Y');
         }else{
-            return Carbon::parse($this->dateFrom)->format('DD.MM.YYYY') . ' - __.__.____';
+            return 'seit '. Carbon::parse($this->dateFrom)->format('d.m.Y') ;
         }
 
     }
@@ -135,12 +144,15 @@ class Occupant extends Model
 
     public function getNutzerMitLageAttribute(){
         if ($this->lage){
-            return $this->getNutzerKennnummerAttribute() . ": ". $this->lage ;
+            return $this->getNutzerKennnummerAttribute() . " ". $this->lage ;
         }
         else {
             return $this->getNutzerKennnummerAttribute() ;
         }
     }
+
+   
+
 
     public function verbrauchsinfos()
     {
