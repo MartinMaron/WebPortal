@@ -15,7 +15,7 @@ class Occupant extends Model
     use Helpers;
 
     protected $fillable = [
-        'nekoId', 'realestate_id', 'unvid', 'budguid','nutzeinheitNo', 'dateFrom', 'dateTo', 'anrede', 'title', 'nachname', 'vorname', 'address', 
+        'nekoId', 'realestate_id', 'unvid', 'budguid','nutzeinheitNo', 'dateFrom', 'dateTo', 'anrede', 'title', 'nachname', 'vorname', 'address',
         'street', 'postcode', 'houseNr', 'city', 'vat', 'uaw', 'qmkc', 'qmww', 'pe', 'bemerkung', 'vorauszahlung', 'lokalart', 'customEinheitNo', 'lage', 'email',
         'telephone_number', 'eigentumer'
     ];
@@ -141,7 +141,6 @@ class Occupant extends Model
         return substr($this->unvid,12,3). '-'. substr($this->unvid,15,3);
     }
 
-
     public function getNutzerMitLageAttribute(){
         if ($this->lage){
             return $this->getNutzerKennnummerAttribute() . " ". $this->lage ;
@@ -151,7 +150,17 @@ class Occupant extends Model
         }
     }
 
-   
+    public function getCustomEinheitNoMitLageAttribute(){
+        if ($this->lage){
+
+            return $this->customEinheitNo.' '.$this->lage;
+        }
+        else {
+            return $this->customEinheitNo ;
+        }
+    }
+
+
 
 
     public function verbrauchsinfos()

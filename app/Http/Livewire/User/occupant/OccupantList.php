@@ -12,13 +12,14 @@ use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithBulkActions;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
-use App\Models\VerbrauchsinfoUserEmail;
 
 class OccupantList extends Component
 {
 
     use WithPerPagePagination, WithSorting, WithBulkActions, WithCachedRows;
 
+    public $showCustomEinheitNo = true;
+    public $showEigentumer = true;
     public $showDeleteModal = false;
     public $showEditModal = false;
     public $showFilters = false;
@@ -34,7 +35,6 @@ class OccupantList extends Component
 
     public Occupant $current;
     public Realestate $realestate;
-    public VerbrauchsinfoUserEmail $verbrauchsinfo_user_emails;
 
     protected $queryString = ['sorts'];
     // protected $listeners = [c];
@@ -76,7 +76,7 @@ class OccupantList extends Component
             'current.customEinheitNo' => 'nullable',
             'current.lage' => 'nullable',
             'current.qmkc_editing' => 'nullable',
-            'current.email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
+            'current.email' => 'required|string|email|max:255',
             'current.telephone_number' => 'nullable',
 
 
@@ -89,6 +89,10 @@ class OccupantList extends Component
         $this->realestate = $baseobject;
         $this->current = $this->makeBlankObject();
         $this->salutations = Salutation::all();
+        $this->sorts = [
+            'customEinheitNo' => 'asc',
+            'nr' => 'asc'
+            ];
     }
 
     public function makeBlankObject()
@@ -99,6 +103,7 @@ class OccupantList extends Component
             'unvid' => $this->realestate->unvid,
             'budguid' => $this->realestate->nekoId,
             'nutzeinheitNo' => 1,
+
         ]);
     }
 
@@ -161,6 +166,37 @@ class OccupantList extends Component
     public function resetFilters()
     {
         $this->reset('filters');
+    }
+
+    public function togleshowCustomEinheitNo(){
+        $this->showCustomEinheitNo = !$this->showCustomEinheitNo;
+        //Sortowanie
+    }
+
+    public function togleshowEigentumer(){
+        $this->showEigentumer = !$this->showEigentumer;
+    }
+
+    public function a(Occupant $occupant)
+    {
+        if ($this->showCustomEinheitNo){
+            return $occupant->customEinheitNoMitLage;
+        }
+        else
+        {
+            return $occupant->nutzerMitLage;
+        }
+    }
+
+    public function b(Occupant $occupant)
+    {
+        if ($this->showEigentumer){
+            return $occupant->nachname;
+        }
+        else
+        {
+            return $occupant->eigentumer;
+        }
     }
 
     public function getRowsQueryProperty()

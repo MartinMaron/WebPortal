@@ -33,7 +33,7 @@ class Detail extends Component
     public function rules()
     {
         return [
-            'userEmail.email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
+            'userEmail.email' => 'required|string|email|max:255',
             'userEmail.firstinitUsername' => 'nullable',
             'userEmail.bis' => 'nullable|date',
             'userEmail.seit' => 'required|date',

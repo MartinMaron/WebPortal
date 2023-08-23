@@ -5,6 +5,30 @@
 
         <!-- Occupants List -->
         <div class="grid w-full grid-cols-1 gap-4 mt-6 sm:grid-cols-2 lg:grid-cols-3">
+
+            <div class="flex justify-between">
+                <div wire:click="togleshowCustomEinheitNo" class="relative inline-block mt-1  pt-1 pb-2 w-40  align-middle select-none transition duration-200 ease-in">
+                    <input wire:model="showCustomEinheitNo" type="checkbox" name="" id="" class="toggle-checkbox absolute my-1 block w-6 h-6 rounded-full bg-sky-100 border-1 appearance-none cursor-pointer"/>
+                    <label for="toggle" class="toggle-label pl-8 block overflow-hidden h-8 rounded-full cursor-pointer">
+                        @if ($showCustomEinheitNo)
+                        <span class="text-md font-medium text-gray-900">Neko-nr.</span>
+                        @else
+                        <span class="text-md font-medium text-gray-900">Ihr Nr.</span>
+                        @endif
+                    </label>
+                </div>
+
+                <div wire:click="togleshowEigentumer" class="relative inline-block mt-1  pt-1 pb-2 w-40  align-middle select-none transition duration-200 ease-in">
+                    <input wire:model="showEigentumer" type="checkbox" name="" id="" class="toggle-checkbox absolute my-1 block w-6 h-6 rounded-full bg-sky-100 border-1 appearance-none cursor-pointer"/>
+                    <label for="toggle" class="toggle-label pl-8 block overflow-hidden h-8 rounded-full cursor-pointer">
+                        @if ($showEigentumer)
+                        <span class="text-md font-medium text-gray-900">Nachname</span>
+                        @else
+                        <span class="text-md font-medium text-gray-900">Eigentümer</span>
+                        @endif
+                    </label>
+                </div>
+            </div>
             @foreach ($rows as $occupant)
 
                 <div wire:key="row-{{ $occupant->id }}" class="col-span-1 divide-y divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-50">
@@ -12,24 +36,37 @@
                         <div class="flex-1 truncate border-sky-100 ">
                             <div class="w-full text-gray-700">
                                 <div class="items-center ">
-                                    <div x-data="{ open: false }" class="">
-                                        <div x-on:click="open = ! open"  class="w-full">
+                                {{-- <div x-data="{ open: false }" class="">
+                                        <div x-on:click="open = ! open"  class="w-full"> --}}
                                             <div class="">
+
                                                 <div class="flex justify-between gap-2 text-lg  text-sky-700 m-auto">
+                                                    @if ($showCustomEinheitNo)
                                                     <div>
                                                         {{ $occupant->nutzerMitLage }}
                                                     </div>
+                                                    @else
+                                                    <div>
+                                                        {{ $occupant->customEinheitNoMitLage }}
+                                                    </div>
+                                                    @endif
                                                     <div class="">
                                                         {{ $occupant->qmkcEditing }} m²
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="text-lg text-sky-700 font-semibold flex justify-between">
+                                                    @if ($showEigentumer)
                                                     <div class="">
                                                         {{ $occupant->nachname}}
                                                     </div>
+                                                    @else
+                                                    <div>
+                                                        {{ $occupant->eigentumer }}
+                                                    </div>
+                                                    @endif
                                                     <x-icon.fonts.editable-pencil wire:click="edit({{ $occupant->id }})" class="text-sm cursor-pointer text-sky-700 hover:text-sky-300"></x-icon.fonts.editable-pencil>
-                                                </div>           
+                                                </div>
                                                 <div class="flex text-sm justify-between">
                                                     <div class="">
                                                         {{ $occupant->zeitraumText }}
@@ -40,28 +77,28 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div x-show="open" x-transition>
+                                        {{--     <div x-show="open" x-transition>
                                                <div class="block">
                                                     <div class="flex justify-start items-center gap-4">
                                                         <i class="fa-regular fa-person-shelter">
                                                         </i>
                                                         <span class="">
                                                             {{ $occupant->eigentumer }}
-                                                        </span> 
+                                                        </span>
                                                     </div>
                                                     <div class="flex justify-start items-center gap-4">
                                                         <i class="fa-duotone fa-list-ol">
                                                         </i>
                                                         <span class="">
-                                                            {{ $occupant->customEinheitNo }}
-                                                        </span> 
+                                                            {{ $occupant->customEinheitNoMitLage }}
+                                                        </span>
                                                     </div>
                                                     <div class="flex justify-start items-center gap-4">
                                                         <i class="fa-light fa-circle-euro">
                                                         </i>
                                                         <span class="">
                                                             {{ $occupant->vorauszahlung }}
-                                                        </span> 
+                                                        </span>
                                                     </div>
                                                </div>
                                             </div>
@@ -76,7 +113,6 @@
                                                 <span class="ml-3">Bearbeiten</span>
                                             </div>
                                         </div> --}}
-                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -14,15 +14,15 @@ use Usernotnull\Toast\Concerns\WireToast;
 
 class Lista extends Component
 {
-    use WireToast; 
-   
+    use WireToast;
+
     public $showDeleteModal = false;
     // public $showEditModal = false;
     public $showEditFields = true;
     public $showFilters = false;
     public $nettoInputMode = false;
     public $withoutDateInputMode = true;
-    
+
     public $currentCostAmount = null;
 
     public $dateFrom = null;
@@ -31,16 +31,16 @@ class Lista extends Component
     public Realestate $realestate;
     public bool $showDeleteCostAmountModal = false ;
 
- 
+
     public function rules()
     {
         return [
-            'current.nazwa' => 'required|min:2',    
-            'current' => 'sometimes', 
-            'current.dateCostAmount' => 'date|sometimes',       
+            'current.nazwa' => 'required|min:2',
+            'current' => 'sometimes',
+            'current.dateCostAmount' => 'date|sometimes',
         ];
     }
-   
+
     /* initialization */
     public function mount($realestate)
     {
@@ -67,10 +67,10 @@ class Lista extends Component
                             'deleteCostAmount' => 'questionDeleteCostAmount',
                             'showCostAmountDetailInListaModal' => 'raise_EditCostAmountModal',
                         ];
- 
- 
+
+
     public function togleShowEditFields(){
-        $this->showEditFields = !$this->showEditFields;   
+        $this->showEditFields = !$this->showEditFields;
     }
 
     public function create()
@@ -89,12 +89,12 @@ class Lista extends Component
     public function raise_EditCostModal(Cost $cost)
     {
         $this->setCurrent($cost);
-        $this->emit('showCostDetailModal', $this->current);   
+        $this->emit('showCostDetailModal', $this->current);
     }
-    
+
     public function editCostAmountModal(CostAmount $costAmount)
     {
-        $this->emit('showCostAmountDetailModal', $costAmount);   
+        $this->emit('showCostAmountDetailModal', $costAmount);
     }
 
     public function questionDeleteCostAmount(CostAmount $costAmount)
@@ -108,7 +108,7 @@ class Lista extends Component
         $this->currentCostAmount->delete();
     }
 
-     
+
 
 
     public function getCostByType($costTypeId){
@@ -118,7 +118,7 @@ class Lista extends Component
         ->get();
     }
 
-   
+
 
     public function hasConsumptionByType($costTypeId){
         $ret = Cost::where('realestate_id','=',$this->realestate->id)
@@ -145,7 +145,7 @@ class Lista extends Component
         ->where(function (Builder $query) {$query->Visible();})
         ->get()->unique('costType_id')
         ->sortBy('CostTypeSort');
-        
+
          $filtered->fresh('costAmounts');
 
         return view('livewire.user.cost.lista', [

@@ -29,7 +29,7 @@ class DetailInput extends Component
     {
         return [
             'userEmail.aktiv' => 'nullable',
-            'userEmail.email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
+            'userEmail.email' => 'required|string|email|max:255',
             'userEmail.dateFrom' => 'nullable|date',
             'userEmail.dateTo' => 'nullable|date',
             'userEmail.firstinitUsername' => 'nullable',
