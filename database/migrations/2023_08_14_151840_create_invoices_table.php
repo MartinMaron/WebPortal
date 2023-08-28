@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->date('createDate');
-            $table->string('caption');
-            $table->string('description');
+            $table->string('caption')->nullable();
+            $table->string('description')->nullable();
             $table->string('fileName');
             $table->unsignedBigInteger('realestate_id');
             $table->foreign('realestate_id')->references('id')->on('realestates');
-            $table->string('nekoId', 40);
+            $table->unsignedBigInteger('nekoId');
             $table->date('dateFrom');
             $table->date('dateTo');
             $table->timestamps();
