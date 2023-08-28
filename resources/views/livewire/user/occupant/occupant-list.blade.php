@@ -65,14 +65,13 @@
                                                         {{ $occupant->eigentumer }}
                                                     </div>
                                                     @endif
-                                                    <x-icon.fonts.editable-pencil wire:click="edit({{ $occupant->id }})" class="text-sm cursor-pointer text-sky-700 hover:text-sky-300"></x-icon.fonts.editable-pencil>
+
                                                 </div>
                                                 <div class="flex text-sm justify-between">
                                                     <div class="">
                                                         {{ $occupant->zeitraumText }}
                                                     </div>
                                                     <div class="">
-                                                        <x-icon.fonts.user-move class="cursor-pointer text-sky-700 hover:text-sky-300 fa-solid fa-house-person-leave"></x-icon.fonts.user-move>
                                                         {{-- <span class="ml-3">Nutzerwechsel</span> --}}
                                                     </div>
                                                 </div>
@@ -118,9 +117,31 @@
                         </div>
                     </div>
                 </div>
+                <x-jet-dropdown align="right" class="h-40">
+                    <x-slot name="trigger">
+                        <button class="py-1 px-2 rounded-lg bg-sky-100 border-sky-100 duration-150 text-md text-sky-700 opacity-90 group-hover:opacity-100 ease">&ctdot;</button>
+                    </x-slot>
+
+                    <x-slot name="content" class="">
+
+                        <x-jet-dropdown-link class="cursor-pointer"
+                        wire:click="edit({{ $occupant->id }})"
+                        >
+                            <x-icon.fonts.editable-pencil class="text-sm cursor-pointer text-sky-700 hover:text-sky-300">
+                            </x-icon.fonts.editable-pencil>{{ __('Bearbeiten') }}
+                        </x-jet-dropdown-link>
+                        <x-jet-dropdown-link class="cursor-pointer"
+                        wire:click=""
+                            >
+                            <x-icon.fonts.user-move class="cursor-pointer text-sky-700 hover:text-sky-300 fa-solid fa-house-person-leave">
+                            </x-icon.fonts.user-move>{{ __('Nutzerwechsel') }}
+                        </x-jet-dropdown-link>
+
+                    </x-slot>
+                </x-jet-dropdown>
             @endforeach
         </div>
-        <!-- Save Nutzer Modal -->
+        <!-- Save Nutzer Bearbeiten -->
         <form wire:submit.prevent="save">
             <x-modal.dialog class=" bg-sky-50" minWidth="680px" maxWidth="800px" wire:model.defer="showEditModal">
             <div>
@@ -444,5 +465,6 @@
 
             </x-modal.dialog>
         </form>
+
     </div>
 </div>

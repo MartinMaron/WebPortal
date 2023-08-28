@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\User\Occupant;
+namespace App\Http\Livewire\User\Occupant\OccupantList;
 
 use Carbon\Carbon;
 use Livewire\Component;
@@ -13,7 +13,7 @@ use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithBulkActions;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
 
-class OccupantList extends Component
+class ShowOccupantList extends Component
 {
 
     use WithPerPagePagination, WithSorting, WithBulkActions, WithCachedRows;
@@ -134,11 +134,21 @@ class OccupantList extends Component
         }
     }
 
+    public function createOccupantListModal(){
+        $this->curren= $this->makeBlankObject();
+        $this->curren->occupant = $occupant;
+        $this->emit('createOccupantListModal', $this->current);
+    }
+
     public function edit(Occupant $occupant)
     {
-        $this->useCachedRows();
+        // dd($occupant);
         $this->setCurrent($occupant);
-        $this->showEditModal = true;
+        // $this->useCachedRows();
+        // $this->showEditModal = true;
+        $this->emit('showOccupantModal', $this->current);
+
+
     }
 
     public function confirmPrePaid(Occupant $occupant, $value)
@@ -169,7 +179,6 @@ class OccupantList extends Component
 
     public function togleshowCustomEinheitNo(){
         $this->showCustomEinheitNo = !$this->showCustomEinheitNo;
-        //Sortowanie
     }
 
     public function togleshowEigentumer(){
@@ -226,7 +235,7 @@ class OccupantList extends Component
 
     public function render()
     {
-        return view('livewire.user.occupant.occupant-list', [
+        return view('livewire.user.occupant.occupant-list.show-occupant-list', [
             'rows' => $this->rows,
             'salutations' => $this->Salutations(),
         ]);

@@ -36,6 +36,8 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('realestates', function (Blueprint $table) {
+            $table->dropColumn(['occupant_name_mode', 'occupant_number_mode']);
+        });
     }
 };

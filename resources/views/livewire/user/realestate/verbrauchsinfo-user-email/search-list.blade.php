@@ -82,29 +82,7 @@
         </div>
 
 
-        <!-- Delete CostAmount Modal -->
-       {{--  <div class="{{ $showDeleteCostAmountModal ? 'visible' : 'invisible' }}">
-            <form wire:submit.prevent="deleteCostAmountModal({{ $current }})">
-                <x-modal.dialog class="bg-sky-50" minWidth="640px" maxWidth="800px" wire:model.defer="showDeleteCostAmountModal">
-                    <!-- Dialog Title -->
-                    <x-slot name="title">
-                        <div class="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 rounded-full">
-                            <i class="text-red-800 fa-solid fa-trash-can"></i>
-                        </div>
-                    </x-slot>
-                    <!-- Dialog Content -->
-                    <x-slot name="content">
-                        <div class="mt-3 text-center sm:mt-5">
-                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Eintrag wirklich löschen</h3>
-                        </div>
-                    </x-slot>
-                    <x-slot name="footer">
-                        <x-button.secondary wire:click="$set('showDeleteCostAmountModal', false)">Abbrechen</x-button.secondary>
-                        <x-button.delete type="submit">Löschen</x-button.delete>
-                    </x-slot>
-                </x-modal.dialog>
-            </form>
-        </div> --}}
+
     </div>
 
 
