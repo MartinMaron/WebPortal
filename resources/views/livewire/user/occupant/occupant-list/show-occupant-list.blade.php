@@ -1,10 +1,12 @@
+
+
 <div>
     <div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <!-- Suchfeld -->
         <x-input.search wire:model.debounce.600ms="filter.search"></x-input.search>
 
-
-        <div class="hidden md:block md:max-w-7xl">
+        <!-- Big screen TABELLA -->
+        <div class="hidden sm:block md:max-w-7xl">
             <x-table class="occu-table">
                 <x-slot name="head">
                     <x-table.thead class="">
@@ -80,7 +82,6 @@
             </x-table>
         </div>
 
-
         <!-- Occupants List -->
         <div class="block sm:hidden">
             <div class="grid w-full grid-cols-1 gap-4 mt-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -108,7 +109,6 @@
                     </div>
                 </div>
                 @foreach ($rows as $occupant)
-
                     <div wire:key="flex row-{{ $occupant->id }}" class="divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-50">
                         <div class="flex items-center justify-between w-full p-2 space-x-6 ">
                             <div class="flex-1 border-sky-100 ">
@@ -150,13 +150,13 @@
                                                         <x-slot name="content" class="">
 
                                                             <x-jet-dropdown-link class="cursor-pointer"
-                                                            wire:click="edit({{ $occupant->id }})"
+                                                            wire:click='edit({{$occupant}})'
                                                             >
                                                                 <x-icon.fonts.editable-pencil class="text-sm cursor-pointer text-sky-700 hover:text-sky-300">
                                                                 </x-icon.fonts.editable-pencil>{{ __('Bearbeiten') }}
                                                             </x-jet-dropdown-link>
                                                             <x-jet-dropdown-link class="cursor-pointer"
-                                                            wire:click='createOccupantListModal'
+                                                            wire:click='createOccupantModal'
                                                                 >
                                                                 <x-icon.fonts.user-move class="cursor-pointer text-sky-700 hover:text-sky-300 fa-solid fa-house-person-leave">
                                                                 </x-icon.fonts.user-move>{{ __('Nutzerwechsel') }}
@@ -183,13 +183,13 @@
                         </div>
                     </div>
                 @endforeach
-                </div>
             </div>
         </div>
-
+       
         <div class="">
-            <livewire:user.occupant.occupant-list.dialog :wire:key="'modal-occupant-occupant-list-dialog'" baseobject ="$realestate"/>
+            <livewire:user.occupant.occupant-list.dialog :realestate='$realestate'/>
         </div>
+      
     </div>
 </div>
 

@@ -103,7 +103,7 @@ class ShowOccupantList extends Component
             'unvid' => $this->realestate->unvid,
             'budguid' => $this->realestate->nekoId,
             'nutzeinheitNo' => 1,
-
+            'nachname' => 'Mustermann',	
         ]);
     }
 
@@ -122,7 +122,11 @@ class ShowOccupantList extends Component
     {
         $this->useCachedRows();
         if ($this->current->getKey()) $this->current = $this->makeBlankTransaction();
-        $this->showEditModal = true;
+    }
+
+    public function createOccupantModal()
+    {
+        $this->emit('createOccupantModal', $this->current);
     }
 
     public function setCurrent(Occupant $occupant)
@@ -134,21 +138,14 @@ class ShowOccupantList extends Component
         }
     }
 
-    public function createOccupantListModal(){
-        $this->curren= $this->makeBlankObject();
-        $this->curren->occupant = $occupant;
-        $this->emit('createOccupantListModal', $this->current);
-    }
-
     public function edit(Occupant $occupant)
     {
-        // dd($occupant);
         $this->setCurrent($occupant);
-        // $this->useCachedRows();
-        // $this->showEditModal = true;
+        $this->useCachedRows();
         $this->emit('showOccupantModal', $this->current);
-
-
+    
+       // $this->emit('showOccupantModal');
+    
     }
 
     public function confirmPrePaid(Occupant $occupant, $value)
@@ -237,7 +234,8 @@ class ShowOccupantList extends Component
     {
         return view('livewire.user.occupant.occupant-list.show-occupant-list', [
             'rows' => $this->rows,
-            'salutations' => $this->Salutations(),
+            'salutations' => $this->salutations(),
+            'current' => $this->current,
         ]);
     }
 }

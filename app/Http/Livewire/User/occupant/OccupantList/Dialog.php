@@ -41,11 +41,10 @@ class Dialog extends Component
         // protected $listeners = [c];
 
         protected $listeners = [
-            'showOccupantListModal' => 'showModal',
+            'showOccupantModal' => 'showModal',
             'closeOccupantListModal' => 'closeModal',
             'createOccupantModal' => 'createModal'
         ];
-
 
         public function rules()
         {
@@ -85,15 +84,33 @@ class Dialog extends Component
 
             ];
         }
+           /* initialization */
+           public function mount(Realestate $realestate)
+           {
+               $this->realestate = $realestate;
+               $this->current = $this->makeBlankObject();
+               $this->salutations = Salutation::all();      
+            }
+   
+           public function makeBlankObject()
+           {
+               return Occupant::make([
+                'nekoId' => $this->realestate->nekoId,
+                'realestate_id' => $this->realestate->id,
+                'unvid' => $this->realestate->unvid,
+                'budguid' => $this->realestate->nekoId,
+                'nutzeinheitNo' => 1,
+   
+               ]);
+           }
 
 
-
-    public function showModal($current){
-        dd('sdwdwdwdjijaijisj');
-        $this->dialogMode = 'edit';
-        $this->current = $current;
-        $this->showEditModal = true;
-    }
+     
+        public function showModal(Occupant $current){
+            $this->dialogMode = 'edit';
+            $this->current = $current;
+            $this->showEditModal = true; 
+        }
 
 
     public function closeModal($save){
@@ -160,24 +177,7 @@ class Dialog extends Component
 
 
 
-        /* initialization */
-        public function mount($baseobject)
-        {
-            $this->realestate = $baseobject;
-            $this->current = $this->makeBlankObject();
-        }
-
-        public function makeBlankObject()
-        {
-            return Occupant::make([
-                'nekoId' => $this->realestate->nekoId,
-                'realestate_id' => $this->realestate->id,
-                'unvid' => $this->realestate->unvid,
-                'budguid' => $this->realestate->nekoId,
-                'nutzeinheitNo' => 1,
-
-            ]);
-        }
+     
 
 
         public function create()
@@ -281,7 +281,6 @@ class Dialog extends Component
 
         public function createModal($current)
         {
-            dd($current);
             $this->dialogMode = 'create';
             $this->current = $current;
             $this->showEditModal = true;
