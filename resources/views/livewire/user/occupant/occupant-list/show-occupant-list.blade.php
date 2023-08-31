@@ -3,7 +3,7 @@
 <div>
     <div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <!-- Suchfeld -->
-        <x-input.search wire:model.debounce.600ms="filter.search"></x-input.search>
+        <x-input.search wire:model.debounce.600ms="filters.search"></x-input.search>
 
         <!-- Big screen TABELLA -->
         <div class="hidden sm:block md:max-w-7xl">
@@ -96,7 +96,6 @@
                             @endif
                         </label>
                     </div>
-
                     <div wire:click="togleshowEigentumer" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none">
                         <input wire:model="showEigentumer" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
                         <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
@@ -138,7 +137,7 @@
                                                 </div>
                                                 @else
                                                 <div>
-                                                    {{ $occupant->eigentumer }}
+                                                    {{ $occupant->eigentumer}}
                                                 </div>
                                                 @endif
                                                 <div class="">
@@ -185,11 +184,11 @@
                 @endforeach
             </div>
         </div>
-       
+
         <div class="">
             <livewire:user.occupant.occupant-list.dialog :realestate='$realestate'/>
         </div>
-      
+
     </div>
 </div>
 

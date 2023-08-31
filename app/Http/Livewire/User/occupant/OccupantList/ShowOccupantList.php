@@ -35,6 +35,7 @@ class ShowOccupantList extends Component
 
     public Occupant $current;
     public Realestate $realestate;
+    public $occupant;
 
     protected $queryString = ['sorts'];
     // protected $listeners = [c];
@@ -90,8 +91,7 @@ class ShowOccupantList extends Component
         $this->current = $this->makeBlankObject();
         $this->salutations = Salutation::all();
         $this->sorts = [
-            'customEinheitNo' => 'asc',
-            'nr' => 'asc'
+            'customEinheitNo' => 'asc'
             ];
     }
 
@@ -103,7 +103,7 @@ class ShowOccupantList extends Component
             'unvid' => $this->realestate->unvid,
             'budguid' => $this->realestate->nekoId,
             'nutzeinheitNo' => 1,
-            'nachname' => 'Mustermann',	
+            'nachname' => 'Mustermann',
         ]);
     }
 
@@ -143,9 +143,9 @@ class ShowOccupantList extends Component
         $this->setCurrent($occupant);
         $this->useCachedRows();
         $this->emit('showOccupantModal', $this->current);
-    
+
        // $this->emit('showOccupantModal');
-    
+
     }
 
     public function confirmPrePaid(Occupant $occupant, $value)
@@ -169,11 +169,6 @@ class ShowOccupantList extends Component
         $this->showEditModal = false;
     }
 
-    public function resetFilters()
-    {
-        $this->reset('filters');
-    }
-
     public function togleshowCustomEinheitNo(){
         $this->showCustomEinheitNo = !$this->showCustomEinheitNo;
     }
@@ -182,26 +177,9 @@ class ShowOccupantList extends Component
         $this->showEigentumer = !$this->showEigentumer;
     }
 
-    public function a(Occupant $occupant)
+    public function resetFilters()
     {
-        if ($this->showCustomEinheitNo){
-            return $occupant->customEinheitNoMitLage;
-        }
-        else
-        {
-            return $occupant->nutzerMitLage;
-        }
-    }
-
-    public function b(Occupant $occupant)
-    {
-        if ($this->showEigentumer){
-            return $occupant->nachname;
-        }
-        else
-        {
-            return $occupant->eigentumer;
-        }
+        $this->reset('filters');
     }
 
     public function getRowsQueryProperty()
@@ -212,6 +190,7 @@ class ShowOccupantList extends Component
                 ->where(function (Builder $query) {
                     $query->where('address', 'LIKE', '%' . $this->filters['search'] . '%')
                         ->orWhere('lage', 'LIKE', '%' . $this->filters['search'] . '%')
+                        ->orWhere('customEinheitNo', 'LIKE', '%' . $this->filters['search'] . '%')
                         ->orWhere('unvid', 'LIKE', '%' . $this->filters['search'] . '%');
                 });
         } else {
@@ -220,6 +199,7 @@ class ShowOccupantList extends Component
         };
 
 
+        $this->applySorting($result);
         return $result;
     }
 
