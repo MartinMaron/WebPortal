@@ -14,7 +14,7 @@ use App\Http\Traits\Api\Job\Realestate\VerbrauchsinfoUserEmailAdapter;
 
 trait RealestateAdapter
 {
-    use OccupantAdapter, ImportAbrechnungssetting, ImportCost, ImportCostKey, VerbrauchsinfoUserEmailAdapter;
+    use OccupantAdapter, ImportAbrechnungssetting, ImportCost, ImportCostKey, VerbrauchsinfoUserEmailAdapter, InvoiceAdapter;
 
     /*   Anlage der Liegenschaft */
     public function importRealestate(Array $data)
@@ -50,6 +50,8 @@ trait RealestateAdapter
                 'heizkosten' => $data['heizkosten'],
                 'rauchmelder' => $data['rauchmelder']]
             );
+        }else{
+            $realestate = Realestate::where('nekoId','=', $data['nekoId']);
         }
 
 
@@ -129,7 +131,14 @@ trait RealestateAdapter
                 }
             }
 
-
+            /* Falls Rechnungen dabei sind werden die daten aktualisert */
+            $invoices = $data['invoices'];
+            foreach ($invoices as $invoice){
+                $retval = $this->importInvoice($invoice, $realestate);
+                if ($retval['result'] == 'error'){
+                    return $retval;
+                }
+            }
 
             /* Realestate-id wird zurückgegeben */
             return response()->json([

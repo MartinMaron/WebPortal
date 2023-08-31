@@ -34,6 +34,7 @@ class RealestateResource extends JsonResource
             'abrechnungSettings'=> $this['abrechnungSettings'],
             'verbrauchsinfoUserEmails'=> $this['verbrauchsinfoUserEmails'],
             'verbrauchsinfoAccessControls'=> $this['verbrauchsinfoAccessControls'],
+            'invoices'=> $this['invoices'],
         ];
     }
 }
