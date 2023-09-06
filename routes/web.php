@@ -67,9 +67,6 @@ Route::name('guest.')->group(function () {
 
 Route::get('/downloadpublicfile/{file_name}', [DownloadFileController::class, 'downloadFile'])->name('downloadpublicfile');
 Route::get('/showpublicfile/{file_name}', [DownloadFileController::class, 'showFile'])->name('showpublicfile');
-Route::get('/downloadspacesfile/{folder}/{id}/{file_name}', [DownloadFileSpacesController::class, 'downloadFile'])->name('downloadspacesfile');
-Route::get('/showspacesfile/{folder}/{id}/{file_name}', [DownloadFileSpacesController::class, 'showFile'])->name('showspacesfile');
-
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::name('user.')->group(function () {
@@ -101,6 +98,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         /* Controller Routing */
         /* Route::resource('/realestate', RealestateController::class)->name('occupants');*/
 
+
+        Route::controller(DownloadFileSpacesController::class)->group(function ($param) {
+            Route::get('/downloadspacesfile/{param}', 'downloadFile')->name('downloadspacesfile');
+            Route::get('/showspacesfile/{param}', 'showFile')->name('showspacesfile');
+        });
+
         Route::controller(RealestateController::class)->group(function ($realestate) {
             Route::get('/realestate/{realestate}', 'show')->name('realestate');
         });
@@ -120,11 +123,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             return view('backend.realestate.show-verbrauchsinfo-user-email', compact('realestate'));
         })->name('realestateVerbrauchsinfoUserEmails');
 
-        Route::get('/realestateHerunterladen/{id}', function ($id) {
+        Route::get('/invoicesList/{id}', function ($id) {
             $realestate = Realestate::all()->find($id);
-            $invoice = Invoice::all()->find($id);
-            return view('backend.realestate.show-herunterladen', compact('realestate','invoice'));
-        })->name('realestateHerunterladen');
+            return view('backend.realestate.show-invoices-list', compact('realestate'));
+        })->name('invoicesList');
 
         Route::get('/costs/{id}', function ($id) {
             $realestate = Realestate::all()->find($id);

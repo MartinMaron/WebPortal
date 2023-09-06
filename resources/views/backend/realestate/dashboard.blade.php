@@ -45,7 +45,7 @@
                     <x-icon.fonts.pdf-download class="text-2xl sm:text-4xl text-sky-700 hover:text-sky-300"></x-icon.fonts.pdf-download>
                 </div>
                 <div class="flex-1 min-w-0">
-                    <a href="{{route('user.realestateHerunterladen', $realestate)}}" class="focus:outline-none">
+                    <a href="{{route('user.invoicesList', $realestate)}}" class="focus:outline-none">
 
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         <p class="font-medium text-gray-900 text-md">Herunterladen</p>

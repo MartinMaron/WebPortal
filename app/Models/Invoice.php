@@ -26,12 +26,12 @@ class Invoice extends Model
     {
         return  Validator::make($data, [
             'nekoId' => 'required|integer',
-            'createDate' => 'required|date', 
-            'caption' => 'required|string|max:255', 
-            'description' => 'sometimes',  
-            'fileName' => 'sometimes', 
-            'dateFrom' => 'required|date', 
-            'dateTo' => 'required|date', 
+            'createDate' => 'required|date',
+            'caption' => 'required|string|max:255',
+            'description' => 'sometimes',
+            'fileName' => 'sometimes',
+            'dateFrom' => 'required|date',
+            'dateTo' => 'required|date',
             'vertragsart' => 'required|string|max:255',
             'bezahlt' => 'required|boolean',
             'bezahltAm' => 'sometimes',
@@ -47,7 +47,7 @@ class Invoice extends Model
                         'dateTo' => 'date:d.m.Y',
                         'createDate' => 'date:d.m.Y', ];
 
-    
+
     protected $appends = ['date_from_editing',
                           'date_to_editing',
                           'createDate_editing'];

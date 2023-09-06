@@ -1,4 +1,4 @@
-<div class="w-full px-4 py-1 sm:px-6 lg:px-8 max-w-7xl ">
+<div class="">
 
 
     <div
@@ -33,46 +33,75 @@
         </div>
     </div>
 
-    <div class="items-center py-10">
-        <div class="flex mt-1 font-bold text-center border-2 rounded-t-lg sm:text-md md:flex-1 bg-sky-100 border-sky-100">
-            <div class="basis-1/4">
+    <div class="hidden sm:block">
+        <div class="grid justify-around grid-cols-12 py-5 mt-1 font-bold text-center border-2 rounded-t-lg sm:text-xs bg-sky-100 border-sky-100">
+            <div class="col-span-2">
                 Beschreibung
             </div>
-            <div class="basis-1/4">
+            <div class="col-span-2">
                 Dateiname
             </div>
-            <div class="basis-1/4">
+            <div class="col-span-1 ">
                 Erstellungsdatum
             </div>
-            <div class="basis-1/4">
+            <div class="col-span-1">
+                Vertragsart
+            </div>
+            <div class="col-span-1">
+                bezahlt
+            </div>
+            <div class="col-span-1">
+                bezahlt am
+            </div>
+            <div class="col-span-1">
+                netto
+            </div>
+            <div class="col-span-1">
+                vat
+            </div>
+            <div class="col-span-1">
+                brutto
             </div>
         </div>
         @foreach ($invoices as $invoice)
 
-        <div class="flex justify-around pt-2 mx-2 text-sm text-center even:bg-sky-500 odd:bg-sky-600">
-                <div class="basis-1/4">
-                {{ $invoice->description }}
+        <div class="grid items-center grid-cols-12 pt-2 text-center sm:text-xs even:bg-sky-200 odd:bg-sky-300">
+                <div class="col-span-2">
+                {{ $invoice->caption }}
                 </div>
-                <div class="basis-1/4">
+                <div class="col-span-2">
                 {{ $invoice->fileName }}
                 </div>
-                <div class="basis-1/4">
+                <div class="col-span-1">
                 {{ $invoice->createDate }}
                 </div>
-                <div class="flex items-center basis-1/4">
-                    <div class="basis-1/5">
-                        <a href="{{route('downloadspacesfile', ['app/rechnung', 'id' => $invoice->nekoId, 'file_name' => $invoice->fileName ])}}" class="flex items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
+                <div class="col-span-1">
+                {{ $invoice->vertragsart }}
+                </div>
+                <div class="col-span-1">
+                {{ $invoice->bezahlt }}
+                </div>
+                <div class="col-span-1">
+                {{ $invoice->bezahltAm }}
+                </div>
+                <div class="col-span-1">
+                {{ $invoice->netto }}
+                </div>
+                <div class="col-span-1">
+                {{ $invoice->vat }}
+                </div>
+                <div class="col-span-1">
+                {{ $invoice->brutto }}
+                </div>
+                <div class="grid grid-cols-2 col-span-1">
+                        <a href="{{route('user.downloadspacesfile', 'i-'. $invoice->id )}}" class="flex items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
                             <x-icon.fonts.file-download class="text-2xl sm:text-2xl text-sky-700 hover:text-sky-300"></x-icon.fonts.file-download>
                         </a>
-                    </div>
-                    <div class="basis-1/5">
-                        <a href="{{route('showspacesfile', ['app/rechnung', 'id' => $invoice->nekoId, 'file_name' => $invoice->fileName ])}}" class="flex items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
+                        <a href="{{route('user.showspacesfile', 'i-'. $invoice->id )}}" class="flex items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
                             <x-icon.fonts.pdf-download class="text-2xl sm:text-2xl text-sky-700 hover:text-sky-300"></x-icon.fonts.pdf-download>
                         </a>
-                    </div>
                 </div>
         </div>
-
         @endforeach
     </div>
 
