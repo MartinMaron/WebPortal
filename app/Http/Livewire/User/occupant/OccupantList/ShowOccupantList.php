@@ -19,6 +19,8 @@ class ShowOccupantList extends Component
     use WithPerPagePagination, WithSorting, WithBulkActions, WithCachedRows;
 
     public $showCustomEinheitNo = true;
+    public $hasAnyCustomEinheitNo = false;
+    public $hasAnyEigentumer = false;
     public $showEigentumer = true;
     public $showDeleteModal = false;
     public $showEditModal = false;
@@ -87,7 +89,10 @@ class ShowOccupantList extends Component
     /* initialization */
     public function mount($baseobject)
     {
+
         $this->realestate = $baseobject;
+        $this->hasAnyCustomEinheitNo = (bool) $this->realestate->occupants->where('customEinheitNo', '<>', '')->count();
+        $this->hasAnyEigentumer = (bool) $this->realestate->occupants->where('eigentumer', '<>', '')->count();
         $this->current = $this->makeBlankObject();
         $this->salutations = Salutation::all();
         $this->sorts = [
@@ -212,6 +217,7 @@ class ShowOccupantList extends Component
 
     public function render()
     {
+
         return view('livewire.user.occupant.occupant-list.show-occupant-list', [
             'rows' => $this->rows,
             'salutations' => $this->salutations(),

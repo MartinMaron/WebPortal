@@ -15,8 +15,6 @@ use function PHPUnit\Framework\returnArgument;
 
 class InvoicesList extends Component
 {
-
-
     public $realestate;
     public $filters = [
         'search' => '',
