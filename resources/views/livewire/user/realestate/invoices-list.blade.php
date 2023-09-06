@@ -1,4 +1,7 @@
-<div class="">
+
+
+
+<div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
 
 
     <div
@@ -33,6 +36,10 @@
         </div>
     </div>
 
+    <div class="py-5">
+        <x-input.search wire:model.debounce.600ms="filters.search"></x-input.search>
+    </div>
+
     <div class="hidden sm:block">
         <div class="grid justify-around grid-cols-12 py-5 mt-1 font-bold text-center border-2 rounded-t-lg sm:text-xs bg-sky-100 border-sky-100">
             <div class="col-span-2">
@@ -63,9 +70,61 @@
                 brutto
             </div>
         </div>
-        @foreach ($invoices as $invoice)
+    </div>
 
-        <div class="grid items-center grid-cols-12 pt-2 text-center sm:text-xs even:bg-sky-200 odd:bg-sky-300">
+    <div class="block sm:hidden mt-10">
+        @foreach ($invoices as $invoice)
+            <div class=" divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-50">
+                <div class="flex items-center justify-around w-full p-2 space-x-6 ">
+                    <div class="flex-1 border-sky-100 ">
+                        <div class="items-center ">
+                            <div class="justify-start gap-2 m-auto text-md text-sky-700">
+                                <div class="">
+                                    {{ $invoice->caption }}
+                                </div>
+                                <div class="flex justify-start">
+                                    <div class="">
+                                        Datum von:
+                                    </div>
+                                    <div class="text-gray-700">
+                                        {{ $invoice->dateFrom}}
+                                    </div>
+                                </div>
+                                <div class="flex justify-start">
+                                    <div class="">
+                                        Datum bis:
+                                    </div>
+                                    <div class="text-gray-700">
+                                        {{ $invoice->dateTo }}
+                                    </div>
+                                </div>
+                                <div class="flex justify-start">
+                                    <div class="">
+                                        brutto:
+                                    </div>
+                                    <div class="text-gray-700">
+                                        {{ $invoice->netto }}
+                                    </div>
+                                </div>
+                                <div class="flex justify-end px-10 -py-10">
+                                    <a href="{{route('user.downloadspacesfile', 'i-'. $invoice->id )}}" class="flex items-center px-10 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
+                                        <x-icon.fonts.file-download class="text-2xl sm:text-2xl text-sky-700 hover:text-sky-300"></x-icon.fonts.file-download>
+                                    </a>
+                                    <a href="{{route('user.showspacesfile', 'i-'. $invoice->id )}}" class="flex items-center w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
+                                        <x-icon.fonts.pdf-download class="text-2xl sm:text-2xl text-sky-700 hover:text-sky-300"></x-icon.fonts.pdf-download>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+    <div class="hidden sm:block">
+        @foreach ($invoices as $invoice)
+            <div class="grid items-center grid-cols-12 pt-2 text-center sm:text-xs even:bg-sky-200 odd:bg-sky-300">
                 <div class="col-span-2">
                 {{ $invoice->caption }}
                 </div>
@@ -101,8 +160,7 @@
                             <x-icon.fonts.pdf-download class="text-2xl sm:text-2xl text-sky-700 hover:text-sky-300"></x-icon.fonts.pdf-download>
                         </a>
                 </div>
-        </div>
+            </div>
         @endforeach
     </div>
-
 </div>
