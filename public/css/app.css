@@ -1269,9 +1269,6 @@ select {
 .mt-8 {
   margin-top: 2rem;
 }
-.ml-auto {
-  margin-left: auto;
-}
 .line-clamp-1 {
   overflow: hidden;
   display: -webkit-box;
@@ -2122,10 +2119,6 @@ select {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
-}
-.px-5 {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
 }
 .pb-1 {
   padding-bottom: 0.25rem;

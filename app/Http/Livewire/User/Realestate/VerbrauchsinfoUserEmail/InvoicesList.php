@@ -8,24 +8,19 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use function PHPUnit\Framework\returnArgument;
-
+use App\Http\Livewire\DataTable\WithSorting;
 
 
 
 class InvoicesList extends Component
 {
+
+    use  WithSorting;
+
     public $realestate;
     public $filters = [
         'search' => '',
     ];
-
-
-    public function path($folder)
-    {
-      $folder = 'app/realestates/'.$realestate->nekoId.'invoices/'.$invoices->fileName;
-      return $this->$folder;
-    }
 
     public function mount($realestate)
     {
@@ -44,22 +39,29 @@ class InvoicesList extends Component
                 ->where('realestate_id', '=', $this->realestate->id)
                 ->where(function (Builder $query) {
                     $query->where('caption', 'LIKE', '%' . $this->filters['search'] . '%')
-                        ->orWhere('fileName', 'LIKE', '%' . $this->filters['search'] . '%');
+                        ->orWhere('fileName', 'LIKE', '%' . $this->filters['search'] . '%')
+                        ->orWhere('vertragsart', 'LIKE', '%' . $this->filters['search'] . '%');
                 });
         } else {
             $result = Invoice::query()
                 ->where('realestate_id', '=', $this->realestate->id);
         };
 
-
+        $this->applySorting($result);
         return $result;
     }
 
 
-    public function render()
+    public function getRowsProperty()
     {
-        $invoices = Invoice::all();
+        // return $this->cache(function () {
+            return $this->rowsQuery->get();
+            // });
+        }
 
-        return view('livewire.user.realestate.invoices-list', ['invoices' => $invoices]);
+
+        public function render()
+        {
+        return view('livewire.user.realestate.invoices-list', ['invoices' => $this->rows]);
     }
 }

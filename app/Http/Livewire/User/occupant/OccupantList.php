@@ -176,28 +176,6 @@ class OccupantList extends Component
         $this->showEigentumer = !$this->showEigentumer;
     }
 
-    public function a(Occupant $occupant)
-    {
-        if ($this->showCustomEinheitNo){
-            return $occupant->customEinheitNoMitLage;
-        }
-        else
-        {
-            return $occupant->nutzerMitLage;
-        }
-    }
-
-    public function b(Occupant $occupant)
-    {
-        if ($this->showEigentumer){
-            return $occupant->nachname;
-        }
-        else
-        {
-            return $occupant->eigentumer;
-        }
-    }
-
     public function getRowsQueryProperty()
     {
         if ($this->filters['search']) {
