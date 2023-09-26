@@ -22,6 +22,9 @@ class Dialog extends Component
         public $showEigentumer = true;
         public $showDeleteModal = false;
         public $showEditModal = false;
+        public $dateFromNewOccupantLeerstand = null;
+        public $dateFromNewOccupant = null;
+        public $hasLeerstand = false;
         public $showFilters = false;
         public bool $editVorauszahlungen = false;
         public $currentVorauszahlung = 0;
@@ -43,12 +46,15 @@ class Dialog extends Component
         protected $listeners = [
             'showOccupantModal' => 'showModal',
             'closeOccupantListModal' => 'closeModal',
-            'createOccupantModal' => 'createModal'
+            'createOccupantModal' => 'create'
         ];
 
         public function rules()
         {
             return [
+                'dateFromNewOccupantLeerstand' => 'nullable',
+                'dateFromNewOccupant' => 'required|date',
+                'hasLeerstand' => 'boolean',
                 'current.nachname' => 'required|min:2',
                 'current.vorname' => 'sometimes',
                 'current.anrede' => 'nullable',
@@ -88,28 +94,30 @@ class Dialog extends Component
            public function mount(Realestate $realestate)
            {
                $this->realestate = $realestate;
-               $this->current = $this->makeBlankObject();
-               $this->salutations = Salutation::all();      
+               $this->salutations = Salutation::all();
             }
-   
-           public function makeBlankObject()
+
+           public function makeBlankObject($occupant)
            {
+
                return Occupant::make([
                 'nekoId' => $this->realestate->nekoId,
                 'realestate_id' => $this->realestate->id,
                 'unvid' => $this->realestate->unvid,
                 'budguid' => $this->realestate->nekoId,
-                'nutzeinheitNo' => 1,
-   
+                'nutzeinheitNo' ,
+
+
+
                ]);
            }
 
 
-     
+
         public function showModal(Occupant $current){
             $this->dialogMode = 'edit';
             $this->current = $current;
-            $this->showEditModal = true; 
+            $this->showEditModal = true;
         }
 
 
@@ -174,16 +182,10 @@ class Dialog extends Component
         }
 
 
-
-
-
-     
-
-
-        public function create()
+        public function create(Occupant $occupant)
         {
             $this->useCachedRows();
-            if ($this->current->getKey()) $this->current = $this->makeBlankTransaction();
+            $this->current = $this->makeBlankObject($occupant);
             $this->showEditModal = true;
         }
 
@@ -238,28 +240,6 @@ class Dialog extends Component
             $this->showEigentumer = !$this->showEigentumer;
         }
 
-        public function a(Occupant $occupant)
-        {
-            if ($this->showCustomEinheitNo){
-                return $occupant->customEinheitNoMitLage;
-            }
-            else
-            {
-                return $occupant->nutzerMitLage;
-            }
-        }
-
-        public function b(Occupant $occupant)
-        {
-            if ($this->showEigentumer){
-                return $occupant->nachname;
-            }
-            else
-            {
-                return $occupant->eigentumer;
-            }
-        }
-
         public function getRowsQueryProperty()
         {
             if ($this->filters['search']) {
@@ -277,13 +257,6 @@ class Dialog extends Component
 
 
             return $result;
-        }
-
-        public function createModal($current)
-        {
-            $this->dialogMode = 'create';
-            $this->current = $current;
-            $this->showEditModal = true;
         }
 
         public function getRowsProperty()

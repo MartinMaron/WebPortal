@@ -59,7 +59,6 @@ class InvoicesList extends Component
             // });
         }
 
-
         public function render()
         {
         return view('livewire.user.realestate.invoices-list', ['invoices' => $this->rows]);

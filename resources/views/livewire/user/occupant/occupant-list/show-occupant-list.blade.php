@@ -49,7 +49,7 @@
                                     @if ($occupant->dateTo)
                                         <span>{{ $occupant->date_to_editing }}</span>
                                     @else
-                                       <button tabindex="-1" class="w-40 mgc-button " type="button" data-hover="Auszug" data-active="Los"><span class="w-40"><i class="text-sky-200 fa-solid fa-house-person-leave"></i></span></button>
+                                       <button wire:click='createOccupantModal' tabindex="-1" class="w-40 mgc-button " type="button" data-hover="Auszug" data-active="Los"><span class="w-40"><i class="text-sky-200 fa-solid fa-house-person-leave"></i></span></button>
                                     @endif
                                 </div>
                             </x-table.td>

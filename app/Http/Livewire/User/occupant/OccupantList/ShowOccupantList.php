@@ -196,6 +196,7 @@ class ShowOccupantList extends Component
                     $query->where('address', 'LIKE', '%' . $this->filters['search'] . '%')
                         ->orWhere('lage', 'LIKE', '%' . $this->filters['search'] . '%')
                         ->orWhere('customEinheitNo', 'LIKE', '%' . $this->filters['search'] . '%')
+                        ->orWhere('eigentumer', 'LIKE', )
                         ->orWhere('unvid', 'LIKE', '%' . $this->filters['search'] . '%');
                 });
         } else {
