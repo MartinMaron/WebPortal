@@ -105,9 +105,7 @@ class Dialog extends Component
                 'realestate_id' => $this->realestate->id,
                 'unvid' => $this->realestate->unvid,
                 'budguid' => $this->realestate->nekoId,
-                'nutzeinheitNo' ,
-
-
+                'nutzeinheitNo'
 
                ]);
            }
