@@ -35,7 +35,7 @@ return new class extends Migration
             $table->boolean('vat')->nullable();
             $table->boolean('uaw')->nullable();
             $table->double('qmkc')->default(0);
-            $table->double('qmww')->default(0);
+            $table->double('qmww')->default(0)->nullable();
             $table->double('pe')->default(0);
             $table->text('bemerkung')->nullable();
             $table->double('vorauszahlung')->default(0)->nullable();

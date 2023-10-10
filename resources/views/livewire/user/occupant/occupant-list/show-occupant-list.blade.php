@@ -49,7 +49,7 @@
                                     @if ($occupant->dateTo)
                                         <span>{{ $occupant->date_to_editing }}</span>
                                     @else
-                                       <button wire:click='createOccupantModal' tabindex="-1" class="w-40 mgc-button " type="button" data-hover="Auszug" data-active="Los"><span class="w-40"><i class="text-sky-200 fa-solid fa-house-person-leave"></i></span></button>
+                                       <button wire:click='change({{$occupant}})' tabindex="-1" class="w-40 mgc-button " type="button" data-hover="Auszug" data-active="Los"><span class="w-40"><i class="text-sky-200 fa-solid fa-house-person-leave"></i></span></button>
                                     @endif
                                 </div>
                             </x-table.td>
@@ -149,26 +149,25 @@
                                                         <x-slot name="trigger">
                                                             <button class="px-2 py-1 duration-150 rounded-lg bg-sky-100 border-sky-100 text-md text-sky-700 opacity-90 group-hover:opacity-100 ease">&ctdot;</button>
                                                         </x-slot>
-
                                                         <x-slot name="content" class="">
-
-                                                            <x-jet-dropdown-link class="cursor-pointer"
-                                                            wire:click='edit({{$occupant}})'
-                                                            >
-                                                                <x-icon.fonts.editable-pencil class="text-sm cursor-pointer text-sky-700 hover:text-sky-300">
-                                                                </x-icon.fonts.editable-pencil>{{ __('Bearbeiten') }}
-                                                            </x-jet-dropdown-link>
-                                                            <x-jet-dropdown-link class="cursor-pointer"
-                                                            wire:click='createOccupantModal'
+                                                            <x-jet-dropdown-link 
+                                                                class="cursor-pointer"
+                                                                wire:click='edit({{$occupant}})'
                                                                 >
-                                                                <x-icon.fonts.user-move class="cursor-pointer text-sky-700 hover:text-sky-300 fa-solid fa-house-person-leave">
-                                                                </x-icon.fonts.user-move>{{ __('Nutzerwechsel') }}
+                                                                <x-icon.fonts.editable-pencil class="text-sm cursor-pointer text-sky-700 hover:text-sky-300"></x-icon.fonts.editable-pencil>
+                                                                {{ __('Bearbeiten') }}
                                                             </x-jet-dropdown-link>
-
+                                                            
+                                                            <x-jet-dropdown-link 
+                                                                class="cursor-pointer"
+                                                                wire:click='change({{$occupant}})'
+                                                                >
+                                                                <x-icon.fonts.user-move class="cursor-pointer text-sky-700 hover:text-sky-300 fa-solid fa-house-person-leave"></x-icon.fonts.user-move>
+                                                                {{ __('Nutzerwechsel') }}
+                                                            </x-jet-dropdown-link>
                                                         </x-slot>
                                                     </x-jet-dropdown>
                                                 </div>
-
                                             </div>
 
                                             <div class="flex justify-between text-sm">

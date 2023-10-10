@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\User\Realestate\VerbrauchsinfoUserEmail;
+namespace App\Http\Livewire\User\Realestate;
 
 use Livewire\Component;
 use App\Models\Realestate;

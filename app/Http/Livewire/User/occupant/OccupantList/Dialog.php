@@ -12,6 +12,7 @@ use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithBulkActions;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
+use Aws\ManagedBlockchain\Exception\ManagedBlockchainException;
 
 class Dialog extends Component
 {
@@ -46,7 +47,7 @@ class Dialog extends Component
         protected $listeners = [
             'showOccupantModal' => 'showModal',
             'closeOccupantListModal' => 'closeModal',
-            'createOccupantModal' => 'create'
+            'changeOccupantModal' => 'changeModal',
         ];
 
         public function rules()
@@ -56,7 +57,7 @@ class Dialog extends Component
                 'dateFromNewOccupant' => 'required|date',
                 'hasLeerstand' => 'boolean',
                 'current.nachname' => 'required|min:2',
-                'current.vorname' => 'sometimes',
+                'current.vorname' => 'nullable',
                 'current.anrede' => 'nullable',
                 'current.nekoId' => 'required',
                 'current.budguid' => 'required',
@@ -66,8 +67,6 @@ class Dialog extends Component
                 'current.qmkc' => 'nullable',
                 'current.pe' => 'nullable',
                 'current.vorauszahlung' => 'nullable',
-                'current.date_to_editing' => 'nullable',
-                'current.date_from_editing' => 'nullable',
                 'current.uaw' => 'boolean',
                 'current.vat' => 'boolean',
                 'current.dateFrom' => 'required|date',
@@ -84,33 +83,59 @@ class Dialog extends Component
                 'current.customEinheitNo' => 'nullable',
                 'current.lage' => 'nullable',
                 'current.qmkc_editing' => 'nullable',
-                'current.email' => 'required|string|email|max:255',
+                'current.email' => 'nullable|string|email|max:255',
                 'current.telephone_number' => 'nullable',
 
 
             ];
         }
-           /* initialization */
-           public function mount(Realestate $realestate)
-           {
-               $this->realestate = $realestate;
-               $this->salutations = Salutation::all();
-            }
+        /* initialization */
+        public function mount(Realestate $realestate)
+        {
+            $this->realestate = $realestate;
+            $this->salutations = Salutation::all();
+            $this->current = $this->realestate->occupants->first();
+        }
 
-           public function makeBlankObject($occupant)
-           {
+        public function makeNewOccupant($oldOccupant)
+        {
+            return Occupant::make([
+            'nekoId' => $this->realestate->nekoId,
+            'realestate_id' => $this->realestate->id,
+            'unvid' => $this->realestate->unvid,
+            'budguid' => $this->realestate->nekoId,
+            'nutzeinheitNo' => $oldOccupant->nutzeinheitNo,
+            'anrede' => $oldOccupant->anrede,
+            'title' => $oldOccupant->title,
+            'nachname' => "Neuer Nutzer",
+            'vorname' => "",
+            'address' => $oldOccupant->address,
+            'street' => $oldOccupant->street,
+            'postcode' => $oldOccupant->postcode,
+            'houseNr' => $oldOccupant->houseNr,
+            'city' => $oldOccupant->city,
+            'vat' => $oldOccupant->vat,
+            'uaw' => $oldOccupant->uaw,
+            'qmkc' => $oldOccupant->qmkc,
+            'qmww' => $oldOccupant->qmww,
+            'pe' => $oldOccupant->pe,
+            'bemerkung' => $oldOccupant->bemerkung,
+            'vorauszahlung' => $oldOccupant->vorauszahlung,
+            'lokalart' => $oldOccupant->lokalart,
+            'customEinheitNo' => $oldOccupant->customEinheitNo,
+            'lage' => $oldOccupant->lage,
+            'email' => $oldOccupant->email,
+            'telephone_number' => $oldOccupant->telephone_number,
+            'eigentumer' => $oldOccupant->eigentumer,
+            'dateFrom' => $oldOccupant->dateFrom,
+            ]);
+        }
 
-               return Occupant::make([
-                'nekoId' => $this->realestate->nekoId,
-                'realestate_id' => $this->realestate->id,
-                'unvid' => $this->realestate->unvid,
-                'budguid' => $this->realestate->nekoId,
-                'nutzeinheitNo'
-
-               ]);
-           }
-
-
+        public function changeModal(Occupant $current){
+            $this->dialogMode = 'change';
+            $this->current = $this->makeNewOccupant($current);
+            $this->showEditModal = true;
+        }
 
         public function showModal(Occupant $current){
             $this->dialogMode = 'edit';
@@ -120,12 +145,47 @@ class Dialog extends Component
 
 
     public function closeModal($save){
+        
         if ($save && $this->current){
             if ($this->validate())
             {
-                if($this->dialogMode == 'create')
+                if($this->dialogMode == 'change')
                 {
-                    Occupant::create($this->current);
+                
+                    /* Occupant::create($this->current); */
+                    Occupant::updateOrcreate(
+                        ['id' => $this->current['id']],
+                        ['nekoId' => $this->current['nekoId'],
+                         'realestate_id' => $this->current['realestate_id'],
+                         'unvid' => $this->current['unvid'],
+                         'budguid' => $this->current['budguid'],
+                         'nutzeinheitNo' => $this->current['nutzeinheitNo'],
+                         'dateFrom' => $this->current['dateFrom'],
+                         'dateTo' => $this->current['dateTo'],
+                         'anrede' => $this->current['anrede'],
+                         'title' => $this->current['title'],
+                         'nachname' => $this->current['nachname'],
+                         'vorname' => $this->current['vorname'],
+                         'address' => $this->current['address'],
+                         'street' => $this->current['street'],
+                         'postcode' => $this->current['postcode'],
+                         'houseNr' => $this->current['houseNr'],
+                         'city' => $this->current['city'],
+                         'vat' => $this->current['vat'],
+                         'uaw' => $this->current['uaw'],
+                         'qmkc' => $this->current['qmkc'],
+                         'qmww' => $this->current['qmww'],
+                         'pe' => $this->current['pe'],
+                         'bemerkung' => $this->current['bemerkung'],
+                         'vorauszahlung' => $this->current['vorauszahlung'],
+                         'lokalart' => $this->current['lokalart'],
+                         'customEinheitNo' => $this->current['customEinheitNo'],
+                         'lage' => $this->current['lage'],
+                         'email' => $this->current['email'],
+                         'telephone_number' => $this->current['telephone_number'],
+                         'eigentumer' => $this->current['eigentumer'],
+                        ]
+                    );
                     $this->emit('refreshParent');
                     toast()->success('Hinzufügen eines neuen Benutzers','Achtung')->push();
                 }
@@ -167,8 +227,6 @@ class Dialog extends Component
                 toast()->success('Die Details des neuen Mandanten wurden geändert.','Achtung')->push();
                 }
                     $this->emit('refreshParent');
-
-
                     $this->showEditModal = false ;
                 }else{
                     $this->showEditModal = true;

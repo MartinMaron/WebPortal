@@ -47,69 +47,17 @@ class ShowOccupantList extends Component
     {
     }
 
-    public function rules()
-    {
-        return [
-            'current.nachname' => 'required|min:2',
-            'current.vorname' => 'sometimes',
-            'current.anrede' => 'nullable',
-            'current.nekoId' => 'required',
-            'current.budguid' => 'required',
-            'current.unvid' => 'required',
-            'current.nutzeinheitNo' => 'required',
-            'current.realestate_id' => 'required',
-            'current.qmkc' => 'nullable',
-            'current.pe' => 'nullable',
-            'current.vorauszahlung' => 'nullable',
-            'current.date_to_editing' => 'nullable',
-            'current.date_from_editing' => 'nullable',
-            'current.uaw' => 'boolean',
-            'current.vat' => 'boolean',
-            'current.dateFrom' => 'required|date',
-            'current.dateTo' => 'nullable',
-            'current.address' => 'nullable',
-            'current.street' => 'nullable',
-            'current.city' => 'nullable',
-            'current.houseNr' => 'nullable',
-            'current.postcode' => 'nullable',
-            'current.bemerkung' => 'nullable',
-            'current.vorauszahlung' => 'nullable',
-            'current.vorauszahlung_editing' => 'nullable',
-            'current.lokalart' => 'nullable',
-            'current.customEinheitNo' => 'nullable',
-            'current.lage' => 'nullable',
-            'current.qmkc_editing' => 'nullable',
-            'current.email' => 'required|string|email|max:255',
-            'current.telephone_number' => 'nullable',
-
-
-        ];
-    }
-
     /* initialization */
     public function mount($baseobject)
     {
-
         $this->realestate = $baseobject;
         $this->hasAnyCustomEinheitNo = (bool) $this->realestate->occupants->where('customEinheitNo', '<>', '')->count();
         $this->hasAnyEigentumer = (bool) $this->realestate->occupants->where('eigentumer', '<>', '')->count();
-        $this->current = $this->makeBlankObject();
         $this->salutations = Salutation::all();
         $this->sorts = [
             'customEinheitNo' => 'asc'
             ];
-    }
-
-    public function makeBlankObject()
-    {
-        return Occupant::make([
-            'nekoId' => $this->realestate->nekoId,
-            'realestate_id' => $this->realestate->id,
-            'unvid' => $this->realestate->unvid,
-            'budguid' => $this->realestate->nekoId,
-            'nutzeinheitNo' => 1,
-            'nachname' => 'Mustermann',
-        ]);
+        $this->current = $this->realestate->occupants->first();
     }
 
     public function toggle($value)
@@ -123,15 +71,10 @@ class ShowOccupantList extends Component
         }
     }
 
-    public function create()
+    public function change(Occupant $occupant)
     {
-        $this->useCachedRows();
-        if ($this->current->getKey()) $this->current = $this->makeBlankTransaction();
-    }
-
-    public function createOccupantModal()
-    {
-        $this->emit('createOccupantModal', $this->current);
+        $this->setCurrent($occupant);
+        $this->emit('changeOccupantModal', $occupant);
     }
 
     public function setCurrent(Occupant $occupant)
@@ -146,11 +89,7 @@ class ShowOccupantList extends Component
     public function edit(Occupant $occupant)
     {
         $this->setCurrent($occupant);
-        $this->useCachedRows();
         $this->emit('showOccupantModal', $this->current);
-
-       // $this->emit('showOccupantModal');
-
     }
 
     public function confirmPrePaid(Occupant $occupant, $value)

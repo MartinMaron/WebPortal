@@ -16,7 +16,7 @@
             <x-slot name="content">
                 <div class="block text-sm">
                     <div class="">
-                        <div class="">seit:</div>
+                        <div class="">seitA:</div>
                         <x-input.date class="w-28"
                         wire:model.lazy="dateFromNewOccupant"
                         type="text"
@@ -44,11 +44,11 @@
 
 
                 <div
-                    x-data="{
-                        selectedId:
+                x-data="{
+                        selectedId: null,
                         init() {
                             // Set the first available tab on the page on page load.
-                            this.select(1)
+                            this.$nextTick(() => this.select(this.$id('tab', 1)))
                         },
                         select(id) {
                             this.selectedId = id
@@ -80,9 +80,9 @@
                     <li>
                         <button
                             :id="$id('tab', whichChild($el.parentElement, $refs.tablist))"
-                            @click="select(1)"
+                            @click="select($el.id)"
                             @mousedown.prevent
-                            @focus="select(1)"
+                            @focus="select($el.id)"
                             type="button"
                             :tabindex="isSelected(1) ? 0 : -1"
                             :aria-selected="isSelected(1)"
@@ -376,10 +376,10 @@
                     </div>
                 </div>
 
-                <div class="container max-w-3xl px-4 mx-auto sm:px-8">
-                    <div class="flex flex-col mb-8 text-base text-gray-800 divide-y main-question">
+                <div class="flex container max-w-3xl px-4 mx-auto sm:px-8">
+                    <div class="flex-col mb-8 text-base text-gray-800 divide-y main-question">
 
-                        <div class="block px-1 py-1 sm:hidden" x-data="{isOpen : true}">
+                        <div class="flex px-1 py-1 sm:hidden" x-data="{isOpen : true}">
                             <a href="#" class="flex items-center justify-between" @click.prevent="isOpen = true">
                                 <h4 :class="{'text-blue-600 font-bold text-lg' : isOpen == true}">Nutzer info</h4>
                                 <svg
@@ -390,7 +390,7 @@
                                     <path d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </a>
-                            <div x-show="isOpen" class="mt-3" :class="{'text-gray-600 text-sm' : isOpen == true}">
+                            <div x-show="isOpen" @click.away="isOpen = false" class="mt-3" :class="{'text-gray-600 text-sm' : isOpen == true}">
                                 <!-- Anrede -->
                                 <x-input.group
                                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
@@ -409,6 +409,31 @@
                                         </div>
                                         @endforeach
                                     </x-input.select>
+                                </x-input.group>
+                                <!-- Zeitraum -->
+                                <x-input.group
+                                class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                                for="current.date_from_editing" label="Zeitraum">
+                                    <div class="flex items-end justify-between h-10 sm:h-8">
+                                        <x-input.date
+                                            wire:model.lazy="current.date_from_editing"
+                                            type="text"
+                                            :error="$errors->first('current.dateFrom')"
+                                            id="current.dateFrom" >
+                                        </x-input.date>
+                                        <div class="sm:mt-3 sm:pt-1">
+                                            <span class="">
+                                                -
+                                            </span>
+                                        </div>
+                                        {{-- <x-input.date-picker wire:model.lazy="current.dateTo" :error="$errors->first('current.dateTo')" fieldname="dateto" calendarOff="false" leadingIcon="false" type="text" id="dateTo"></x-input.date-picker> --}}
+                                        <x-input.date
+                                            wire:model.lazy="current.date_to_editing"
+                                            :error="$errors->first('current.dateTo')"
+                                            type="text"
+                                            id="current.dateTo">
+                                        </x-input.date>
+                                    </div>
                                 </x-input.group>
                                 <!-- Vorname -->
                                 <x-input.group

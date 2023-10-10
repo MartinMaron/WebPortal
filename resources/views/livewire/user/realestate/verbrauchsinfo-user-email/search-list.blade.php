@@ -1,11 +1,8 @@
 <div class="w-full px-4 py-1 sm:px-6 lg:px-8 max-w-7xl ">
-
-
     @if ($nutzeinheiten->count()!=0)
         <div
             x-data="{open:true}"
             x-init="open=true"
-
         >
             <div class="flex items-center justify-center ">
                 <button x-on:click="open = !open" class="font-bold hover:text-sky-700">Bearbeitungshinweise ansehen ...</button>
@@ -73,7 +70,7 @@
 
     {{-- modyfikacja wiersza modal --}}
     <div class="xs:max-w-xs xs:w-xs">
-        <!-- Save Cost Modal -->
+        <!-- Save Modal -->
         <div>
             <livewire:user.realestate.verbrauchsinfo-user-email.detail :wire:key="'modal-realestate-verbrauchsinfo-user-email-detail'"/>
         </div>
