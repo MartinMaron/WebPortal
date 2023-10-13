@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\JobController;
+use App\Http\Controllers\Api\OccupantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,6 @@ use App\Http\Controllers\Api\JobController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/job', [JobController::class, 'job']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -36,13 +36,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         $user = User::where('email', auth()->user()['email'])->firstOrFail();
         return response()->json([new UserResource($user)]);
     });
-
+    
+    Route::apiResource("/occupant", OccupantController::class);
+    
+    Route::post('/job', [JobController::class, 'job']);
+    
     Route::name('user.')->group(function () {
         /* Startseite im user bereich */
         Route::get('profile', function () {
             return auth()->user();
         })->name('profile');
-
+        
+        
         Route::post('logout', [AuthController::class, 'logout']);
 
     });

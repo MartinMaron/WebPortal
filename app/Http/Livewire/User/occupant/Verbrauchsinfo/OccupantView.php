@@ -23,7 +23,7 @@ class OccupantView extends Component
     {
         $res = $this->occupant->userVerbrauchsinfoAccessControls
         ->where('user_id', '=', auth()->user()->id)
-        ->sortBy('jahr_monat')->last();
+        ->sortBy('datum')->last();
 
         $result = $this->occupant->verbrauchsinfos->where('jahr_monat', '=', $res['jahr_monat']) ;
 

@@ -141,12 +141,12 @@ trait RealestateAdapter
             }
 
             /* Realestate-id wird zurückgegeben */
-            return response()->json([
+            return [
                 'function' => 'JobController.realestate',
                 'result' => 'success',
                 'id' => $realestate->id,
-            ]);
-        
+            ];
+          
     }
 
 }

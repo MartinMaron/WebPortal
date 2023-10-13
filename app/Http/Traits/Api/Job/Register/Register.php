@@ -40,9 +40,9 @@ trait Register
                     'password' => Hash::make($data['password'])]
                     );
             }  
-            $user->isMieter = max($user->isMieter, $data['isMieter']);
-            $user->isUser = max($user->isUser, $data['isUser']);
-            $user->isAdmin = max($user->isAdmin, $data['isAdmin']);
+            $user->isMieter = $data['isMieter'];
+            $user->isUser = $data['isUser'];
+            $user->isAdmin = false;
             $user->save();
         }else{
             $user = User::where('email', $data['email'])->first();

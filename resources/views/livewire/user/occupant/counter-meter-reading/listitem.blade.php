@@ -3,10 +3,10 @@
         {{ $counterMeter->zeitraum_akt }}
     </div>
     <div class="basis-1/5">
-        {{ $counterMeter->stand_anfang }}
+        {{ $counterMeter->stand_ende }}
     </div>
     <div class="basis-1/5">
-        {{ $counterMeter->stand_ende }}
+        {{ $counterMeter->stand_anfang }}
     </div>
     <div class="basis-1/5">
         {{ $counterMeter->faktor }}

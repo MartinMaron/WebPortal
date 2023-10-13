@@ -82,4 +82,15 @@ trait OccupantAdapter
  
      }
 
+     public function getOccupantCoreDataByNekoId($data){
+        $occupant = Occupant::where('nekoId','=', $data)->firstOrFail();
+        return $occupant;
+    }
+
+
+
+
+
+
+
 }

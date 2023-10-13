@@ -1,44 +1,20 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\JobDataResource;
-use App\Http\Resources\UserDataResource;
+use App\Models\Occupant;
+use Illuminate\Http\Request;
 
-
-class AuthController extends Controller
+class OccupantController extends Controller
 {
-
-    public function login(Request $request)
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json([
-                    'message' => 'Invalid login details'
-                    ], 401);
-        }
-
-        $user = User::where('email', $request['email'])->firstOrFail();
-
-
-        if ($user->isa) {
-            return response()->json([
-                    'message' => 'Invalid login details'
-                    ], 401);
-        }
-
-        return response()->json([
-                'access_token' => $user->apiToken,
-                'token_type' => 'Bearer',
-                'NekoWebId' => $user->id,
-        ]);
-
+        dd('Index');
     }
 
     /**
@@ -48,7 +24,8 @@ class AuthController extends Controller
      */
     public function create()
     {
-        //
+        dd('Create');
+ 
     }
 
     /**
@@ -59,7 +36,7 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd('store');
     }
 
     /**
@@ -70,7 +47,14 @@ class AuthController extends Controller
      */
     public function show($id)
     {
-        //
+        if (is_numeric($id))
+        {
+            //finden nach Id
+            return Occupant::where('id', $id)->firstOrFail();
+        }else{
+            //finden nach NekoId
+            return Occupant::where('nekoId', $id)->firstOrFail();
+        } 
     }
 
     /**
@@ -81,7 +65,7 @@ class AuthController extends Controller
      */
     public function edit($id)
     {
-        //
+        dd('edit');
     }
 
     /**
@@ -93,7 +77,7 @@ class AuthController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd('update'); //
     }
 
     /**
@@ -104,6 +88,6 @@ class AuthController extends Controller
      */
     public function destroy($id)
     {
-        //
+        dd('destroy');
     }
 }

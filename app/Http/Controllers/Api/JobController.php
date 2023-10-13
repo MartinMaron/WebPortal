@@ -9,6 +9,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\JobDataResource;
 use App\Http\Resources\RealestateResource;
 use App\Http\Traits\Api\Job\Register\Register;
+use App\Http\Traits\Api\Job\Realestate\OccupantAdapter;
 use App\Http\Traits\Api\Job\Realestate\RealestateAdapter;
 use App\Http\Traits\Api\Job\SetRealestateDataInTransactionmode;
 
@@ -16,25 +17,27 @@ use App\Http\Traits\Api\Job\SetRealestateDataInTransactionmode;
 class JobController extends Controller
 {
     use Register;
-    use RealestateAdapter, SetRealestateDataInTransactionmode;
+    use RealestateAdapter, SetRealestateDataInTransactionmode, OccupantAdapter;
     
     public function job(Request $request)
     {
         /* angaben um welchen Job es sich handelt und dazugehörigen Daten */
         $jobData = New JobDataResource($request);
+        
         /* auswahl des Jobs und anschliessende Bearbeitung  */
         if($jobData['job']=='register')
         {
             $data = new UserResource($jobData['data']);
             return $this->register($data->resource) ;
         }elseif($jobData['job']=='realestate'){
+            
             /* Realestate-Resoource wird erzeugt*/
             $res = new RealestateResource($jobData['data']);
             /* Filtern der Daten welche zu weiterer Verwendung benötig werden*/
             $data = $res->toArray($res->resource);
             /* Verarbeitn der Daten */
             $retval = $this->importRealestate($data);
-            return response()->json($retval);
+            return $retval;
         }elseif($jobData['job']=='setIntransactionMode'){
             /* Alle Daten einer Tabele werden in synchronisationsstatus versetzt oder aufgehoben */
             $retval = $this->SetRealestateDataInTransactionmode($jobData['data']);
