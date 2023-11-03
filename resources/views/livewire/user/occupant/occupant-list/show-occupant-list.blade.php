@@ -60,7 +60,7 @@
                                 <span class="">{{number_format($occupant->qmkc,  2, ',', '.') }}</span>
                             </x-table.td>
                             <x-table.td class="text-center occu-td w-30">
-                                <x-table.cell.span>{{ $occupant->pe }}</x-table.cell.span>
+                                <x-table.cell.span>{{number_format($occupant->pe,  1, ',', '.')}}</x-table.cell.span>
                             </x-table.td>
                             <x-table.td class="w-40 p-0 text-right occu-td" style="min-width: 7rem; max-width: 7rem">
                                 @if ($editVorauszahlungen)

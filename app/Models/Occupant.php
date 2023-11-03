@@ -3,10 +3,11 @@
 namespace App\Models;
 use Carbon\Carbon;
 use App\Http\Traits\Helpers;
-use App\Models\VerbrauchsinfoCounterMeter;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use App\Models\VerbrauchsinfoCounterMeter;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Occupant extends Model
@@ -17,7 +18,7 @@ class Occupant extends Model
     protected $fillable = [
         'nekoId', 'realestate_id', 'unvid', 'budguid','nutzeinheitNo', 'dateFrom', 'dateTo', 'anrede', 'title', 'nachname', 'vorname', 'address',
         'street', 'postcode', 'houseNr', 'city', 'vat', 'uaw', 'qmkc', 'qmww', 'pe', 'bemerkung', 'vorauszahlung', 'lokalart', 'customEinheitNo', 'lage', 'email',
-        'telephone_number', 'eigentumer'
+        'telephone_number', 'eigentumer', 'date_from_editing'
     ];
 
     public function user()
@@ -64,29 +65,39 @@ class Occupant extends Model
     }
 
     protected $casts = ['dateFrom' => 'date:d.m.Y',
-                        'dateTo' => 'date:d.m.Y',
-                        'qmkc' => 'decimal:2',
-                        'qmww' => 'decimal:2',
-                        'vorauszahlung' => 'decimal:2' ];
+                    'dateTo' => 'date:d.m.Y',
+                    'qmkc' => 'decimal:2',
+                    'qmww' => 'decimal:2',
+                    'vorauszahlung' => 'decimal:2' ];
 
     protected $appends = ['date_from_editing',
-                          'date_to_editing',
-                          'vorauszahlung_editing',
-                          'qmkc_editing'];
+                        'date_to_editing',
+                        'vorauszahlung_editing',
+                        'personen_zahl',
+                        'qmkc_editing'];
 
 
-    public function getDateFromEditingAttribute()
+    protected function personenZahl(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => number_format($this->pe, 2, ',', '.'),
+            set: fn ($value) => $this->castStringToDouble($this->pe),
+        );
+    }
+
+
+
+    protected function getDateFromEditingAttribute()
     {
         return Carbon::parse($this->dateFrom)->format('d.m.Y');
     }
 
-    public function setDateFromEditingAttribute($value)
+    protected function setDateFromEditingAttribute($value)
     {
-        Debugbar::info('Occupant-setDateFromEditingAttribute:'. $value);
         $this->dateFrom = Carbon::parse($value);
     }
 
-    public function getDateToEditingAttribute()
+    protected function getDateToEditingAttribute()
     {
         if($this->dateTo){
             return Carbon::parse($this->dateTo)->format('d.m.Y');
@@ -94,29 +105,33 @@ class Occupant extends Model
         return '';
     }
 
-    public function setDateToEditingAttribute($value)
+    protected function setDateToEditingAttribute($value)
     {
-        $this->dateTo = Carbon::parse($value);
+        Debugbar::info('Occupant-setDateToEditingAttribute:'. $value);
+        if($value)
+        {
+            $this->dateTo = Carbon::parse($value);
+        }
     }
 
 
-    public function setQmkcEditingAttribute($value){
+    protected function setQmkcEditingAttribute($value){
          $this->qmkc = $this->castStringToDouble($value);
     }
 
-    public function getQmkcEditingAttribute(){
+    protected function getQmkcEditingAttribute(){
         return number_format($this->qmkc, 2, ',', '.');
     }
 
-    public function setVorauszahlungEditingAttribute($value){
+    protected function setVorauszahlungEditingAttribute($value){
         $this->vorauszahlung = $this->castStringToDouble($value);
     }
 
-    public function getVorauszahlungEditingAttribute(){
+    protected function getVorauszahlungEditingAttribute(){
         return number_format($this->vorauszahlung, 2, ',', '.');
     }
 
-    public function getZeitraumAttribute(){
+    protected function getZeitraumAttribute(){
         if ($this->dateTo){
             return Carbon::parse($this->dateFrom)->format('d.m.Y') . ' - '. Carbon::parse($this->dateTo)->format('d.m.Y');
         }else{
@@ -124,7 +139,7 @@ class Occupant extends Model
         }
     }
 
-    public function getZeitraumTextAttribute(){
+    protected function getZeitraumTextAttribute(){
 
         if ($this->dateTo){
             return 'vom '. Carbon::parse($this->dateFrom)->format('d.m.Y') . ' bis '. Carbon::parse($this->dateTo)->format('d.m.Y');
@@ -134,12 +149,12 @@ class Occupant extends Model
 
     }
 
-    public function getNutzerKennnummerAttribute()
+    protected function getNutzerKennnummerAttribute()
     {
         return substr($this->unvid,12,3). '-'. substr($this->unvid,15,3);
     }
 
-    public function getNutzerMitLageAttribute(){
+    protected function getNutzerMitLageAttribute(){
         if ($this->lage){
             return $this->getNutzerKennnummerAttribute() . " ". $this->lage ;
         }
@@ -148,7 +163,7 @@ class Occupant extends Model
         }
     }
 
-    public function getCustomEinheitNoMitLageAttribute(){
+    protected function getCustomEinheitNoMitLageAttribute(){
         if ($this->lage){
 
             return $this->customEinheitNo.' '.$this->lage;

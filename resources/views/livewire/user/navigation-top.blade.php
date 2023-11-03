@@ -70,9 +70,9 @@
                             </form>
                         </div>
                         <div class="md:hidden">
-                            <form method="POST" action="{{ route('logoutin') }}">
+                            <form method="POST" action="{{ route('login') }}">
                                 @csrf
-                                <x-jet-dropdown-link href="{{ route('logoutin') }}"
+                                <x-jet-dropdown-link href="{{ route('login') }}"
                                         onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                     {{ __('Ausloggen') }}
@@ -157,9 +157,9 @@
                             </form>
                         </div>
                         <div class="md:hidden">
-                            <form method="POST" action="{{ route('logoutin') }}">
+                            <form method="POST" action="{{ route('login') }}">
                                 @csrf
-                                <x-jet-dropdown-link href="{{ route('logoutin') }}"
+                                <x-jet-dropdown-link href="{{ route('login') }}"
                                             onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                     {{ __('Ausloggen') }}

@@ -2,15 +2,20 @@
 
 namespace App\Http\Livewire\User\Occupant\Detail;
 
+use DateTime;
 use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Occupant;
 use App\Models\Realestate;
 use App\Models\Salutation;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use PhpParser\Node\Expr\BinaryOp\BooleanOr;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Helpers;
 
 class Dialog extends Component
 {
+
     public $salutations = null;
     public Realestate $realestate;
     public Occupant $current;
@@ -20,6 +25,11 @@ class Dialog extends Component
     public $dateFromNewOccupant = null;
     public $hasLeerstand = false;
     
+    public string $qmkc = "";
+    public string $pe  = "";
+    public string $vorauszahlung = "";
+    
+
     // Dialog properties
     public string $dialogMode = '';
     public bool $showEditModal;
@@ -66,7 +76,7 @@ class Dialog extends Component
             'current.postcode' => 'nullable',
             'current.email' => 'nullable|string|email|max:255',
             'current.telephone_number' => 'nullable',
-            'current.dateFrom' => 'required|date',
+            'current.date_from_editing'=> 'required|string',
             'current.dateTo' => 'nullable',
         ],
         2 => [
@@ -104,10 +114,7 @@ class Dialog extends Component
             'current.anrede' => 'nullable',    
             'current.email' => 'nullable|string|email|max:255',
             'current.telephone_number' => 'nullable', 
-            'current.dateFrom' => 'required|date',
-            'current.dateTo' => 'nullable',      
-            'current.date_from_editing' => 'nullable', 
-            'current.date_to_editing' => 'nullable',       
+            'current.date_from_editing'=> 'required|string',
         ],
         2 => [
             'current.address' => 'nullable',
@@ -117,14 +124,14 @@ class Dialog extends Component
             'current.postcode' => 'nullable',
         ],
         3 => [
-            'current.qmkc_editing' => 'nullable',
-            'current.pe' => 'nullable',
+            'qmkc' => 'nullable',
+            'pe' => 'nullable',
             'current.uaw' => 'boolean',
             'current.vat' => 'boolean',
             'current.lokalart' => 'nullable',
             'current.customEinheitNo' => 'nullable',
             'current.lage' => 'nullable',
-            'current.vorauszahlung' => 'nullable',      
+            'vorauszahlung' => 'nullable',      
         ],
         4 => [
             'current.bemerkung' => 'nullable',
@@ -177,9 +184,11 @@ class Dialog extends Component
 
     public function updated($propertyName)
     {
+        Debugbar::info('Dialog Occupant-updated:'. $propertyName);
+        
         $messages = array(
             'current.nachname' => 'bitte geben Sie einen Nachnamen ein',
-            'current.dateFrom' => 'bitte geben Sie ein Datum ein',     
+            'current.date_from_editing' => 'bitte geben Sie ein Datum ein',     
         );
         
         $calcRules = null;
@@ -190,8 +199,15 @@ class Dialog extends Component
             $calcRules = $this->validationRulesEdit;
         }
 
+     
         $this->validateOnly($propertyName, $calcRules[$this->currentPage], $messages);
+
+        Debugbar::info('Dialog Occupant-updated: end'. $propertyName);
+        
     }
+
+    
+
 
     public function makeNewOccupant($oldOccupant)
     {
@@ -228,11 +244,31 @@ class Dialog extends Component
     }
 
     public function changeModal(Occupant $current){
+        
         $this->currentPage = 1;
         $this->resetValidation();
         $this->dialogMode = 'change';
         $this->current = $this->makeNewOccupant($current);
+        $this->assignCastableValues($current);
         $this->showEditModal = true;
+    }
+
+    protected function assignCastableValues(Occupant $occupant)
+    {
+        $this->vorauszahlung = $this->current->vorauszahlung_editing;    
+        $this->qmkc = $this->current->qmkc_editing;    
+        $this->pe = $this->current->personen_zahl;   
+        /* $this->dateTo = $this->current->date_to_editing;   
+        $this->dateFrom = $this->current->date_from_editing;   */          
+    }
+
+    protected function assignBackCastableValues(Occupant $occupant)
+    {
+        $occupant->vorauszahlung_editing = $this->vorauszahlung;    
+        $occupant->qmkc_editing = $this->qmkc;    
+        $occupant->personen_zahl = $this->pe;   
+        $occupant->date_to_editing = $this->dateTo;   
+        $occupant->date_from_editing = $this->dateFrom;            
     }
 
     public function showModal(Occupant $current){
@@ -240,6 +276,7 @@ class Dialog extends Component
         $this->resetValidation();
         $this->dialogMode = 'edit';
         $this->current = $current;
+        $this->assignCastableValues($current);
         $this->showEditModal = true;
     }
 
@@ -249,7 +286,7 @@ class Dialog extends Component
     
         
         if ($save && $this->current){
-
+            $this->assignBackCastableValues($this->current);
             if ($this->validate($this->rules()))
             {
                 if($this->dialogMode == 'change')
@@ -289,11 +326,7 @@ class Dialog extends Component
                         ]
                     );
                     toast()->success('Hinzufügen eines neuen Benutzers','Achtung')->push();
-
                     $this->emit('refreshParent');   
-
-                  
-
                 }
 
                 if($this->dialogMode == 'edit')
@@ -380,8 +413,10 @@ class Dialog extends Component
  
     public function render()
     {
-        return view('livewire.user.occupant.detail.dialog',[
+       /*  return view('livewire.user.occupant.detail.dialog',[
             'current' => $this->current,
-        ]);
+        ]); */
+        return view('livewire.user.occupant.detail.dialog');
+
     }
 }

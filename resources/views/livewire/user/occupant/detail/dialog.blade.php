@@ -3,14 +3,18 @@
     
     <!-- Save Nutzer Bearbeiten -->
     <form wire:submit.prevent="closeModal(true)">
-    <x-modal.dialog class=" bg-sky-50" minWidth="680px" maxWidth="800px" wire:model="showEditModal">
+        
+        <x-modal.dialog class=" bg-sky-50" minWidth="680px" maxWidth="800px" wire:model="showEditModal">
             <x-slot name="title">
+                <div class="">
+                    {{ $dialogMode  }}
+                </div>
                 <div class="">
                     <div class="flex">
                         @if ($current->nachname)
                             <div class="text-lg font-bold text-sky-500">{{$current->nachname.' '.$current->vorname}}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 text-sky-500" ></x-icon.fonts.pen-line>
                         @else
-                            <div class="text-lg font-bold text-sky-500">Neuer Nutzer</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 text-sky-500" ></x-icon.fonts.pen-line>
+                            <div class="text-lg font-bold text-sky-500">{{$current->qmkc_editing }}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 text-sky-500" ></x-icon.fonts.pen-line>
                         @endif
                     </div>
 
@@ -24,15 +28,18 @@
             <x-slot name="content">
                 <div class="{{ $dialogMode == 'change' ? 'occu-h-600 sm:occu-h-350' : 'occu-h-500 sm:occu-h-300' }} ">
 
+
+
                 @if ($errors->isNotEmpty())
                     <div class="flex text-sm bg-red-100 border border-red-400 text-red-700 px-1 py-1 rounded relative mb-2" role="alert">
                         <span class="block sm:inline"><strong class="font-bold">Oops! </strong>einige Informationen fehlen oder sind nicht korrekt.</span>
+                        {{ $errors  }}
                     </div>
                 @endif
 
 
                 @if ($currentPage === 1)
-                    @if ($dialogMode == 'change')
+                   {{--   @if ($dialogMode == 'change')--}}
                         <div class="block p-2 mb-4 text-sm sm:flex sm:justify-between sm:items-center bg-sky-100 border-2 rounded border-sky-600">
                             <div class="">
                                 <div class="">Leerstand</div>
@@ -62,17 +69,16 @@
                                 </div>
                             @endif
                         </div>
-                    @else
+                    {{-- @else --}}
                         <!-- Zeitraum -->
                         <x-input.group
                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                        for="current.date_from_editing" label="Zeitraum">
+                        for="dateFrom" label="Zeitraum">
                             <div class="flex items-end justify-between h-10 sm:h-8">
                                 <x-input.date
-                                    wire:model.lazy="current.dateFrom"
+                                    wire:model.lazy="current.date_from_editing"
                                     type="text"
-                                    :error="$errors->first('current.dateFrom')"
-                                    id="current.dateFrom" >
+                                    id="dialog.dateFrom" >
                                 </x-input.date>
                                 <div class="sm:mt-3 sm:pt-1">
                                     <span class="">
@@ -81,14 +87,13 @@
                                 </div>
                                 {{-- <x-input.date-picker wire:model.lazy="current.dateTo" :error="$errors->first('current.dateTo')" fieldname="dateto" calendarOff="false" leadingIcon="false" type="text" id="dateTo"></x-input.date-picker> --}}
                                 <x-input.date
-                                    wire:model.lazy="current.date_to_editing"
-                                    :error="$errors->first('current.dateTo')"
+                                    wire:model.lazy="current.dateTo"
                                     type="text"
-                                    id="current.dateTo">
+                                    id="dialog.dateTo">
                                 </x-input.date>
                             </div>
                         </x-input.group>
-                    @endif
+                   {{--  @endif --}}
 
                     <!-- Anrede -->
                     <x-input.group
@@ -192,13 +197,13 @@
                         <!-- Fläche und Personen -->
                         <x-input.group
                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                        for="qmkc" label="Fläche / Personenzahl" :error="$errors->first('current.qmkc')">
+                        for="qmkc" label="Fläche / Personenzahl" :error="$errors->first('qmkc')">
                             <div class="flex flex-row h-10 sm:h-8">
                                 <div class="basis-3/5">
-                                    <x-input.text class="h-10 rounded bg-sky-50 sm:h-8" wire:model.lazy="current.qmkc" id="qmkc" placeholder="Heizfläche in m²" />
+                                    <x-input.text class="h-10 rounded bg-sky-50 sm:h-8" wire:model.lazy="qmkc" id="qmkc" placeholder="Heizfläche in m²" />
                                 </div>
                                 <div class="basis-3/5">
-                                    <x-input.text class="h-10 rounded bg-sky-50 sm:h-8" wire:model.lazy="current.pe" id="pe" placeholder="Personenanzahl" />
+                                    <x-input.text class="h-10 rounded bg-sky-50 sm:h-8" wire:model.lazy="personen_zahl" id="dialog.pe" placeholder="Personenanzahl" />
                                 </div>
                             </div>
                         </x-input.group>
@@ -247,7 +252,7 @@
                         <x-input.group
                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
                         for="vorauszahlung" label="Vorauszahlung" :error="$errors->first('current.vorauszahlung_editing')">
-                            <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.vorauszahlung_editing" id="vorauszahlung" placeholder="0,00" />
+                            <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="vorauszahlung" id="vorauszahlung" placeholder="0,00" />
                         </x-input.group>
                         <!-- eigene Wohnungsbezeichnung -->
                         <x-input.group
