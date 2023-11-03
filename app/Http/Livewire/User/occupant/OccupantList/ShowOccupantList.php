@@ -49,6 +49,7 @@ class ShowOccupantList extends Component
     {
     }
 
+    
     /* initialization */
     public function mount($baseobject)
     {

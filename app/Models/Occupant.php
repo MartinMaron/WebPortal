@@ -18,7 +18,7 @@ class Occupant extends Model
     protected $fillable = [
         'nekoId', 'realestate_id', 'unvid', 'budguid','nutzeinheitNo', 'dateFrom', 'dateTo', 'anrede', 'title', 'nachname', 'vorname', 'address',
         'street', 'postcode', 'houseNr', 'city', 'vat', 'uaw', 'qmkc', 'qmww', 'pe', 'bemerkung', 'vorauszahlung', 'lokalart', 'customEinheitNo', 'lage', 'email',
-        'telephone_number', 'eigentumer', 'date_from_editing'
+        'telephone_number', 'eigentumer', 'date_from_editing', 'qmkc_editing', 'vorauszahlung_editing', 'vorauszahlung_editing', 'personen_zahl'
     ];
 
     public function user()
@@ -94,7 +94,11 @@ class Occupant extends Model
 
     protected function setDateFromEditingAttribute($value)
     {
-        $this->dateFrom = Carbon::parse($value);
+        try {
+            $this->dateFrom = Carbon::parse($value);
+        } catch (\Carbon\Exceptions\InvalidFormatException $e) {
+
+        }
     }
 
     protected function getDateToEditingAttribute()

@@ -39,7 +39,7 @@
 
 
                 @if ($currentPage === 1)
-                   {{--   @if ($dialogMode == 'change')--}}
+                     @if ($dialogMode == 'change')
                         <div class="block p-2 mb-4 text-sm sm:flex sm:justify-between sm:items-center bg-sky-100 border-2 rounded border-sky-600">
                             <div class="">
                                 <div class="">Leerstand</div>
@@ -69,7 +69,7 @@
                                 </div>
                             @endif
                         </div>
-                    {{-- @else --}}
+                    @else
                         <!-- Zeitraum -->
                         <x-input.group
                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
@@ -85,15 +85,14 @@
                                         -
                                     </span>
                                 </div>
-                                {{-- <x-input.date-picker wire:model.lazy="current.dateTo" :error="$errors->first('current.dateTo')" fieldname="dateto" calendarOff="false" leadingIcon="false" type="text" id="dateTo"></x-input.date-picker> --}}
                                 <x-input.date
-                                    wire:model.lazy="current.dateTo"
+                                    wire:model.lazy="current.date_to_editing"
                                     type="text"
                                     id="dialog.dateTo">
                                 </x-input.date>
                             </div>
                         </x-input.group>
-                   {{--  @endif --}}
+                    @endif
 
                     <!-- Anrede -->
                     <x-input.group
@@ -197,13 +196,13 @@
                         <!-- Fläche und Personen -->
                         <x-input.group
                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                        for="qmkc" label="Fläche / Personenzahl" :error="$errors->first('qmkc')">
+                        for="qmkc_editing" label="Fläche / Personenzahl" :error="$errors->first('current.qmkc')">
                             <div class="flex flex-row h-10 sm:h-8">
                                 <div class="basis-3/5">
-                                    <x-input.text class="h-10 rounded bg-sky-50 sm:h-8" wire:model.lazy="qmkc" id="qmkc" placeholder="Heizfläche in m²" />
+                                    <x-input.text class="h-10 rounded bg-sky-50 sm:h-8" wire:model.lazy="current.qmkc_editing" id="dialog.qmkc" placeholder="Heizfläche in m²" />
                                 </div>
                                 <div class="basis-3/5">
-                                    <x-input.text class="h-10 rounded bg-sky-50 sm:h-8" wire:model.lazy="personen_zahl" id="dialog.pe" placeholder="Personenanzahl" />
+                                    <x-input.text class="h-10 rounded bg-sky-50 sm:h-8" wire:model.lazy="current.personen_zahl" id="dialog.pe" placeholder="Personenanzahl" />
                                 </div>
                             </div>
                         </x-input.group>
@@ -252,7 +251,7 @@
                         <x-input.group
                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
                         for="vorauszahlung" label="Vorauszahlung" :error="$errors->first('current.vorauszahlung_editing')">
-                            <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="vorauszahlung" id="vorauszahlung" placeholder="0,00" />
+                            <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.vorauszahlung_editing" id="dialog.vorauszahlung" placeholder="0,00" />
                         </x-input.group>
                         <!-- eigene Wohnungsbezeichnung -->
                         <x-input.group

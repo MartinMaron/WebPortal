@@ -2,16 +2,17 @@
 
 namespace App\Http\Livewire\User\Occupant\Detail;
 
+use Helpers;
 use DateTime;
 use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Occupant;
 use App\Models\Realestate;
 use App\Models\Salutation;
+use Illuminate\Support\Facades\Route;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Helpers;
 
 class Dialog extends Component
 {
@@ -76,8 +77,8 @@ class Dialog extends Component
             'current.postcode' => 'nullable',
             'current.email' => 'nullable|string|email|max:255',
             'current.telephone_number' => 'nullable',
-            'current.date_from_editing'=> 'required|string',
-            'current.dateTo' => 'nullable',
+            'current.date_from_editing'=> 'required|date',
+            'current.date_to_editing' => 'nullable',
         ],
         2 => [
             'current.address' => 'nullable',
@@ -87,14 +88,14 @@ class Dialog extends Component
             'current.postcode' => 'nullable',
         ],
         3 => [
-            'current.qmkc' => 'nullable',
-            'current.pe' => 'nullable',
+            'current.qmkc_editing' => 'nullable',
             'current.uaw' => 'boolean',
             'current.vat' => 'boolean',
             'current.lokalart' => 'nullable',
             'current.customEinheitNo' => 'nullable',
             'current.lage' => 'nullable',
-            'current.vorauszahlung' => 'nullable',      
+            'current.vorauszahlung_editing' => 'nullable',
+            'current.personen_zahl' => 'nullable',      
         ],
         4 => [
             'current.bemerkung' => 'nullable',
@@ -115,6 +116,7 @@ class Dialog extends Component
             'current.email' => 'nullable|string|email|max:255',
             'current.telephone_number' => 'nullable', 
             'current.date_from_editing'=> 'required|string',
+            'current.date_to_editing'=> 'nullable|string',
         ],
         2 => [
             'current.address' => 'nullable',
@@ -124,14 +126,14 @@ class Dialog extends Component
             'current.postcode' => 'nullable',
         ],
         3 => [
-            'qmkc' => 'nullable',
-            'pe' => 'nullable',
+            'current.qmkc_editing' => 'nullable',
+            'current.vorauszahlung_editing' => 'nullable',
             'current.uaw' => 'boolean',
             'current.vat' => 'boolean',
             'current.lokalart' => 'nullable',
             'current.customEinheitNo' => 'nullable',
             'current.lage' => 'nullable',
-            'vorauszahlung' => 'nullable',      
+            'current.personen_zahl' => 'nullable',      
         ],
         4 => [
             'current.bemerkung' => 'nullable',
@@ -144,11 +146,11 @@ class Dialog extends Component
   
     public function ValidationRules()
     {
-        if ($this->dialogMode = 'edit'){
+        if ($this->dialogMode == 'edit'){
            return $this->validationRulesEdit;
 
         }
-        if ($this->dialogMode = 'change'){
+        if ($this->dialogMode == 'change'){
            return $this->validationRulesChange;
         }
     }
@@ -160,7 +162,7 @@ class Dialog extends Component
 
     public function rules()
     {
-        if ($this->dialogMode = 'change'){
+        if ($this->dialogMode == 'change'){
             return collect($this->validationRulesChange)->collapse()->toArray();
         }else
         {
@@ -184,26 +186,19 @@ class Dialog extends Component
 
     public function updated($propertyName)
     {
-        Debugbar::info('Dialog Occupant-updated:'. $propertyName);
         
         $messages = array(
             'current.nachname' => 'bitte geben Sie einen Nachnamen ein',
             'current.date_from_editing' => 'bitte geben Sie ein Datum ein',     
         );
-        
         $calcRules = null;
-        if ($this->dialogMode = 'change'){
+        if ($this->dialogMode == 'change'){
             $calcRules = $this->validationRulesChange;
         }else
         {
             $calcRules = $this->validationRulesEdit;
         }
-
-     
         $this->validateOnly($propertyName, $calcRules[$this->currentPage], $messages);
-
-        Debugbar::info('Dialog Occupant-updated: end'. $propertyName);
-        
     }
 
     
@@ -244,31 +239,11 @@ class Dialog extends Component
     }
 
     public function changeModal(Occupant $current){
-        
         $this->currentPage = 1;
         $this->resetValidation();
         $this->dialogMode = 'change';
         $this->current = $this->makeNewOccupant($current);
-        $this->assignCastableValues($current);
         $this->showEditModal = true;
-    }
-
-    protected function assignCastableValues(Occupant $occupant)
-    {
-        $this->vorauszahlung = $this->current->vorauszahlung_editing;    
-        $this->qmkc = $this->current->qmkc_editing;    
-        $this->pe = $this->current->personen_zahl;   
-        /* $this->dateTo = $this->current->date_to_editing;   
-        $this->dateFrom = $this->current->date_from_editing;   */          
-    }
-
-    protected function assignBackCastableValues(Occupant $occupant)
-    {
-        $occupant->vorauszahlung_editing = $this->vorauszahlung;    
-        $occupant->qmkc_editing = $this->qmkc;    
-        $occupant->personen_zahl = $this->pe;   
-        $occupant->date_to_editing = $this->dateTo;   
-        $occupant->date_from_editing = $this->dateFrom;            
     }
 
     public function showModal(Occupant $current){
@@ -276,7 +251,6 @@ class Dialog extends Component
         $this->resetValidation();
         $this->dialogMode = 'edit';
         $this->current = $current;
-        $this->assignCastableValues($current);
         $this->showEditModal = true;
     }
 
@@ -286,13 +260,12 @@ class Dialog extends Component
     
         
         if ($save && $this->current){
-            $this->assignBackCastableValues($this->current);
             if ($this->validate($this->rules()))
             {
                 if($this->dialogMode == 'change')
                 {
                     /* Occupant::create($this->current); */
-                    Occupant::updateOrcreate(
+                    $save = Occupant::updateOrcreate(
                         ['id' => $this->current['id']],
                         ['nekoId' => $this->current['nekoId'],
                             'realestate_id' => $this->current['realestate_id'],
@@ -325,13 +298,12 @@ class Dialog extends Component
                             'eigentumer' => $this->current['eigentumer'],
                         ]
                     );
-                    toast()->success('Hinzufügen eines neuen Benutzers','Achtung')->push();
-                    $this->emit('refreshParent');   
-                }
+                    
+                 }
 
                 if($this->dialogMode == 'edit')
                 {
-                    Occupant::updateOrcreate(
+                   $save = Occupant::updateOrcreate(
                         ['id' => $this->current['id']],
                         ['nekoId' => $this->current['nekoId'],
                             'realestate_id' => $this->current['realestate_id'],
@@ -364,12 +336,25 @@ class Dialog extends Component
                             'eigentumer' => $this->current['eigentumer'],
                         ]
                     );
-                    toast()->success('Die Details des neuen Nutzers wurden geändert.','Achtung')->push();
                 }
-             
-                $this->showEditModal = false ;
-            
-            }else{
+                if(!$save->wasRecentlyCreated && $save->wasChanged()){
+                    // updateOrCreate performed an update
+                    toast()->success('Die Details des Nutzers wurden geändert.','Achtung')->push();
+                    return redirect(request()->header('Referer'));
+                }
+                
+                if(!$save->wasRecentlyCreated && !$save->wasChanged()){
+                    // updateOrCreate performed nothing, row did not change
+                    $this->showEditModal = false;
+                }
+                
+                if($save->wasRecentlyCreated){
+                    toast()->success('Hinzufügen eines neuen Benutzers.','Achtung')->push();
+                    return redirect(request()->header('Referer'));
+                   // updateOrCreate performed create
+                }
+                
+                }else{
                 $this->showEditModal = true;
             };
         }else{
@@ -381,15 +366,27 @@ class Dialog extends Component
 
     public function goToNextPage()
     {
+       
+     
         $calcRules = null;
-        if ($dialogMode = 'change'){
+        Debugbar::info('Dialog Occupant-goToNextPage 1 '. $this->dialogMode);
+           
+        if ($this->dialogMode == 'change'){
+            Debugbar::info('Dialog Occupant-goToNextPage 1a '. $this->dialogMode);
             $calcRules = $this->validationRulesChange;
         }else
         {
+            Debugbar::info('Dialog Occupant-goToNextPage 1b '. $this->dialogMode);
             $calcRules = $this->validationRulesEdit;
         }
+        Debugbar::info('Dialog Occupant-goToNextPage 2 '. $this->dialogMode);
+      
         $this->validate($calcRules[$this->currentPage]);
+        Debugbar::info('Dialog Occupant-goToNextPage 3 '. $this->dialogMode);
+      
         $this->currentPage++;
+        Debugbar::info('Dialog Occupant-goToNextPage 4 '. $this->dialogMode);
+      
     }
 
     public function goToPreviousPage()
