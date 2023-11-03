@@ -29,6 +29,7 @@ use App\Http\Controllers\Api\OccupantController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::post('/loginMobile', [AuthController::class, 'loginMobile']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {

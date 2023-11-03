@@ -61,14 +61,12 @@ class Occupant extends Model
             'pe' => 'required|numeric',
             'vorauszahlung' => 'required|numeric',
         ]);
-
     }
-
-
 
     protected $casts = ['dateFrom' => 'date:d.m.Y',
                         'dateTo' => 'date:d.m.Y',
                         'qmkc' => 'decimal:2',
+                        'qmww' => 'decimal:2',
                         'vorauszahlung' => 'decimal:2' ];
 
     protected $appends = ['date_from_editing',
@@ -158,6 +156,22 @@ class Occupant extends Model
         else {
             return $this->customEinheitNo ;
         }
+    }
+
+   
+    public function visibleVerbrauchsinfos()
+    {
+        $q = $this->userVerbrauchsinfoAccessControls
+            ->where('user_id', '=', auth()->user()->id)
+            ->map(function (UserVerbrauchsinfoAccessControl $userControl) {
+                return $userControl->jahr_monat ;
+            });
+
+
+        $result = $this->verbrauchsinfos
+            ->whereIn('jahr_monat', $q)->toquery();
+
+        return $result->get();
     }
 
 

@@ -57,17 +57,13 @@ class ShowVerbrauchsinfoCounterMeter extends Component
 
         $q = $this->occupant->userVerbrauchsinfoAccessControls
         ->where('user_id', '=', auth()->user()->id)
-        ->sortByDesc('jahr_monat')
+        ->sortByDesc('datum')
         ->map(function (UserVerbrauchsinfoAccessControl $userControl) {
             return $userControl->jahr_monat ;
         })->first();
-
-
+        
         $result = $this->occupant->counterMeters
         ->where('jahr_monat', $q)->toquery();
-     //   dd($result);
-
-
 
         if ($this->filter) {
             $result = $result
@@ -101,8 +97,6 @@ class ShowVerbrauchsinfoCounterMeter extends Component
         $nutzergruppen = $this->rowsQuery
         ->get()->unique('nutzergrup_id');
         ;
-
-
 
         return view('livewire.user.occupant.counter-meter.search-list', [
             'rows' => $this->rows,

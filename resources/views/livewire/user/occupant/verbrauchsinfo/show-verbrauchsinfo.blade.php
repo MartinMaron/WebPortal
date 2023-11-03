@@ -7,7 +7,7 @@
             @if ($rows->count()!=0)
                @foreach ($rows as $occupant)
                 <div>
-                    <div x-data="{ open: false }" class="col-span-1 divide-y divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-100">
+                    <div x-data="{ open: true }" class="col-span-1 divide-y divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-100">
                         <div class="flex items-center justify-between w-full pt-2 space-x-6 ">
                             <div class="flex-1 truncate border-sky-200 ">
                                 <div x-on:click="open = ! open"  class="w-full">
@@ -24,12 +24,9 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-
                 </div>
-
                 @endforeach
             @endif
         </div>

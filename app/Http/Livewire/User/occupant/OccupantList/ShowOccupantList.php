@@ -40,8 +40,10 @@ class ShowOccupantList extends Component
     public $occupant;
 
     protected $queryString = ['sorts'];
-    // protected $listeners = [c];
 
+    protected $listeners = [
+        'refreshParent' => '$refresh',
+    ];
 
     public function Salutations()
     {

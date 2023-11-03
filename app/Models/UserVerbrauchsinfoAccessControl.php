@@ -15,6 +15,8 @@ class UserVerbrauchsinfoAccessControl extends Model
         'occupant_id', 'user_id', 'neko_id', 'jahr_monat', 'datum'
     ];
     
+    protected $appends = ['datum'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -25,12 +27,10 @@ class UserVerbrauchsinfoAccessControl extends Model
         return $this->belongsTo(Occupant::class);
     }
 
-    public function getDatumAttribute()
+    public function getdatumAttribute()
     {
-        if($this->dateTo){
-            return Carbon::parse($this->dateTo)->format('d.m.Y');
-        }
-        return '';
+        $jm = explode('-', $this->jahr_monat);
+        return new Carbon($jm[0]."-".$jm[1]."-01");
     }
 
     public static function validateImportData($data)

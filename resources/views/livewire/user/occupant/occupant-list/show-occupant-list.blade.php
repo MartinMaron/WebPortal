@@ -1,13 +1,13 @@
 
 
-<div>
-    <div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
+<div key="{{ now() }}">
+    <div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8" key="{{ now() }}">
         <!-- Suchfeld -->
         <x-input.search wire:model.debounce.600ms="filters.search"></x-input.search>
 
         <!-- Big screen TABELLA -->
-        <div class="hidden sm:block md:max-w-7xl">
-            <x-table class="occu-table">
+        <div class="hidden sm:block md:max-w-7xl" key="{{ now() }}">
+            <x-table class="occu-table" key="{{ now() }}">
                 <x-slot name="head">
                     <x-table.thead class="">
                     @if ($rows->count()!=0)
@@ -83,11 +83,11 @@
         </div>
 
         <!-- Occupants List -->
-        <div class="block sm:hidden">
-            <div class="grid w-full grid-cols-1 gap-4 mt-6 sm:grid-cols-2 lg:grid-cols-3">
-                <div class="justify-between">
+        <div class="block sm:hidden" key="{{ now() }}">
+            <div class="grid w-full grid-cols-1 gap-4 mt-6 sm:grid-cols-2 lg:grid-cols-3" key="{{ now() }}">
+                <div class="justify-between" key="{{ now() }}">
                     @if ($hasAnyCustomEinheitNo)
-                    <div wire:click="togleshowCustomEinheitNo" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none">
+                    <div wire:click="togleshowCustomEinheitNo" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
                         <input wire:model="showCustomEinheitNo" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
                         <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
                             @if ($showCustomEinheitNo)
@@ -112,7 +112,7 @@
                     @endif
                 </div>
                 @foreach ($rows as $occupant)
-                    <div wire:key="flex row-{{ $occupant->id }}" class="divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-50">
+                    <div wire:key="flex row-{{ $occupant->id }}" class="divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-50" key="{{ now() }}" >
                         <div class="flex items-center justify-between w-full p-2 space-x-6 ">
                             <div class="flex-1 border-sky-100 ">
                                 <div class="w-full text-gray-700">
@@ -189,7 +189,13 @@
         </div>
 
         <div class="">
+           {{-- 
             <livewire:user.occupant.occupant-list.dialog :realestate='$realestate'/>
+         --}}
+         
+            <livewire:user.occupant.detail.dialog :realestate='$realestate' key="{{ now() }}"/>
+        
+        
         </div>
 
     </div>

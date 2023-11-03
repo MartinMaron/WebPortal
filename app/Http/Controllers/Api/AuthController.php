@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\JobDataResource;
 use App\Http\Resources\UserDataResource;
-
+use App\Http\Resources\UserMobileRessource;
 
 class AuthController extends Controller
 {
@@ -40,6 +40,35 @@ class AuthController extends Controller
         ]);
 
     }
+
+    public function loginMobile(Request $request)
+    {
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json([
+                    'message' => 'Invalid login details'
+                    ], 401);
+        }
+
+        $user = User::where('email', $request['email'])->firstOrFail();
+
+
+        if ($user->isa) {
+            return response()->json([
+                    'message' => 'Invalid login details'
+                    ], 401);
+        }
+
+        $userRessource = new UserMobileRessource($user);
+        return response()->json($userRessource);
+
+    }
+
+
+
+
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -70,7 +99,7 @@ class AuthController extends Controller
      */
     public function show($id)
     {
-        //
+        dd("treffer");
     }
 
     /**

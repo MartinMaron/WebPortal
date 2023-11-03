@@ -95,10 +95,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             }
         })->name('realestates');
 
-        /* Controller Routing */
-        /* Route::resource('/realestate', RealestateController::class)->name('occupants');*/
-
-
         Route::controller(DownloadFileSpacesController::class)->group(function ($param) {
             Route::get('/downloadspacesfile/{param}', 'downloadFile')->name('downloadspacesfile');
             Route::get('/showspacesfile/{param}', 'showFile')->name('showspacesfile');
@@ -112,11 +108,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             $realestate = Realestate::all()->find($id);
             return view('backend.realestate.show-occupant-list', compact('realestate'));
         })->name('realestateOccupantList');
-
-        Route::get('/occupants/{id}', function ($id) {
-            $realestate = Realestate::all()->find($id);
-            return view('backend.realestate.show-occupants', compact('realestate'));
-        })->name('occupant');
 
         Route::get('/realestateVerbrauchsinfoUserEmails/{id}', function ($id) {
             $realestate = Realestate::all()->find($id);
