@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('realestate_id');
             $table->foreign('realestate_id')->references('id')->on('realestates');
             $table->string('nekoId', 40);
-            $table->string('unvid', 40);
+            $table->string('unvid', 40)->nullable();
             $table->string('budguid', 40);
             $table->unsignedInteger('nutzeinheitNo');
             $table->date('dateFrom');
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('houseNr')->nullable();
             $table->string('postcode')->nullable();
             $table->string('city')->nullable();
-            $table->text('address');
+            $table->text('address')->nullable();
             $table->boolean('vat')->nullable();
             $table->boolean('uaw')->nullable();
             $table->double('qmkc')->default(0);
@@ -45,6 +45,8 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('telephone_number')->nullable();
             $table->string('eigentumer')->nullable();
+            $table->string('leerstand')->boolean()->default(0);
+            $table->string('umlage_nutzerwechsel')->boolean()->default(1);
             $table->timestamps();
         });
     }

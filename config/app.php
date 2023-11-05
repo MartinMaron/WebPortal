@@ -83,7 +83,7 @@ return [
     */
 
     'locale' => 'de',
-
+    
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -193,7 +193,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // ...
+        'Carbon'		  => 'Carbon/Carbon',
     ])->toArray(),
 
 ];

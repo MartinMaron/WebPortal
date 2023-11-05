@@ -7,14 +7,18 @@
         <x-modal.dialog class=" bg-sky-50" minWidth="680px" maxWidth="800px" wire:model="showEditModal">
             <x-slot name="title">
                 <div class="">
-                    {{ $dialogMode  }}
+                    {{ $current  }}
                 </div>
                 <div class="">
                     <div class="flex">
-                        @if ($current->nachname)
-                            <div class="text-lg font-bold text-sky-500">{{$current->nachname.' '.$current->vorname}}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 text-sky-500" ></x-icon.fonts.pen-line>
+                        @if ($this->hasLeerstand)
+                            <div class="text-lg font-bold text-sky-500">Leerstand</div> 
                         @else
-                            <div class="text-lg font-bold text-sky-500">{{$current->qmkc_editing }}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 text-sky-500" ></x-icon.fonts.pen-line>
+                            @if ($current->nachname)
+                                <div class="text-lg font-bold text-sky-500">{{$current->nachname.' '.$current->vorname}}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 text-sky-500" ></x-icon.fonts.pen-line>
+                            @else
+                                <div class="text-lg font-bold text-sky-500">{{$current->nachname }}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 text-sky-500" ></x-icon.fonts.pen-line>
+                            @endif
                         @endif
                     </div>
 
@@ -39,7 +43,7 @@
 
 
                 @if ($currentPage === 1)
-                     @if ($dialogMode == 'change')
+                    @if ($dialogMode == 'change')
                         <div class="block p-2 mb-4 text-sm sm:flex sm:justify-between sm:items-center bg-sky-100 border-2 rounded border-sky-600">
                             <div class="">
                                 <div class="">Leerstand</div>
@@ -56,91 +60,82 @@
                                 id="" >
                                 </x-input.date>
                             </div>
-
-                            @if ($hasLeerstand)
-                                <div class="sm:px-2">
-                                    <div class="">Nutzer nach Leerstand seit:</div>
-                                    <x-input.date class="w-28"
-                                    wire:model.lazy="dateFromNewOccupantLeerstand"
-                                    :error="$errors->first('dateFromNewOccupantLeerstand')"
-                                    type="text"
-                                    id="">
-                                    </x-input.date>
-                                </div>
-                            @endif
                         </div>
                     @else
                         <!-- Zeitraum -->
-                        <x-input.group
-                        class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                        for="dateFrom" label="Zeitraum">
-                            <div class="flex items-end justify-between h-10 sm:h-8">
-                                <x-input.date
-                                    wire:model.lazy="current.date_from_editing"
-                                    type="text"
-                                    id="dialog.dateFrom" >
-                                </x-input.date>
-                                <div class="sm:mt-3 sm:pt-1">
-                                    <span class="">
-                                        -
-                                    </span>
+                            <x-input.group
+                            class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                            for="dateFrom" label="Zeitraum">
+                                <div class="flex items-end justify-between h-10 sm:h-8">
+                                    <x-input.date
+                                        wire:model.lazy="current.date_from_editing"
+                                        type="text"
+                                        id="dialog.dateFrom" >
+                                    </x-input.date>
+                                    <div class="sm:mt-3 sm:pt-1">
+                                        <span class="">
+                                            -
+                                        </span>
+                                    </div>
+                                    <x-input.date
+                                        wire:model.lazy="current.date_to_editing"
+                                        type="text"
+                                        id="dialog.dateTo">
+                                    </x-input.date>
                                 </div>
-                                <x-input.date
-                                    wire:model.lazy="current.date_to_editing"
-                                    type="text"
-                                    id="dialog.dateTo">
-                                </x-input.date>
-                            </div>
-                        </x-input.group>
+                            </x-input.group>
+                        
                     @endif
 
-                    <!-- Anrede -->
-                    <x-input.group
-                            class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                            for="anrede" label="Anrede" :error="$errors->first('current.anrede')"
-                            x-data
-                            x-init="$refs.inputAnrede.focus()"
-                            >
-                        <x-input.select
-                            x-ref="inputAnrede"
-                            class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0" wire:model="current.anrede" id="anrede" placeholder="Bitte auswählen" value="">
-                            @foreach ($this->salutations as $label)
-                            <div class="h-10">
-                                <option value="{{ $label->bezeichnung }}">
-                                    {{ $label->bezeichnung }}
-                                </option>
+                    @if ($hasLeerstand != true)
+                  
+                        <!-- Anrede -->
+                        <x-input.group
+                                class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                                for="anrede" label="Anrede" :error="$errors->first('current.anrede')"
+                                x-data
+                                x-init="$refs.inputAnrede.focus()"
+                                >
+                            <x-input.select
+                                x-ref="inputAnrede"
+                                class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0" wire:model="current.anrede" id="anrede" placeholder="Bitte auswählen" value="">
+                                @foreach ($this->salutations as $label)
+                                <div class="h-10">
+                                    <option value="{{ $label->bezeichnung }}">
+                                        {{ $label->bezeichnung }}
+                                    </option>
+                                </div>
+                                @endforeach
+                            </x-input.select>
+                        </x-input.group>
+                        <!-- Vorname -->
+                        <x-input.group
+                        class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                        for="vorname" label="Vorname" :error="$errors->first('current.vorname')">
+                            <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.vorname" id="vorname" placeholder="..." />
+                        </x-input.group>
+                        <!-- Nachname -->
+                        <x-input.group
+                        class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10" hoheOnError="h-26 sm:h-13" 
+                        for="nachname" label="Nachname" :error="$errors->first('current.nachname')">
+                            <div x-data x-on:focus="$el.select()" >
+                                <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.nachname" id="nachname" placeholder="..." />
                             </div>
-                            @endforeach
-                        </x-input.select>
-                    </x-input.group>
-                    <!-- Vorname -->
-                    <x-input.group
-                    class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                    for="vorname" label="Vorname" :error="$errors->first('current.vorname')">
-                        <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.vorname" id="vorname" placeholder="..." />
-                    </x-input.group>
-                    <!-- Nachname -->
-                    <x-input.group
-                    class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10" hoheOnError="h-26 sm:h-13" 
-                    for="nachname" label="Nachname" :error="$errors->first('current.nachname')">
-                        <div x-data x-on:focus="$el.select()" >
-                            <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.nachname" id="nachname" placeholder="..." />
-                        </div>
-                    </x-input.group>
-                    <!-- E-mail -->
-                    <x-input.group
-                        class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                        for="email" label="E-mail" :error="$errors->first('current.email')">
-                        <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.email" id="email" placeholder="..." />
-                    </x-input.group>
-                    <!-- Telefonnummer -->
-                    <x-input.group
-                        class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                        for="telephone_number" label="Telefonnummer" :error="$errors->first('current.telephone_number')">
-                        <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.telephone_number" id="telephone_number" placeholder="..." />
-                    </x-input.group>
-                
-                     
+                        </x-input.group>
+                        <!-- E-mail -->
+                        <x-input.group
+                            class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                            for="email" label="E-mail" :error="$errors->first('current.email')">
+                            <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.email" id="email" placeholder="..." />
+                        </x-input.group>
+                        <!-- Telefonnummer -->
+                        <x-input.group
+                            class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                            for="telephone_number" label="Telefonnummer" :error="$errors->first('current.telephone_number')">
+                            <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.telephone_number" id="telephone_number" placeholder="..." />
+                        </x-input.group>
+                    @endif 
+                            
                 @elseif ($currentPage === 2)
                     <!-- Street Hnr-->
                     <x-input.group
@@ -173,7 +168,7 @@
                         hohe="h-30"
                         hoheLabel="h-30 sm:h-full sm:pt-3"
                         bottom=true for="address" label="Adresse" :error="$errors->first('current.address')">
-                        <x-input.textarea wire:model.lazy="current.address" id="address" placeholder="..." />
+                        <x-input.textarea wire:model.lazy="current.address" id="address" placeholder="Nur angeben falls abweichende Anschrift verwendet werden soll." />
                     </x-input.group>                
                 @elseif ($currentPage === 3)
                     <!-- Wohnungsdaten-->
@@ -259,7 +254,12 @@
                         for="customEinheitNo" label="interne Wohnungnummer" :error="$errors->first('current.customEinheitNo')">
                             <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model="current.customEinheitNo" id="customEinheitNo" placeholder="interne Wohnungnummer" />
                         </x-input.group>
-                        
+                        <!-- eigentumer Wohnungsbezeichnung -->
+                        <x-input.group
+                        class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                        for="eigentumer" label="Eigentümer" :error="$errors->first('current.eigentumer')">
+                            <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model="current.eigentumer" id="eigentumer" placeholder="Name des Eigentümers bei WEG-Verwaltung" />
+                        </x-input.group>
                     </div>
 
 

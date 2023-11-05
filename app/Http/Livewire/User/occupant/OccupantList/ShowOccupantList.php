@@ -58,19 +58,30 @@ class ShowOccupantList extends Component
         $this->hasAnyEigentumer = (bool) $this->realestate->occupants->where('eigentumer', '<>', '')->count();
         $this->salutations = Salutation::all();
         $this->sorts = [
-            'customEinheitNo' => 'asc'
+            'unvid' => 'asc'
             ];
         $this->current = $this->realestate->occupants->first();
+        $this->showCustomEinheitNo = $this->realestate->occupant_number_mode;
     }
 
     public function toggle($value)
     {
-        if ($value = 'filters') {
+        if ($value == 'filters') {
             $this->useCachedRows();
             $this->showFilters = !$this->showFilters;
         }
-        if ($value = 'vorauszahlung') {
+        if ($value == 'vorauszahlung') {
             $this->editVorauszahlungen = !$this->editVorauszahlungen;
+        }
+        if ($value == 'nummer'){
+            $this->showCustomEinheitNo = !$this->showCustomEinheitNo;
+            $this->realestate->occupant_number_mode = $this->showCustomEinheitNo;
+            $this->realestate->save();
+        }
+        if ($value == 'eigentumer'){
+            $this->showEigentumer = !$this->showEigentumer;
+            $this->realestate->occupant_name_mode = $this->showEigentumer;
+            $this->realestate->save();
         }
     }
 
@@ -101,29 +112,6 @@ class ShowOccupantList extends Component
         if ($this->current->isNot($occupant)) $this->current = $occupant;
     }
 
-
-    public function save()
-    {
-        if (!is_null($this->current->dateTo)) {
-            $this->current->dateTo = Carbon::parse($this->current->dateTo);
-        }
-        if (!is_null($this->current->dateFrom)) {
-            $this->current->dateFrom = Carbon::parse($this->current->dateFrom);
-        }
-
-        $this->validate();
-        $this->current->save();
-        $this->showEditModal = false;
-    }
-
-    public function togleshowCustomEinheitNo(){
-        $this->showCustomEinheitNo = !$this->showCustomEinheitNo;
-    }
-
-    public function togleshowEigentumer(){
-        $this->showEigentumer = !$this->showEigentumer;
-    }
-
     public function resetFilters()
     {
         $this->reset('filters');
@@ -138,7 +126,8 @@ class ShowOccupantList extends Component
                     $query->where('address', 'LIKE', '%' . $this->filters['search'] . '%')
                         ->orWhere('lage', 'LIKE', '%' . $this->filters['search'] . '%')
                         ->orWhere('customEinheitNo', 'LIKE', '%' . $this->filters['search'] . '%')
-                        ->orWhere('eigentumer', 'LIKE', )
+                        ->orWhere('eigentumer', 'LIKE', '%' . $this->filters['search'] . '%' )
+                        ->orWhere('nachname', 'LIKE', '%' . $this->filters['search'] . '%' )
                         ->orWhere('unvid', 'LIKE', '%' . $this->filters['search'] . '%');
                 });
         } else {

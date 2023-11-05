@@ -13,16 +13,17 @@ use Illuminate\Support\Facades\Route;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Http\Traits\Api\Job\Realestate\OccupantAdapter;
 
 class Dialog extends Component
 {
+    use OccupantAdapter;
 
     public $salutations = null;
     public Realestate $realestate;
     public Occupant $current;
- 
+    public Occupant $initOccupant;
     // Form properties
-    public $dateFromNewOccupantLeerstand = null;
     public $dateFromNewOccupant = null;
     public $hasLeerstand = false;
     
@@ -56,19 +57,20 @@ class Dialog extends Component
             'heading' => 'Zusätzliche Bemerkungen',
             'subheading' => 'es können weitere Bemerkungen eingetragen werden.',
         ],
-        5 => [
-            'heading' => 'Zählerstände',
-            'subheading' => 'Falls ein Wohnungsübergabeprotokoll existiert, bitte hier die Zählerstände angeben.',
-        ],
     ];
 
     private $validationRulesChange = [
         1 => [
-            'dateFromNewOccupantLeerstand' => 'nullable|date',
             'dateFromNewOccupant' => 'nullable|date',
             'hasLeerstand' => 'nullable|boolean',
             'current.nachname' => 'required|min:2',
+            'current.nekoId' => 'required|min:3',
+            'current.nutzeinheitNo' => 'required|numeric',
+            'current.realestate_id' => 'required|numeric',
+            'current.budguid' => 'required|min:3',
+            'current.unvid' => 'nullable',
             'current.vorname' => 'nullable',
+            'current.eigentumer' => 'nullable',
             'current.anrede' => 'nullable',    
             'current.address' => 'nullable',
             'current.street' => 'nullable',
@@ -100,14 +102,10 @@ class Dialog extends Component
         4 => [
             'current.bemerkung' => 'nullable',
         ],
-        5 => [
-            'current.bemerkung' => 'nullable',
-        ],        
     ];
 
     private $validationRulesEdit = [
         1 => [
-            'dateFromNewOccupantLeerstand' => 'nullable|date',
             'dateFromNewOccupant' => 'nullable|date',
             'hasLeerstand' => 'nullable|boolean',
             'current.nachname' => 'required|min:2',
@@ -126,6 +124,7 @@ class Dialog extends Component
             'current.postcode' => 'nullable',
         ],
         3 => [
+            'current.eigentumer' => 'nullable',
             'current.qmkc_editing' => 'nullable',
             'current.vorauszahlung_editing' => 'nullable',
             'current.uaw' => 'boolean',
@@ -136,9 +135,6 @@ class Dialog extends Component
             'current.personen_zahl' => 'nullable',      
         ],
         4 => [
-            'current.bemerkung' => 'nullable',
-        ],
-        5 => [
             'current.bemerkung' => 'nullable',
         ],
     ];
@@ -201,48 +197,14 @@ class Dialog extends Component
         $this->validateOnly($propertyName, $calcRules[$this->currentPage], $messages);
     }
 
-    
-
-
-    public function makeNewOccupant($oldOccupant)
-    {
-        return Occupant::make([
-        'nekoId' => $this->realestate->nekoId,
-        'realestate_id' => $this->realestate->id,
-        'unvid' => $this->realestate->unvid,
-        'budguid' => $this->realestate->nekoId,
-        'nutzeinheitNo' => $oldOccupant->nutzeinheitNo,
-        'anrede' => $oldOccupant->anrede,
-        'title' => $oldOccupant->title,
-        'nachname' => "Neuer Nutzer",
-        'vorname' => "",
-        'address' => $oldOccupant->address,
-        'street' => $oldOccupant->street,
-        'postcode' => $oldOccupant->postcode,
-        'houseNr' => $oldOccupant->houseNr,
-        'city' => $oldOccupant->city,
-        'vat' => $oldOccupant->vat,
-        'uaw' => $oldOccupant->uaw,
-        'qmkc' => $oldOccupant->qmkc,
-        'qmww' => $oldOccupant->qmww,
-        'pe' => $oldOccupant->pe,
-        'bemerkung' => $oldOccupant->bemerkung,
-        'vorauszahlung' => $oldOccupant->vorauszahlung,
-        'lokalart' => $oldOccupant->lokalart,
-        'customEinheitNo' => $oldOccupant->customEinheitNo,
-        'lage' => $oldOccupant->lage,
-        'email' => $oldOccupant->email,
-        'telephone_number' => $oldOccupant->telephone_number,
-        'eigentumer' => $oldOccupant->eigentumer,
-        'dateFrom' => $oldOccupant->dateFrom,
-        ]);
-    }
-
     public function changeModal(Occupant $current){
         $this->currentPage = 1;
         $this->resetValidation();
         $this->dialogMode = 'change';
-        $this->current = $this->makeNewOccupant($current);
+        $this->dateFromNewOccupant = (new Carbon)->format('d.m.Y');
+        $this->hasLeerstand = false;
+        $this->current = $this->makeDefaultOccupant($current);
+        $this->initOccupant = $current;
         $this->showEditModal = true;
     }
 
@@ -251,6 +213,8 @@ class Dialog extends Component
         $this->resetValidation();
         $this->dialogMode = 'edit';
         $this->current = $current;
+        $this->initOccupant = $current;
+        $this->hasLeerstand = $current->leerstand;
         $this->showEditModal = true;
     }
 
@@ -264,78 +228,13 @@ class Dialog extends Component
             {
                 if($this->dialogMode == 'change')
                 {
-                    /* Occupant::create($this->current); */
-                    $save = Occupant::updateOrcreate(
-                        ['id' => $this->current['id']],
-                        ['nekoId' => $this->current['nekoId'],
-                            'realestate_id' => $this->current['realestate_id'],
-                            'unvid' => $this->current['unvid'],
-                            'budguid' => $this->current['budguid'],
-                            'nutzeinheitNo' => $this->current['nutzeinheitNo'],
-                            'dateFrom' => $this->current['dateFrom'],
-                            'dateTo' => $this->current['dateTo'],
-                            'anrede' => $this->current['anrede'],
-                            'title' => $this->current['title'],
-                            'nachname' => $this->current['nachname'],
-                            'vorname' => $this->current['vorname'],
-                            'address' => $this->current['address'],
-                            'street' => $this->current['street'],
-                            'postcode' => $this->current['postcode'],
-                            'houseNr' => $this->current['houseNr'],
-                            'city' => $this->current['city'],
-                            'vat' => $this->current['vat'],
-                            'uaw' => $this->current['uaw'],
-                            'qmkc' => $this->current['qmkc'],
-                            'qmww' => $this->current['qmww'],
-                            'pe' => $this->current['pe'],
-                            'bemerkung' => $this->current['bemerkung'],
-                            'vorauszahlung' => $this->current['vorauszahlung'],
-                            'lokalart' => $this->current['lokalart'],
-                            'customEinheitNo' => $this->current['customEinheitNo'],
-                            'lage' => $this->current['lage'],
-                            'email' => $this->current['email'],
-                            'telephone_number' => $this->current['telephone_number'],
-                            'eigentumer' => $this->current['eigentumer'],
-                        ]
-                    );
-                    
-                 }
+                    $save = $this->changeOccupant($this->initOccupant, $this->current ,$this->hasLeerstand,$this->dateFromNewOccupant);
+                }
 
                 if($this->dialogMode == 'edit')
                 {
-                   $save = Occupant::updateOrcreate(
-                        ['id' => $this->current['id']],
-                        ['nekoId' => $this->current['nekoId'],
-                            'realestate_id' => $this->current['realestate_id'],
-                            'unvid' => $this->current['unvid'],
-                            'budguid' => $this->current['budguid'],
-                            'nutzeinheitNo' => $this->current['nutzeinheitNo'],
-                            'dateFrom' => $this->current['dateFrom'],
-                            'dateTo' => $this->current['dateTo'],
-                            'anrede' => $this->current['anrede'],
-                            'title' => $this->current['title'],
-                            'nachname' => $this->current['nachname'],
-                            'vorname' => $this->current['vorname'],
-                            'address' => $this->current['address'],
-                            'street' => $this->current['street'],
-                            'postcode' => $this->current['postcode'],
-                            'houseNr' => $this->current['houseNr'],
-                            'city' => $this->current['city'],
-                            'vat' => $this->current['vat'],
-                            'uaw' => $this->current['uaw'],
-                            'qmkc' => $this->current['qmkc'],
-                            'qmww' => $this->current['qmww'],
-                            'pe' => $this->current['pe'],
-                            'bemerkung' => $this->current['bemerkung'],
-                            'vorauszahlung' => $this->current['vorauszahlung'],
-                            'lokalart' => $this->current['lokalart'],
-                            'customEinheitNo' => $this->current['customEinheitNo'],
-                            'lage' => $this->current['lage'],
-                            'email' => $this->current['email'],
-                            'telephone_number' => $this->current['telephone_number'],
-                            'eigentumer' => $this->current['eigentumer'],
-                        ]
-                    );
+                    $save = $this->editOccupant($this->current);
+
                 }
                 if(!$save->wasRecentlyCreated && $save->wasChanged()){
                     // updateOrCreate performed an update
@@ -349,12 +248,13 @@ class Dialog extends Component
                 }
                 
                 if($save->wasRecentlyCreated){
+                    // updateOrCreate performed create
                     toast()->success('Hinzufügen eines neuen Benutzers.','Achtung')->push();
                     return redirect(request()->header('Referer'));
-                   // updateOrCreate performed create
                 }
                 
-                }else{
+            }else{
+                /* validierung war nicht erfolgreich */
                 $this->showEditModal = true;
             };
         }else{
@@ -366,32 +266,30 @@ class Dialog extends Component
 
     public function goToNextPage()
     {
-       
-     
         $calcRules = null;
-        Debugbar::info('Dialog Occupant-goToNextPage 1 '. $this->dialogMode);
-           
         if ($this->dialogMode == 'change'){
-            Debugbar::info('Dialog Occupant-goToNextPage 1a '. $this->dialogMode);
             $calcRules = $this->validationRulesChange;
         }else
         {
-            Debugbar::info('Dialog Occupant-goToNextPage 1b '. $this->dialogMode);
             $calcRules = $this->validationRulesEdit;
         }
-        Debugbar::info('Dialog Occupant-goToNextPage 2 '. $this->dialogMode);
-      
         $this->validate($calcRules[$this->currentPage]);
-        Debugbar::info('Dialog Occupant-goToNextPage 3 '. $this->dialogMode);
-      
-        $this->currentPage++;
-        Debugbar::info('Dialog Occupant-goToNextPage 4 '. $this->dialogMode);
-      
+
+        if ($this->hasLeerstand){
+            if ($this->currentPage == 1) {$this->currentPage = 4;}
+        }else{
+            $this->currentPage++;
+        }
+
     }
 
     public function goToPreviousPage()
     {
-        $this->currentPage--;
+        if ($this->hasLeerstand){
+            if ($this->currentPage == 4) {$this->currentPage = 1;}
+        }else{
+            $this->currentPage--;
+        }
     }
 
     public function resetSuccess()
@@ -410,10 +308,8 @@ class Dialog extends Component
  
     public function render()
     {
-       /*  return view('livewire.user.occupant.detail.dialog',[
+        return view('livewire.user.occupant.detail.dialog',[
             'current' => $this->current,
-        ]); */
-        return view('livewire.user.occupant.detail.dialog');
-
+        ]);
     }
 }

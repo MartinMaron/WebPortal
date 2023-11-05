@@ -12,3 +12,5 @@
         placeholder="Suche"
         class="form-input block w-full float-right bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 pl-10 ">
 </div>
+
+

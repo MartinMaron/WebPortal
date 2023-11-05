@@ -74,18 +74,21 @@ class Occupant extends Model
                         'date_to_editing',
                         'vorauszahlung_editing',
                         'personen_zahl',
+                        'display_einheit',
+                        'display_eigentumer_name',
                         'qmkc_editing'];
 
 
-    protected function personenZahl(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => number_format($this->pe, 2, ',', '.'),
-            set: fn ($value) => $this->castStringToDouble($this->pe),
-        );
+   
+
+    
+    protected function setPersonenZahlAttribute($value){
+        $this->pe = $this->castStringToDouble($value);
     }
 
-
+   protected function getPersonenZahlAttribute(){
+       return number_format($this->pe, 2, ',', '.');
+   }
 
     protected function getDateFromEditingAttribute()
     {
@@ -170,14 +173,32 @@ class Occupant extends Model
     protected function getCustomEinheitNoMitLageAttribute(){
         if ($this->lage){
 
-            return $this->customEinheitNo.' '.$this->lage;
+            return $this->DisplayEinheit.' '.$this->lage;
         }
         else {
-            return $this->customEinheitNo ;
+            return $this->DisplayEinheit ;
         }
     }
 
+    protected function getDisplayEinheitAttribute(){
+        if ($this->customEinheitNo){
+            return $this->customEinheitNo;
+        }
+        else {
+            return $this->NutzerKennnummer ;
+        }
+    }
    
+    protected function getDisplayEigentumerNameAttribute(){
+        if ($this->eigentumer){
+            return $this->eigentumer;
+        }
+        else {
+            return $this->nachname ;
+        }
+    }
+   
+
     public function visibleVerbrauchsinfos()
     {
         $q = $this->userVerbrauchsinfoAccessControls
@@ -192,9 +213,6 @@ class Occupant extends Model
 
         return $result->get();
     }
-
-
-
 
     public function verbrauchsinfos()
     {

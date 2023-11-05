@@ -1,9 +1,40 @@
 
 
 <div key="{{ now() }}">
-    <div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8" key="{{ now() }}">
-        <!-- Suchfeld -->
-        <x-input.search wire:model.debounce.600ms="filters.search"></x-input.search>
+    <div class="block w-full mx-auto max-w-7xl" key="{{ now() }}">
+        <div class="">
+            <!-- Suchfeld -->
+            <x-input.search wire:model.debounce.600ms="filters.search"></x-input.search>
+        </div>
+        <div class="flex-row w-full">
+            <div class="flex w-full px-5 sm:px-1 gap-2 justify-between sm:justify-start">
+
+                @if ($hasAnyCustomEinheitNo)
+                <div wire:click="toggle('nummer')" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
+                    <input wire:model="showCustomEinheitNo" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
+                    <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
+                        @if ($showCustomEinheitNo)
+                        <span class="font-medium text-gray-900 text-md">Ihre Nummer.</span>
+                        @else
+                        <span class="font-medium text-gray-900 text-md">eneko Nr.</span>
+                        @endif
+                    </label>
+                </div>
+                @endif
+                @if ($hasAnyEigentumer)
+                <div wire:click="toggle('eigentumer')" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none">
+                    <input wire:model="showEigentumer" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
+                    <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
+                        @if ($showEigentumer)
+                        <span class="font-medium text-gray-900 text-md">Eigentümer</span>
+                        @else
+                        <span class="font-medium text-gray-900 text-md">Nachname</span>
+                        @endif
+                    </label>
+                </div>
+                @endif
+            </div>
+        </div>            
 
         <!-- Big screen TABELLA -->
         <div class="hidden sm:block md:max-w-7xl" key="{{ now() }}">
@@ -12,8 +43,9 @@
                     <x-table.thead class="">
                     @if ($rows->count()!=0)
                         <x-table.tr class="">
-                            <x-table.th class="w-20 text-left occu-thead-th">No.</x-table.th>
-                            <x-table.th class="text-left w-30 occu-thead-th">Int. No.</x-table.th>
+                            <x-table.th class="w-20 text-left occu-thead-th">
+                                Nummer
+                            </x-table.th>
                             <x-table.th class="text-left w-30 occu-thead-th sm:visible">Lage</x-table.th>
                             <x-table.th class="text-left w-80 occu-thead-th">Nutzer</x-table.th>
                             <x-table.th class="text-center occu-thead-th">Zeitraum</x-table.th>
@@ -35,12 +67,26 @@
                     <x-table.tbody class="occu-tbody">
                         @forelse ($rows as $occupant)
                         <x-table.tr wire:loading.class.delay="opacity-50" wire:key="row-{{ $occupant->id }}">
-                            <x-table.th class="w-20 text-left occu-th" style="display:table-cell !important;">{{ $occupant->NutzerKennnummer }}</x-table.th>
-                            <x-table.th class="w-40 text-left occu-th" style="display:table-cell !important;">{{ $occupant->customEinheitNo }}</x-table.th>
-
+                            <x-table.th class="w-20 text-left occu-th" style="display:table-cell !important;">
+                                @if ($showCustomEinheitNo)
+                                    <span class="{{ $occupant->customEinheitNo ? 'font-bold' : 'font-thin text-opacity-50' }}">
+                                        {{ $occupant->display_einheit }}
+                                    </span>
+                                @else
+                                    {{ $occupant->NutzerKennnummer }}
+                                @endif
+                            </x-table.th>
                             <x-table.th class="text-left occu-th w-30">{{ $occupant->lage }}</x-table.th>
                             <x-table.td wire:click="edit({{ $occupant->id }})" class="w-full occu-td hover:bg-sky-100" style="min-width: 20rem;">
-                                <button tabindex="-1" class="w-full text-left" type="button">{{ $occupant->vorname . ' '. $occupant->nachname }}</button>
+                                <button tabindex="-1" class="w-full text-left" type="button">
+                                    @if ($showEigentumer)
+                                        <span class="{{ $occupant->eigentumer ? 'font-bold' : 'font-thin text-opacity-50' }}">
+                                            {{ $occupant->display_eigentumer_name }}
+                                        </span>
+                                    @else
+                                        {{ $occupant->vorname . ' '. $occupant->nachname }}
+                                    @endif
+                                </button>
                             </x-table.th>
                             <x-table.td class="text-center occu-td" style="min-width: 14rem; max-width: 14rem">
                                 <div class="flex px-2">
@@ -49,7 +95,7 @@
                                     @if ($occupant->dateTo)
                                         <span>{{ $occupant->date_to_editing }}</span>
                                     @else
-                                       <button wire:click='change({{$occupant}})' tabindex="-1" class="w-40 mgc-button " type="button" data-hover="Auszug" data-active="Los"><span class="w-40"><i class="text-sky-200 fa-solid fa-house-person-leave"></i></span></button>
+                                       <button wire:click='change({{$occupant}})' tabindex="-1" class="w-40" type="button" data-hover="Auszug" data-active="Los"><span class="w-40"><i class="text-sky-200 fa-solid fa-house-person-leave"></i></span></button>
                                     @endif
                                 </div>
                             </x-table.td>
@@ -85,32 +131,7 @@
         <!-- Occupants List -->
         <div class="block sm:hidden" key="{{ now() }}">
             <div class="grid w-full grid-cols-1 gap-4 mt-6 sm:grid-cols-2 lg:grid-cols-3" key="{{ now() }}">
-                <div class="justify-between" key="{{ now() }}">
-                    @if ($hasAnyCustomEinheitNo)
-                    <div wire:click="togleshowCustomEinheitNo" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
-                        <input wire:model="showCustomEinheitNo" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
-                        <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
-                            @if ($showCustomEinheitNo)
-                            <span class="font-medium text-gray-900 text-md">Neko-nr.</span>
-                            @else
-                            <span class="font-medium text-gray-900 text-md">Ihr Nr.</span>
-                            @endif
-                        </label>
-                    </div>
-                    @endif
-                    @if ($hasAnyEigentumer)
-                    <div wire:click="togleshowEigentumer" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none">
-                        <input wire:model="showEigentumer" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
-                        <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
-                            @if ($showEigentumer)
-                            <span class="font-medium text-gray-900 text-md">Nachname</span>
-                            @else
-                            <span class="font-medium text-gray-900 text-md">Eigentümer</span>
-                            @endif
-                        </label>
-                    </div>
-                    @endif
-                </div>
+                    
                 @foreach ($rows as $occupant)
                     <div wire:key="flex row-{{ $occupant->id }}" class="divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-50" key="{{ now() }}" >
                         <div class="flex items-center justify-between w-full p-2 space-x-6 ">
@@ -121,13 +142,11 @@
 
                                             <div class="flex justify-between gap-2 m-auto text-lg text-sky-700">
                                                 @if ($showCustomEinheitNo)
-                                                <div>
-                                                    {{ $occupant->nutzerMitLage }}
-                                                </div>
+                                                <span class="{{ $occupant->customEinheitNo ? 'font-bold' : 'font-thin text-opacity-50' }}">
+                                                    {{ $occupant->display_einheit }}
+                                                </span>
                                                 @else
-                                                <div>
-                                                    {{ $occupant->customEinheitNoMitLage }}
-                                                </div>
+                                                    {{ $occupant->NutzerKennnummer }}
                                                 @endif
                                                 <div class="">
                                                     {{ $occupant->qmkcEditing }} m²
@@ -136,13 +155,11 @@
 
                                             <div class="flex justify-between text-lg font-semibold text-sky-700">
                                                 @if ($showEigentumer)
-                                                <div class="">
-                                                    {{ $occupant->nachname}}
-                                                </div>
+                                                <span class="{{ $occupant->eigentumer ? 'font-bold' : 'font-thin text-opacity-50' }}">
+                                                    {{ $occupant->display_eigentumer_name }}
+                                                </span>
                                                 @else
-                                                <div>
-                                                    {{ $occupant->eigentumer}}
-                                                </div>
+                                                    {{ $occupant->vorname . ' '. $occupant->nachname }}
                                                 @endif
                                                 <div class="">
                                                     <x-jet-dropdown align="right" class="w-40">
