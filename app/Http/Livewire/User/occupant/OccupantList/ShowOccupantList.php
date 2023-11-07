@@ -43,10 +43,22 @@ class ShowOccupantList extends Component
 
     protected $listeners = [
         'refreshParent' => '$refresh',
+        'deleteConfirmed' => 'delete',        
     ];
+
+    public function delete($objectId, $objectType)
+    {
+        if ($objectType != 'Occupant') return;
+       // dd($objectId);
+        $object = Occupant::find($objectId);
+        $object->delete();
+        toast()->success('Nutzer wurde gelöscht','Achtung')->push();
+        return redirect(request()->header('Referer'));
+    }
 
     public function Salutations()
     {
+
     }
 
     
@@ -62,6 +74,7 @@ class ShowOccupantList extends Component
             ];
         $this->current = $this->realestate->occupants->first();
         $this->showCustomEinheitNo = $this->realestate->occupant_number_mode;
+        $this->showEigentumer = $this->realestate->occupant_name_mode;
     }
 
     public function toggle($value)
@@ -146,6 +159,12 @@ class ShowOccupantList extends Component
         return $this->rowsQuery->get();
         // });
     }
+
+    public function emit_QuestionDeleteModal(Occupant $id)
+    {
+        $this->emit('showQuestionDeleteModal', 'Occupant', $id->id, 'Löschen bestätigen', 'Wollen Sie den Nutzer '.  $id->nachname .  ' entfernen?');
+    }
+
 
     public function render()
     {

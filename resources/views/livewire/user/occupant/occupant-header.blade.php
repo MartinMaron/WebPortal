@@ -1,5 +1,5 @@
 <div>
-    {{-- small screen --}}
+   {{-- small screen --}}
     <div class="sm:hidden">
         <div class="flex">
             @if ($showStandardIcon)
@@ -10,7 +10,7 @@
             @endif
             <div class="flex-1 text-gray-900 truncate line-clamp-1 sm:font-bold sm:text-md">{{ $occupant->lage. '-'. $occupant->nachname. ' '}}</div>
         </div>
-        <div>{{ $occupant->street.', '. $occupant->postcode. ' '. $occupant->city }}</div>
+        {{-- <div>{{ $occupant->street.', '. $occupant->postcode. ' '. $occupant->city }}</div> --}}
     </div>
     {{-- big screen --}}
     <div class="hidden sm:block">
@@ -22,7 +22,10 @@
                 <x-icon.fonts.users-add wire:click='raise_CreateVerbrauchsinfoUserEmailModal' class="mt-10 mr-3 fa-2xl text-sky-700 hover:text-sky-300"></x-icon.fonts.users-add>
             @endif
             <div class="px-2 text-gray-900 truncate line-clamp-1 font-bold text-xl">{{ $occupant->lage. '-'. $occupant->nachname. ' '}}</div>
-            <div class="px-2 text-gray-900 truncate line-clamp-1 text-xl">{{ $occupant->street.', '. $occupant->postcode. ' '. $occupant->city }}</div>
+            @if ($occupant->realestate->has_occupants_different_adresses)
+                <div class="px-2 text-gray-900 truncate line-clamp-1 text-xl">{{ $occupant->street.' '. $occupant->houseNr. ', '. $occupant->postcode. ' '. $occupant->city }}</div>
+            @endif
+            
         </div>
     </div>
 </div>

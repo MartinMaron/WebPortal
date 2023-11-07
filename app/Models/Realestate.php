@@ -28,6 +28,7 @@ class Realestate extends Model
         'user_id', 'eingabeCostNetto', 'eingabeCostOhneDatum', 'occupant_name_mode', 'occupant_number_mode'
     ];
 
+    protected $appends = ['has_occupants_different_adresses'];
 
     public function user()
     {
@@ -78,8 +79,19 @@ class Realestate extends Model
 
     }
 
+    protected function getHasOccupantsDifferentAdressesAttribute(){
+        $occp = $this->occupants()->get()->unique('street');
+        if($occp->count()!=1){ return true;}
+        
+        $occp = $this->occupants()->get()->unique('city');
+        if($occp->count()!=1){ return true;}
 
+        $occp = $this->occupants()->get()->unique('postcode');
+        if($occp->count()!=1){ return true;}
 
-
-
+        $occp = $this->occupants()->get()->unique('houseNr');
+        if($occp->count()!=1){ return true;}
+        
+        return false;
+    }
 }

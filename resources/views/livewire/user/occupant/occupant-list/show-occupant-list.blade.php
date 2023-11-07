@@ -28,7 +28,7 @@
                         @if ($showEigentumer)
                         <span class="font-medium text-gray-900 text-md">Eigentümer</span>
                         @else
-                        <span class="font-medium text-gray-900 text-md">Nachname</span>
+                        <span class="font-medium text-gray-900 text-md">Nutzer</span>
                         @endif
                     </label>
                 </div>
@@ -47,7 +47,13 @@
                                 Nummer
                             </x-table.th>
                             <x-table.th class="text-left w-30 occu-thead-th sm:visible">Lage</x-table.th>
-                            <x-table.th class="text-left w-80 occu-thead-th">Nutzer</x-table.th>
+                            <x-table.th class="text-left w-80 occu-thead-th">
+                                @if ($showEigentumer)
+                                    Eigentümer
+                                @else
+                                    Nutzer
+                                @endif
+                            </x-table.th>
                             <x-table.th class="text-center occu-thead-th">Zeitraum</x-table.th>
                             <x-table.th class="text-left w-30 occu-thead-th">MwSt.</x-table.th>
                             <x-table.th class="text-left w-50 occu-thead-th">m²</x-table.th>
@@ -91,11 +97,29 @@
                             <x-table.td class="text-center occu-td" style="min-width: 14rem; max-width: 14rem">
                                 <div class="flex px-2">
                                     <span>{{ $occupant->date_from_editing }}</span>
-                                    <span class="w-4">-</span>
+                                    <span class="w-6">-</span>
                                     @if ($occupant->dateTo)
                                         <span>{{ $occupant->date_to_editing }}</span>
                                     @else
-                                       <button wire:click='change({{$occupant}})' tabindex="-1" class="w-40" type="button" data-hover="Auszug" data-active="Los"><span class="w-40"><i class="text-sky-200 fa-solid fa-house-person-leave"></i></span></button>
+                                        <div class="w-40 px-auto gap-2 {{ $occupant->canDelete ? 'flex justify-between' : 'flex justify-center' }} items-center mx-1">
+                                            <button class="w-18 px-auto border-2"
+                                                style="min-width: 3rem; max-width: 3rem"
+                                                wire:click='change({{$occupant}})'>
+                                                <x-icon.fonts.user-move 
+                                                class="text-sky-700 hover:text-sky-300 fa-solid fa-house-person-leave">
+                                                </x-icon.fonts.user-move>
+                                            </button>
+                                            @if ($occupant->canDelete)
+                                                <button class="w-18 px-auto border-2"
+                                                wire:click='emit_QuestionDeleteModal({{$occupant}})'
+                                                style="min-width: 3rem; max-width: 3rem"
+                                                >
+                                                <span >
+                                                    <x-icon.fonts.trash class="text-red-700 hover:text-red-300 fa-solid "></x-icon.fonts.trash>
+                                                </span>
+                                                </button>
+                                            @endif
+                                        </div>    
                                     @endif
                                 </div>
                             </x-table.td>
@@ -182,6 +206,16 @@
                                                                 <x-icon.fonts.user-move class="cursor-pointer text-sky-700 hover:text-sky-300 fa-solid fa-house-person-leave"></x-icon.fonts.user-move>
                                                                 {{ __('Nutzerwechsel') }}
                                                             </x-jet-dropdown-link>
+                                                            @if ($occupant->canDelete)
+
+                                                                <x-jet-dropdown-link 
+                                                                    class="cursor-pointer"
+                                                                    wire:click='emit_QuestionDeleteModal({{$occupant}})'
+                                                                    >
+                                                                    <x-icon.fonts.trash class="cursor-pointer text-red-700 hover:text-sky-300 fa-solid "></x-icon.fonts.trash>
+                                                                    {{ __('Löschen') }}
+                                                                </x-jet-dropdown-link>
+                                                            @endif
                                                         </x-slot>
                                                     </x-jet-dropdown>
                                                 </div>
@@ -212,9 +246,10 @@
          
             <livewire:user.occupant.detail.dialog :realestate='$realestate' key="{{ now() }}"/>
         
-        
         </div>
-
+        <div class="">
+            <livewire:user.dialog.delete-modal :wire:key="'modal-occupant-list-delete'"/>
+        </div>
     </div>
 </div>
 

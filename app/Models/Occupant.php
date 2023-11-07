@@ -76,10 +76,14 @@ class Occupant extends Model
                         'personen_zahl',
                         'display_einheit',
                         'display_eigentumer_name',
+                        'can_delete',
                         'qmkc_editing'];
 
 
-   
+   protected function getDisplayConditionalWithAdressAttribute(){
+        
+
+   }
 
     
     protected function setPersonenZahlAttribute($value){
@@ -197,7 +201,11 @@ class Occupant extends Model
             return $this->nachname ;
         }
     }
-   
+    protected function getCanDeleteAttribute(){
+        $ret_val = false;
+        if ($this->nekoId == 'new'){ $ret_val = true;} 
+        return $ret_val;
+    }
 
     public function visibleVerbrauchsinfos()
     {

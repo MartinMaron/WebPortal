@@ -2,11 +2,11 @@
     @if ($nutzeinheiten->count()!=0)
     @foreach ($nutzeinheiten as $nutzeinheit)
 
+    {{-- pokazac ostatniego lokatora mieszkania --}}
     <div class="text-sm">
         <livewire:user.occupant.occupant-header  :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)'/>
     </div>
 
-    {{-- pokazac ostatniego lokatora mieszkania --}}
     @forelse ($this->getUserEmailsForNutzeinheitNo($nutzeinheit->nutzeinheitNo) as $userEmail)
 
     {{-- pokazac wiersze email-ow --}}

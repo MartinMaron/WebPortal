@@ -1,6 +1,6 @@
 <div class="">
     {{-- small screen --}}
-    <div class="hidden py-2 m-auto border-b-2 shadow-md sm:block sm:max-w-4xl">
+    <div class="hidden py-2 m-auto border-b-2 shadow-md sm:block sm:max-w-7xl">
         <div class="flex items-center justify-center">
             <div class="basis-1/4 py-1">
                 {{ $userEmail->email }}
@@ -52,24 +52,7 @@
 
                 </x-slot>
             </x-jet-dropdown>
-        {{--<x-popup-menu class="">
-                <ul class="bg-white border-1 border-gray-600 rounded-md shadow-md">
-                    <li class="">
-                        <x-icon.fonts.pencil
-                            class="flex px-4 py-1 text-sm cursor-pointer text-sky-600 w-36 "
-                            wire:click="emit_EditModal()">
-                            <span class="font-mono">Bearbeiten</span>
-                        </x-icon.fonts.pencil>
-                    </li>
-                    <li class="">
-                        <x-icon.fonts.trash
-                            class="flex px-4 py-1 text-sm cursor-pointer text-red-500  w-36 border-sky-200"
-                            wire:click="emit_QuestionDeleteModal()">
-                            <span class="font-mono">Löschen</span>
-                        </x-icon.fonts.trash>
-                    </li>
-                </ul>
-            </x-popup-menu>--}}
+        
         </div>
     </div>
 </div>

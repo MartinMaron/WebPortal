@@ -6,9 +6,9 @@
         
         <x-modal.dialog class=" bg-sky-50" minWidth="680px" maxWidth="800px" wire:model="showEditModal">
             <x-slot name="title">
-                <div class="">
+                {{-- <div class="">
                     {{ $current  }}
-                </div>
+                </div> --}}
                 <div class="">
                     <div class="flex">
                         @if ($this->hasLeerstand)
@@ -30,14 +30,16 @@
             </x-slot>
             <!-- Dialog Content -->
             <x-slot name="content">
-                <div class="{{ $dialogMode == 'change' ? 'occu-h-600 sm:occu-h-350' : 'occu-h-500 sm:occu-h-300' }} ">
-
-
+                <div class="{{ $dialogMode == 'change' ? 'occu-h-600 sm:occu-h-400' : 'occu-h-500 sm:occu-h-300' }} ">
 
                 @if ($errors->isNotEmpty())
-                    <div class="flex text-sm bg-red-100 border border-red-400 text-red-700 px-1 py-1 rounded relative mb-2" role="alert">
-                        <span class="block sm:inline"><strong class="font-bold">Oops! </strong>einige Informationen fehlen oder sind nicht korrekt.</span>
-                        {{ $errors  }}
+                    <div class="block text-sm bg-red-100 border border-red-400 text-red-700 px-1 py-1 rounded relative mb-2" role="alert">
+                        
+                        <span class="block sm:block"><strong class="font-bold">Oops! einige Informationen fehlen oder sind nicht korrekt. </strong>
+                            @foreach ($errors->all() as $error)
+                                <span class="block sm:block">- {{ $error  }}</span>
+                            @endforeach
+                        </span>
                     </div>
                 @endif
 
@@ -45,13 +47,40 @@
                 @if ($currentPage === 1)
                     @if ($dialogMode == 'change')
                         <div class="block p-2 mb-4 text-sm sm:flex sm:justify-between sm:items-center bg-sky-100 border-2 rounded border-sky-600">
-                            <div class="">
+                            <div class="block">
                                 <div class="">Leerstand</div>
-                                <x-input.checkbox wire:model="hasLeerstand"></x-input.checkbox>
+                                <x-input.group
+                                class="my-2 " labelless="true" paddingLabel="" borderless="true" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                                for="leerstand" label="Leerstand" :error="$errors->first('current.leerstand')">
+
+                                    <div class="flex items-center justify-between h-10 sm:h-8">
+                                        <div class="pl-1 basis-2/5">
+                                            <x-input.checkbox wire:model="hasLeerstand"></x-input.checkbox>
+                                        </div>
+                                    </div>
+                                </x-input.group>
                             </div>
 
+                            <div class="block">
+                                <div class="">{{ $hasLeerstand ? 'Leerstand seit:' : 'neuer Nutzer seit:' }}</div>
+                                <x-input.group
+                                class="my-1" errorDirection="text-left"
+                                labelless="true" paddingLabel="" borderless="true" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                                for="dateFrom" label="Zeitraum" :error="$errors->first('dateFromNewOccupant')"
+                                >
+                                    <div class="flex items-end justify-between h-10 sm:h-8">
+                                        <x-input.date class="w-28"
+                                            wire:model.lazy="dateFromNewOccupant"
+                                            type="text"
+                                            id="" >
+                                        </x-input.date>
+                                    </div>
+                                </x-input.group>
+                            </div>
                             
-                            <div class="">
+
+                            
+                           {{--  <div class="">
                                 <div class="">{{ $hasLeerstand ? 'Leerstand seit:' : 'neuer Nutzer seit:' }}</div>
                                 <x-input.date class="w-28"
                                 wire:model.lazy="dateFromNewOccupant"
@@ -59,7 +88,7 @@
                                 :error="$errors->first('dateFromNewOccupant')"
                                 id="" >
                                 </x-input.date>
-                            </div>
+                            </div> --}}
                         </div>
                     @else
                         <!-- Zeitraum -->

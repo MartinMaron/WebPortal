@@ -1,6 +1,9 @@
 <div class="w-full px-4 py-1 sm:px-6 lg:px-8 max-w-7xl ">
     @if ($nutzeinheiten->count()!=0)
-        <div
+    <div class="font-bold text-lg sm:text-2xl mb-8 text-center hover:text-sky-700">
+        hier können Sie eintragen an welche Emails die unterjährige Informationen versendet werden sollen            
+    </div>    
+    <div
             x-data="{open:true}"
             x-init="open=true"
         >
@@ -41,6 +44,7 @@
         <div class="flex">
             <x-input.search wire:model="filter.search" />
         </div>
+       
         @foreach ($nutzeinheiten as $nutzeinheit)
         <div class="flex items-center py-3 md:justify-center">
             {{-- pokazac ostatniego lokatora mieszkania --}}

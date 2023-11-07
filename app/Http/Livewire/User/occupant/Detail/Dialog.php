@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Rules\OcccupantDateFromGreaterPreviousRule;
 use App\Http\Traits\Api\Job\Realestate\OccupantAdapter;
 
 class Dialog extends Component
@@ -61,7 +62,7 @@ class Dialog extends Component
 
     private $validationRulesChange = [
         1 => [
-            'dateFromNewOccupant' => 'nullable|date',
+            'dateFromNewOccupant' => ['required', 'date'],
             'hasLeerstand' => 'nullable|boolean',
             'current.nachname' => 'required|min:2',
             'current.nekoId' => 'required|min:3',
@@ -194,7 +195,10 @@ class Dialog extends Component
         {
             $calcRules = $this->validationRulesEdit;
         }
-        $this->validateOnly($propertyName, $calcRules[$this->currentPage], $messages);
+
+        $myRules = $calcRules[$this->currentPage];
+        $myRules['dateFromNewOccupant']=['required', 'date', new OcccupantDateFromGreaterPreviousRule];
+        $this->validateOnly($propertyName, $myRules, $messages);
     }
 
     public function changeModal(Occupant $current){
@@ -249,7 +253,7 @@ class Dialog extends Component
                 
                 if($save->wasRecentlyCreated){
                     // updateOrCreate performed create
-                    toast()->success('Hinzufügen eines neuen Benutzers.','Achtung')->push();
+                    toast()->success('Nutzerwechsel durchgeführt.','Achtung')->push();
                     return redirect(request()->header('Referer'));
                 }
                 
@@ -266,6 +270,7 @@ class Dialog extends Component
 
     public function goToNextPage()
     {
+        
         $calcRules = null;
         if ($this->dialogMode == 'change'){
             $calcRules = $this->validationRulesChange;
@@ -273,7 +278,14 @@ class Dialog extends Component
         {
             $calcRules = $this->validationRulesEdit;
         }
-        $this->validate($calcRules[$this->currentPage]);
+
+        $myRules = $calcRules[$this->currentPage];
+        //custom validation
+        if ($this->currentPage == 1)
+        {
+            $myRules['dateFromNewOccupant']=['required', 'date', new OcccupantDateFromGreaterPreviousRule];
+        }
+        $this->validate($myRules);
 
         if ($this->hasLeerstand){
             if ($this->currentPage == 1) {$this->currentPage = 4;}

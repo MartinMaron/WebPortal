@@ -184,9 +184,6 @@ trait OccupantAdapter
                 'eigentumer' => $occupant['eigentumer'],
             ]
         );
-        
-
-
 
     }
 
