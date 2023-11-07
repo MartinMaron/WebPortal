@@ -1097,6 +1097,9 @@ select {
 .top-0 {
   top: 0px;
 }
+.bottom-16 {
+  bottom: 4rem;
+}
 .z-0 {
   z-index: 0;
 }
@@ -1129,6 +1132,9 @@ select {
 }
 .m-auto {
   margin: auto;
+}
+.m-3 {
+  margin: 0.75rem;
 }
 .mx-10 {
   margin-left: 2.5rem;
@@ -1165,6 +1171,14 @@ select {
 .mx-1 {
   margin-left: 0.25rem;
   margin-right: 0.25rem;
+}
+.mx-3 {
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+}
+.my-3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 .-ml-12 {
   margin-left: -3rem;
@@ -1279,6 +1293,9 @@ select {
 }
 .mb-8 {
   margin-bottom: 2rem;
+}
+.mr-1 {
+  margin-right: 0.25rem;
 }
 .line-clamp-1 {
   overflow: hidden;
@@ -1712,6 +1729,9 @@ select {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.text-ellipsis {
+  text-overflow: ellipsis;
+}
 .text-clip {
   text-overflow: clip;
 }
@@ -2027,6 +2047,14 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
+.bg-red-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 202 202 / var(--tw-bg-opacity));
+}
+.bg-slate-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
+}
 .bg-opacity-25 {
   --tw-bg-opacity: 0.25;
 }
@@ -2226,6 +2254,9 @@ select {
 }
 .text-justify {
   text-align: justify;
+}
+.align-baseline {
+  vertical-align: baseline;
 }
 .align-middle {
   vertical-align: middle;
@@ -2938,6 +2969,10 @@ select {
 
 .selection\:items-center::selection {
   align-items: center;
+}
+
+.file\:flex::file-selector-button {
+  display: flex;
 }
 
 .odd\:bg-green-100:nth-child(odd) {

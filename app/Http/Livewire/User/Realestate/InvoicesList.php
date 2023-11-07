@@ -25,8 +25,14 @@ class InvoicesList extends Component
     public function mount($realestate)
     {
         $this->realestate->$realestate;
+        $this->sorts = [
+            'createDate' => 'desc',
+            'caption' => 'asc'
+            ];
     }
 
+
+    
     public function resetFilters()
     {
         $this->reset('filters');

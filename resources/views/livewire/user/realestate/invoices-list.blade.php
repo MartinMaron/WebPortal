@@ -1,9 +1,13 @@
 <div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
 
+    <div class="font-bold text-xl sm:text-2xl flex justify-center">
+        Ihre Rechnungen
+    </div>
 
+    {{-- Bearbeitungshinweise --}}
     <div
         x-data="{open:true}"
-        x-init="open=true"
+        x-init="open=false"
 
     >
         <div class="flex items-center justify-center ">
@@ -37,58 +41,69 @@
         <x-input.search wire:model.debounce.600ms="filters.search"></x-input.search>
     </div>
 
+    
     @if($invoices->count()!=0)
-        <div class="block mt-10 sm:hidden">
-            @foreach ($invoices as $invoice)
-                <div class="divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-50">
-                    <div class="flex items-center justify-around w-full p-2 space-x-6 ">
-                        <div class="flex-1 border-sky-100 ">
-                            <div class="items-center ">
-                                <div class="justify-start gap-2 m-auto text-md text-sky-700">
-                                    <div class="">
+    {{-- small Screen --}}    
+    <div class="block mt-10 sm:hidden">
+        @foreach ($invoices as $invoice)
+            <div class="my-3 divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-100">
+                <div class="flex items-center justify-around w-full p-2 space-x-6 ">
+                    <div class="flex-1 border-sky-100 ">
+                        <div class="items-center ">
+                            <div class="flex justify-between gap-2 m-auto text-md text-sky-700">
+                                <div class="block">
+                                    <div class="font-bold pr-2">
                                         {{ $invoice->caption }}
                                     </div>
                                     <div class="flex justify-start">
+                                        <div class="pr-2">
+                                            vom
+                                        </div>
                                         <div class="">
-                                            Datum von:
+                                            {{ $invoice->create_date_editing}}
                                         </div>
-                                        <div class="text-gray-700">
-                                            {{ $invoice->dateFrom}}
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-start">
-                                        <div class="">
-                                            Datum bis:
-                                        </div>
-                                        <div class="text-gray-700">
-                                            {{ $invoice->dateTo }}
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-start">
-                                        <div class="">
-                                            brutto:
-                                        </div>
-                                        <div class="text-gray-700">
-                                            {{ $invoice->netto }}
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-end px-10 -py-10">
-                                        <a href="{{route('user.downloadspacesfile', 'i-'. $invoice->id )}}" class="flex items-center w-0 px-10 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
-                                            <x-icon.fonts.file-download class="text-2xl sm:text-2xl text-sky-700 hover:text-sky-300"></x-icon.fonts.file-download>
-                                        </a>
-                                        <a target="_blank" href="{{route('user.showspacesfile', 'i-'. $invoice->id )}}" target="_blank" class="flex items-center w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-gray-500">
-                                            <x-icon.fonts.pdf-download class="text-2xl sm:text-2xl text-sky-700 hover:text-sky-300"></x-icon.fonts.pdf-download>
-                                        </a>
                                     </div>
                                 </div>
+                                <div class="mt-5 inline-block align-text-bottom pr-2 font-bold text-xl sm:text-2xl ">
+                                    {{ $invoice->brutto_betrag }}
+                                </div>
+
+                                <div class="mt-5">
+                                    <a class="ml-1 mr-3  text-xl sm:text-2xl " href="{{route('user.downloadspacesfile', 'i-'. $invoice->id )}}" >
+                                        <x-icon.fonts.file-download class=" text-sky-700 hover:text-sky-300"></x-icon.fonts.file-download>
+                                    </a>
+                                    <a href="{{route('user.showspacesfile', 'i-'. $invoice->id )}}" class="ml-3 mr-1 text-xl sm:text-2xl ">
+                                        <x-icon.fonts.pdf-download class=" text-sky-700 hover:text-sky-300"></x-icon.fonts.pdf-download>
+                                    </a>
+                                </div>
+                                
                             </div>
+                            <div>
+                                @if (str_contains($invoice->description,'Wärmedienst'))
+                                    <span class="flex-shrink-0 inline-block pr-2 py-0.5 text-green-800 text-sm font-medium bg-green-100 rounded-full">Gerätemiete</span>
+                                @endif
+                                @if (str_contains($invoice->description,'Heizkostenabrechnung'))
+                                    <span class="flex-shrink-0 inline-block pr-2 py-0.5 text-green-800 text-sm font-medium bg-green-100 rounded-full">Heizkostenabr.</span>
+                                @endif
+                                @if (str_contains($invoice->description,'Betriebskosten'))
+                                    <span class="flex-shrink-0 inline-block pr-2 py-0.5 text-green-800 text-sm font-medium bg-green-100 rounded-full">Betriebskostenabr.</span>
+                                @endif
+                                @if (str_contains($invoice->description,'Ablese'))
+                                    <span class="flex-shrink-0 inline-block pr-2 py-0.5 text-green-800 text-sm font-medium bg-green-100 rounded-full">Ablesung.</span>
+                                @endif
+                                
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
-            @endforeach
-        </div>
-
-        <div class="hidden rounded sm:block">
+            </div>
+        @endforeach
+    </div>
+        
+    
+     {{-- BIG Screen --}} 
+    <div class="hidden rounded sm:block">
             <div class="grid justify-around grid-cols-12 py-5 mt-1 font-bold text-center border-2 rounded-t-lg sm:text-xs bg-sky-100 border-sky-100">
                 <div class="col-span-2">
                     Beschreibung

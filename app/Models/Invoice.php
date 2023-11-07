@@ -45,12 +45,16 @@ class Invoice extends Model
 
     protected $casts = ['dateFrom' => 'date:d.m.Y',
                         'dateTo' => 'date:d.m.Y',
-                        'createDate' => 'date:d.m.Y', ];
+                        'createDate' => 'date:d.m.Y',
+                        'brutto' => 'decimal:2'
+                    ];
 
 
     protected $appends = ['date_from_editing',
                           'date_to_editing',
-                          'createDate_editing'];
+                          'create_date_editing',
+                          'brutto_betrag'
+                    ];
 
     public function getDateFromEditingAttribute()
     {
@@ -77,8 +81,8 @@ class Invoice extends Model
 
     public function getCreateDateEditingAttribute()
     {
-        if($this->dateTo){
-            return Carbon::parse($this->dateTo)->format('d.m.Y');
+        if($this->createDate){
+            return Carbon::parse($this->createDate)->format('d.m.Y');
         }
         return '';
     }
@@ -86,6 +90,10 @@ class Invoice extends Model
     public function setCreateDateEditingAttribute($value)
     {
         $this->dateTo = Carbon::parse($value);
+    }
+
+    protected function getBruttoBetragAttribute(){
+        return number_format($this->brutto, 2, ',', '.');
     }
 
 }
