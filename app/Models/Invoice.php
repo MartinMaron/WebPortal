@@ -53,6 +53,7 @@ class Invoice extends Model
     protected $appends = ['date_from_editing',
                           'date_to_editing',
                           'create_date_editing',
+                          'bezahlt_am_editing',
                           'brutto_betrag'
                     ];
 
@@ -70,6 +71,17 @@ class Invoice extends Model
     {
         if($this->dateTo){
             return Carbon::parse($this->dateTo)->format('d.m.Y');
+        }
+        return '';
+    }
+
+    public function getBezahltAmEditingAttribute()
+    {
+        if($this->bezahltAm == '0001-01-01'){
+            return '';    
+        }
+        if($this->bezahltAm){
+            return Carbon::parse($this->bezahltAm)->format('d.m.Y');
         }
         return '';
     }

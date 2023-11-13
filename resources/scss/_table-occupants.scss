@@ -86,6 +86,9 @@
   box-shadow: inset 0px 1px black;
 }
 
+.grid-cols-24{
+  grid-template-columns: repeat(24, minmax(0, 1fr));
 
+}
 
 

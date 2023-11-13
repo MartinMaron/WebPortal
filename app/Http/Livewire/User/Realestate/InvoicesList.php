@@ -46,7 +46,8 @@ class InvoicesList extends Component
                 ->where(function (Builder $query) {
                     $query->where('caption', 'LIKE', '%' . $this->filters['search'] . '%')
                         ->orWhere('fileName', 'LIKE', '%' . $this->filters['search'] . '%')
-                        ->orWhere('vertragsart', 'LIKE', '%' . $this->filters['search'] . '%');
+                        ->orWhere('createDate', 'LIKE', '%' . $this->filters['search'] . '%')
+                        ->orWhere('description', 'LIKE', '%' . $this->filters['search'] . '%');
                 });
         } else {
             $result = Invoice::query()
