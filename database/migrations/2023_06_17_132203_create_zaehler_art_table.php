@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('zaehler_arten', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->increments('id')->primary();
+            $table->string('art');
             $table->string('caption');
             $table->unsignedInteger('einheit_id');
             $table->foreign('einheit_id')->references('id')->on('einheits');

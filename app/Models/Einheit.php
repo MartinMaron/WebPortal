@@ -12,7 +12,7 @@ class Einheit extends Model
 //    protected $table = 'einheiten';
 
     protected $fillable = [
-        'caption', 'shortname', 
+       'id', 'caption', 'shortname', 
     ];
    
 }

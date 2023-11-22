@@ -10,9 +10,14 @@ class ZaehlerArt extends Model
     use HasFactory;
     protected $table = 'zaehler_arten';
 
+    protected $appends = ['short_key'];
 
     protected $fillable = [
-        'caption', 'einheit_id', 'sort_reihenfolge'
+        'id', 'caption', 'einheit_id', 'sort_reihenfolge'
     ];
+
+    protected function getShortKeyAttribute(){
+        return $this->id;
+    }
 
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Einheit;
 use App\Models\UserVerbrauchsinfoAccessControl;
+use App\Models\ZaehlerArt;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserMobileRessource extends JsonResource
@@ -15,7 +17,6 @@ class UserMobileRessource extends JsonResource
      */
     public function toArray($request)
     {
-        $occupants = $this-> getOccupants();
         return [
             'name' => $this->name,
             'email' => $this->email,
@@ -23,8 +24,20 @@ class UserMobileRessource extends JsonResource
             'isAdmin' => $this->isAdmin,
             'isMieter' => $this->isMieter,
             'kundennummer' => $this->kundennummer,
-            'occupants'=> $occupants,
-          ];
+            'occupants'=> $this->getOccupants(),
+            'einheiten'=> $this->getEinheiten(),
+            'zaehlerarten'=> $this->getZaehlerarten(),
+        ];
+    }
+
+    public function getEinheiten()
+    {
+        return Einheit::all();
+    }
+
+    public function getZaehlerarten()
+    {
+        return ZaehlerArt::all();
     }
 
     public function getOccupants()
