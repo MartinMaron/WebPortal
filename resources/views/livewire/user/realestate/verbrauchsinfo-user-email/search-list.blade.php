@@ -46,25 +46,25 @@
         </div>
        
         @foreach ($nutzeinheiten as $nutzeinheit)
-        <div class="flex items-center py-3 md:justify-center">
-            {{-- pokazac ostatniego lokatora mieszkania --}}
-            <div class="text-sm">
-                <livewire:user.occupant.occupant-header :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' addAction="createUserEmailModal" key="{{ now() }}"/>
+       
+       <div class="block my-1 border border-b-2 border-gray-300 rounded-lg shadow-sm ">
+            <div class="flex items-center py-3 md:justify-center">
+                {{-- pokazac ostatniego lokatora mieszkania --}}
+                <div class="text-sm">
+                    <livewire:user.occupant.occupant-header :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' addAction="createUserEmailModal" key="{{ now() }}"/>
+                </div>
             </div>
-            <div class="">
-        {{--    <livewire:user.realestate.verbrauchsinfo-user-email.detail-input :occupant='$this->lastOccupant($nutzeinheit->nutzeinheitNo)' key="{{ now() }}"/>--}}
-            </div>
-        </div>
+            @forelse ($this->getUserEmailsForNutzeinheitNo($nutzeinheit->nutzeinheitNo) as $userEmail)
+            {{-- pokazac wiersze email-ow --}}
+                <div>
+                    <livewire:user.realestate.verbrauchsinfo-user-email.listitem  :userEmail='$userEmail' :wire:key="'verbrauchsinfo-user-email-listitem-'.$userEmail->id"  key="{{ now() }}"/>
+                </div>
+            @endforeach
+       </div>
+        
 
 
-        @forelse ($this->getUserEmailsForNutzeinheitNo($nutzeinheit->nutzeinheitNo) as $userEmail)
-        {{-- pokazac wiersze email-ow --}}
-        <div>
-            <livewire:user.realestate.verbrauchsinfo-user-email.listitem  :userEmail='$userEmail' :wire:key="'verbrauchsinfo-user-email-listitem-'.$userEmail->id"  key="{{ now() }}"/>
-        </div>
-
-        @endforeach
-
+       
 
         @endforeach
 

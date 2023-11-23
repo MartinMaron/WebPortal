@@ -1,6 +1,6 @@
 <div class="">
-    {{-- small screen --}}
-    <div class="hidden py-2 m-auto border-b-2 shadow-md sm:block sm:max-w-7xl">
+    {{-- big screen --}}
+    <div class="hidden py-2 m-auto border-b-2 sm:block sm:max-w-7xl">
         <div class="flex items-center justify-center">
             <div class="basis-1/4 py-1">
                 {{ $userEmail->email }}
@@ -21,7 +21,7 @@
             </x-icon.fonts.trash>
         </div>
     </div>
-    {{-- big screen --}}
+    {{-- small screen --}}
     <div class="block py-2 border-b-2 shadow-sm sm:hidden ">
         <div class="flex justify-between">
             <div class="pl-1">

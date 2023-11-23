@@ -13,10 +13,12 @@ class OccupantHeader extends Component
     public $occupant;
     public $showStandardIcon = true;
     public $addAction = null;
+    public $hasRealestateOccupantsDifferentAdresses = false;
 
     public function mount(Occupant $occupant)
     {
         $this->occupant = $occupant;
+        $this->hasRealestateOccupantsDifferentAdresses = $this->occupant->realestate->has_occupants_different_adresses;
         if ($this->addAction != null)
         {
             /* $this->addAction = $addAction; */
