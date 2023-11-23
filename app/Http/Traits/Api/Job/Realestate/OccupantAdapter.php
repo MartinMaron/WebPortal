@@ -53,7 +53,7 @@ trait OccupantAdapter
              'pe' => $data['pe'],
              'vorauszahlung' => $data['vorauszahlung'],
              'leerstand' => $data['leerstand'],
-             'umlage_nutzerwechsel' => $data['umlage_nutzerwechsel'],
+             'umlage_nutzerwechsel' => $data['umlageNutzerwechsel'],
              'customEinheitNo' => $data['customEinheitNo'],
              'email' => $data['email'],
              'lage' => $data['lage']]
