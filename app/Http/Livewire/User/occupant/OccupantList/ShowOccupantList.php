@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\User\Occupant\OccupantList;
 
 use Carbon\Carbon;
+use App\Models\User;
 use Livewire\Component;
 use App\Models\Occupant;
 use App\Models\Realestate;
@@ -12,6 +13,7 @@ use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithBulkActions;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
+use App\Models\UserVerbrauchsinfoAccessControl;
 
 class ShowOccupantList extends Component
 {
@@ -49,8 +51,49 @@ class ShowOccupantList extends Component
     public function delete($objectId, $objectType)
     {
         if ($objectType != 'Occupant') return;
-       // dd($objectId);
         $object = Occupant::find($objectId);
+
+
+        /* der Zeitraum des letzen Nutzers wird wieder aufgemacht */
+        $last_occupant = $object->realestate->occupants
+                            ->where('nutzeinheitNo', $object->nutzeinheitNo)
+                            ->where('unvid','!=', $object->unvid)
+                            ->sortBy('dateFrom')->last();
+        $last_occupant->dateTo = null;
+        $last_occupant->save();              
+
+        /* userEmails öffnen */
+        $q = $last_occupant->realestate->verbrauchsinfoUserEmails->
+            where('nutzeinheitNo', '=', $object->nutzeinheitNo)
+            ->where('dateTo',(new carbon($object->dateFrom))->addDay(-1));
+
+        foreach ($q as $userEmail) {
+            $userEmail->dateTo = null;
+            $userEmail->save();
+            /* TODO: berechtigungen anpassen */
+            /* schleife über die letzen 13 Monate und schauen userVerbrauchsinfoAccessControls neu angelegt werden müssen   */ 
+            /* $last_occupant->userVerbrauchsinfoAccessControls */
+            $occupantUser = User::where('email', $userEmail->email)->firstOrFail();
+            for($i=0; $i < 12; $i++) {
+                $jahr_monat = carbon::now()->addMonth(0-$i)->isoFormat('YYYY-M');
+                $qAccContr = $last_occupant->userVerbrauchsinfoAccessControls->where('jahr_monat', $jahr_monat)
+                                                                ->where('user_id', $occupantUser->id);
+
+                if ($qAccContr->count() == 0){
+                    UserVerbrauchsinfoAccessControl::updateOrcreate(
+                        ['jahr_monat' => $jahr_monat, 'user_id' => $occupantUser->id,'occupant_id' => $last_occupant->id],
+                        [
+                            'neko_id' => 0,
+                            'toWebDelete' => true,
+                        ]
+                    );  
+                }                                                
+            } 
+        } 
+    
+
+
+
         $object->delete();
         toast()->success('Nutzer wurde gelöscht','Achtung')->push();
         return redirect(request()->header('Referer'));

@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchinfo;
 use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchsinfoCounterMeter;
 use App\Http\Traits\Api\Job\Realestate\VerbrauchsinfoAccessControlAdapter;
+use App\Models\VerbrauchsinfoUserEmail;
 
 trait OccupantAdapter
 {
@@ -131,7 +132,6 @@ trait OccupantAdapter
 
 
     public function changeOccupant(Occupant $initOccupant, Occupant $newOccupant, Bool $isEmpty, $newDate){
-        
         if($isEmpty){
             $newOccupant->nachname = "Leerstand";
             $newOccupant->pe = 1;
@@ -144,6 +144,23 @@ trait OccupantAdapter
         {
             $initOccupant->dateTo = (new carbon($newDate))->addDay(-1);
             $initOccupant->save();
+            
+            /* schliessen der Zeiträume der VerbrauchinfosUserEmails */
+            $q = $initOccupant->realestate->verbrauchsinfoUserEmails
+                ->where('nutzeinheitNo', '=', $initOccupant->nutzeinheitNo);
+                
+            foreach ($q as $email) {
+                if ($email->dateTo == null){
+                    $email->dateTo = $initOccupant->dateTo;
+                    $email->save(); 
+                }
+            }
+            /* entziehen der Sicht-Berechtigungen */
+            foreach ($initOccupant->userVerbrauchsinfoAccessControls()->get() as $accContr) {
+                if (carbon::parse($accContr->datum) > carbon::parse($initOccupant->dateTo)){
+                    $accContr->delete();
+                }
+            }
         }
         return $save;
     }

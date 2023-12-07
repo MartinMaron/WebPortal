@@ -74,16 +74,6 @@ class VerbrauchsinfoUserEmail extends Model
         $value ? $this->dateTo = Carbon::parse($value) : $this->dateTo = null;
     }
 
-   /*  protected function datestart(): Attribute
-    {
-        return Attribute::make(
-            get: fn (string $value) => Carbon::parse($value)->format('d.m.Y'),
-            set: fn (string $value) => $value ? Carbon::parse($value) : null,
-        );
-    }
- */
-
-
     public function getZeitraumAttribute(){
 
         if ($this->dateTo){
@@ -100,9 +90,5 @@ class VerbrauchsinfoUserEmail extends Model
 
     protected $dispatchesEvents = [
         'created' => VerbrauchsinfoUserEmailAdded::class,
-
     ];
-
-
-
 }

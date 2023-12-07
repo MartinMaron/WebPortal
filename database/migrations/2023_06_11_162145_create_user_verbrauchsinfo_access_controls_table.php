@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('neko_id');
             $table->string('jahr_monat');
+            $table->boolean('toWebDelete')->nullable();
             $table->timestamps();
         });
     }
