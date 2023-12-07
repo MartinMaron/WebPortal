@@ -44,8 +44,8 @@ return new class extends Migration
 
             $table->double('faktor')->default(-1);
             $table->boolean('hk');
-            $table->integer('ww');
-       
+            $table->boolean('ww');
+            $table->integer('OptimisticLockField')->nullable();     
             $table->timestamps();
         });
     }

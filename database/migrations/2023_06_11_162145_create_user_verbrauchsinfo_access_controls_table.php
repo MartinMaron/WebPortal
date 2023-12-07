@@ -19,9 +19,10 @@ return new class extends Migration
             $table->foreign('occupant_id')->references('id')->on('occupants');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('neko_id');
+            $table->unsignedBigInteger('neko_id')->nullable()->default(0);
             $table->string('jahr_monat');
             $table->boolean('toWebDelete')->nullable();
+            $table->integer('OptimisticLockField')->nullable();
             $table->timestamps();
         });
     }

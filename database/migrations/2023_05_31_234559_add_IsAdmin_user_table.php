@@ -27,38 +27,12 @@ return new class extends Migration
     public function up()
 
     {
-
-     /*    Schema::create('sessions', function (Blueprint $table) {
-
-            $table->string('id')->primary();
-
-            $table->foreignId('user_id')->nullable()->index();
-
-            $table->string('ip_address', 45)->nullable();
-
-            $table->text('user_agent')->nullable();
-
-            $table->longText('payload');
-
-            $table->integer('last_activity')->index();
-
-        }); */
-
-
-
         Schema::table('users', function($table)
-
         {
-
             $table->boolean('isAdmin')->default(0);
-
             $table->boolean('isUser') ->default(0);
-
             $table->boolean('isMieter')->default(0);
-            
             $table->string('apiToken')->nullable();
-            
-
         });
 
     }
@@ -76,11 +50,8 @@ return new class extends Migration
      */
 
     public function down()
-
     {
-
         Schema::dropIfExists('sessions');
-
     }
 
 };

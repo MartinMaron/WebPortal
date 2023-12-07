@@ -18,13 +18,8 @@ return new class extends Migration
         Schema::table('realestates', function($table)
 
         {
-
             $table->boolean('occupant_name_mode')->default(0);
-
             $table->boolean('occupant_number_mode') ->default(0);
-
-
-
         });
 
     }

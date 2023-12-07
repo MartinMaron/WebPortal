@@ -21,9 +21,10 @@ return new class extends Migration
             $table->string('fileName');
             $table->unsignedBigInteger('realestate_id');
             $table->foreign('realestate_id')->references('id')->on('realestates');
-            $table->unsignedBigInteger('nekoId');
+            $table->string('nekoId');
             $table->date('dateFrom');
             $table->date('dateTo');
+            $table->integer('OptimisticLockField')->nullable();
             $table->timestamps();
         });
     }

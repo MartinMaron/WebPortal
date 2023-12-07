@@ -20,11 +20,9 @@ return new class extends Migration
             $table->date('dateFrom');
             $table->date('dateTo')->nullable();
             $table->unsignedInteger('nutzeinheitNo')->default(0);
-            $table->string('neko_id', 40)->nullable();
             $table->string('email', 255);
-            $table->boolean('webupdate')->default(0);
             $table->string('firstinitUsername')->nullable();
-            $table->boolean('sync')->default(0);
+            $table->integer('OptimisticLockField')->nullable();
             $table->timestamps();
         });
     }

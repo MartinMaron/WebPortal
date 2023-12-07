@@ -29,7 +29,6 @@ return new class extends Migration
     {
         Schema::create('verbrauchsinfos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nekoOccupant_id');
             $table->unsignedBigInteger('occupant_id');
             $table->foreign('occupant_id')->references('id')->on('occupants');
             $table->string('art',100);
@@ -45,11 +44,11 @@ return new class extends Migration
             $table->double('verbrauch_akt')->default(-1);
             $table->double('verbrauch_mon')->default(-1);
             $table->double('verbrauch_vorj')->default(-1);
-            $table->integer('nekoId');
             $table->boolean('hk');
-            $table->integer('ww');
+            $table->boolean('ww');
             $table->double('durchschnitt')->default(0);            
             $table->string('jahr_monat');
+            $table->integer('OptimisticLockField')->nullable();
             $table->timestamps();
         });
     }

@@ -18,13 +18,11 @@ class VerbrauchsinfoUserEmail extends Model
 
     protected $fillable = [
         'realestate_id', 'dateFrom', 'dateTo', 'nutzeinheitNo',
-        'neko_id', 'email', 'webupdate','firstinitUsername', 'seit',
-        'bis'
+        'email', 'firstinitUsername', 'seit','bis'
     ];
 
     public static function validateImportData($data) {
         return Validator::make($data, [
-            'neko_id' => 'required|numeric',
             'dateFrom' => 'required|date',
             'dateTo' => 'nullable|date',
             'msk_nr' => 'required|numeric',
