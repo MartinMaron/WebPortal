@@ -1,13 +1,18 @@
 <?php
 namespace App\Http\Traits\Api\Job\Realestate;
 
+use App\Models\User;
 use App\Models\Occupant;
 use App\Models\Realestate;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
+use App\Models\VerbrauchsinfoUserEmail;
+use App\Models\UserVerbrauchsinfoAccessControl;
 use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchinfo;
+use App\Http\Livewire\User\Realestate\VerbrauchsinfoUserEmails;
 use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchsinfoCounterMeter;
 use App\Http\Traits\Api\Job\Realestate\VerbrauchsinfoAccessControlAdapter;
-use App\Models\VerbrauchsinfoUserEmail;
+use App\Models\Verbrauchsinfo;
 
 trait OccupantAdapter
 {
@@ -155,10 +160,152 @@ trait OccupantAdapter
                     $email->save(); 
                 }
             }
-            /* entziehen der Sicht-Berechtigungen */
+            /* entziehen der Sicht-Berechtigungen des alten Nutzers*/
             foreach ($initOccupant->userVerbrauchsinfoAccessControls()->get() as $accContr) {
                 if (carbon::parse($accContr->datum) > carbon::parse($initOccupant->dateTo)){
                     $accContr->delete();
+                }
+            }
+            /* erstellen des automatischen WebUsers*/
+            if(User::where('email', $newOccupant->unvid. '@e-neko.de' )->exists()) {
+                $user = User::updateOrcreate(
+                    ['email' => $newOccupant->unvid. '@e-neko.de'],
+                    ['name' => $newOccupant->nachname]
+                    );
+            }else{
+                $user = User::updateOrcreate(
+                    ['email' => $newOccupant->unvid. '@e-neko.de'],
+                    ['name' => $newOccupant->nachname,
+                    'password' => Hash::make($newOccupant->unvid)]
+                    );
+            }  
+            $user->isMieter = true;
+            $user->isUser = false;
+            $user->isAdmin = false;
+            $user->save();
+
+            /* erstellen VerbrauchinfosUserEmails*/
+            /* für automatischen Webuser*/
+            $VUs = VerbrauchsinfoUserEmail::updateOrcreate(
+                ['email' => $newOccupant->unvid. '@e-neko.de'],
+                ['dateFrom' => $newOccupant->dateFrom,
+                'firstinitusername' => $newOccupant->nachname,
+                'realestate_id' => $newOccupant->realestate->id,
+                'nutzeinheitNo' => $newOccupant->nutzeinheitNo,]
+            );
+
+             /* erstellen der Sicht-Berechtigungen des neuen Nutzers*/
+             /* für automatischen Webuser*/
+            for($i=0; $i < 12; $i++) {
+                $jahr_monat = carbon::now()->addMonth(0-$i)->isoFormat('YYYY-M');
+                if ($newOccupant->dateFrom < carbon::now()->addMonth(0-$i)){
+                    $uVAcc = UserVerbrauchsinfoAccessControl::updateOrcreate(
+                        ['jahr_monat' => $jahr_monat, 'user_id' => $user->id,'occupant_id' => $save->id],
+                        [
+                            'neko_id' => 0,
+                        ]
+                    );  
+                }                                       
+            } 
+
+
+            /* erstellen des WebUsers aus. Email*/
+            if ($newOccupant->email){
+
+                if(User::where('email', $newOccupant->email )->exists()) {
+                    $user = User::updateOrcreate(
+                        ['email' => $newOccupant->email],
+                        ['name' => $newOccupant->nachname]
+                        );
+                }else{
+                    $user = User::updateOrcreate(
+                        ['email' => $newOccupant->email],
+                        ['name' => $newOccupant->nachname,
+                        'password' => Hash::make($newOccupant->nachname)]
+                        );
+                }  
+                $user->isMieter = true;
+                $user->isUser = false;
+                $user->isAdmin = false;
+                $user->save();
+
+                /* erstellen VerbrauchinfosUserEmails*/
+                /* für automatischen Webuser*/
+                VerbrauchsinfoUserEmails::updateOrcreate(
+                    ['email' => $newOccupant->email],
+                    ['dateFrom' => $newOccupant->dateFrom,
+                    'firstinitusername' => $newOccupant->nachname,
+                    'nutzeinheitNo' => $newOccupant->nutzeinheitNo,]
+                );
+
+                /* erstellen der Sicht-Berechtigungen des neuen Nutzers*/
+                /* für automatischen Webuser*/
+                for($i=0; $i < 12; $i++) {
+                    $jahr_monat = carbon::now()->addMonth(0-$i)->isoFormat('YYYY-M');
+                    if ($newOccupant->dateFrom < carbon::now()->addMonth(0-$i)){
+                        $uVAcc = UserVerbrauchsinfoAccessControl::updateOrcreate(
+                            ['jahr_monat' => $jahr_monat, 'user_id' => $user->id,'occupant_id' => $save->id],
+                            [
+                                'neko_id' => 0,
+                            ]
+                        );  
+                    }                                       
+                } 
+
+            }
+            dd($initOccupant->verbrauchsinfos);
+              
+            /* kopieren der Verbrauchsinformationen und CounterMeters zu neuem Nutzer*/
+            foreach ($initOccupant->verbrauchsinfos() as $vbi) {
+                  
+                if($vbi->datum >= $newOccupant->dateFrom){
+                   $vbiN = new Verbrauchsinfo;
+                   $vbiN->occupant_id = $save->id;
+                   $vbiN->art = $vbi->art;
+                   $vbiN->einheit_id= $vbi->einheit_id;
+                   $vbiN->nutzergrup_id= $vbi->nutzergrup_id;
+                   $vbiN->nutzergrup_name= $vbi->nutzergrup_name;
+                   $vbiN->datum= $vbi->datum;
+                   $vbiN->jahr_monat= $vbi->jahr_monat;
+                   $vbiN->durchschnitt= $vbi->durchschnitt;
+                   $vbiN->zeitraum_akt= $vbi->zeitraum_akt;
+                   $vbiN->zeitraum_mon= $vbi->zeitraum_mon;
+                   $vbiN->zeitraum_vorj= $vbi->zeitraum_vorj;
+                   $vbiN->verbrauch_akt= $vbi->verbrauch_akt;
+                   $vbiN->verbrauch_mon= $vbi->verbrauch_mon;
+                   $vbiN->verbrauch_vorj= $vbi->verbrauch_vorj;
+                   $vbiN->hk= $vbi->hk;
+                   $vbiN->ww= $vbi->ww;
+                   $vbiN->save();
+                }
+            }
+     
+            foreach ($initOccupant->counterMeters() as $cm) {
+                if($cm->datum >= $newOccupant->dateFrom){
+                   $cmN = new Verbrauchsinfo;
+                   $cmN->occupant_id = $save->id;
+                   $cmN->art = $cm->art;
+                   $cmN->nekoId = $cm->nekoId;
+                   $cmN->nr = $cm->nr;
+                   $cmN->funkNr = $cm->funkNr;
+                   $cmN->art = $cm->art;
+                   $cmN->einheit_id = $cm->einheit_id;
+                   $cmN->nutzergrup_id = $cm->nutzergrup_id;
+                   $cmN->nutzergrup_name = $cm->nutzergrup_name;
+                   $cmN->datum = $cm->datum;
+                   $cmN->stand_anfang = $cm->stand_anfang;
+                   $cmN->stand_ende = $cm->stand_ende;
+                   $cmN->faktor = $cm->faktor;
+                   $cmN->zeitraum_akt= $cm->zeitraum_akt;
+                   $cmN->zeitraum_mon= $cm->zeitraum_mon;
+                   $cmN->zeitraum_vorj= $cm->zeitraum_vorj;
+                   $cmN->verbrauch_akt= $cm->verbrauch_akt;
+                   $cmN->verbrauch_mon= $cm->verbrauch_mon;
+                   $cmN->verbrauch_vorj= $cm->verbrauch_vorj;
+                   $cmN->jahr_monat= $cm->jahr_monat;
+                   $cmN->hk= $cm->hk;
+                   $cmN->ww= $cm->ww;
+                   $cmN->save();
                 }
             }
         }

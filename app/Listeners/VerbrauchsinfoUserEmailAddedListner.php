@@ -26,7 +26,6 @@ class VerbrauchsinfoUserEmailAddedListner
      */
     public function handle(VerbrauchsinfoUserEmailAdded $event)
     {
-        $event->verbrauchsinfoUserEmail->webupdate=1;
         $event->verbrauchsinfoUserEmail->save();   
     }
 }
