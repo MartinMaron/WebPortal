@@ -70,4 +70,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserVerbrauchsinfoAccessControl::class);
     }
+
+    public function createdFromWebForOccupant()
+    {
+        return $this->belongsTo(Occupant::class);
+    }
+
 }

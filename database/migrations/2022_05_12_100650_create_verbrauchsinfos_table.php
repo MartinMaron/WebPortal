@@ -30,7 +30,7 @@ return new class extends Migration
         Schema::create('verbrauchsinfos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('occupant_id');
-            $table->foreign('occupant_id')->references('id')->on('occupants');
+            $table->foreign('occupant_id')->references('id')->on('occupants')->onDelete('cascade');
             $table->string('art',100);
         //    $table->string('einheit',100);
             $table->unsignedInteger('einheit_id');

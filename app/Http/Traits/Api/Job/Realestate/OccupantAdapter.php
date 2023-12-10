@@ -13,6 +13,7 @@ use App\Http\Livewire\User\Realestate\VerbrauchsinfoUserEmails;
 use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchsinfoCounterMeter;
 use App\Http\Traits\Api\Job\Realestate\VerbrauchsinfoAccessControlAdapter;
 use App\Models\Verbrauchsinfo;
+use App\Models\VerbrauchsinfoCounterMeter;
 
 trait OccupantAdapter
 {
@@ -103,9 +104,6 @@ trait OccupantAdapter
     }
 
     private function generateNewAddress(Occupant $occupant){
-        
-
-
     }
 
     public function makeDefaultOccupant(Occupant $oldOccupant)
@@ -162,45 +160,40 @@ trait OccupantAdapter
             }
             /* entziehen der Sicht-Berechtigungen des alten Nutzers*/
             foreach ($initOccupant->userVerbrauchsinfoAccessControls()->get() as $accContr) {
-                if (carbon::parse($accContr->datum) > carbon::parse($initOccupant->dateTo)){
+                if (carbon::parse($accContr->datum) > carbon::parse($newOccupant->dateFrom)){
                     $accContr->delete();
                 }
             }
-            /* erstellen des automatischen WebUsers*/
-            if(User::where('email', $newOccupant->unvid. '@e-neko.de' )->exists()) {
-                $user = User::updateOrcreate(
-                    ['email' => $newOccupant->unvid. '@e-neko.de'],
-                    ['name' => $newOccupant->nachname]
-                    );
-            }else{
-                $user = User::updateOrcreate(
-                    ['email' => $newOccupant->unvid. '@e-neko.de'],
-                    ['name' => $newOccupant->nachname,
-                    'password' => Hash::make($newOccupant->unvid)]
-                    );
-            }  
-            $user->isMieter = true;
-            $user->isUser = false;
-            $user->isAdmin = false;
-            $user->save();
+
+            $nU = new User;
+            $nU->email = $newOccupant->unvid. '@e-neko.de';
+            $nU->name = $newOccupant->nachname;
+            $nU->password = Hash::make($newOccupant->nachname);
+            $nU->createdFromWebForOccupant = $save->id;
+            $nU->isMieter = true;
+            $nU->isUser = false;
+            $nU->isAdmin = false;
+            $nU->save();
 
             /* erstellen VerbrauchinfosUserEmails*/
             /* für automatischen Webuser*/
-            $VUs = VerbrauchsinfoUserEmail::updateOrcreate(
-                ['email' => $newOccupant->unvid. '@e-neko.de'],
-                ['dateFrom' => $newOccupant->dateFrom,
-                'firstinitusername' => $newOccupant->nachname,
-                'realestate_id' => $newOccupant->realestate->id,
-                'nutzeinheitNo' => $newOccupant->nutzeinheitNo,]
-            );
-
+            $vue = new VerbrauchsinfoUserEmail;
+            $vue->email = $newOccupant->unvid. '@e-neko.de';
+            $vue->dateFrom = $newOccupant->dateFrom;
+            $vue->firstinitusername = $newOccupant->nachname;
+            $vue->realestate_id = $newOccupant->realestate->id;
+            $vue->createdFromWebForOccupant = $save->id;
+            $vue->OptimisticLockField = 0;
+            $vue->nutzeinheitNo =$newOccupant->nutzeinheitNo;
+            $vue->save();
+           
              /* erstellen der Sicht-Berechtigungen des neuen Nutzers*/
              /* für automatischen Webuser*/
             for($i=0; $i < 12; $i++) {
                 $jahr_monat = carbon::now()->addMonth(0-$i)->isoFormat('YYYY-M');
                 if ($newOccupant->dateFrom < carbon::now()->addMonth(0-$i)){
                     $uVAcc = UserVerbrauchsinfoAccessControl::updateOrcreate(
-                        ['jahr_monat' => $jahr_monat, 'user_id' => $user->id,'occupant_id' => $save->id],
+                        ['jahr_monat' => $jahr_monat, 'user_id' => $nU->id,'occupant_id' => $save->id],
                         [
                             'neko_id' => 0,
                         ]
@@ -211,32 +204,27 @@ trait OccupantAdapter
 
             /* erstellen des WebUsers aus. Email*/
             if ($newOccupant->email){
-
-                if(User::where('email', $newOccupant->email )->exists()) {
-                    $user = User::updateOrcreate(
-                        ['email' => $newOccupant->email],
-                        ['name' => $newOccupant->nachname]
-                        );
-                }else{
-                    $user = User::updateOrcreate(
-                        ['email' => $newOccupant->email],
-                        ['name' => $newOccupant->nachname,
-                        'password' => Hash::make($newOccupant->nachname)]
-                        );
-                }  
-                $user->isMieter = true;
-                $user->isUser = false;
-                $user->isAdmin = false;
-                $user->save();
+                $nU = new User;
+                $nU->email = $newOccupant->email;
+                $nU->name = $newOccupant->nachname;
+                $nU->password = Hash::make($newOccupant->nachname);
+                $nU->createdFromWebForOccupant = $save->id;
+                $nU->isMieter = true;
+                $nU->isUser = false;
+                $nU->isAdmin = false;
+                $nU->save();
 
                 /* erstellen VerbrauchinfosUserEmails*/
                 /* für automatischen Webuser*/
-                VerbrauchsinfoUserEmails::updateOrcreate(
-                    ['email' => $newOccupant->email],
-                    ['dateFrom' => $newOccupant->dateFrom,
-                    'firstinitusername' => $newOccupant->nachname,
-                    'nutzeinheitNo' => $newOccupant->nutzeinheitNo,]
-                );
+                $vue = new VerbrauchsinfoUserEmail;
+                $vue->email = $newOccupant->email;
+                $vue->dateFrom = $newOccupant->dateFrom;
+                $vue->firstinitusername = $newOccupant->nachname;
+                $vue->realestate_id = $newOccupant->realestate->id;
+                $vue->createdFromWebForOccupant = $save->id;
+                $vue->OptimisticLockField = 0;
+                $vue->nutzeinheitNo =$newOccupant->nutzeinheitNo;
+                $vue->save();
 
                 /* erstellen der Sicht-Berechtigungen des neuen Nutzers*/
                 /* für automatischen Webuser*/
@@ -244,7 +232,7 @@ trait OccupantAdapter
                     $jahr_monat = carbon::now()->addMonth(0-$i)->isoFormat('YYYY-M');
                     if ($newOccupant->dateFrom < carbon::now()->addMonth(0-$i)){
                         $uVAcc = UserVerbrauchsinfoAccessControl::updateOrcreate(
-                            ['jahr_monat' => $jahr_monat, 'user_id' => $user->id,'occupant_id' => $save->id],
+                            ['jahr_monat' => $jahr_monat, 'user_id' => $nU->id,'occupant_id' => $save->id],
                             [
                                 'neko_id' => 0,
                             ]
@@ -253,11 +241,9 @@ trait OccupantAdapter
                 } 
 
             }
-            dd($initOccupant->verbrauchsinfos);
               
             /* kopieren der Verbrauchsinformationen und CounterMeters zu neuem Nutzer*/
-            foreach ($initOccupant->verbrauchsinfos() as $vbi) {
-                  
+            foreach ($initOccupant->verbrauchsinfos as $vbi) {
                 if($vbi->datum >= $newOccupant->dateFrom){
                    $vbiN = new Verbrauchsinfo;
                    $vbiN->occupant_id = $save->id;
@@ -278,11 +264,10 @@ trait OccupantAdapter
                    $vbiN->ww= $vbi->ww;
                    $vbiN->save();
                 }
-            }
-     
-            foreach ($initOccupant->counterMeters() as $cm) {
+            }    
+            foreach ($initOccupant->counterMeters as $cm) {
                 if($cm->datum >= $newOccupant->dateFrom){
-                   $cmN = new Verbrauchsinfo;
+                   $cmN = new VerbrauchsinfoCounterMeter;
                    $cmN->occupant_id = $save->id;
                    $cmN->art = $cm->art;
                    $cmN->nekoId = $cm->nekoId;
@@ -313,7 +298,6 @@ trait OccupantAdapter
     }
 
     public function editOccupant(Occupant $occupant){
-
         return Occupant::updateOrcreate(
             ['id' => $occupant['id']],
             ['nekoId' => $occupant['nekoId'],
@@ -346,6 +330,7 @@ trait OccupantAdapter
                 'email' => $occupant['email'],
                 'telephone_number' => $occupant['telephone_number'],
                 'eigentumer' => $occupant['eigentumer'],
+                'OptimisticLockField' => $occupant['OptimisticLockField'] + 1,
             ]
         );
 

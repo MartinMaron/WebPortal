@@ -16,7 +16,6 @@ class Einstellungen extends Component
         $this->realestate = $baseobject;
         $this->einstellungen = RealestateAbrechnungssetting::query()
         ->where('realestate_id', '=', $this->realestate->id)
-        ->where(function (Builder $query) {$query->Aktiv();})
         ->first();
      }
     

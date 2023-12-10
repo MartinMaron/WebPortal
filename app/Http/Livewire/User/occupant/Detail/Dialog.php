@@ -270,7 +270,6 @@ class Dialog extends Component
 
     public function goToNextPage()
     {
-        
         $calcRules = null;
         if ($this->dialogMode == 'change'){
             $calcRules = $this->validationRulesChange;
@@ -278,13 +277,16 @@ class Dialog extends Component
         {
             $calcRules = $this->validationRulesEdit;
         }
-
+        
         $myRules = $calcRules[$this->currentPage];
+        
         //custom validation
-        if ($this->currentPage == 1)
+        if ($this->currentPage == 1 && $this->dialogMode == 'change')
         {
             $myRules['dateFromNewOccupant']=['required', 'date', new OcccupantDateFromGreaterPreviousRule];
         }
+        
+        //dd($this->validate($myRules));
         $this->validate($myRules);
 
         if ($this->hasLeerstand){

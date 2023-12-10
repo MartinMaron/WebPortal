@@ -33,8 +33,9 @@ return new class extends Migration
             $table->boolean('isUser') ->default(0);
             $table->boolean('isMieter')->default(0);
             $table->string('apiToken')->nullable();
+            $table->unsignedBigInteger('createdFromWebForOccupant')->nullable();
+            $table->foreign('createdFromWebForOccupant')->references('id')->on('occupants')->onDelete('cascade');
         });
-
     }
 
 

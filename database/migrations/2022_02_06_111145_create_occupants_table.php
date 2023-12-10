@@ -47,7 +47,7 @@ return new class extends Migration
             $table->string('eigentumer')->nullable();
             $table->boolean('leerstand')->boolean()->default(0);
             $table->boolean('umlage_nutzerwechsel')->boolean()->default(1);
-            $table->integer('OptimisticLockField')->nullable();
+            $table->integer('OptimisticLockField')->default(0);
             $table->timestamps();
         });
     }

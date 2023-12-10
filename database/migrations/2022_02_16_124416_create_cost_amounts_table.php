@@ -27,40 +27,22 @@ class CreateCostAmountsTable extends Migration
      */
 
     public function up()
-
     {
-
         Schema::create('cost_amounts', function (Blueprint $table) {
-
             $table->bigIncrements('id');
-
             $table->unsignedBigInteger('cost_id')->default(0);
-
             $table->foreign('cost_id')->references('id')->on('costs');
-
             $table->unsignedBigInteger('nekoId')->default(0);
-
             $table->string('bemerkung')->nullable();
-
-            $table->string('tryWebDelete')->nullable(); 
-
             $table->string('description')->nullable();
-
-            $table->string('netAmount')->default(0);
-
-            $table->string('grosAmount')->default(0);
-
+            $table->double('netAmount')->default(0);
+            $table->double('grosAmount')->default(0);
             $table->date('dateCostAmount')->nullable();
-
-            $table->string('consumption')->nullable();
-
-            $table->string('grosAmount_HH')->default(0);
+            $table->double('consumption')->nullable();
+            $table->double('grosAmount_HH')->default(0);
             $table->integer('OptimisticLockField')->nullable();
-            
             $table->timestamps();
-
         });
-
     }
 
 
@@ -76,11 +58,8 @@ class CreateCostAmountsTable extends Migration
      */
 
     public function down()
-
     {
-
         Schema::dropIfExists('cost_amounts');
-
     }
 
 }

@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('email', 255);
             $table->string('firstinitUsername')->nullable();
             $table->integer('OptimisticLockField')->nullable();
+            $table->unsignedBigInteger('createdFromWebForOccupant')->nullable();
+            $table->foreign('createdFromWebForOccupant')->references('id')->on('occupants')->onDelete('cascade');
             $table->timestamps();
         });
     }

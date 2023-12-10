@@ -18,7 +18,7 @@ class Occupant extends Model
     protected $fillable = [
         'nekoId', 'realestate_id', 'unvid', 'budguid','nutzeinheitNo', 'dateFrom', 'dateTo', 'anrede', 'title', 'nachname', 'vorname', 'address',
         'street', 'postcode', 'houseNr', 'city', 'vat', 'uaw', 'qmkc', 'qmww', 'pe', 'bemerkung', 'vorauszahlung', 'lokalart', 'customEinheitNo', 'lage', 'email',
-        'telephone_number', 'eigentumer', 'date_from_editing', 'qmkc_editing', 'vorauszahlung_editing', 'vorauszahlung_editing', 'personen_zahl'
+        'telephone_number', 'eigentumer', 'date_from_editing', 'qmkc_editing', 'vorauszahlung_editing', 'vorauszahlung_editing', 'personen_zahl', 'OptimisticLockField'
     ];
 
     public function user()
@@ -225,6 +225,15 @@ class Occupant extends Model
     public function verbrauchsinfos()
     {
         return $this->hasMany(Verbrauchsinfo::class);
+    }
+
+    public function verbrauchsinfoUserEmails()
+    {
+        return $this->hasMany(VerbrauchsinfoUserEmail::class);
+    }
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 
 

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('verbrauchsinfo_counter_meters', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('occupant_id');
-            $table->foreign('occupant_id')->references('id')->on('occupants');
+            $table->foreign('occupant_id')->references('id')->on('occupants')->onDelete('cascade');
             $table->unsignedBigInteger('nekoId');
             $table->string('nr', 40);
             $table->string('funkNr', 40);

@@ -21,6 +21,12 @@ class VerbrauchsinfoUserEmail extends Model
         'email', 'firstinitUsername', 'seit','bis'
     ];
 
+    public function createdFromWebForOccupant()
+    {
+        return $this->belongsTo(VerbrauchsinfoUserEmail::class);
+    }
+
+
     public static function validateImportData($data) {
         return Validator::make($data, [
             'dateFrom' => 'required|date',

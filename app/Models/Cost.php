@@ -28,10 +28,6 @@ class Cost extends Model
         $ret_val = $query
         ->where(function($query) 
         {
-            $query->where("tryWebDelete", false);
-        })        
-        ->where(function($query) 
-        {
             $query->where('costType_id', 'HNK')
             ->orWhere('costType_id', 'BRK')
             ->orWhere('costType_id', 'KWK')
