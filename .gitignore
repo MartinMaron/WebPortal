@@ -27,3 +27,5 @@ public/js/app.js
 .env.test
 .env.local
 .env.prod
+public/css/app.css
+public/js/app.js
