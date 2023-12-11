@@ -29,13 +29,12 @@ return new class extends Migration
     {
         Schema::create('cost_keys', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('nekoCostKey_id')->default(0);
             $table->integer('nekoKey_id')->default(0);
             $table->unsignedBigInteger('realestate_id');
             $table->foreign('realestate_id')->references('id')->on('realestates');
             $table->string('bemerkung',500)->nullable();
             $table->string('description',500)->nullable();
-            $table->string('zeitanteil')->default(0);
+            $table->boolean('zeitanteil')->default(0);
             $table->string('einheit');
             $table->string('shortKey');
             $table->string('viewText');
