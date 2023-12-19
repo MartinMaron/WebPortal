@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             SalutationSeeder::class,
             EinheitSeeder::class,
             ZaehlerArtSeeder::class,
+            UnitUsageTypeSeeder::class,
         ]);
 
 

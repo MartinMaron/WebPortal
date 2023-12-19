@@ -256,19 +256,19 @@
                                     :error="$errors->first('current.lage')"
                                 >
                                 </x-input.autocomplete>
-                                <x-input.autocomplete
+                                
+
+                                <x-input.select
                                     wire:model.lazy="current.lokalart"
-                                    customPlaceholder="Lokalart"
-                                    customId="0"
-                                    fieldname="inpLokalart"
-                                    data="[
-                                    'Appartament', 'Allgemeine Räume','Atelier', 'Büro', 'Einzelhandel + Lager',
-                                    'Einzelhandel','Etage', 'Garage','Gaststätte', 'Gewerbe', 'Halle', 'Halle u. Büro', 'Keller',
-                                    'Laden', 'Lager', 'Logische Einheit', 'Praxis', 'Physiotherapie', 'Stellplatz', 'Tennishalle', 'Wohnung', 'Zimmer'
-                                    ]"
-                                :error="$errors->first('current.lokalart')"
+                                    placeholder="Lokalart"
+                                    :error="$errors->first('current.lokalart')" 
                                 >
-                                </x-input.autocomplete>
+                                @if ($unitUsageTypes)
+                                    @foreach ($unitUsageTypes as $dsi)
+                                        <option class="" value="{{ $dsi->type_id }}">{{ $dsi['caption'] }}</option>
+                                    @endforeach
+                                @endif 
+                                </x-input.select>
                             </div>
                         </x-input.group>
                         <!-- Vorauszahlung -->
