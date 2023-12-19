@@ -37,7 +37,7 @@
             <div
                 wire:click="questionDeleteCostAmount" 
                 class="border text-center bg-red-300 md:text-md hover:bg-red-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 ml-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-red-600 rounded-md ">
-                <i class="text-red-800 fa-solid fa-trash-can"></i>
+                <i class="text-red-800 fa-solid "></i>
             </div>
         </div>
     </div>

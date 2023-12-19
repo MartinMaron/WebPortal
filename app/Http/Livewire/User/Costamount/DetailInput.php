@@ -19,19 +19,20 @@ class DetailInput extends Component
     public Double $amount;
     public Double $amountHh;
     public $netto;
-    public bool $inputWithoutDatum;
+    public bool $inputWithDate;
+    public bool $inputNet;
 
     public CostAmount $current;
     public string $inputStartField;
 
-    public function mount(Cost $cost, $netto, $inputWithoutDatum) {
+    public function mount(Cost $cost, $netto, $inputWithDatum) {
         $this->cost = $cost;
-        $this->vat = $netto;
-        $this->inputWithoutDatum = $inputWithoutDatum;
+        $this->inputNet = $netto;
+        $this->inputWithDate = $inputWithDatum;
         if ($this->cost->consumption) {
             $this->inputStartField = 'consumption';
         }else{
-            if ($this->inputWithoutDatum) {
+            if ($this->inputWithDate) {
                 $this->inputStartField = 'betrag';
             }else {
                 $this->inputStartField = 'datum';
@@ -77,6 +78,7 @@ class DetailInput extends Component
             'current.consumption' => 'required_if:cost.consumption,==,1|numeric|nullable',
             'current.consumption_editing' => 'nullable',
             'current.brutto' => 'nullable',
+            'current.co2TaxValue' => 'nullable',
             'current.netto' => 'nullable',
             'current.haushaltsnah' => 'nullable',
             'current.description' => 'nullable',

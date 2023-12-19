@@ -56,6 +56,7 @@ class CreateCostsTable extends Migration
             $table->double('startValueAmountGros')->nullable();
             $table->string('keyUnitType')->nullable();
             $table->boolean('consumption')->default(0);                        
+            $table->boolean('co2Tax')->default(0);                        
             $table->integer('OptimisticLockField')->nullable();
             $table->timestamps();
         });

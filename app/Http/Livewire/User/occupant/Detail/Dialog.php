@@ -17,9 +17,11 @@ use App\Rules\OcccupantDateFromGreaterPreviousRule;
 use App\Http\Traits\Api\Job\Realestate\OccupantAdapter;
 use App\Models\UnitUsageType;
 
+
 class Dialog extends Component
 {
-    use OccupantAdapter;
+    use OccupantAdapter; 
+
 
     public $salutations = null;
     public $unitUsageTypes = null;

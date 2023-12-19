@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use App\Models\Realestate;
 use App\Models\RealestateAbrechnungssetting;
+use Helpers;
 
 class Einstellungen extends Component
 {
@@ -19,11 +20,19 @@ class Einstellungen extends Component
         ->first();
      }
     
+     public function commit(){
+        $this->realestate->save();
+        $this->einstellungen->save();
+        toast()->success('Die Einstellungen wurden geändert.','Achtung')->push();
+        return redirect(request()->header('Referer'));
+     }
+
+
      public function rules()
      {
          return [
              'realestate.eingabeCostNetto' => 'nullable',      
-             'realestate.eingabeCostOhneDatum' => 'nullable',      
+             'realestate.eingabeCostDatum' => 'nullable',      
              'einstellungen.stromkosten' => 'numeric',      
              'einstellungen.nabi_inhaber' => 'nullable',
              'einstellungen.nabi_nr' => 'nullable'

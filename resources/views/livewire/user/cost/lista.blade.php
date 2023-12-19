@@ -4,7 +4,7 @@
     <!-- Main -->
     <div class="max-w-7xl w-full mx-auto sm:px-6 lg:px-8">
         <!-- Einstellungen -->
-        <div class="mt-4 pb-4 border border-black rounded-md shadow">
+        <div class="mt-4 py-3 border border-black rounded-md shadow">
             <div  x-data="{ open: false }">
                 <div class="flex justify-between">
                     <button x-on:click="open = ! open"
@@ -70,13 +70,20 @@
                             <div class="basis-2/3 ">
                                 <div class="flex px-4 flex-row items-center justify-around gap-6">
                                     <div class="basis-1/5">
-                                        <div class="text-xs {{ $this->hasConsumptionByType($cost->costType_id) ? 'block' : 'hidden' }} align-text-bottom border-b border-gray-400 text-center">Verbrauch</div>
+                                        <div class="text-xs {{ $this->hasConsumptionByType($cost->costType_id) ? 'block' : 'hidden' }} align-text-bottom border-b border-gray-400 text-center">Verbrauch in kWh.</div>
                                     </div>
+                                    @if (!($cost->costType_id == 'BRK'))
                                     <div class="basis-1/5">
                                         <div class="text-xs {{ $this->hasHaushaltsnahByType($cost->costType_id) ? 'block' : 'hidden' }} align-text-bottom border-b border-gray-400 basis-1/5 text-center">Haushaltsnah</div>
                                     </div>
+                                    @endif
+                                    @if (($cost->costType_id == 'BRK'))
                                     <div class="basis-1/5">
-                                        <div class="text-xs align-text-bottom border-b border-gray-400 basis-1/5 text-center">Datum</div>
+                                        <div class="text-xs align-text-bottom border-b border-gray-400 basis-1/5 text-center">CO2-Abgabe</div>
+                                    </div>
+                                    @endif
+                                    <div class="basis-1/5">
+                                        <div class="{{ $dateInputMode ? 'block' : 'hidden' }} text-xs align-text-bottom border-b border-gray-400 basis-1/5 text-center">Datum</div>
                                     </div>
                                     <div class="basis-1/5">
                                         <div class="text-xs align-text-bottom border-b border-gray-400 basis-1/5 text-center">Betrag</div>
@@ -105,7 +112,7 @@
                                 </div>
                                 @if ($showEditFields)
                                     <div class="basis-2/3 py-1 bg-orange-800">
-                                        <livewire:user.costamount.detail-input :cost='$singleCost' :netto='$nettoInputMode' :inputWithoutDatum='$withoutDateInputMode' :wire:key="'list-cost-costamountinput-'.$singleCost->id"/>
+                                        <livewire:user.costamount.detail-input :cost='$singleCost' :netto='$nettoInputMode' :inputWithDatum='$dateInputMode' :wire:key="'list-cost-costamountinput-'.$singleCost->id"/>
                                     </div>
                                 @else
                                     <div class="basis-1/3 text-right text-lg py-1 px-6">
@@ -154,7 +161,7 @@
                                                         </div>
                                                         <div id="user-costamount-listitem-datum{{ $singleCostAmount->id }}"
                                                             style="-moz-appearance: textfield; margin: 0;"
-                                                            class="basis-1/5 md:text-md text-right {{ $withoutDateInputMode ? 'invisible' : '' }} "   >
+                                                            class="basis-1/5 md:text-md text-right {{ $dateInputMode ? 'invisible' : '' }} "   >
                                                                 <span class="text-right mr-2">{{ $singleCostAmount->datum }}</span>
                                                         </div>
                                                         <div id="user-costamount-listitem-betrag{{ $singleCostAmount->id }}"
@@ -194,7 +201,6 @@
                                                                 <div
                                                                     wire:click="questionDeleteCostAmount({{ $singleCostAmount }})"
                                                                     class="border text-center bg-red-300 md:text-md hover:bg-red-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 ml-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-red-600 rounded-md ">
-                                                                    <i class="text-blue-800 fa-solid fa-trash-can"></i>
                                                                     <x-icon.fonts.trash class="text-blue-800 "></x-icon.fonts.trash>
                                                                 </div>
                                                             </div>
