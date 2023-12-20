@@ -11,17 +11,18 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Builder;
 use Usernotnull\Toast\Concerns\WireToast;
 
+use function Termwind\render;
 
 class Lista extends Component
 {
     use WireToast;
 
     public $showDeleteModal = false;
-    // public $showEditModal = false;
+    public $showEditModal = false;
     public $showEditFields = true;
     public $showFilters = false;
     public $nettoInputMode = false;
-    public $withoutDateInputMode = true;
+    public $dateInputMode = true;
 
     public $currentCostAmount = null;
 
@@ -47,7 +48,7 @@ class Lista extends Component
         $this->realestate = $realestate;
         $this->current = $this->makeBlankObject();
         $this->nettoInputMode = $realestate->eingabeCostNetto;
-        $this->withoutDateInputMode = $realestate->eingabeCostOhneDatum;
+        $this->dateInputMode = $realestate->eingabeCostDatum;
     }
 
     public function makeBlankObject()

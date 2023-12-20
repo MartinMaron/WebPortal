@@ -15,12 +15,17 @@ use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Rules\OcccupantDateFromGreaterPreviousRule;
 use App\Http\Traits\Api\Job\Realestate\OccupantAdapter;
+use App\Models\UnitUsageType;
+
 
 class Dialog extends Component
 {
-    use OccupantAdapter;
+    use OccupantAdapter; 
+
 
     public $salutations = null;
+    public $unitUsageTypes = null;
+    
     public Realestate $realestate;
     public Occupant $current;
     public Occupant $initOccupant;
@@ -177,6 +182,7 @@ class Dialog extends Component
             $this->current = $this->realestate->occupants->first();
         }
         $this->salutations = Salutation::all();
+        $this->unitUsageTypes = UnitUsageType::all();
     }
 
 
@@ -324,6 +330,7 @@ class Dialog extends Component
     {
         return view('livewire.user.occupant.detail.dialog',[
             'current' => $this->current,
+            'unitUsageTypes' => $this->unitUsageTypes,
         ]);
     }
 }
