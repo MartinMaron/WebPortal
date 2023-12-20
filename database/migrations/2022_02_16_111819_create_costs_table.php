@@ -32,7 +32,7 @@ class CreateCostsTable extends Migration
             $table->foreign('realestate_id')->references('id')->on('realestates');
             $table->integer('nekoId')->nullable();
             $table->string('nazwa')->nullable();
-            $table->string('bemerkung')->nullable();
+            $table->longText('bemerkung')->nullable();
             $table->string('costType')->nullable();
             $table->String('costType_id');
             $table->double('vatAmount')->nullable();
