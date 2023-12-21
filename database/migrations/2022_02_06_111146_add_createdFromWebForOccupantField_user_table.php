@@ -29,10 +29,6 @@ return new class extends Migration
     {
         Schema::table('users', function($table)
         {
-            $table->boolean('isAdmin')->default(0);
-            $table->boolean('isUser') ->default(0);
-            $table->boolean('isMieter')->default(0);
-            $table->string('apiToken')->nullable();
             $table->unsignedBigInteger('createdFromWebForOccupant')->nullable();
             $table->foreign('createdFromWebForOccupant')->references('id')->on('occupants')->onDelete('cascade');
         });

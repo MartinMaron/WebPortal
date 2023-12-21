@@ -31,32 +31,25 @@ class CreateCostsTable extends Migration
             $table->unsignedBigInteger('realestate_id');
             $table->foreign('realestate_id')->references('id')->on('realestates');
             $table->integer('nekoId')->nullable();
-            $table->string('nazwa')->nullable();
-            $table->string('bemerkung')->nullable();
-            $table->string('costType')->nullable();
+            $table->string('caption')->nullable();
+            $table->longText('description')->nullable();
+            /* Betriebskosten, Brennstoffkosten, Zusatzkosten ...etc. */
             $table->String('costType_id');
-            $table->double('vatAmount')->nullable();
-            $table->string('fuelType')->nullable();
+            /* Gas, Heizöl, Fernwärme, Pellets, Strom ...etc. */
             $table->String('fuelType_id')->nullable();
-            $table->boolean('hasTank')->nullable();
             $table->double('startValue')->nullable();
-            $table->double('endValue')->nullable();
-            $table->double('startValueAmount')->nullable();
-            $table->boolean('haushaltsnah')->nullable();
-            $table->unsignedBigInteger('keyId')->nullable();
-            $table->string('keyName')->nullable();
-            $table->string('keyShortkey')->nullable();
-            $table->text('noticeForUser')->nullable();
-            $table->text('noticeForNeko')->nullable();
-            $table->string('costAbrechnungType')->nullable();
-            $table->string('costAbrechnungTypeId')->nullable();
-            $table->string('fuelTypeUnitType')->nullable();
-            $table->string('fuelTypeUnitName')->nullable();
             $table->double('startValueAmountNet')->nullable();
             $table->double('startValueAmountGros')->nullable();
-            $table->string('keyUnitType')->nullable();
-            $table->boolean('consumption')->default(0);                        
+            $table->double('startValueAmountVat')->nullable();
+            $table->double('endValue')->nullable();
+            $table->boolean('haushaltsnah')->nullable();
             $table->boolean('co2Tax')->default(0);                        
+            /* Umlageschlüssel */
+            $table->unsignedBigInteger('allocationKey_id')->nullable();
+            $table->foreign('allocationKey_id')->references('id')->on('cost_keys');
+            $table->text('noticeForUser')->nullable();
+            $table->text('noticeForNeko')->nullable();
+            $table->boolean('consumption')->default(0);                        
             $table->integer('OptimisticLockField')->nullable();
             $table->timestamps();
         });

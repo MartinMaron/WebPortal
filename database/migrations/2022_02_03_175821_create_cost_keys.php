@@ -32,11 +32,11 @@ return new class extends Migration
             $table->integer('nekoKey_id')->default(0);
             $table->unsignedBigInteger('realestate_id');
             $table->foreign('realestate_id')->references('id')->on('realestates');
-            $table->string('bemerkung',500)->nullable();
+            $table->string('caption',500)->nullable();
             $table->string('description',500)->nullable();
             $table->boolean('zeitanteil')->default(0);
-            $table->string('einheit');
-            $table->string('shortKey');
+            $table->unsignedInteger('einheit_id');
+            $table->foreign('einheit_id')->references('id')->on('einheits');
             $table->string('viewText');
             $table->integer('OptimisticLockField')->nullable();
             $table->timestamps();

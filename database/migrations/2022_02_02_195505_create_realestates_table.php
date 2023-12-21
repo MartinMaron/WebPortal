@@ -45,6 +45,8 @@ class CreateRealestatesTable extends Migration
             $table->boolean('miete');
             $table->boolean('eingabeCostNetto')->default(0);
             $table->boolean('eingabeCostDatum')->default(1);
+            $table->boolean('occupant_name_mode')->default(0);
+            $table->boolean('occupant_number_mode') ->default(0);
             $table->integer('OptimisticLockField')->nullable();
             $table->softDeletes();
             $table->timestamps();

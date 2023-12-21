@@ -24,6 +24,14 @@ return new class extends Migration
             $table->string('nekoId');
             $table->date('dateFrom');
             $table->date('dateTo');
+            $table->string('vertragsart')->nullable();
+            $table->boolean('bezahlt')->nullable();
+            $table->date('bezahltAm')->nullable();
+            $table->date('zahlungsAuftragDatum')->nullable();
+            $table->string('zahlungsauftragIBAN')->nullable();
+            $table->double('netto')->nullable()->default(0.0);
+            $table->double('vat')->nullable()->default(0.0);
+            $table->double('brutto')->nullable()->default(0.0);
             $table->integer('OptimisticLockField')->nullable();
             $table->timestamps();
         });

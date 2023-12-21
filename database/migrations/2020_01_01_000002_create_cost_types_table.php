@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-
-
-        Schema::table('realestates', function($table)
-
-        {
-            $table->boolean('occupant_name_mode')->default(0);
-            $table->boolean('occupant_number_mode') ->default(0);
+        Schema::create('cost_types', function (Blueprint $table) {
+            $table->string('type_id')->primary();
+            $table->string('costInvoicingType_id');
+            $table->foreign('costInvoicingType_id')->references('type_id')->on('cost_invoicing_types');
+            $table->string('caption');
+            $table->timestamps();
         });
-
     }
 
     /**
@@ -31,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('realestates', function (Blueprint $table) {
-            $table->dropColumn(['occupant_name_mode', 'occupant_number_mode']);
-        });
+        Schema::dropIfExists('cost_types');
     }
 };
