@@ -19,7 +19,6 @@ public/js/app.js
 .env.prod
 .env.production
 .env.staging
-.env.example
 .phpunit.result.cache
 .vapor/
 
