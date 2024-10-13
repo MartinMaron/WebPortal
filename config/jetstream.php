@@ -1,6 +1,7 @@
 <?php
 
 use Laravel\Jetstream\Features;
+use Laravel\Jetstream\Http\Middleware\AuthenticateSession;
 
 return [
 
@@ -15,20 +16,22 @@ return [
     |
     */
 
-    'stack' => 'livewire',
+    'stack' => 'inertia',
 
     /*
-     |--------------------------------------------------------------------------
-     | Jetstream Route Middleware
-     |--------------------------------------------------------------------------
-     |
-     | Here you may specify which middleware Jetstream will assign to the routes
-     | that it registers with the application. When necessary, you may modify
-     | these middleware; however, this default value is usually sufficient.
-     |
-     */
+    |--------------------------------------------------------------------------
+    | Jetstream Route Middleware
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify which middleware Jetstream will assign to the routes
+    | that it registers with the application. When necessary, you may modify
+    | these middleware; however, this default value is usually sufficient.
+    |
+    */
 
     'middleware' => ['web'],
+
+    'auth_session' => AuthenticateSession::class,
 
     /*
     |--------------------------------------------------------------------------

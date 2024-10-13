@@ -1,13 +1,23 @@
-require('./bootstrap');
+import './bootstrap.js';
+import '../css/app.css';
 
-import Alpine from 'alpinejs';
-import mask from '@alpinejs/mask'
-import ToastComponent from '../../vendor/usernotnull/tall-toasts/dist/js/tall-toasts'
+import { createApp, h } from 'vue';
+import { createInertiaApp } from '@inertiajs/vue3';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
-Alpine.data('ToastComponent', ToastComponent)
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-Alpine.plugin(mask)
-
-window.Alpine = Alpine;
-
-Alpine.start();
+createInertiaApp({
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
+    setup({ el, App, props, plugin }) {
+        return createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .use(ZiggyVue)
+            .mount(el);
+    },
+    progress: {
+        color: '#4B5563',
+    },
+});
