@@ -8,33 +8,25 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-        <link rel="dns-prefetch" href="//fonts.gstatic.com">
-
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
-
-        @livewireStyles
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        <script src="{{ mix('js/app.js') }}" defer></script>
-        <script src="https://kit.fontawesome.com/fec4df1c10.js" crossorigin="anonymous"></script>
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <!-- Styles -->
+        @livewireStyles
     </head>
     <body class="font-sans antialiased">
-        <livewire:toasts />
+        <x-banner />
 
-        {{-- <x-jet-banner /> --}}
-        {{-- <input type="text" id="datepicker"> --}}
+        <div class="min-h-screen bg-gray-100">
+            @livewire('navigation-menu')
 
-        <div class="bg-white">
-            <div class="py-2 md:py-6 max-w-7xl sm:px-6 lg:px-8 mx-auto">
-                <livewire:user.navigation-top />
-            </div>
             <!-- Page Heading -->
             @if (isset($header))
-                <header class="bg-white">
-                    <div class="py-2 md:py-6 max-w-7xl sm:px-6 lg:px-8 mx-auto">
+                <header class="bg-white shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
@@ -42,13 +34,12 @@
 
             <!-- Page Content -->
             <main>
-                <div class="py-6 max-w-7xl sm:px-6 lg:px-8 mx-auto">
-                    {{ $slot }}
-                </div>
+                {{ $slot }}
             </main>
         </div>
 
         @stack('modals')
+
         @livewireScripts
     </body>
 </html>

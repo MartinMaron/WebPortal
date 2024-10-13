@@ -36,6 +36,7 @@
         "@themesberg/tailwind-datepicker": "^1.1.0",
         "bootstrap": "^5.3.3",
         "laravel-vite-plugin": "^1.0.5",
-        "pikaday": "^1.8.2"
+        "pikaday": "^1.8.2",
+        "ziggy-js": "^2.3.0"
     }
 }
