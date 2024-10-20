@@ -34,7 +34,7 @@
                 </div>
                 @endif
             </div>
-        </div>            
+        </div>
 
         <!-- Big screen TABELLA -->
         <div class="hidden sm:block md:max-w-7xl" key="{{ now() }}">
@@ -93,7 +93,7 @@
                                         {{ $occupant->vorname . ' '. $occupant->nachname }}
                                     @endif
                                 </button>
-                            </x-table.th>
+                            </x-table.td>
                             <x-table.td class="text-center occu-td" style="min-width: 14rem; max-width: 14rem">
                                 <div class="flex px-2">
                                     <span>{{ $occupant->date_from_editing }}</span>
@@ -105,7 +105,7 @@
                                             <button class="w-18 px-auto border-2"
                                                 style="min-width: 3rem; max-width: 3rem"
                                                 wire:click='change({{$occupant}})'>
-                                                <x-icon.fonts.user-move 
+                                                <x-icon.fonts.user-move
                                                 class="text-sky-700 hover:text-sky-300 fa-solid fa-house-person-leave">
                                                 </x-icon.fonts.user-move>
                                             </button>
@@ -119,7 +119,7 @@
                                                 </span>
                                                 </button>
                                             @endif
-                                        </div>    
+                                        </div>
                                     @endif
                                 </div>
                             </x-table.td>
@@ -155,7 +155,7 @@
         <!-- Occupants List -->
         <div class="block sm:hidden" key="{{ now() }}">
             <div class="grid w-full grid-cols-1 gap-4 mt-6 sm:grid-cols-2 lg:grid-cols-3" key="{{ now() }}">
-                    
+
                 @foreach ($rows as $occupant)
                     <div wire:key="flex row-{{ $occupant->id }}" class="divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-50" key="{{ now() }}" >
                         <div class="flex items-center justify-between w-full p-2 space-x-6 ">
@@ -191,15 +191,15 @@
                                                             <button class="px-2 py-1 duration-150 rounded-lg bg-sky-100 border-sky-100 text-md text-sky-700 opacity-90 group-hover:opacity-100 ease">&ctdot;</button>
                                                         </x-slot>
                                                         <x-slot name="content" class="">
-                                                            <x-jet-dropdown-link 
+                                                            <x-jet-dropdown-link
                                                                 class="cursor-pointer"
                                                                 wire:click='edit({{$occupant}})'
                                                                 >
                                                                 <x-icon.fonts.editable-pencil class="text-sm cursor-pointer text-sky-700 hover:text-sky-300"></x-icon.fonts.editable-pencil>
                                                                 {{ __('Bearbeiten') }}
                                                             </x-jet-dropdown-link>
-                                                            
-                                                            <x-jet-dropdown-link 
+
+                                                            <x-jet-dropdown-link
                                                                 class="cursor-pointer"
                                                                 wire:click='change({{$occupant}})'
                                                                 >
@@ -208,7 +208,7 @@
                                                             </x-jet-dropdown-link>
                                                             @if ($occupant->canDelete)
 
-                                                                <x-jet-dropdown-link 
+                                                                <x-jet-dropdown-link
                                                                     class="cursor-pointer"
                                                                     wire:click='emit_QuestionDeleteModal({{$occupant}})'
                                                                     >
@@ -240,12 +240,12 @@
         </div>
 
         <div class="">
-           {{-- 
+           {{--
             <livewire:user.occupant.occupant-list.dialog :realestate='$realestate'/>
          --}}
-         
+
             <livewire:user.occupant.detail.dialog :realestate='$realestate' key="{{ now() }}"/>
-        
+
         </div>
         <div class="">
             <livewire:user.dialog.delete-modal :wire:key="'modal-occupant-list-delete'"/>

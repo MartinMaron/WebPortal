@@ -11,7 +11,6 @@
             </p>
             <p class="pt-6">
                 <h2 class="text-xl font-semibold" >Supercal 739</h2>
-            </p>
             <p class="pt-3">
                 <strong class="font-bold text-md" >Hauptmerkmale</strong>
             </p>
