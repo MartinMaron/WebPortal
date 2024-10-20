@@ -1,0 +1,13 @@
+node_modules
+vendor
+.idea
+.vs
+.env
+.phpunit.result.cache
+composer.json
+package-lock.json
+public/build/manifest.json
+public/build/assets
+public/css/app.css
+public/js/app.js
+public/js/app.js.LICENSE.txt
