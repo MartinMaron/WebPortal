@@ -4,7 +4,7 @@ vendor
 .vs
 .env
 .phpunit.result.cache
-composer.json
+composer.lock
 package-lock.json
 public/build/manifest.json
 public/build/assets
