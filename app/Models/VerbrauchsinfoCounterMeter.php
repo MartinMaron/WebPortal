@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class VerbrauchsinfoCounterMeter extends Model
 {
-    use HasFactory;
+
     use WithSorting;
 
     protected $table = 'verbrauchsinfo_counter_meters';

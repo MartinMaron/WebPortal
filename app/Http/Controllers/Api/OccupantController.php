@@ -12,9 +12,9 @@ class OccupantController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return void
      */
-    #[NoReturn] #[NoReturn] public function index()
+    #[NoReturn] public function index()
     {
         dd('Index');
     }

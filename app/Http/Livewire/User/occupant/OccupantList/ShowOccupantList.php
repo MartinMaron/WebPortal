@@ -73,7 +73,7 @@ class ShowOccupantList extends Component
         /* userEmails öffnen */
         $q = $last_occupant->realestate->verbrauchsinfoUserEmails->
             where('nutzeinheitNo', '=', $object->nutzeinheitNo)
-            ->where('dateTo',(new carbon($object->dateFrom))->addDay(-1));
+            ->where('dateTo',(new carbon($object->dateFrom))->addDay());
 
         foreach ($q as $userEmail) {
             $userEmail->dateTo = null;
@@ -83,7 +83,7 @@ class ShowOccupantList extends Component
             /* $last_occupant->userVerbrauchsinfoAccessControls */
             $occupantUser = (new \App\Models\User)->where('email', $userEmail->email)->firstOrFail();
             for($i=0; $i < 12; $i++) {
-                $jahr_monat = carbon::now()->addMonth(0-$i)->isoFormat('YYYY-M');
+                $jahr_monat = carbon::now()->addMonth()->isoFormat('YYYY-M');
                 $qAccContr = $last_occupant->userVerbrauchsinfoAccessControls->where('jahr_monat', $jahr_monat)
                                                                 ->where('user_id', $occupantUser->id);
 

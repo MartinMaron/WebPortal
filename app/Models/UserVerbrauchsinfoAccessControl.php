@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class UserVerbrauchsinfoAccessControl extends Model
 {
-    use HasFactory;
+
 
     protected $fillable = [
         'occupant_id', 'user_id', 'neko_id', 'jahr_monat', 'datum'
     ];
-    
+
     protected $appends = ['datum'];
 
     public function user()

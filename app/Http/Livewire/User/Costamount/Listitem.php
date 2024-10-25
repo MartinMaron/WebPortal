@@ -9,12 +9,12 @@ use App\Http\Livewire\DataTable\WithCachedRows;
 
 class Listitem extends Component
 {
-    
+
     public CostAmount $current;
     public bool $netto;
     public Cost $cost;
     public bool $withoutDatum;
-    
+
     protected $listeners = [
        // 'refreshCostAmountDetailInput' => 'refreshByid'
         //'refreshComponents' => '$refresh',
@@ -27,40 +27,41 @@ class Listitem extends Component
         $this->cost = $costAmount->cost;
         $this->withoutDatum = $withoutDatum;
     }
-    
+
     function startFieldDefault(){
         if($this->cost->consumption) {
-            return 'consumption';             
+            return 'consumption';
         }
 
         if($this->cost->consumption) {
-            return 'consumption';             
-        }        
+            return 'consumption';
+        }
+        return null;
     }
 
     public function questionDeleteCostAmount()
     {
-        $this->emit('deleteCostAmount', $this->current);   
+        $this->emit('deleteCostAmount', $this->current);
     }
 
     public function raise_EditCostAmountModal()
     {
-        $this->emit('showCostAmountDetailModal', $this->current);   
+        $this->emit('showCostAmountDetailModal', $this->current);
     }
 
 
 
-    
+
     public function refreshByid($id){
         $this->emit('refreshByid',$id);
-        
+
         if ($id == $this->current->id){
             // $this->emit('refreshByid', $this->current->id );
-            
+
             // $this->emit('$refresh');
-            
+
              //$this->render();
-        }    
+        }
     }
 
     public function render()

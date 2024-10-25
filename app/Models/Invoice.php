@@ -5,11 +5,9 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Invoice extends Model
 {
-    use HasFactory;
 
     protected $fillable = [
         'createDate', 'caption', 'description', 'fileName', 'dateFrom', 'dateTo', 'nekoId', 'realestate_id',
@@ -78,7 +76,7 @@ class Invoice extends Model
     public function getBezahltAmEditingAttribute()
     {
         if($this->bezahltAm == '0001-01-01'){
-            return '';    
+            return '';
         }
         if($this->bezahltAm){
             return Carbon::parse($this->bezahltAm)->format('d.m.Y');
