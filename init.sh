@@ -7,6 +7,8 @@ php artisan key:generate
 php artisan migrate:refresh --seed
 composer require laravel/jetstream
 php artisan jetstream:install livewire
+php artisan vendor:publish --tag=sanctum-migrations
+php artisan lang:publish
 npm run build
 npm run prod
 npm run dev
