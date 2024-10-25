@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire\DataTable;
 
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+
 trait WithCachedRows
 {
     protected $useCache = false;
@@ -11,6 +14,10 @@ trait WithCachedRows
         $this->useCache = true;
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function cache($callback)
     {
         $cacheKey = $this->id;

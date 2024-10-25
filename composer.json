@@ -19,7 +19,8 @@
         "nesbot/carbon": "^3.2.4",
         "statikbe/laravel-cookie-consent": "^1.8.5",
         "twbs/bootstrap": "v5.3.3",
-        "usernotnull/tall-toasts": "^v2.1.0"
+        "usernotnull/tall-toasts": "^v2.1.0",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^v3.14.6",

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Livewire\User\Occupant\Verbrauchsinfo;
+namespace App\Http\Livewire\User\occupant\Verbrauchsinfo;
 
 use Livewire\Component;
 use Barryvdh\Debugbar\Facades\Debugbar;

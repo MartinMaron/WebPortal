@@ -32,8 +32,7 @@
 }
 
 .lcc-button {
-    background: none;
-    background-color: #81d4fa;
+    background: #81d4fa none;
     border: 1px solid #81d4fa;
     border-radius: 8px;
     color: #111;

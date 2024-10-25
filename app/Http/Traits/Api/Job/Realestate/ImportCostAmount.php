@@ -4,12 +4,12 @@ namespace App\Http\Traits\Api\Job\Realestate;
 use App\Models\Cost;
 use App\Models\CostAmount;
 
-Trait ImportCostAmount 
+Trait ImportCostAmount
 {
      /* Anlage Der Kostenpositionen */
      public function importCostAmount(Array $data, Cost $cost)
      {
- 
+
          /* Validierung der Daten bevor Anlage  */
          $validator = CostAmount::validateImportData($data);
          if ($validator->fails()) {
@@ -22,9 +22,9 @@ Trait ImportCostAmount
                  'id' => 0
                  ];
          }
- 
+
          /* Anlage der Kostenpositionen */
-         $costAmount = CostAmount::updateOrcreate(
+         $costAmount = (new \App\Models\CostAmount)->updateOrcreate(
              [
                  'nekoId' => $data['nekoCostAmountId'] ,
              ],
@@ -41,12 +41,12 @@ Trait ImportCostAmount
                  'nekoId' => $data['nekoCostAmountId'],
              ]
          );
- 
+
          return [
              'function' => 'JobController.CostAmount',
              'result' => 'success',
              'id' => $costAmount->id,
          ];
- 
+
      }
 }

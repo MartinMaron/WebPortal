@@ -3,9 +3,6 @@
 namespace app\Http\Livewire\User\Occupant;
 use App\Models\Occupant;
 use Livewire\Component;
-use Livewire\HydrationMiddleware\AddAttributesToRootTagOfHtml;
-use Spatie\LaravelIgnition\FlareMiddleware\AddJobs;
-use Symfony\Component\HttpKernel\DependencyInjection\AddAnnotatedClassesToCachePass;
 
 class OccupantHeader extends Component
 {

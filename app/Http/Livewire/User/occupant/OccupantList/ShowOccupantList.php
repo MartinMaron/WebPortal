@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\User\Occupant\OccupantList;
+namespace App\Http\Livewire\User\occupant\OccupantList;
 
 use Carbon\Carbon;
 use App\Models\User;
@@ -45,13 +45,13 @@ class ShowOccupantList extends Component
 
     protected $listeners = [
         'refreshParent' => '$refresh',
-        'deleteConfirmed' => 'delete',        
+        'deleteConfirmed' => 'delete',
     ];
 
     public function delete($objectId, $objectType)
     {
         if ($objectType != 'Occupant') return;
-        $object = Occupant::find($objectId);
+        $object = (new \App\Models\Occupant)->find($objectId);
 
 
         /* der Zeitraum des letzen Nutzers wird wieder aufgemacht */
@@ -60,7 +60,7 @@ class ShowOccupantList extends Component
                             ->where('unvid','!=', $object->unvid)
                             ->sortBy('dateFrom')->last();
         $last_occupant->dateTo = null;
-        $last_occupant->save();              
+        $last_occupant->save();
 
         /* userEmails öffnen */
         $q = $last_occupant->realestate->verbrauchsinfoUserEmails->
@@ -71,26 +71,26 @@ class ShowOccupantList extends Component
             $userEmail->dateTo = null;
             $userEmail->save();
             /* TODO: berechtigungen anpassen */
-            /* schleife über die letzen 13 Monate und schauen userVerbrauchsinfoAccessControls neu angelegt werden müssen   */ 
+            /* schleife über die letzen 13 Monate und schauen userVerbrauchsinfoAccessControls neu angelegt werden müssen   */
             /* $last_occupant->userVerbrauchsinfoAccessControls */
-            $occupantUser = User::where('email', $userEmail->email)->firstOrFail();
+            $occupantUser = (new \App\Models\User)->where('email', $userEmail->email)->firstOrFail();
             for($i=0; $i < 12; $i++) {
                 $jahr_monat = carbon::now()->addMonth(0-$i)->isoFormat('YYYY-M');
                 $qAccContr = $last_occupant->userVerbrauchsinfoAccessControls->where('jahr_monat', $jahr_monat)
                                                                 ->where('user_id', $occupantUser->id);
 
                 if ($qAccContr->count() == 0){
-                    UserVerbrauchsinfoAccessControl::updateOrcreate(
+                    (new \App\Models\UserVerbrauchsinfoAccessControl)->updateOrcreate(
                         ['jahr_monat' => $jahr_monat, 'user_id' => $occupantUser->id,'occupant_id' => $last_occupant->id],
                         [
                             'neko_id' => 0,
                             'toWebDelete' => true,
                         ]
-                    );  
-                }                                                
-            } 
-        } 
-    
+                    );
+                }
+            }
+        }
+
 
 
 
@@ -104,7 +104,7 @@ class ShowOccupantList extends Component
 
     }
 
-    
+
     /* initialization */
     public function mount($baseobject)
     {
@@ -189,7 +189,7 @@ class ShowOccupantList extends Component
         } else {
             $result = Occupant::query()
                 ->where('realestate_id', '=', $this->realestate->id);
-        };
+        }
 
 
         $this->applySorting($result);

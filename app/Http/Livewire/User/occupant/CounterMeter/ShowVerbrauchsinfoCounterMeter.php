@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\User\Occupant\CounterMeter;
+namespace App\Http\Livewire\User\occupant\CounterMeter;
 
 use Livewire\Component;
 use App\Models\Occupant;
@@ -61,7 +61,7 @@ class ShowVerbrauchsinfoCounterMeter extends Component
         ->map(function (UserVerbrauchsinfoAccessControl $userControl) {
             return $userControl->jahr_monat ;
         })->first();
-        
+
         $result = $this->occupant->counterMeters
         ->where('jahr_monat', $q)->toquery();
 
@@ -71,7 +71,7 @@ class ShowVerbrauchsinfoCounterMeter extends Component
                     $query->where('nr', 'LIKE', '%' . $this->filter . '%')
                         ->orWhere('funkNr', 'LIKE', '%' . $this->filter . '%');
                 });
-        };
+        }
 
         $this->applySorting($result);
         return $result;
@@ -96,7 +96,6 @@ class ShowVerbrauchsinfoCounterMeter extends Component
     {
         $nutzergruppen = $this->rowsQuery
         ->get()->unique('nutzergrup_id');
-        ;
 
         return view('livewire.user.occupant.counter-meter.search-list', [
             'rows' => $this->rows,

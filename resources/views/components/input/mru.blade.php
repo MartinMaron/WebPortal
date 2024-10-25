@@ -64,7 +64,7 @@
                     alert("28_autocomplete_inpLage")
                     /*the autocomplete function takes two arguments,
                     the text field element and an array of possible autocompleted values:*/
-                    var currentFocus;
+                    let currentFocus;
                     /*execute a function when someone writes in the text field:*/
                     inp.addEventListener("input", function(e) {
                         var a, b, i, val = this.value;
@@ -81,7 +81,7 @@
                         /*for each item in the array...*/
                         for (i = 0; i < arr.length; i++) {
                             /*check if the item starts with the same letters as the text field value:*/
-                            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                            if (arr[i].substr(0, val.length).toUpperCase() === val.toUpperCase()) {
                             /*create a DIV element for each matching element:*/
                             b = document.createElement("div");
                             /*make the matching letters bold:*/
@@ -105,19 +105,19 @@
                     inp.addEventListener("keydown", function(e) {
                         var x = document.getElementById("28_autocomplete_inpLage");
                         if (x) x = x.getElementsByTagName("div");
-                        if (e.keyCode == 40) {
+                        if (e.keyCode === 40) {
                             /*If the arrow DOWN key is pressed,
                             increase the currentFocus variable:*/
                             currentFocus++;
                             /*and and make the current item more visible:*/
                             addActive(x);
-                        } else if (e.keyCode == 38) { //up
+                        } else if (e.keyCode === 38) { //up
                             /*If the arrow UP key is pressed,
                             decrease the currentFocus variable:*/
                             currentFocus--;
                             /*and and make the current item more visible:*/
                             addActive(x);
-                        } else if (e.keyCode == 13) {
+                        } else if (e.keyCode === 13) {
                             /*If the ENTER key is pressed, prevent the form from being submitted,*/
                             e.preventDefault();
                             if (currentFocus > -1) {
@@ -147,7 +147,7 @@
                         except the one passed as an argument:*/
                         var x = document.getElementsByClassName(this.input_autocomplete_items_class);
                         for (var i = 0; i < x.length; i++) {
-                        if (elmnt != x[i] && elmnt != inp) {
+                        if (elmnt !== x[i] && elmnt !== inp) {
                             x[i].parentNode.removeChild(x[i]);
                         }
                         }

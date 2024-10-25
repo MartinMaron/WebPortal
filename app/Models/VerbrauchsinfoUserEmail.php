@@ -6,10 +6,7 @@ use Carbon\Carbon;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
-use PhpParser\Node\Scalar\MagicConst\Dir;
 use App\Events\VerbrauchsinfoUserEmailAdded;
-use App\Events\VerbrauchsinfoUserEmailDeleted;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class VerbrauchsinfoUserEmail extends Model

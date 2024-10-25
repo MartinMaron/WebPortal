@@ -53,7 +53,7 @@ class Lista extends Component
 
     public function makeBlankObject()
     {
-        return Cost::make([
+        return (new \App\Models\Cost)->make([
             'nekoId' => $this->realestate->nekoId,
             'realestate_id' => $this->realestate->id,
             'unvid' => $this->realestate->unvid,
@@ -113,7 +113,7 @@ class Lista extends Component
 
 
     public function getCostByType($costTypeId){
-        return Cost::where('realestate_id','=',$this->realestate->id)
+        return (new \App\Models\Cost)->where('realestate_id','=',$this->realestate->id)
         ->where(function (Builder $query) {$query->Visible();})
         ->where('costType_id','=',$costTypeId)
         ->get();
@@ -122,7 +122,7 @@ class Lista extends Component
 
 
     public function hasConsumptionByType($costTypeId){
-        $ret = Cost::where('realestate_id','=',$this->realestate->id)
+        $ret = (new \App\Models\Cost)->where('realestate_id','=',$this->realestate->id)
         ->where(function (Builder $query) {$query->Visible();})
         ->where('costType_id','=',$costTypeId)
         ->where('consumption','=', 1)
@@ -131,7 +131,7 @@ class Lista extends Component
         // return $ret;
     }
     public function hasHaushaltsnahByType($costTypeId){
-        $ret = Cost::where('realestate_id','=',$this->realestate->id)
+        $ret = (new \App\Models\Cost)->where('realestate_id','=',$this->realestate->id)
         ->where(function (Builder $query) {$query->Visible();})
         ->where('costType_id','=',$costTypeId)
         ->where('haushaltsnah','=', 1)
@@ -142,7 +142,7 @@ class Lista extends Component
 
     public function render()
     {
-        $filtered = Cost::where('realestate_id','=',$this->realestate->id)
+        $filtered = (new \App\Models\Cost)->where('realestate_id','=',$this->realestate->id)
         ->where(function (Builder $query) {$query->Visible();})
         ->get()->unique('costType_id')
         ->sortBy('CostTypeSort');

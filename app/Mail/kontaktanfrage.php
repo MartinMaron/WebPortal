@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -11,17 +10,20 @@ class kontaktanfrage extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private String $nachname = '';
-    private String $email = '';
-    private String $telefon = '';
-    private String $adresse= ''; 
-    private String $anliegen= '';
+    private String $nachname;
+    private String $email;
+    private String $telefon;
+    private String $adresse;
+    private String $anliegen;
 
     /**
      * Create a new message instance.
      *
-     * @param  \App\Models\Order  $order
-     * @return void
+     * @param String $nachname
+     * @param String $email
+     * @param String $telefon
+     * @param String $adresse
+     * @param String $anliegen
      */
     public function __construct(String $nachname, String $email, String $telefon, String $adresse, String $anliegen)
     {
@@ -37,7 +39,7 @@ class kontaktanfrage extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(): static
     {
         return $this->from('nekoerror@e-neko.de', 'Example')
                     ->view('emails.kontaktanfrage')
@@ -46,7 +48,7 @@ class kontaktanfrage extends Mailable
                         'email' => $this->email,
                         'telefon' => $this->telefon,
                         'adresse' => $this->adresse,
-                        'anliegen' => $this->anliegen,                        
-                    ]);;
+                        'anliegen' => $this->anliegen,
+                    ]);
     }
 }

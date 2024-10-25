@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Cost extends Model
 {
     use HasFactory;
-    use WireToast; 
-    
+    use WireToast;
+
     protected $fillable = [
 
         'realestate_id', 'nekoId', 'unvid','budguid', 'nazwa', 'bemerkung', 'NekoWebId', 'tryWebDelete', 'costType', 'costType_id',
@@ -23,10 +23,10 @@ class Cost extends Model
 
     public function scopeVisible($query)
     {
-       
-        
-        $ret_val = $query
-        ->where(function($query) 
+
+
+        return $query
+        ->where(function($query)
         {
             $query->where('costType_id', 'HNK')
             ->orWhere('costType_id', 'BRK')
@@ -35,9 +35,8 @@ class Cost extends Model
             ->orWhere('costType_id', 'ZKW')
             ->orWhere('costType_id', 'ZUK');
         });
-        return $ret_val;      
     }
-    
+
     protected $appends = [
                             'cost_type_sort',
                             'consumptionsum',
@@ -60,7 +59,7 @@ class Cost extends Model
     public function getConsumptionsumAttribute(){
         return number_format($this->costAmounts->sum('consumption'), 1, ',', '.');
     }
-    
+
     public function getCostTypeSortAttribute()
     {
         $ret_val = 0;
@@ -106,7 +105,7 @@ class Cost extends Model
     {
         return $this->hasMany(CostKey::class);
     }
- 
+
     public static function validateImportData($data) {
         return Validator::make($data, [
             'nekoId' => 'required|integer',
@@ -131,7 +130,7 @@ class Cost extends Model
             'costAbrechnungType' => 'required|string|max:255',
             'costAbrechnungTypeId' => 'required|string|max:255',
             'keyUnitType' => 'required|string|max:255',
-            'consumption' => 'required|boolean',                                    
+            'consumption' => 'required|boolean',
         ]);
     }
 

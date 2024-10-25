@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Http\Traits\Api\Job\Realestate;
 
 use App\Models\User;
@@ -11,11 +11,11 @@ use Brick\Math\BigInteger;
 
 Trait VerbrauchsinfoAccessControlAdapter
 {
-    
+
    /* Anlage Der Zähler */
    public function importVerbrauchsinfoAccessControl(Array $data)
    {
-        
+
        /* Validierung der Daten bevor Anlage des Zählers */
        $validator = UserVerbrauchsinfoAccessControl::validateImportData($data);
        if ($validator->fails()) {
@@ -38,7 +38,7 @@ Trait VerbrauchsinfoAccessControlAdapter
                     'errors' => 'User not found',
                     'data' => $data,
                     ];
-        }    
+        }
 
        // $occupant = Occupant::where('nekoId','=', $data['neko_lokator_id'])->first();
         $occupant = DB::table('occupants')->where('nekoId', $data['neko_lokator_id'])->first();
@@ -52,7 +52,7 @@ Trait VerbrauchsinfoAccessControlAdapter
                 ];
         }
 
-        $userVerbrauchsinfoAccessControl = UserVerbrauchsinfoAccessControl::updateOrcreate(
+        $userVerbrauchsinfoAccessControl = (new \App\Models\UserVerbrauchsinfoAccessControl)->updateOrcreate(
             [
                     'occupant_id' => $occupant->id,
                     'jahr_monat' => $data['jahr_monat'],
@@ -62,8 +62,8 @@ Trait VerbrauchsinfoAccessControlAdapter
                     'neko_id'=> $data['neko_id'],
             ]
         );
-      
-      
+
+
         return [
            'function' => 'JobController.userVerbrauchsinfoAccessControl',
            'result' => 'success',
@@ -93,7 +93,7 @@ Trait VerbrauchsinfoAccessControlAdapter
                 'result' => 'error',
                 'error' => ' datensatz existiert nicht mehr oder konnte nicht gelöscht werden',
             ]);
-        }        
+        }
 
    }
 

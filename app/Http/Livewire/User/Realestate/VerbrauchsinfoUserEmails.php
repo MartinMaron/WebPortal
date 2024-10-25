@@ -8,7 +8,7 @@ use App\Http\Livewire\DataTable\WithSorting;
 
 class VerbrauchsinfoUserEmails extends Component
 {
-    use WithSorting; 
+    use WithSorting;
 
     public Realestate $realestate;
 
@@ -22,8 +22,7 @@ class VerbrauchsinfoUserEmails extends Component
     }
 
     public function lastOccupant($nutzeinheitNo){
-        $result = $this->realestate->occupants->where('nutzeinheitNo','=',$nutzeinheitNo)->sortBy('dateFrom')->first();
-        return $result;
+        return $this->realestate->occupants->where('nutzeinheitNo','=',$nutzeinheitNo)->sortBy('dateFrom')->first();
     }
 
 
@@ -39,12 +38,11 @@ class VerbrauchsinfoUserEmails extends Component
         return $this->applySorting($result);
     }
 
-    
+
     public function render()
     {
         $nutzeinheiten = $this->rowsQuery
         ->get()->unique('nutzeinheitNo');
-        ;
 
         return view('livewire.user.realestate.verbrauchsinfo-user-emails', [
             'rows' => $this->rows,

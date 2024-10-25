@@ -20,7 +20,7 @@
                 @forelse ($this->getVerbrauchsinfosByNutzergrupe($verbrauchsinfo->nutzergrup_id) as $singleVerbrauchsinfo)
                 <livewire:user.occupant.verbrauchsinfo.listitem :singleVerbrauchsinfo='$singleVerbrauchsinfo' :wire:key="'verbrauchsinfo-listitem'.$verbrauchsinfo->id"  key="{{ now() }}"/>
 
-                @endforeach
+                @endforelse
             </div>
         @endforeach
 

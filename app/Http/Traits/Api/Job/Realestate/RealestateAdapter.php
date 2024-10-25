@@ -31,12 +31,12 @@ trait RealestateAdapter
                 ]);
         }
 
-        
-        if(User::where('email', $data['email'])->exists() && $data['nekoToWebUpdate'] == true) {
+
+        if((new \App\Models\User)->where('email', $data['email'])->exists() && $data['nekoToWebUpdate']) {
             /* Finden des users über email */
-            $user = User::where('email','=', $data['email'])->firstOrFail();
+            $user = (new \App\Models\User)->where('email','=', $data['email'])->firstOrFail();
             /* Realestate-Objekt aktualisieren */
-            $realestate = Realestate::updateOrcreate(
+            $realestate = (new \App\Models\Realestate)->updateOrcreate(
                 ['nekoId' => $data['nekoId']],
                 ['unvid' => $data['unvid'],
                 'address' => $data['address'],
@@ -51,7 +51,7 @@ trait RealestateAdapter
                 'rauchmelder' => $data['rauchmelder']]
             );
         }else{
-            $realestate = Realestate::where('nekoId','=', $data['nekoId']);
+            $realestate = (new \App\Models\Realestate)->where('nekoId','=', $data['nekoId']);
         }
 
 
@@ -65,7 +65,7 @@ trait RealestateAdapter
                 }
             }
 
-         
+
 
             /* Falls nutzer dabei sind werden die daten aktualisert */
             /* die Zuordnung erfogt über die nekoId der Liegenschaft und Mieter */
@@ -108,7 +108,7 @@ trait RealestateAdapter
                 }
             }
 
-        
+
             $verbrauchsinfoUserEmails = $data['verbrauchsinfoUserEmails'];
             foreach ($verbrauchsinfoUserEmails as $verbrauchsinfoUserEmail){
                 /* Resoource wird erzeugt*/
@@ -146,7 +146,7 @@ trait RealestateAdapter
                 'result' => 'success',
                 'id' => $realestate->id,
             ];
-          
+
     }
 
 }

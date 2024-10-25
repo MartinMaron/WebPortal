@@ -10,7 +10,7 @@ use Usernotnull\Toast\Concerns\WireToast;
 class CostAmountUpdatedNotification
 {
     use WireToast;
-    
+
     /**
      * Create the event listener.
      *
@@ -24,12 +24,12 @@ class CostAmountUpdatedNotification
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param CostAmountUpdated $event
      * @return void
      */
     public function handle(CostAmountUpdated $event)
     {
-        toast()->success('Betrag '. $event->costAmount->brutto. ' € geändert' ,'Achtung')->push(); 
-      
+        toast()->success('Betrag '. $event->costAmount->brutto. ' € geändert' ,'Achtung')->push();
+
     }
 }

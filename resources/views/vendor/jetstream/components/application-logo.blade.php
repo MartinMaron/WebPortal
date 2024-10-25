@@ -1,1 +1,1 @@
-<img src="/img/logo-mini.png">
+<img src="/img/logo-mini.png" alt="">

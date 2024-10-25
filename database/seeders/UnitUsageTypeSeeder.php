@@ -15,28 +15,28 @@ class UnitUsageTypeSeeder extends Seeder
      */
     public function run()
     {
-        UnitUsageType::create(['type_id' => 'APP', 'caption' => 'Appartament']);
-        UnitUsageType::create(['type_id' => 'ARM', 'caption' => 'Allgemeine Räume']);
-        UnitUsageType::create(['type_id' => 'AT ', 'caption' => 'Atelier']);
-        UnitUsageType::create(['type_id' => 'BRO', 'caption' => 'Büro']);
-        UnitUsageType::create(['type_id' => 'EIL', 'caption' => 'Einzelhandel + Lager']);
-        UnitUsageType::create(['type_id' => 'EIZ', 'caption' => 'Einzelhandel']);
-        UnitUsageType::create(['type_id' => 'ETG', 'caption' => 'Etage']);
-        UnitUsageType::create(['type_id' => 'GAR', 'caption' => 'Garage']);
-        UnitUsageType::create(['type_id' => 'GAS', 'caption' => 'Gaststätte']);
-        UnitUsageType::create(['type_id' => 'GEW', 'caption' => 'Gewerbe']);
-        UnitUsageType::create(['type_id' => 'HAL', 'caption' => 'Halle']);
-        UnitUsageType::create(['type_id' => 'HUB', 'caption' => 'Halle u. Büro']);
-        UnitUsageType::create(['type_id' => 'KEL', 'caption' => 'Keller']);
-        UnitUsageType::create(['type_id' => 'LAD', 'caption' => 'Laden']);
-        UnitUsageType::create(['type_id' => 'LAG', 'caption' => 'Lager']);
-        UnitUsageType::create(['type_id' => 'LGE', 'caption' => 'Logische Einheit']);
-        UnitUsageType::create(['type_id' => 'PRA', 'caption' => 'Praxis']);
-        UnitUsageType::create(['type_id' => 'PT ', 'caption' => 'Physiotherapie']);
-        UnitUsageType::create(['type_id' => 'STL', 'caption' => 'Stellplatz']);
-        UnitUsageType::create(['type_id' => 'TNH', 'caption' => 'Tennishalle']);
-        UnitUsageType::create(['type_id' => 'WHG', 'caption' => 'Wohnung']);
-        UnitUsageType::create(['type_id' => 'ZIM', 'caption' => 'Zimmer']);
-        
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'APP', 'caption' => 'Appartament']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'ARM', 'caption' => 'Allgemeine Räume']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'AT ', 'caption' => 'Atelier']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'BRO', 'caption' => 'Büro']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'EIL', 'caption' => 'Einzelhandel + Lager']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'EIZ', 'caption' => 'Einzelhandel']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'ETG', 'caption' => 'Etage']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'GAR', 'caption' => 'Garage']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'GAS', 'caption' => 'Gaststätte']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'GEW', 'caption' => 'Gewerbe']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'HAL', 'caption' => 'Halle']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'HUB', 'caption' => 'Halle u. Büro']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'KEL', 'caption' => 'Keller']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'LAD', 'caption' => 'Laden']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'LAG', 'caption' => 'Lager']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'LGE', 'caption' => 'Logische Einheit']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'PRA', 'caption' => 'Praxis']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'PT ', 'caption' => 'Physiotherapie']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'STL', 'caption' => 'Stellplatz']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'TNH', 'caption' => 'Tennishalle']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'WHG', 'caption' => 'Wohnung']);
+        (new \App\Models\UnitUsageType)->create(['type_id' => 'ZIM', 'caption' => 'Zimmer']);
+
     }
 }

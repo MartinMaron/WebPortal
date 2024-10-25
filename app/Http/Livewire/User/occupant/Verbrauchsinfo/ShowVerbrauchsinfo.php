@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\User\Occupant\Verbrauchsinfo;
+namespace App\Http\Livewire\User\occupant\Verbrauchsinfo;
 
 use App\Models\User;
 use Livewire\Component;
@@ -32,7 +32,7 @@ class ShowVerbrauchsinfo extends Component
         $result =  $this->user->userVerbrauchsinfoAccessControls->map(function (UserVerbrauchsinfoAccessControl $userControl) {
             return $userControl->occupant ;
         })->unique();
-      
+
         if ($this->filter) {
             $result = $result
                 ->where(function (Builder $query) {
@@ -41,7 +41,7 @@ class ShowVerbrauchsinfo extends Component
                         ->orWhere('unvid', 'LIKE', '%' . $this->filter . '%');
                 });
 
-        };
+        }
         return $result->toquery();
     }
 

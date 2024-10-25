@@ -32,7 +32,7 @@ class InvoicesList extends Component
     }
 
 
-    
+
     public function resetFilters()
     {
         $this->reset('filters');
@@ -52,7 +52,7 @@ class InvoicesList extends Component
         } else {
             $result = Invoice::query()
                 ->where('realestate_id', '=', $this->realestate->id);
-        };
+        }
 
         $this->applySorting($result);
         return $result;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\User\Occupant\Detail;
+namespace App\Http\Livewire\User\occupant\Detail;
 
 use Helpers;
 use DateTime;
@@ -20,23 +20,23 @@ use App\Models\UnitUsageType;
 
 class Dialog extends Component
 {
-    use OccupantAdapter; 
+    use OccupantAdapter;
 
 
     public $salutations = null;
     public $unitUsageTypes = null;
-    
+
     public Realestate $realestate;
     public Occupant $current;
     public Occupant $initOccupant;
     // Form properties
     public $dateFromNewOccupant = null;
     public $hasLeerstand = false;
-    
+
     public string $qmkc = "";
     public string $pe  = "";
     public string $vorauszahlung = "";
-    
+
 
     // Dialog properties
     public string $dialogMode = '';
@@ -45,7 +45,7 @@ class Dialog extends Component
     // MultiViewForm properties
     public $currentPage = 1;
     public $success;
- 
+
     public $pages = [
         1 => [
             'heading' => 'Persönliche Information',
@@ -77,7 +77,7 @@ class Dialog extends Component
             'current.unvid' => 'nullable',
             'current.vorname' => 'nullable',
             'current.eigentumer' => 'nullable',
-            'current.anrede' => 'nullable',    
+            'current.anrede' => 'nullable',
             'current.address' => 'nullable',
             'current.street' => 'nullable',
             'current.city' => 'nullable',
@@ -103,7 +103,7 @@ class Dialog extends Component
             'current.customEinheitNo' => 'nullable',
             'current.lage' => 'nullable',
             'current.vorauszahlung_editing' => 'nullable',
-            'current.personen_zahl' => 'nullable',      
+            'current.personen_zahl' => 'nullable',
         ],
         4 => [
             'current.bemerkung' => 'nullable',
@@ -116,9 +116,9 @@ class Dialog extends Component
             'hasLeerstand' => 'nullable|boolean',
             'current.nachname' => 'required|min:2',
             'current.vorname' => 'nullable',
-            'current.anrede' => 'nullable',    
+            'current.anrede' => 'nullable',
             'current.email' => 'nullable|string|email|max:255',
-            'current.telephone_number' => 'nullable', 
+            'current.telephone_number' => 'nullable',
             'current.date_from_editing'=> 'required|string',
             'current.date_to_editing'=> 'nullable|string',
         ],
@@ -138,14 +138,14 @@ class Dialog extends Component
             'current.lokalart' => 'nullable',
             'current.customEinheitNo' => 'nullable',
             'current.lage' => 'nullable',
-            'current.personen_zahl' => 'nullable',      
+            'current.personen_zahl' => 'nullable',
         ],
         4 => [
             'current.bemerkung' => 'nullable',
         ],
     ];
 
-  
+
     public function ValidationRules()
     {
         if ($this->dialogMode == 'edit'){
@@ -189,10 +189,10 @@ class Dialog extends Component
 
     public function updated($propertyName)
     {
-        
+
         $messages = array(
             'current.nachname' => 'bitte geben Sie einen Nachnamen ein',
-            'current.date_from_editing' => 'bitte geben Sie ein Datum ein',     
+            'current.date_from_editing' => 'bitte geben Sie ein Datum ein',
         );
         $calcRules = null;
         if ($this->dialogMode == 'change'){
@@ -228,11 +228,11 @@ class Dialog extends Component
         $this->showEditModal = true;
     }
 
-  
+
 
     public function closeModal($save){
-    
-        
+
+
         if ($save && $this->current){
             if ($this->validate($this->rules()))
             {
@@ -251,22 +251,22 @@ class Dialog extends Component
                     toast()->success('Die Details des Nutzers wurden geändert.','Achtung')->push();
                     return redirect(request()->header('Referer'));
                 }
-                
+
                 if(!$save->wasRecentlyCreated && !$save->wasChanged()){
                     // updateOrCreate performed nothing, row did not change
                     $this->showEditModal = false;
                 }
-                
+
                 if($save->wasRecentlyCreated){
                     // updateOrCreate performed create
                     toast()->success('Nutzerwechsel durchgeführt.','Achtung')->push();
                     return redirect(request()->header('Referer'));
                 }
-                
+
             }else{
                 /* validierung war nicht erfolgreich */
                 $this->showEditModal = true;
-            };
+            }
         }else{
             $this->showEditModal = false;
         }
@@ -283,15 +283,15 @@ class Dialog extends Component
         {
             $calcRules = $this->validationRulesEdit;
         }
-        
+
         $myRules = $calcRules[$this->currentPage];
-        
+
         //custom validation
         if ($this->currentPage == 1 && $this->dialogMode == 'change')
         {
             $myRules['dateFromNewOccupant']=['required', 'date', new OcccupantDateFromGreaterPreviousRule];
         }
-        
+
         //dd($this->validate($myRules));
         $this->validate($myRules);
 
@@ -322,10 +322,10 @@ class Dialog extends Component
         $this->useCachedRows();
         if ($this->current->isNot($occupant)) {
             $this->current = $occupant;
-            
+
         }
     }
- 
+
     public function render()
     {
         return view('livewire.user.occupant.detail.dialog',[

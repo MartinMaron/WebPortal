@@ -24,7 +24,7 @@ Trait ImportAbrechnungssetting {
         }
 
         /* Anlage der Kostenpositionen */
-        $settingObj = RealestateAbrechnungssetting::updateOrcreate(
+        $settingObj = (new \App\Models\RealestateAbrechnungssetting)->updateOrcreate(
             [
                 'neko_id' => $data['neko_id']
             ],

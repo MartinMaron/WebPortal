@@ -55,14 +55,14 @@ class Detail extends Component
             {
                 if($this->dialogMode == 'create')
                 {
-                    VerbrauchsinfoUserEmail::create($this->userEmail);
+                    (new \App\Models\VerbrauchsinfoUserEmail)->create($this->userEmail);
                     $this->emit('refreshParent');
                     toast()->success('Emailadresse für Verbraucherinformationen hinzugefügt','Achtung')->push();
 
                  }
                 if($this->dialogMode == 'edit')
                 {
-                    VerbrauchsinfoUserEmail::updateOrcreate(
+                    (new \App\Models\VerbrauchsinfoUserEmail)->updateOrcreate(
                             ['id' => $this->userEmail['id']],
                             ['email' => $this->userEmail['email'],
                             'seit' => $this->userEmail['seit'],
@@ -79,7 +79,7 @@ class Detail extends Component
                 $this->showEditModal = false ;
             }else{
                 $this->showEditModal = true;
-            };
+            }
         }else{
             $this->showEditModal = false;
         }

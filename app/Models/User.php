@@ -20,6 +20,8 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    public mixed $isUser;
+
     /**
      * The attributes that are mass assignable.
      *

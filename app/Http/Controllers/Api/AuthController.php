@@ -5,13 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\JobDataResource;
-use App\Http\Resources\UserDataResource;
 use App\Http\Resources\UserMobileRessource;
+use JetBrains\PhpStorm\NoReturn;
 
 class AuthController extends Controller
 {
@@ -24,7 +20,7 @@ class AuthController extends Controller
                     ], 401);
         }
 
-        $user = User::where('email', $request['email'])->firstOrFail();
+        $user = (new \App\Models\User)->where('email', $request['email'])->firstOrFail();
 
 
         if ($user->isa) {
@@ -49,7 +45,7 @@ class AuthController extends Controller
                     ], 401);
         }
 
-        $user = User::where('email', $request['email'])->firstOrFail();
+        $user = (new \App\Models\User)->where('email', $request['email'])->firstOrFail();
 
 
         if ($user->isa) {
@@ -73,7 +69,7 @@ class AuthController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function create()
     {
@@ -83,8 +79,8 @@ class AuthController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return void
      */
     public function store(Request $request)
     {
@@ -95,9 +91,9 @@ class AuthController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
-    public function show($id)
+    #[NoReturn] public function show($id)
     {
         dd("treffer");
     }
@@ -105,10 +101,10 @@ class AuthController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return void
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         //
     }
@@ -116,11 +112,11 @@ class AuthController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return void
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         //
     }
@@ -128,10 +124,10 @@ class AuthController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return void
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         //
     }

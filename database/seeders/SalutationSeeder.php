@@ -16,15 +16,15 @@ class SalutationSeeder extends Seeder
     public function run()
     {
         // Salutation::create(['bezeichnung' => 'Bitte auswählen']);
-        Salutation::create(['bezeichnung' => 'Frau']);
-        Salutation::create(['bezeichnung' => 'Eheleute']);
-        Salutation::create(['bezeichnung' => 'Herrn u. Frau']);
-        Salutation::create(['bezeichnung' => 'Frau u. Herrn']);
-        Salutation::create(['bezeichnung' => 'Firma']);
-        Salutation::create(['bezeichnung' => 'ETG']);
-        Salutation::create(['bezeichnung' => 'Herrn']);
-        Salutation::create(['bezeichnung' => 'WEG']);
-        Salutation::create(['bezeichnung' => 'Erbengemeinschaft']);
+        (new \App\Models\Salutation)->create(['bezeichnung' => 'Frau']);
+        (new \App\Models\Salutation)->create(['bezeichnung' => 'Eheleute']);
+        (new \App\Models\Salutation)->create(['bezeichnung' => 'Herrn u. Frau']);
+        (new \App\Models\Salutation)->create(['bezeichnung' => 'Frau u. Herrn']);
+        (new \App\Models\Salutation)->create(['bezeichnung' => 'Firma']);
+        (new \App\Models\Salutation)->create(['bezeichnung' => 'ETG']);
+        (new \App\Models\Salutation)->create(['bezeichnung' => 'Herrn']);
+        (new \App\Models\Salutation)->create(['bezeichnung' => 'WEG']);
+        (new \App\Models\Salutation)->create(['bezeichnung' => 'Erbengemeinschaft']);
 
     }
 }

@@ -35,7 +35,7 @@ class SalutationsEdit extends Component
                 });
         } else {
             $result = Salutation::query();
-        };
+        }
         return $result;
     }
 

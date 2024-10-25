@@ -71,7 +71,7 @@
                                                                                          :wire:key="'verbrauchsinfo-user-email-listitem-'.$userEmail->id"
                                                                                          key="{{ now() }}"/>
                         </div>
-                        @endforeach
+                        @endforelse
                 </div>
 
             @endforeach

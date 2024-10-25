@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Http\Traits\Api\Job\Realestate;
 
 use App\Models\Invoice;
@@ -8,11 +8,11 @@ use App\Models\VerbrauchsinfoUserEmail;
 
 Trait InvoiceAdapter
 {
-    
-    
+
+
     public function importInvoice(Array $data, Realestate $realestate)    {
 
-     
+
 
         /* Validierung der Daten vor Anlage  */
         $validator = Invoice::validateImportData($data);
@@ -26,10 +26,10 @@ Trait InvoiceAdapter
                 'id' => 0
                 ];
         }
-   
-   
+
+
          /* Anlage der Emailsteuerungstabelle für Verbraucherinformationen */
-        $importObj = Invoice::updateOrcreate(
+        $importObj = (new \App\Models\Invoice)->updateOrcreate(
             [
                 'nekoId' => $data['nekoId']
             ],
@@ -37,7 +37,7 @@ Trait InvoiceAdapter
                 'nekoId' => $data['nekoId'],
                 'createDate' => $data['createDate'],
                 'caption' => $data['caption'],
-                'description' => $data['description'], 
+                'description' => $data['description'],
                 'fileName' => $data['fileName'],
                 'dateFrom' => $data['dateFrom'],
                 'dateTo' => $data['dateTo'],
@@ -52,13 +52,13 @@ Trait InvoiceAdapter
                 'realestate_id' => $realestate->id,
             ]
         );
-   
+
         return [
             'function' => 'JobController.importInvoice',
             'result' => 'success',
             'id' => $importObj->id,
         ];
-   
+
     }
 
     public function deleteInvoice($data){
@@ -81,8 +81,8 @@ Trait InvoiceAdapter
                   'result' => 'error',
                   'error' => ' datensatz existiert nicht mehr oder konnte nicht gelöscht werden',
               ]);
-          }       
-        
+          }
+
     }
 
 }

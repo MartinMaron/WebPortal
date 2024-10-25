@@ -22,7 +22,7 @@ class SearchList extends Component
 
     public function render()
     {
-        $filtered = Realestate::select([
+        $filtered = (new \App\Models\Realestate)->select([
             'id',
             'address',
             'street',

@@ -8,7 +8,7 @@ use App\Models\VerbrauchsinfoCounterMeter;
 
 trait ImportVerbrauchsinfoCounterMeter
 {
-    
+
    /* Anlage Der Zähler */
    public function importVerbrauchsinfoCounterMeter(Array $data)
    {
@@ -27,10 +27,10 @@ trait ImportVerbrauchsinfoCounterMeter
        }
 
        $dat = new Carbon($data['jahr_monat']);
- 
-       $occupant = Occupant::where('nekoId','=', $data['nekoOccupant_id'])->firstOrFail();
+
+       $occupant = (new \App\Models\Occupant)->where('nekoId','=', $data['nekoOccupant_id'])->firstOrFail();
        /* Anlage des Zählers */
-       $counterMeter = VerbrauchsinfoCounterMeter::updateOrcreate(
+       $counterMeter = (new \App\Models\VerbrauchsinfoCounterMeter)->updateOrcreate(
            [
                'nekoId' => $data['nekoId'],
                'jahr_monat' => $data['jahr_monat'],
@@ -57,7 +57,7 @@ trait ImportVerbrauchsinfoCounterMeter
            ]
        );
 
-     
+
         return [
            'function' => 'JobController.counterMeter',
            'result' => 'success',

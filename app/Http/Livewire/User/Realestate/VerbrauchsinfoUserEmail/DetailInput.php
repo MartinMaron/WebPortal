@@ -42,14 +42,13 @@ class DetailInput extends Component
 
     public function makeBlankObject()
     {
-        $ret_val = VerbrauchsinfoUserEmail::make([
+        return VerbrauchsinfoUserEmail::make([
             'realestate_id' => $this->occupant->realestate_id,
             'nutzeinheitNo' => $this->occupant->nutzeinheitNo,
             'dateFrom' => Carbon::now(),
             'webupdate' => 1,
             'email' => 'info@e-neko.de',
         ]);
-        return $ret_val;
     }
 
 

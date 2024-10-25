@@ -11,7 +11,7 @@ trait SetRealestateDataInTransactionmode
     public function setRealestateDataInTransactionmode(Array $data)
     {
 
-    
+
         $validator = Validator::make($data, [
             'value' => 'required|boolean',
             'realestate_neko_id' => 'required|string|max:40',
@@ -28,9 +28,9 @@ trait SetRealestateDataInTransactionmode
                 ]);
         }
 
-        $realestate_id = Realestate::where('nekoId', $data['realestate_neko_id'])->first()->id;
+        $realestate_id = (new \App\Models\Realestate)->where('nekoId', $data['realestate_neko_id'])->first()->id;
         DB::table($data['dataTable'])->where('realestate_id', $realestate_id)->update(['sync' => $data['value']]);
-      
+
 
         $tableResult = DB::table($data['dataTable'])->where('realestate_id', $realestate_id)->get();
 

@@ -33,7 +33,7 @@ class SearchList extends Component
     public function delete($objectId, $objectType)
     {
         if ($objectType != 'VerbrauchsinfoUserEmail') return;
-        $object = VerbrauchsinfoUserEmail::find($objectId);
+        $object = (new \App\Models\VerbrauchsinfoUserEmail)->find($objectId);
         $object->delete();
         toast()->success('Emailadresse für Verbraucherinformationen gelöscht','Achtung')->push();
     }
@@ -59,13 +59,12 @@ class SearchList extends Component
 
     public function makeBlankObject()
     {
-        $ret_val = VerbrauchsinfoUserEmail::make([
+        return VerbrauchsinfoUserEmail::make([
             'realestate_id' => $this->realestate->id,
             'dateFrom' => Carbon::now(),
             'webupdate' => 1,
             'email' => 'info@e-neko.de',
         ]);
-        return $ret_val;
     }
 
     public function createUserEmailModal($NutzeinheitNo){
@@ -76,8 +75,7 @@ class SearchList extends Component
 
 
     public function lastOccupant($nutzeinheitNo){
-        $result = $this->realestate->occupants->where('nutzeinheitNo','=',$nutzeinheitNo)->sortBy('dateFrom')->first();
-        return $result;
+        return $this->realestate->occupants->where('nutzeinheitNo','=',$nutzeinheitNo)->sortBy('dateFrom')->first();
     }
 
     public function getRowsProperty()
@@ -95,7 +93,6 @@ class SearchList extends Component
     {
         $nutzeinheiten = $this->rowsQuery
         ->get()->unique('nutzeinheitNo');
-        ;
 
         return view('livewire.user.realestate.verbrauchsinfo-user-email.search-list', [
             'rows' => $this->rows,

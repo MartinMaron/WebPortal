@@ -25,10 +25,10 @@ Trait ImportCost
         }
 
         /* Ermitteln der Liegenschaft */
-        $realestate = Realestate::where('nekoId','=', $data['budguid'])->firstOrFail();
+        $realestate = (new \App\Models\Realestate)->where('nekoId','=', $data['budguid'])->firstOrFail();
 
         /* Anlage des Zählers */
-        $cost = Cost::updateOrcreate(
+        $cost = (new \App\Models\Cost)->updateOrcreate(
             ['nekoId' => $data['nekoId']],
             ['unvid'=> $data['unvid'],
             'realestate_id'=> $realestate->id,
@@ -78,4 +78,4 @@ Trait ImportCost
 
     }
 
-} 
+}

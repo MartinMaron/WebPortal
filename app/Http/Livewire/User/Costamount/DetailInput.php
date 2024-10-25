@@ -49,7 +49,7 @@ class DetailInput extends Component
 
     public function makeBlankObject()
     {
-       return CostAmount::make([
+       return (new \App\Models\CostAmount)->make([
             'nekoCostId' => $this->cost->nekoId,
             'cost_id' => $this->cost->id,
             'bemerkung' =>'',
@@ -89,11 +89,11 @@ class DetailInput extends Component
     public function save()
     {
         if ($this->validate()){
-            if(CostAmount::create(collect($this->current)->toArray()))  {
+            if((new \App\Models\CostAmount)->create(collect($this->current)->toArray()))  {
                 $this->current = $this->makeBlankObject();
                 $this->emit('refreshComponents');
             }
-        };
+        }
     }
 
     public function render()

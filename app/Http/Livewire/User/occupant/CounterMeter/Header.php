@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Livewire\User\Occupant\CounterMeter;
+namespace App\Http\Livewire\User\occupant\CounterMeter;
 use App\Models\VerbrauchsinfoCounterMeter;
 use Livewire\Component;
 

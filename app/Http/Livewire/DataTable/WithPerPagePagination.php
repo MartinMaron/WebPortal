@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\DataTable;
 
 use Livewire\WithPagination;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 trait WithPerPagePagination
 {
@@ -10,6 +12,10 @@ trait WithPerPagePagination
 
     public $perPage = 10;
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function mountWithPerPagePagination()
     {
         $this->perPage = session()->get('perPage', $this->perPage);

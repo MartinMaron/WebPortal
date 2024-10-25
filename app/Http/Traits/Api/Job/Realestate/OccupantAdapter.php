@@ -23,9 +23,9 @@ trait OccupantAdapter
      /* Anlage des Mieters  */
      public function importOccupant(Array $data)
     {
-          
+
         $validator = Occupant::validateImportData($data);
- 
+
          if ($validator->fails()) {
              return [
                  'function' => 'JobController.occupant',
@@ -36,10 +36,10 @@ trait OccupantAdapter
                  'id' => 0,
                  ];
          }
- 
-         $realestate = Realestate::where('nekoId','=', $data['budguid'])->firstOrFail();
-    
-         $occupant = Occupant::updateOrcreate(
+
+         $realestate = (new Realestate)->where('nekoId','=', $data['budguid'])->firstOrFail();
+
+         $occupant = (new Occupant)->updateOrcreate(
              ['nekoId' => $data['nekoId']],
              ['unvid' => $data['unvid'],
              'budguid' => $data['budguid'],
@@ -65,7 +65,7 @@ trait OccupantAdapter
              'email' => $data['email'],
              'lage' => $data['lage']]
          );
- 
+
          /* Falls zähler dabei sind werden die daten aktualisert */
          $verbrauchsinfoCounterMeters = $data['verbrauchsinfoCounterMeter'];
          foreach ($verbrauchsinfoCounterMeters as $verbrauchsinfoCounterMeter){
@@ -74,7 +74,7 @@ trait OccupantAdapter
                  return $retval;
              }
         }
- 
+
         /* Falls dabei ...  werden die daten aktualisert */
         $verbrauchsinfos = $data['verbrauchsinfos'];
         foreach ($verbrauchsinfos as $verbrauchsinfo){
@@ -89,12 +89,11 @@ trait OccupantAdapter
              'result' => 'success',
              'id' => $occupant->id,
          ];
- 
+
      }
 
      public function getOccupantCoreDataByNekoId($data){
-        $occupant = Occupant::where('nekoId','=', $data)->firstOrFail();
-        return $occupant;
+         return Occupant::where('nekoId','=', $data)->firstOrFail();
     }
 
     private function getNextOccupantUnvid($unvid){
@@ -108,7 +107,7 @@ trait OccupantAdapter
 
     public function makeDefaultOccupant(Occupant $oldOccupant)
     {
-        return Occupant::make([
+        return (new Occupant)->make([
         'nekoId' => 'new',
         'realestate_id' => $oldOccupant->realestate_id,
         'budguid' => $oldOccupant->realestate->nekoId,
@@ -147,15 +146,15 @@ trait OccupantAdapter
         {
             $initOccupant->dateTo = (new carbon($newDate))->addDay(-1);
             $initOccupant->save();
-            
+
             /* schliessen der Zeiträume der VerbrauchinfosUserEmails */
             $q = $initOccupant->realestate->verbrauchsinfoUserEmails
                 ->where('nutzeinheitNo', '=', $initOccupant->nutzeinheitNo);
-                
+
             foreach ($q as $email) {
                 if ($email->dateTo == null){
                     $email->dateTo = $initOccupant->dateTo;
-                    $email->save(); 
+                    $email->save();
                 }
             }
             /* entziehen der Sicht-Berechtigungen des alten Nutzers*/
@@ -186,20 +185,20 @@ trait OccupantAdapter
             $vue->OptimisticLockField = 0;
             $vue->nutzeinheitNo =$newOccupant->nutzeinheitNo;
             $vue->save();
-           
+
              /* erstellen der Sicht-Berechtigungen des neuen Nutzers*/
              /* für automatischen Webuser*/
             for($i=0; $i < 12; $i++) {
                 $jahr_monat = carbon::now()->addMonth(0-$i)->isoFormat('YYYY-M');
                 if ($newOccupant->dateFrom < carbon::now()->addMonth(0-$i)){
-                    $uVAcc = UserVerbrauchsinfoAccessControl::updateOrcreate(
+                    $uVAcc = (new \App\Models\UserVerbrauchsinfoAccessControl)->updateOrcreate(
                         ['jahr_monat' => $jahr_monat, 'user_id' => $nU->id,'occupant_id' => $save->id],
                         [
                             'neko_id' => 0,
                         ]
-                    );  
-                }                                       
-            } 
+                    );
+                }
+            }
 
 
             /* erstellen des WebUsers aus. Email*/
@@ -231,17 +230,17 @@ trait OccupantAdapter
                 for($i=0; $i < 12; $i++) {
                     $jahr_monat = carbon::now()->addMonth(0-$i)->isoFormat('YYYY-M');
                     if ($newOccupant->dateFrom < carbon::now()->addMonth(0-$i)){
-                        $uVAcc = UserVerbrauchsinfoAccessControl::updateOrcreate(
+                        $uVAcc = (new \App\Models\UserVerbrauchsinfoAccessControl)->updateOrcreate(
                             ['jahr_monat' => $jahr_monat, 'user_id' => $nU->id,'occupant_id' => $save->id],
                             [
                                 'neko_id' => 0,
                             ]
-                        );  
-                    }                                       
-                } 
+                        );
+                    }
+                }
 
             }
-              
+
             /* kopieren der Verbrauchsinformationen und CounterMeters zu neuem Nutzer*/
             foreach ($initOccupant->verbrauchsinfos as $vbi) {
                 if($vbi->datum >= $newOccupant->dateFrom){
@@ -264,12 +263,11 @@ trait OccupantAdapter
                    $vbiN->ww= $vbi->ww;
                    $vbiN->save();
                 }
-            }    
+            }
             foreach ($initOccupant->counterMeters as $cm) {
                 if($cm->datum >= $newOccupant->dateFrom){
                    $cmN = new VerbrauchsinfoCounterMeter;
                    $cmN->occupant_id = $save->id;
-                   $cmN->art = $cm->art;
                    $cmN->nekoId = $cm->nekoId;
                    $cmN->nr = $cm->nr;
                    $cmN->funkNr = $cm->funkNr;
@@ -298,7 +296,7 @@ trait OccupantAdapter
     }
 
     public function editOccupant(Occupant $occupant){
-        return Occupant::updateOrcreate(
+        return (new Occupant)->updateOrcreate(
             ['id' => $occupant['id']],
             ['nekoId' => $occupant['nekoId'],
                 'realestate_id' => $occupant['realestate_id'],

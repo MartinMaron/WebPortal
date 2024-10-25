@@ -17,7 +17,7 @@
                     </div>
                 <div class="">
                     <div class="py-4 text-2xl text-sky-800">HEIZKOSTEN</div>
-                    <img src="/img/home/heizkosten.jpg" class="object-cover w-full h-48 rounded-lg" />
+                    <img src="/img/home/heizkosten.jpg" class="object-cover w-full h-48 rounded-lg"  alt=""/>
                     <div class="pt-4">
                         <p>Unser Dienstleistungspaket für die Heizkosten-, Kaltwasser- und Wärmeabrechnung entspricht höchsten
                             Qualitätsansprüchen. Den Anforderungen an Transparenz und Genauigkeit entsprechen wir ebenso wie
@@ -28,7 +28,7 @@
                 </div>
                 <div class="Betriebkosten">
                     <div class="py-4 text-2xl text-sky-800">BETRIEBSKOSTEN</div>
-                    <img class="object-cover w-full h-48 rounded-lg" src="/img/home/betriebskosten.jpg"  />
+                    <img class="object-cover w-full h-48 rounded-lg" src="/img/home/betriebskosten.jpg"   alt=""/>
                     <div class="pt-4">
                         <p>Ersparen Sie sich Zeit, Ärger und Arbeit und legen Sie diese Aufgaben in die Hände unserer Fachleute.
                             Einmal in Anspruch genommen, wollen Sie diesen Service nie wieder missen.<br>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="Rauchmelderservice">
                     <div class="py-4 text-2xl text-sky-800">RAUCHMELDERSERVICE</div>
-                    <img src="/img/home/Rauchmelderservice2.jpg" class="object-cover w-full h-48 rounded-lg" />
+                    <img src="/img/home/Rauchmelderservice2.jpg" class="object-cover w-full h-48 rounded-lg"  alt=""/>
                     <div class="pt-4">
                         <p>Vermieter, Mieter und selbstnutzende Eigentümer haben die Rauchwarnmelder-Pflicht zu beachten.
                             Vermieter und selbstnutzende Eigentümer müssen Rauchwarnmelder in den Wohnungen einbauen und in Betrieb setzen.
@@ -50,7 +50,7 @@
                 </div>
                 <div class="energieausweis">
                     <div class="py-4 text-2xl text-sky-800">ENERGIEAUSWEIS</div>
-                    <img src="/img/home/energieausweis.jpg" class="object-cover w-full h-48 rounded-lg" />
+                    <img src="/img/home/energieausweis.jpg" class="object-cover w-full h-48 rounded-lg"  alt=""/>
                     <div class="pt-4">
                         <p>Unser Dienstleistungspaket für die Heizkosten-, Kaltwasser- und Wärmeabrechnung entspricht höchsten
                             Qualitätsansprüchen. Den Anforderungen an Transparenz und Genauigkeit entsprechen wir ebenso wie

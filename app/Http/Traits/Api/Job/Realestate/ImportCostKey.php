@@ -5,7 +5,7 @@ use App\Models\CostKey;
 use App\Models\Realestate;
 
 
-Trait ImportCostKey 
+Trait ImportCostKey
 {
     /* Anlage Der Kostenverteilungsschlüsselinformationen */
     public function importCostKey(Array $data, Realestate $realestate)
@@ -24,7 +24,7 @@ Trait ImportCostKey
         }
 
         /* Anlage des Zählers */
-        $costKey = CostKey::updateOrcreate(
+        $costKey = (new \App\Models\CostKey)->updateOrcreate(
             [
                 'realestate_id' => $realestate ,
                 'nekoKey_id' => $data['nekoKey_id'] ,

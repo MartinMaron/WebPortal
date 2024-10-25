@@ -34,21 +34,21 @@ Route::post('/loginMobile', [AuthController::class, 'loginMobile']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/me', function(Request $request) {
-        $user = User::where('email', auth()->user()['email'])->firstOrFail();
+        $user = (new App\Models\User)->where('email', auth()->user()['email'])->firstOrFail();
         return response()->json([new UserResource($user)]);
     });
-    
+
     Route::apiResource("/occupant", OccupantController::class);
-    
+
     Route::post('/job', [JobController::class, 'job']);
-    
+
     Route::name('user.')->group(function () {
         /* Startseite im user bereich */
         Route::get('profile', function () {
             return auth()->user();
         })->name('profile');
-        
-        
+
+
         Route::post('logout', [AuthController::class, 'logout']);
 
     });

@@ -43,12 +43,11 @@ class UserMobileRessource extends JsonResource
     public function getOccupants()
     {
         $user = auth()->user();
-        $result =  $user->userVerbrauchsinfoAccessControls->map(function (UserVerbrauchsinfoAccessControl $userControl) {
+        return $user->userVerbrauchsinfoAccessControls->map(function (UserVerbrauchsinfoAccessControl $userControl) {
             return new OccupantMobileResource($userControl->occupant);
         })->unique();
-        return $result;
     }
 
 }
 
-     
+

@@ -28,26 +28,26 @@ trait Register
 
         if ($data['email'] != 'info@e-neko.de')
         {
-            if(User::where('email', $data['email'])->exists()) {
-                $user = User::updateOrcreate(
+            if((new \App\Models\User)->where('email', $data['email'])->exists()) {
+                $user = (new \App\Models\User)->updateOrcreate(
                     ['email' => $data['email']],
                     ['name' => $data['name']]
                     );
             }else{
-                $user = User::updateOrcreate(
+                $user = (new \App\Models\User)->updateOrcreate(
                     ['email' => $data['email']],
                     ['name' => $data['name'],
                     'password' => Hash::make($data['password'])]
                     );
-            }  
+            }
             $user->isMieter = $data['isMieter'];
             $user->isUser = $data['isUser'];
             $user->isAdmin = false;
             $user->save();
         }else{
-            $user = User::where('email', $data['email'])->first();
+            $user = (new \App\Models\User)->where('email', $data['email'])->first();
         }
-        
+
         return response()->json([
             'function' => 'JobController.register',
             'result' => 'success',

@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         $fileContent = Storage::disk('local')->get('ii_us.json');
         $users = json_decode($fileContent);
         foreach ( $users as $key => $value) {
-            $user = User::create([
+            $user = (new \App\Models\User)->create([
                 "name" => $value->name,
                 "email" => $value->email,
                 "password" => $value->password,
@@ -32,33 +32,33 @@ class UserSeeder extends Seeder
             $user->apiToken = $token;
             $user->save();
 
-        };
+        }
 
-    /*     $hashedPassword = Hash::make("nnnnnnnn");
+        /*     $hashedPassword = Hash::make("nnnnnnnn");
 
-        User::create([
-            "name" => "argor",
-            "email" => "argor123@freenet.de",
-            "password" => $hashedPassword,
-            "isAdmin" => 0,
-            "isMieter" => 1,
-            "isUser" => 0,
-        ]);  
-        
-        User::create([
-            "name" => "argor",
-            "email" => "argor122@e-neko.de",
-            "password" => $hashedPassword,
-            "isAdmin" => 0,
-            "isMieter" => 1,
-            "isUser" => 0,
-        ]);
+            User::create([
+                "name" => "argor",
+                "email" => "argor123@freenet.de",
+                "password" => $hashedPassword,
+                "isAdmin" => 0,
+                "isMieter" => 1,
+                "isUser" => 0,
+            ]);
 
-        if (Hash::check('nnnnnnnn', $hashedPassword))
-        {
-          //  dd($hashedPassword);
-            // The passwords match...
-        } */
+            User::create([
+                "name" => "argor",
+                "email" => "argor122@e-neko.de",
+                "password" => $hashedPassword,
+                "isAdmin" => 0,
+                "isMieter" => 1,
+                "isUser" => 0,
+            ]);
+
+            if (Hash::check('nnnnnnnn', $hashedPassword))
+            {
+              //  dd($hashedPassword);
+                // The passwords match...
+            } */
 
 
     }

@@ -158,7 +158,7 @@
 
                     if (!(this.value in this.options)) this.value = null
 
-                    this.$watch('search', ((value) => {
+                    this.$watch('search', (value) => {
                         if (!this.open || !value) return this.options = this.data
 
                         this.options = Object.keys(this.data)
@@ -167,7 +167,7 @@
                                 options[key] = this.data[key]
                                 return options
                             }, {})
-                    }))
+                    })
                 },
 
                 selectOption: function () {

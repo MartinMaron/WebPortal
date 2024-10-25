@@ -8,8 +8,8 @@ use App\Models\Verbrauchsinfo;
 
 trait ImportVerbrauchinfo
 {
-    
- 
+
+
 /* Anlage Der Verbrauchsinfos */
 public function importVerbrauchinfo(Array $data)
 {
@@ -27,13 +27,13 @@ public function importVerbrauchinfo(Array $data)
             ];
     }
 
-    $occupant = Occupant::where('nekoId','=', $data['nekoOccupant_id'])->firstOrFail();
+    $occupant = (new \App\Models\Occupant)->where('nekoId','=', $data['nekoOccupant_id'])->firstOrFail();
 
     $dat = new Carbon($data['jahr_monat']);
 
-    
+
     /* Anlage des Zählers */
-    $verbrauchsinfo = Verbrauchsinfo::updateOrcreate(
+    $verbrauchsinfo = (new \App\Models\Verbrauchsinfo)->updateOrcreate(
         [
             'nekoId' => $data['nekoId'],
             'jahr_monat' => $data['jahr_monat'],

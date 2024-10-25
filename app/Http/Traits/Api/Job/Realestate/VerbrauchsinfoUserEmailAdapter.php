@@ -1,5 +1,5 @@
-<?php 
-namespace App\Http\Traits\Api\Job\Realestate; 
+<?php
+namespace App\Http\Traits\Api\Job\Realestate;
 
 use App\Models\Realestate;
 use Illuminate\Support\Facades\DB;
@@ -7,8 +7,8 @@ use App\Models\VerbrauchsinfoUserEmail;
 
 Trait VerbrauchsinfoUserEmailAdapter
 {
-    
-    
+
+
     public function importVerbrauchsinfoUserEmail(Array $data, Realestate $realestate)    {
 
         /* Validierung der Daten vor Anlage  */
@@ -23,9 +23,9 @@ Trait VerbrauchsinfoUserEmailAdapter
                 'id' => 0
                 ];
         }
-   
+
          /* Anlage der Emailsteuerungstabelle für Verbraucherinformationen */
-        $importObj = VerbrauchsinfoUserEmail::updateOrcreate(
+        $importObj = (new \App\Models\VerbrauchsinfoUserEmail)->updateOrcreate(
             [
                 'id' => $data['id']
             ],
@@ -39,13 +39,13 @@ Trait VerbrauchsinfoUserEmailAdapter
                 'email'=> $data['email'],
             ]
         );
-   
+
         return [
             'function' => 'JobController.importVerbrauchsinfoUserEmail',
             'result' => 'success',
             'id' => $importObj->id,
         ];
-   
+
     }
 
     public function deleteVerbrauchsinfoUserEmail($data){
@@ -68,8 +68,8 @@ Trait VerbrauchsinfoUserEmailAdapter
                   'result' => 'error',
                   'error' => ' datensatz existiert nicht mehr oder konnte nicht gelöscht werden',
               ]);
-          }       
-        
+          }
+
     }
 
 }
