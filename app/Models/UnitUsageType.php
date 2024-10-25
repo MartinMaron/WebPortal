@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UnitUsageType extends Model
 {
-    use HasFactory;
+
 
 
     protected $primaryKey = 'type_id';

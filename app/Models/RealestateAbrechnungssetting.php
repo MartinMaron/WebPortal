@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RealestateAbrechnungssetting extends Model
 {
-    use HasFactory;
+
 
     protected $fillable = [
         'neko_id','realestate_id', 'bemerkung', 'tryWebDelete', 'description', 'nabi_inhaber', 'nabi_nr',
@@ -45,4 +45,4 @@ class RealestateAbrechnungssetting extends Model
 
 }
 
-  
+

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ZaehlerArt extends Model
 {
-    use HasFactory;
+
     protected $table = 'zaehler_arten';
 
     protected $appends = ['short_key'];

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Occupant extends Model
 {
-    use HasFactory;
+
     use Helpers;
 
     protected $fillable = [
@@ -81,11 +81,11 @@ class Occupant extends Model
 
 
    protected function getDisplayConditionalWithAdressAttribute(){
-        
+
 
    }
 
-    
+
     protected function setPersonenZahlAttribute($value){
         $this->pe = $this->castStringToDouble($value);
     }
@@ -192,7 +192,7 @@ class Occupant extends Model
             return $this->NutzerKennnummer ;
         }
     }
-   
+
     protected function getDisplayEigentumerNameAttribute(){
         if ($this->eigentumer){
             return $this->eigentumer;
@@ -203,7 +203,7 @@ class Occupant extends Model
     }
     protected function getCanDeleteAttribute(){
         $ret_val = false;
-        if ($this->nekoId == 'new'){ $ret_val = true;} 
+        if ($this->nekoId == 'new'){ $ret_val = true;}
         return $ret_val;
     }
 

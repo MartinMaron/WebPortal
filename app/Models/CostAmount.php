@@ -11,14 +11,12 @@ use App\Events\CostAmountUpdated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Usernotnull\Toast\Concerns\WireToast;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CostAmount extends Model
 {
-    use HasFactory;
     use Helpers;
-    use WireToast; 
-   
+    use WireToast;
+
     protected $fillable = [
         'nekoId', 'cost_id', 'bemerkung', 'nekoWebId', 'tryWebDelete', 'description', 'netAmount', 'grosAmount',
         'dateCostAmount', 'consumption', 'grosAmount_HH', 'netto', 'brutto', 'datum'
@@ -47,56 +45,6 @@ class CostAmount extends Model
         return $this->belongsTo(Cost::class);
     }
 
-    public function setConsumptionEditingAttribute($value){
-        $this->consumption = $this->castStringToDouble($value);
-    }
-
-    public function getConsumptionEditingAttribute(){
-        if($this->consumption){
-            return number_format($this->consumption, 3, ',', '.');            
-        }
-        return null;
-    }
-    public function setBruttoAttribute($value){
-        $this->grosAmount = $this->castStringToDouble($value);
-    }
-
-    public function getBruttoAttribute(){
-        return number_format($this->grosAmount, 2, ',', '.');
-    }
-
-    public function setNettoAttribute($value){
-        $this->netAmount = $this->castStringToDouble($value);
-    }
-
-    public function getNettoAttribute(){
-        return number_format($this->netAmount, 2, ',', '.');
-    }
-
-    public function setHaushaltsnahAttribute($value){
-        $this->grosAmount_HH = $this->castStringToDouble($value);
-    }
-
-    public function getHaushaltsnahAttribute(){
-        return number_format($this->grosAmount_HH, 2, ',', '.');
-    }
-
-    public function getDatumAttribute()
-    {
-        if($this->dateCostAmount){
-            return Carbon::parse($this->dateCostAmount)->format('d.m.Y');
-        }
-    }
-    public function setDatumAttribute($value)
-    {
-        try {
-            $value = str_replace('.','',$value);
-            $dt = Carbon::createFromFormat('dmY', $value);
-            $this->dateCostAmount = Carbon::parse($dt);
-        } catch (Exception $e) {
-        }
-    }
-
     public static function validateImportData($data) {
         return Validator::make($data, [
             'nekoCostId'=> 'nullable',
@@ -105,11 +53,11 @@ class CostAmount extends Model
             'description'=> 'nullable|string|max:500',
             'netAmount'=> 'required|numeric',
             'grosAmount'=> 'required|numeric',
-            'datum'=> 'nullable|date',            
+            'datum'=> 'nullable|date',
             'dateCostAmount'=> 'nullable|date',
             'consumption'=> 'nullable|numeric',
             'grosAmount_HH'=> 'nullable|numeric',
-            'nekoCostAmountId' => 'nullable|numeric',                                               
+            'nekoCostAmountId' => 'nullable|numeric',
         ]);
     }
 

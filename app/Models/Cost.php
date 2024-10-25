@@ -6,7 +6,7 @@ use App\Events\CostUpdated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Usernotnull\Toast\Concerns\WireToast;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Cost extends Model
 {
