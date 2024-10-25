@@ -6,6 +6,7 @@ composer install
 php artisan key:generate
 php artisan migrate:refresh --seed
 composer require laravel/jetstream
+composer require laravel/fortify
 php artisan jetstream:install livewire
 php artisan vendor:publish --tag=sanctum-migrations
 php artisan lang:publish

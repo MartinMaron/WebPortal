@@ -1,18 +1,12 @@
 <?php
 
-use App\Models\User;
+
 use App\Models\Occupant;
 use App\Models\Realestate;
-use App\Models\Invoice;
-use App\Models\Verbrauchsinfo;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DownloadFileController;
 use App\Http\Controllers\DownloadFileSpacesController;
-use App\Http\Controllers\ImgShow;
 use App\Http\Controllers\Web\RealestateController;
-use App\Http\Livewire\Guest\Kontakt;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Middleware\EnsureIsUser;
 
 /*
 
@@ -68,7 +62,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::controller(RealestateController::class)->group(function ($realestate) {
                 Route::get('/realestate/{realestate}', 'show')->name('realestate');
             });
-        
+
             Route::get('/realestateOccupantList/{id}', function ($id) {
                 $realestate = Realestate::all()->find($id);
                     return view('backend.realestate.show-occupant-list', compact('realestate'));
@@ -78,7 +72,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 $realestate = Realestate::all()->find($id);
                     return view('backend.realestate.show-verbrauchsinfo-user-email', compact('realestate'));
             })->name('realestateVerbrauchsinfoUserEmails');
-    
+
             Route::get('/invoicesList/{id}', function ($id) {
                 $realestate = Realestate::all()->find($id);
                     return view('backend.realestate.show-invoices-list', compact('realestate'));
@@ -89,7 +83,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                     return view('backend.realestate.show-costs', compact('realestate'));
             })->name('costs');
         });
-        
+
         Route::get('/dashboard', function () {
             if (auth()->user()->isUser){
                 return redirect('/realestates');
@@ -106,7 +100,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 }
             }
         })->name('dashboard');
-        
+
         Route::middleware('isMieter')->group(function(){
             /* Verbrauchsinfos */
             Route::get('/verbrauchsinfos', function () {
@@ -117,12 +111,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 $occupant = Occupant::all()->find($id);
                     return view('backend.verbrauchsinfo.show-verbrauchsinfo-list', compact('occupant'));
             })->name('occupantVerbrauchsinfos');
-    
+
             Route::get('/occupantVerbrauchsinfoCounterMeters/{occupant_id}/{jahr_monat}', function ($occupant_id, $jahr_monat) {
                 $occupant = Occupant::all()->find($occupant_id);
                     return view('backend.verbrauchsinfo.show-verbrauchsinfo-counter-meters', compact('occupant','jahr_monat'));
             })->name('occupantVerbrauchsinfoCounterMeters');
-    
+
             Route::get('/occupantVerbrauchsinfoCounterMetersReading/{occupant_id}/{id}', function ($occupant_id, $id) {
                 $occupant = Occupant::all()->find($occupant_id);
                     return view('backend.verbrauchsinfo.show-verbrauchsinfo-counter-meters-readings', compact('occupant','id'));

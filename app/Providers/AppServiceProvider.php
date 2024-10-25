@@ -13,9 +13,12 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
-        //
+        $providers = require base_path('bootstrap/providers.php');
+        foreach ($providers as $provider) {
+            $this->app->register($provider);
+        }
     }
 
     /**
@@ -23,9 +26,9 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        Carbon::setLocale(LC_TIME, 'de_DE.utf8');
+        Carbon::setLocale(LC_TIME);
         Schema::defaultStringLength(191);
     }
 }
