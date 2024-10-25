@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\User\occupant\Verbrauchsinfo;
+namespace App\Http\Livewire\User\Occupant\Verbrauchsinfo;
 
 use App\Models\User;
 use Livewire\Component;

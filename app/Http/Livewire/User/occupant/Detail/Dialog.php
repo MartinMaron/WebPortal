@@ -1,18 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\User\occupant\Detail;
+namespace App\Http\Livewire\User\Occupant\Detail;
 
-use Helpers;
-use DateTime;
 use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Occupant;
 use App\Models\Realestate;
 use App\Models\Salutation;
-use Illuminate\Support\Facades\Route;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use PhpParser\Node\Expr\BinaryOp\BooleanOr;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Rules\OcccupantDateFromGreaterPreviousRule;
 use App\Http\Traits\Api\Job\Realestate\OccupantAdapter;
 use App\Models\UnitUsageType;
@@ -155,6 +149,7 @@ class Dialog extends Component
         if ($this->dialogMode == 'change'){
            return $this->validationRulesChange;
         }
+        return null;
     }
 
     protected $listeners = [
@@ -162,7 +157,7 @@ class Dialog extends Component
         'changeOccupantModal' => 'changeModal',
     ];
 
-    public function rules()
+    public function rules(): array
     {
         if ($this->dialogMode == 'change'){
             return collect($this->validationRulesChange)->collapse()->toArray();
@@ -173,7 +168,7 @@ class Dialog extends Component
     }
 
     /* initialization */
-    public function mount(Realestate $realestate, $current = null)
+    public function mount(Realestate $realestate, $current = null): void
     {
         $this->realestate = $realestate;
         if ($current != null) {
@@ -270,11 +265,11 @@ class Dialog extends Component
         }else{
             $this->showEditModal = false;
         }
-
+        return null;
     }
 
 
-    public function goToNextPage()
+    public function goToNextPage(): void
     {
         $calcRules = null;
         if ($this->dialogMode == 'change'){
@@ -303,7 +298,7 @@ class Dialog extends Component
 
     }
 
-    public function goToPreviousPage()
+    public function goToPreviousPage(): void
     {
         if ($this->hasLeerstand){
             if ($this->currentPage == 4) {$this->currentPage = 1;}

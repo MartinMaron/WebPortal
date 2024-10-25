@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Livewire\User\occupant\CounterMeter;
+namespace App\Http\Livewire\User\Occupant\CounterMeter;
 use App\Models\VerbrauchsinfoCounterMeter;
 use App\Models\Occupant;
 use Livewire\Component;
 
-class Listitem extends Component
+class ListItem extends Component
 {
 
     public VerbrauchsinfoCounterMeter $singleCounterMeter;

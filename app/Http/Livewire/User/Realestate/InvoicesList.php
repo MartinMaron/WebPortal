@@ -22,7 +22,7 @@ class InvoicesList extends Component
         'search' => '',
     ];
 
-    public function mount($realestate)
+    public function mount($realestate): void
     {
         $this->realestate->$realestate;
         $this->sorts = [

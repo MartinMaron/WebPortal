@@ -24,7 +24,7 @@
   'user.realestate.verbrauchsinfo-user-emails' => 'App\\Http\\Livewire\\User\\Realestate\\VerbrauchsinfoUserEmails',
   'user.testing' => 'App\\Http\\Livewire\\User\\Testing',
   'user.occupant.counter-meter-reading.header' => 'App\\Http\\Livewire\\User\\occupant\\CounterMeterReading\\Header',
-  'user.occupant.counter-meter-reading.listitem' => 'App\\Http\\Livewire\\User\\occupant\\CounterMeterReading\\Listitem',
+  'user.occupant.counter-meter-reading.listitem' => 'App\\Http\\Livewire\\User\\occupant\\CounterMeterReading\\ListItem',
   'user.occupant.counter-meter-reading.show-verbrauchsinfo-counter-meter-reading' => 'App\\Http\\Livewire\\User\\occupant\\CounterMeterReading\\ShowVerbrauchsinfoCounterMeterReading',
   'user.occupant.counter-meter.header' => 'App\\Http\\Livewire\\User\\occupant\\CounterMeter\\Header',
   'user.occupant.counter-meter.listitem' => 'App\\Http\\Livewire\\User\\occupant\\CounterMeter\\ListItem',

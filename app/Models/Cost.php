@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Cost extends Model
 {
-    use HasFactory;
     use WireToast;
 
     protected $fillable = [

@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Requests\UpdateRealestateRequest;
 use App\Models\Realestate;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Termwind\Components\Dd;
 
 class RealestateController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return Factory|View|Application|\Illuminate\View\View
      */
     public function index()
     {
@@ -41,11 +42,10 @@ class RealestateController extends Controller
         //
     }
 
+
     /**
-     * Display the specified resource.
-     *
      * @param Realestate $realestate
-     * @return Response
+     * @return Factory|View|Application|\Illuminate\View\View
      */
     public function show(Realestate $realestate)
     {

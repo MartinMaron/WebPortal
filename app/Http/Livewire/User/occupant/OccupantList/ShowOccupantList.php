@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\User\occupant\OccupantList;
+namespace App\Http\Livewire\User\Occupant\OccupantList;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Livewire\Component;
 use App\Models\Occupant;
 use App\Models\Realestate;
@@ -48,9 +51,14 @@ class ShowOccupantList extends Component
         'deleteConfirmed' => 'delete',
     ];
 
-    public function delete($objectId, $objectType)
+    /**
+     * @param $objectId
+     * @param $objectType
+     * @return Application|RedirectResponse|Redirector|null
+     */
+    public function delete($objectId, $objectType): Application|Redirector|RedirectResponse|null
     {
-        if ($objectType != 'Occupant') return;
+        if ($objectType != 'Occupant') return null;
         $object = (new \App\Models\Occupant)->find($objectId);
 
 

@@ -45,17 +45,17 @@ class OccupantController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return Occupant
      */
     public function show($id)
     {
         if (is_numeric($id))
         {
             //finden nach Id
-            return (new \App\Models\Occupant)->where('id', $id)->firstOrFail();
+            return (new Occupant)->where('id', $id)->firstOrFail();
         }else{
             //finden nach NekoId
-            return (new \App\Models\Occupant)->where('nekoId', $id)->firstOrFail();
+            return (new Occupant)->where('nekoId', $id)->firstOrFail();
         }
     }
 
