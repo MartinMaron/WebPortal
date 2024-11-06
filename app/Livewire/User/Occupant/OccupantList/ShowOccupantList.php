@@ -107,9 +107,9 @@ class ShowOccupantList extends Component
         return redirect(request()->header('Referer'));
     }
 
-    public function Salutations()
+    public function Salutations(): static
     {
-
+        return $this->salutations;
     }
 
 
@@ -211,7 +211,7 @@ class ShowOccupantList extends Component
         // });
     }
 
-    public function emit_QuestionDeleteModal(Occupant $id)
+    public function emit_QuestionDeleteModal(Occupant $id): void
     {
         $this->dispatch('showQuestionDeleteModal', 'Occupant', $id->id, 'Löschen bestätigen', 'Wollen Sie den Nutzer '.  $id->nachname .  ' entfernen?');
     }

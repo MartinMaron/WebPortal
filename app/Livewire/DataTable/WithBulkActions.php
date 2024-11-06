@@ -25,11 +25,13 @@ trait WithBulkActions
 
         $this->selectAll = false;
         $this->selected = [];
+        return $this->selectPageRows();
     }
 
-    public function selectPageRows()
+    public function selectPageRows(): static
     {
         $this->selected = $this->rows->pluck('id')->map(fn($id) => (string) $id);
+        return $this;
     }
 
     public function selectAll()

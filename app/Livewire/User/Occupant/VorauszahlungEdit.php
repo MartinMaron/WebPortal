@@ -1,34 +1,39 @@
 <?php
 
-namespace app\Http\Livewire\User\Occupant;
+namespace App\Http\Livewire\User\Occupant;
 
 use Livewire\Component;
 use App\Models\Occupant;
-use Barryvdh\Debugbar\Facades\Debugbar;
 
-namespace App\Livewire\User\Occupant extends Component
+class VorauszahlungEdit extends Component
 {
-
-    public Occupant $occupant;
+    public Occupant $occupant; // Ensure proper type hint
     public $vorauszahlung;
 
-
-    public function mount(Occupant $occupant){
+    public function mount(Occupant $occupant)
+    {
         $this->occupant = $occupant;
         $this->vorauszahlung = $occupant->vorauszahlung;
-      }
+    }
 
     public function confirmPrePaid()
     {
-        $this->occupant->vorauszahlung= floatval($this->vorauszahlung);
+        // Ensure vorauszahlung is a float value before saving
+        $this->occupant->vorauszahlung = floatval($this->vorauszahlung);
         $this->occupant->save();
     }
 
-    public function rules() { return [
-         'occupant.vorauszahlung' => 'nullable',
-    ]; }
+    public function rules()
+    {
+        return [
+            // Validate vorauszahlung as a numeric value (nullable)
+            'vorauszahlung' => 'nullable|numeric',
+        ];
+    }
+
     public function render()
     {
-        return view('class VorauszahlungEdit');
+        // Return the correct path to the Blade view
+        return view('livewire.user.occupant.vorauszahlung-edit');
     }
 }

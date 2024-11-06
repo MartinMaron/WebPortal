@@ -24,7 +24,6 @@ class InvoicesList extends Component
 
     public function mount($realestate): void
     {
-        $this->realestate->$realestate;
         $this->sorts = [
             'createDate' => 'desc',
             'caption' => 'asc'

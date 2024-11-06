@@ -25,7 +25,7 @@
 
     <div x-show="open">
     <select
-    class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900" id="option-0" role="option" tabindex="-1">
+        class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900" id="option-0" role="listbox" tabindex="-1">
         @foreach ($rows as $label)
 
                 <!-- Selected: "font-semibold" -->

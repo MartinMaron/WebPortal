@@ -13,6 +13,7 @@ trait WithSorting
         if ($this->sorts[$field] === 'asc') return $this->sorts[$field] = 'desc';
 
         unset($this->sorts[$field]);
+        return $this;
     }
 
     public function applySorting($query)

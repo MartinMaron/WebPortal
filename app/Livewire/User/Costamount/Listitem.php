@@ -55,13 +55,6 @@ class Listitem extends Component
     public function refreshByid($id){
         $this->dispatch('refreshByid',$id);
 
-        if ($id == $this->current->id){
-            // $this->dispatch('refreshByid', $this->current->id );
-
-            // $this->dispatch('$refresh');
-
-             //$this->render();
-        }
     }
 
     public function render()

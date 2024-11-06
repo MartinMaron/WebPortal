@@ -1,4 +1,4 @@
- 
+
 <form wire:submit="closeModal(true)">
  <x-modal.dialog class="bg-sky-50" minWidth="340px" maxWidth="2xl" wire:model="showEditModal">
         <!-- Dialog Title -->
@@ -13,7 +13,7 @@
         </x-slot>
         <!-- Dialog Content -->
         <x-slot name="content">
-            <div> 
+            <div>
                 <x-input.group for="Bezeichnung" label="Bezeichnung" :error="$errors->first('cost.nazwa')">
                     <div>
                         <x-input.text class="bg-sky-50 sm:h-8" wire:model.live="cost.nazwa" id="nazwa" placeholder="..." />
@@ -27,14 +27,14 @@
                         </div>
                     </div>
                 </x-input.group>
-                <!-- Haushaltsnah-->  
+                <!-- Haushaltsnah-->
                 <div class="mt-4">
-                    <x-input.group hohe="h-30" :bottom=false for="noticeForNeko" label="Bemerkung für die Abrechnung" :error="$errors->first('current.bemerkung')">
+                    <x-input.group hohe="h-30" for="noticeForNeko" label="Bemerkung für die Abrechnung" :error="$errors->first('current.bemerkung')">
                         <x-input.textarea  wire:model.live="cost.noticeForNeko" id="noticeForNeko" placeholder="..." />
                     </x-input.group>
                 </div>
             </div>
-            
+
             <div>
             </div>
         </x-slot>
@@ -50,5 +50,5 @@
 
 
 
-    
+
 

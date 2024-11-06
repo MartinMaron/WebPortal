@@ -7,7 +7,7 @@
                 <div class="flex flex-row justify-between">
                     <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-sky-100">
                         {{-- <i class="text-sky-800 fa-solid fa-trash-can"></i> --}}
-                        <x-icon.fonts.pencil class="text-xs text-sky-500 hover:text-sky-800  px-2 ">                                       
+                        <x-icon.fonts.pencil class="text-xs text-sky-500 hover:text-sky-800  px-2 ">
                         </x-icon.fonts.pencil>
                     </div>
                 </div>
@@ -15,9 +15,9 @@
             <!-- Dialog Content -->
             <x-slot name="content">
                 <div>
-                   
+
                     <div
-                    > 
+                    >
                         <x-input.group class="border-0" for="costAmount-detailModal-datum" label="Datum">
                             <x-input.date
                                 wire:model.blur="costAmount.datum"
@@ -38,11 +38,11 @@
                             <x-input.group class="border-0" for="costAmount.netto" label="Nettobetrag" :error="$errors->first('costAmount.netto')">
                             <x-input.text class="bg-sky-50 sm:h-8" wire:model.blur="costAmount.netto" id="costAmount.netto" placeholder="0,00" />
                             </x-input.group>
-                        @else                        
+                        @else
                             <!-- Brutto -->
                             <x-input.group class="border-0" for="costAmount.brutto" label="Betrag" :error="$errors->first('costAmount.brutto')">
                             <x-input.text class="bg-sky-50 sm:h-8" wire:model.blur="costAmount.brutto" id="costAmount.brutto" placeholder="0,00" />
-                            </x-input.group>                        
+                            </x-input.group>
                         @endif
                         @if ($showHaushaltsnahField)
                             <!-- Haushaltsnah -->
@@ -50,9 +50,9 @@
                             <x-input.text class="bg-sky-50 sm:h-8" wire:model.blur="costAmount.haushaltsnah" id="costAmount.haushaltsnah" placeholder="0,00" />
                         </x-input.group>
                         @endif
-                        <!-- Bemerkung-->  
+                        <!-- Bemerkung-->
                         <div class="mt-4">
-                        <x-input.group hohe="h-30" :bottom=false for="costAmount.bemerkung" label="Bemerkung für die Abrechnung" :error="$errors->first('costAmount.bemerkung')">
+                        <x-input.group hohe="h-30" for="costAmount.bemerkung" label="Bemerkung für die Abrechnung" :error="$errors->first('costAmount.bemerkung')">
                             <x-input.textarea  wire:model.blur="costAmount.bemerkung" id="costAmount.bemerkung" placeholder="..." />
                         </x-input.group>
                         </div>
