@@ -4,14 +4,14 @@
     <div class="block w-full mx-auto max-w-7xl" key="{{ now() }}">
         <div class="">
             <!-- Suchfeld -->
-            <x-input.search wire:model.debounce.600ms="filters.search"></x-input.search>
+            <x-input.search wire:model.live.debounce.600ms="filters.search"></x-input.search>
         </div>
         <div class="flex-row w-full">
             <div class="flex w-full px-5 sm:px-1 gap-2 justify-between sm:justify-start">
 
                 @if ($hasAnyCustomEinheitNo)
                 <div wire:click="toggle('nummer')" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
-                    <input wire:model="showCustomEinheitNo" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
+                    <input wire:model.live="showCustomEinheitNo" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
                     <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
                         @if ($showCustomEinheitNo)
                         <span class="font-medium text-gray-900 text-md">Ihre Nummer.</span>
@@ -23,7 +23,7 @@
                 @endif
                 @if ($hasAnyEigentumer)
                 <div wire:click="toggle('eigentumer')" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none">
-                    <input wire:model="showEigentumer" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
+                    <input wire:model.live="showEigentumer" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
                     <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
                         @if ($showEigentumer)
                         <span class="font-medium text-gray-900 text-md">Eigentümer</span>

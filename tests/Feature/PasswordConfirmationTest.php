@@ -19,9 +19,6 @@ class PasswordConfirmationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /**
-     * @throws \JsonException
-     */
     public function test_password_can_be_confirmed(): void
     {
         $user = User::factory()->create();

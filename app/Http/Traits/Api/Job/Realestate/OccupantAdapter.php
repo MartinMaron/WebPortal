@@ -7,11 +7,6 @@ use App\Models\Realestate;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use App\Models\VerbrauchsinfoUserEmail;
-use App\Models\UserVerbrauchsinfoAccessControl;
-use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchinfo;
-use App\Http\Livewire\User\Realestate\VerbrauchsinfoUserEmails;
-use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchsinfoCounterMeter;
-use App\Http\Traits\Api\Job\Realestate\VerbrauchsinfoAccessControlAdapter;
 use App\Models\Verbrauchsinfo;
 use App\Models\VerbrauchsinfoCounterMeter;
 
@@ -21,8 +16,8 @@ trait OccupantAdapter
 
 
      /* Anlage des Mieters  */
-     public function importOccupant(Array $data)
-    {
+     public function importOccupant(Array $data): array
+     {
 
         $validator = Occupant::validateImportData($data);
 

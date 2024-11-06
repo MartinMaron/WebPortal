@@ -1,6 +1,6 @@
  
-<form wire:submit.prevent="closeModal(true)">
- <x-modal.dialog class="bg-sky-50" minWidth="340px" maxWidth="2xl" wire:model.defer="showEditModal">
+<form wire:submit="closeModal(true)">
+ <x-modal.dialog class="bg-sky-50" minWidth="340px" maxWidth="2xl" wire:model="showEditModal">
         <!-- Dialog Title -->
         <x-slot name="title">
             <div class="flex">
@@ -16,21 +16,21 @@
             <div> 
                 <x-input.group for="Bezeichnung" label="Bezeichnung" :error="$errors->first('cost.nazwa')">
                     <div>
-                        <x-input.text class="bg-sky-50 sm:h-8" wire:model="cost.nazwa" id="nazwa" placeholder="..." />
+                        <x-input.text class="bg-sky-50 sm:h-8" wire:model.live="cost.nazwa" id="nazwa" placeholder="..." />
                     </div>
                 </x-input.group>
                   <!-- Haushaltsnah-->
                 <x-input.group hohe="h-10" for="Haushaltsnahe Dienstleistungen ausweisen" label="Haushaltsnahe Dienstleistungen ausweisen" :error="$errors->first('cost.haushaltsnah')">
                     <div class="flex justify-between items-center">
                         <div>
-                            <x-input.checkbox wire:model="cost.haushaltsnah"></x-input.checkbox>
+                            <x-input.checkbox wire:model.live="cost.haushaltsnah"></x-input.checkbox>
                         </div>
                     </div>
                 </x-input.group>
                 <!-- Haushaltsnah-->  
                 <div class="mt-4">
                     <x-input.group hohe="h-30" :bottom=false for="noticeForNeko" label="Bemerkung für die Abrechnung" :error="$errors->first('current.bemerkung')">
-                        <x-input.textarea  wire:model="cost.noticeForNeko" id="noticeForNeko" placeholder="..." />
+                        <x-input.textarea  wire:model.live="cost.noticeForNeko" id="noticeForNeko" placeholder="..." />
                     </x-input.group>
                 </div>
             </div>

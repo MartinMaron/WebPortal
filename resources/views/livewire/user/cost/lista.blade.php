@@ -19,7 +19,7 @@
                     </button>
                     <div wire:click="togleShowEditFields"
                          class="relative inline-block mt-1 mr-6 pt-1 pb-2 w-40  align-middle select-none transition duration-200 ease-in">
-                        <input wire:model="showEditFields" type="checkbox" name="user-cost-lista-kosteneingabetoggle" id="user-cost-lista-kosteneingabetoggle" class="toggle-checkbox absolute my-1 block w-6 h-6 rounded-full bg-sky-100 border-1 appearance-none cursor-pointer"/>
+                        <input wire:model.live="showEditFields" type="checkbox" name="user-cost-lista-kosteneingabetoggle" id="user-cost-lista-kosteneingabetoggle" class="toggle-checkbox absolute my-1 block w-6 h-6 rounded-full bg-sky-100 border-1 appearance-none cursor-pointer"/>
                         <label for="toggle" class="toggle-label pl-8 block overflow-hidden h-8 rounded-full cursor-pointer">
                             <span class="text-md font-medium text-gray-900"> Kosteneigabe  </span>
                         </label>
@@ -285,8 +285,8 @@
         </div>
         <!-- Delete CostAmount Modal -->
         <div class="{{ $showDeleteCostAmountModal ? 'visible' : 'invisible' }}">
-            <form wire:submit.prevent="deleteCostAmountModal({{ $current }})">
-                <x-modal.dialog class="bg-sky-50" minWidth="640px" maxWidth="800px" wire:model.defer="showDeleteCostAmountModal">
+            <form wire:submit="deleteCostAmountModal({{ $current }})">
+                <x-modal.dialog class="bg-sky-50" minWidth="640px" maxWidth="800px" wire:model="showDeleteCostAmountModal">
                     <!-- Dialog Title -->
                     <x-slot name="title">
                         <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">

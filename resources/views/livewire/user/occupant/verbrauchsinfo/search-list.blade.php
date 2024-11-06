@@ -3,7 +3,7 @@
         <livewire:user.occupant.occupant-header :occupant='$occupant'/>
     </div>
 
-    <x-input.search wire:model.debounce.2000="filter"/>
+    <x-input.search wire:model.live.debounce.2000="filter"/>
 
     @if ($nutzergruppen->count()!=0)
     <div class="pb-4 mt-16">

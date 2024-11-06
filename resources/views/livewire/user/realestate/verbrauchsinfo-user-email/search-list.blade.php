@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="flex">
-                <x-input.search wire:model="filter.search"/>
+                <x-input.search wire:model.live="filter.search"/>
             </div>
 
             @foreach ($nutzeinheiten as $nutzeinheit)
