@@ -9,6 +9,7 @@ composer install
 php artisan key:generate
 php artisan migrate:refresh --seed
 php artisan lang:publish
-npm run prod
+php artisan vendor:publish --tag=sanctum-migrations
 npm run dev
+npm run prod
 php artisan serve

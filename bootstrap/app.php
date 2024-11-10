@@ -11,9 +11,26 @@
 |
 */
 
+use Illuminate\Config\Repository;
+use Illuminate\Filesystem\Filesystem;
+
 $app = new Illuminate\Foundation\Application(
     $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
 );
+
+// Load the default Laravel services (this will bind services like 'files')
+$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
+
+// Now bind the 'config' service after the 'files' service is available
+$app->singleton('config', function ($app) {
+    return new Repository((array)new Filesystem());
+});
+
+// Load and register providers from bootstrap/providers.php
+$providers = require __DIR__.'/providers.php';
+foreach ($providers as $provider) {
+    $app->register($provider);
+}
 
 /*
 |--------------------------------------------------------------------------
