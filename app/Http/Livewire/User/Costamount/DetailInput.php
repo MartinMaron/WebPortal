@@ -53,10 +53,13 @@ class DetailInput extends Component
             'nekoCostId' => $this->cost->nekoId,
             'cost_id' => $this->cost->id,
             'bemerkung' =>'',
+            'co2TaxAmount_net' => 0,
+            'co2TaxAmount_gros' => 0,
             'description' => '',
-            'netAmount' => 0,
+            'co2TaxValue' => 0, 
+            'consumption' => 0,
+            'netAmount' => 0, 
             'grosAmount' => 0,
-            'grosAmount_HH'=> 0,
         ]);
     }
 
@@ -73,8 +76,9 @@ class DetailInput extends Component
         return [
             'current.cost_id' => 'required',
             'current.datum' => 'date|nullable',
-            'current.netAmount' => 'nullable',
+            'current.netAmount' => 'numeric|nullable',
             'current.grosAmount_HH' => 'nullable',
+            'current.grosAmount' => 'numeric|nullable',
             'current.consumption' => 'required_if:cost.consumption,==,1|numeric|nullable',
             'current.consumption_editing' => 'nullable',
             'current.brutto' => 'nullable',
@@ -82,12 +86,18 @@ class DetailInput extends Component
             'current.netto' => 'nullable',
             'current.haushaltsnah' => 'nullable',
             'current.description' => 'nullable',
+            'current.co2TaxAmount_net' => 'nullable',
+            'current.co2TaxAmount_gros' => 'nullable',
+            'current.Co2brutto' => 'nullable',
+            'current.Co2netto' => 'nullable',
+            'current.Co2consupmtion' => 'nullable',
        ];
     }
 
 
     public function save()
     {
+       
         if ($this->validate()){
             if(CostAmount::create(collect($this->current)->toArray()))  {
                 $this->current = $this->makeBlankObject();

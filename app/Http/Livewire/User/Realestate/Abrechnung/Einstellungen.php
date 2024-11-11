@@ -35,9 +35,16 @@ class Einstellungen extends Component
              'realestate.eingabeCostDatum' => 'nullable',      
              'einstellungen.stromkosten' => 'numeric',      
              'einstellungen.nabi_inhaber' => 'nullable',
-             'einstellungen.nabi_nr' => 'nullable'
+             'einstellungen.nabi_nr' => 'nullable',
+             'einstellungen.co2_kennzeichen_WEG' => 'nullable',
+             'einstellungen.co2_wohngeb' => 'nullable',
+             'einstellungen.co2_kennzeichen_1_9' => 'nullable',
+             'einstellungen.co2_kennzeichen_2_9' => 'nullable',
+             'einstellungen.co2_anschluss_nach_2022' => 'nullable',
          ];
-     }
+    }
+
+    
 
     public function render()
     {

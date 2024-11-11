@@ -109,8 +109,7 @@ class Lista extends Component
         $this->currentCostAmount->delete();
     }
 
-
-
+    
 
     public function getCostByType($costTypeId){
         return Cost::where('realestate_id','=',$this->realestate->id)
@@ -118,8 +117,6 @@ class Lista extends Component
         ->where('costType_id','=',$costTypeId)
         ->get();
     }
-
-
 
     public function hasConsumptionByType($costTypeId){
         $ret = Cost::where('realestate_id','=',$this->realestate->id)

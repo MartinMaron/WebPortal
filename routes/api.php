@@ -27,11 +27,11 @@ use App\Http\Controllers\Api\OccupantController;
 
 //Route::post('/register', [AuthController::class, 'register']);
 
-Route::post('/login', [AuthController::class, 'login']);
+//Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/loginMobile', [AuthController::class, 'loginMobile']);
 
-
+/* 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/me', function(Request $request) {
         $user = User::where('email', auth()->user()['email'])->firstOrFail();
@@ -43,13 +43,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/job', [JobController::class, 'job']);
     
     Route::name('user.')->group(function () {
-        /* Startseite im user bereich */
         Route::get('profile', function () {
             return auth()->user();
         })->name('profile');
-        
-        
         Route::post('logout', [AuthController::class, 'logout']);
-
     });
 });
+ */

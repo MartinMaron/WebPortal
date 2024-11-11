@@ -11,43 +11,51 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Cost extends Model
 {
     use HasFactory;
-    use WireToast; 
-    
+    use WireToast;
+
     protected $fillable = [
 
-        'realestate_id', 'nekoId', 'unvid','budguid', 'nazwa', 'bemerkung', 'NekoWebId', 'tryWebDelete', 'costType', 'costType_id',
+        'realestate_id', 'nekoId', 'unvid','budguid', 'caption', 'description', 'NekoWebId', 'tryWebDelete', 'costType', 'costType_id',
         'vatAmount', 'fuelType', 'fuelType_id', 'hasTank', 'startValue', 'endValue', 'startValueAmount', 'haushaltsnah', 'keyId',
         'keyName', 'keyShortkey', 'noticeForUser', 'noticeForNeko', 'costAbrechnungType', 'costAbrechnungTypeId','fuelTypeUnitType',
-        'fuelTypeUnitName', 'startValueAmountNet', 'startValueAmountGros', 'keyUnitType', 'consumption'
+        'fuelTypeUnitName', 'startValueAmountNet', 'startValueAmountGros', 'keyUnitType', 'consumption', 'co2Tax', 'Tank'
     ];
 
     public function scopeVisible($query)
     {
-       
-        
         $ret_val = $query
-        ->where(function($query) 
+        ->where(function($query)
         {
             $query->where('costType_id', 'HNK')
             ->orWhere('costType_id', 'BRK')
             ->orWhere('costType_id', 'KWK')
             ->orWhere('costType_id', 'KWA')
             ->orWhere('costType_id', 'ZKW')
+            ->orWhere('costType_id', 'BEK')
             ->orWhere('costType_id', 'ZUK');
         });
-        return $ret_val;      
+        return $ret_val;
     }
-    
+
     protected $appends = [
                             'cost_type_sort',
                             'consumptionsum',
                             'brutto',
-                            'netto'
+                            'netto',
+                            'gros',
+                            'cost_type',
+                            'fuel_type',
+                            'start_value_editing',
+                            'end_value_editing',
+                            'start_value_amount_gros_editing',
+                            'start_value_amount_net_editing',
                         ];
 
     protected $casts = ['consumptionsum' => 'decimal:1',
                         'netto' => 'decimal:2',
                         'brutto' => 'decimal:2',
+                        'start_value_editing' => 'decimal:1',
+                        'end_value_editing' => 'decimal:1',
                         'startValueAmountGros' => 'decimal:2',
                         'startValueAmountNet' => 'decimal:2' ];
 
@@ -60,7 +68,7 @@ class Cost extends Model
     public function getConsumptionsumAttribute(){
         return number_format($this->costAmounts->sum('consumption'), 1, ',', '.');
     }
-    
+
     public function getCostTypeSortAttribute()
     {
         $ret_val = 0;
@@ -91,6 +99,67 @@ class Cost extends Model
 
         return $ret_val ;
     }
+    public function getGrosAttribute(){
+        return $this->costAmounts->sum('grosAmount');
+    }
+
+    public function setStartValueEditingAttribute($value){
+        $this->startValue = $this->castStringToDouble($value);
+    }
+
+    public function getStartValueEditingAttribute(){
+        if ($this->startValue <> 0){
+            return number_format($this->startValue, 1, ',', '.');
+        }else{
+            return '';
+        } 
+    }
+
+    public function setStartValueAmountNetEditingAttribute($value){
+        $this->startValueAmountNet = $this->castStringToDouble($value);
+    }
+
+    public function getStartValueAmountNetEditingAttribute(){
+        if ($this->startValueAmountNet <> 0){
+            return number_format($this->startValueAmountNet, 1, ',', '.');
+        }else{
+            return '';
+        } 
+    }
+
+    public function setStartValueAmountGrosEditingAttribute($value){
+        $this->startValueAmountGros = $this->castStringToDouble($value);
+    }
+
+    public function getStartValueAmountGrosEditingAttribute(){
+        if ($this->startValueAmountGros <> 0){
+            return number_format($this->startValueAmountGros, 2, ',', '.');
+        }else{
+            return '';
+        } 
+    }
+
+    public function setEndValueEditingAttribute($value){
+        $this->endValue = $this->castStringToDouble($value);
+    }
+
+    public function getEndValueEditingAttribute(){
+        if ($this->endValue <> 0){
+            return number_format($this->endValue, 1, ',', '.');
+        }else{
+            return '';
+        } 
+    }
+
+    public function getCostTypeAttribute()
+    {
+        return CostType::where('type_id', $this->costType_id)->first();
+    }
+
+    public function getFuelTypeAttribute()
+    {
+        return FuelType::where('type_id', $this->fuelType_id)->first();
+    }
 
     public function realestate()
     {
@@ -106,34 +175,18 @@ class Cost extends Model
     {
         return $this->hasMany(CostKey::class);
     }
- 
-    public static function validateImportData($data) {
-        return Validator::make($data, [
-            'nekoId' => 'required|integer',
-            'unvid' => 'required|string|max:40',
-            'budguid' => 'required|string|max:40',
-            'nazwa' => 'required|string|max:255',
-            'tryWebDelete' => 'required|boolean',
-            'costType' => 'required|string|max:255',
-            'costType_id' => 'required|string|max:3',
-            'vatAmount' => 'required|numeric',
-            'hasTank' => 'required|boolean',
-            'haushaltsnah' => 'required|boolean',
-            'keyId' => 'required|numeric',
-            'keyName' => 'required|string|max:255',
-            'keyShortkey' => 'required|string|max:255',
-            'noticeForUser' => 'nullable|string|max:255',
-            'noticeForNeko' => 'nullable|string|max:255',
-            'fuelTypeUnitType' => 'nullable',
-            'fuelTypeUnitName'=> 'nullable',
-            'startValueAmountNet'=> 'nullable',
-            'startValueAmountGros'=> 'nullable',
-            'costAbrechnungType' => 'required|string|max:255',
-            'costAbrechnungTypeId' => 'required|string|max:255',
-            'keyUnitType' => 'required|string|max:255',
-            'consumption' => 'required|boolean',                                    
-        ]);
+
+    public function costType()
+    {
+        return $this->belongsTo(CostType::class);
     }
+
+    public function fuelType()
+    {
+        return $this->belongsTo(FuelType::class);
+    }
+
+
 
 
 

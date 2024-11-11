@@ -35,8 +35,10 @@ class CreateCostsTable extends Migration
             $table->longText('description')->nullable();
             /* Betriebskosten, Brennstoffkosten, Zusatzkosten ...etc. */
             $table->String('costType_id');
+            $table->foreign('costType_id')->references('type_id')->on('cost_types');
             /* Gas, Heizöl, Fernwärme, Pellets, Strom ...etc. */
             $table->String('fuelType_id')->nullable();
+            $table->foreign('fuelType_id')->references('type_id')->on('fuel_types');
             $table->double('startValue')->nullable();
             $table->double('startValueAmountNet')->nullable();
             $table->double('startValueAmountGros')->nullable();

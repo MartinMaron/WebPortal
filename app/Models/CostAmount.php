@@ -21,16 +21,19 @@ class CostAmount extends Model
    
     protected $fillable = [
         'nekoId', 'cost_id', 'bemerkung', 'nekoWebId', 'tryWebDelete', 'description', 'netAmount', 'grosAmount',
-        'dateCostAmount', 'consumption', 'grosAmount_HH', 'netto', 'brutto', 'datum'
+        'co2brutto','dateCostAmount', 'consumption', 'grosAmount_HH', 'netto', 'brutto', 'datum', 'co2TaxAmount_net', 'co2TaxAmount_gros', 'co2TaxValue'
     ];
 
     protected $casts = [
         'datum' => 'date:d.m.Y',
         'grosAmount' => 'decimal:2',
         'consumption' => 'decimal:3',
-        'consumption_editing' => 'decimal:3',
+        'consumption_editing' => 'decimal:1',
         'brutto' => 'decimal:2',
         'netto' => 'decimal:2',
+        'co2brutto' => 'decimal:2',
+        'co2netto' => 'decimal:2',
+        'co2consupmtion' => 'decimal:2',
         'grosAmount_HH' => 'decimal:2',
         'netAmount' => 'decimal:2' ];
 
@@ -38,6 +41,9 @@ class CostAmount extends Model
         'consumption_editing',
         'brutto',
         'netto',
+        'Co2brutto',
+        'Co2netto',
+        'Co2consupmtion',
         'datum',
         'haushaltsnah',
     ];
@@ -53,7 +59,7 @@ class CostAmount extends Model
 
     public function getConsumptionEditingAttribute(){
         if($this->consumption){
-            return number_format($this->consumption, 3, ',', '.');            
+            return number_format($this->consumption, 1, ',', '.');            
         }
         return null;
     }
@@ -62,7 +68,7 @@ class CostAmount extends Model
     }
 
     public function getBruttoAttribute(){
-        return number_format($this->grosAmount, 2, ',', '.');
+            return number_format($this->grosAmount, 2, ',', '.');
     }
 
     public function setNettoAttribute($value){
@@ -70,7 +76,7 @@ class CostAmount extends Model
     }
 
     public function getNettoAttribute(){
-        return number_format($this->netAmount, 2, ',', '.');
+            return number_format($this->netAmount, 2, ',', '.');
     }
 
     public function setHaushaltsnahAttribute($value){
@@ -96,6 +102,31 @@ class CostAmount extends Model
         } catch (Exception $e) {
         }
     }
+
+    public function setCo2bruttoAttribute($value){
+        $this->co2TaxAmount_gros = $this->castStringToDouble($value);
+    }
+
+    public function getCo2bruttoAttribute(){
+        return number_format($this->co2TaxAmount_gros, 2, ',', '.');
+    }
+    
+    public function setCo2consupmtionAttribute($value){
+        $this->co2TaxValue = $this->castStringToDouble($value);
+    }
+
+    public function getCo2consupmtionAttribute(){
+        return number_format($this->co2TaxValue, 2, ',', '.');
+    }
+
+    public function setCo2nettoAttribute($value){
+        $this->co2TaxAmount_net = $this->castStringToDouble($value);
+    }
+
+    public function getCo2nettoAttribute(){
+        return number_format($this->co2TaxAmount_net, 2, ',', '.');
+    }
+
 
     public static function validateImportData($data) {
         return Validator::make($data, [

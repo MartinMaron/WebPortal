@@ -57,39 +57,53 @@
                         <span x-show="!expanded" aria-hidden="true" class="mr-2 mb-1 text-xl"><i class="fa-solid fa-caret-right"></i></span>
                         <span x-show="expanded" aria-hidden="true" class="mr-2 mb-1 text-xl"><i class="fa-solid fa-caret-down"></i></span>
                         <div class="flex items-end content-end">
-                            <div class="text-xl mb-1 pr-1">{{ $cost->costType. '  ' }}</div>
-                            <div x-show="!expanded"  class ="flex-1 mb-1-2 text-gray-500 text-left text-sm line-clamp-1 italic font-extralight" >{{ '     ...  '. $this->getCostByType($cost->costType_id)->pluck('nazwa')->implode(', ') }} </div>
+                            <div class="text-xl mb-1 pr-1">{{ $cost->costType->caption . '  ('. number_format($this->getCostByType($cost->costType_id)->pluck('gros')->sum(), 2, ',', '.') . ' €)' }}</div>
+                            <div x-show="!expanded"  class ="flex-1 mb-1-2 text-gray-500 text-left text-sm line-clamp-1 italic font-extralight" >{{ '     ...  '. $this->getCostByType($cost->costType_id)->pluck('caption')->implode(', ') }} </div>
                         </div>
 
                     </button>
                     <div x-show="expanded" class="mx-2 flex flex-row items-center justify-start font-normal m-2 text-lg ">
                         @if ($showEditFields)
-                            <div class="text-xs align-text-bottom bottom border-b border-gray-400 basis-1/3 ">
-                                        Kostenposition
+                            <div class="basis-1/3 py-1">
+                                <div class="flex justify-start px-2 h-14 relative items-center border-b border-gray-400 ">
+                                    <div class="text-sm absolute bottom-0 text-center">
+                                        <span class="">Kostenposition</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="basis-2/3 ">
-                                <div class="flex px-4 flex-row items-center justify-around gap-6">
-                                    <div class="basis-1/5">
-                                        <div class="text-xs {{ $this->hasConsumptionByType($cost->costType_id) ? 'block' : 'hidden' }} align-text-bottom border-b border-gray-400 text-center">Verbrauch in kWh.</div>
+                            <div class="basis-2/3 py-1 ">
+                                <div class="flex px-2 justify-around gap-2 border-b border-gray-400 ">
+                                    <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center ">
+                                        <div class="{{ $dateInputMode ? 'block' : 'hidden' }} text-sm absolute bottom-0 text-center ">
+                                            <span class="">Datum</span>
+                                        </div>
                                     </div>
-                                    @if (!($cost->costType_id == 'BRK'))
-                                    <div class="basis-1/5">
-                                        <div class="text-xs {{ $this->hasHaushaltsnahByType($cost->costType_id) ? 'block' : 'hidden' }} align-text-bottom border-b border-gray-400 basis-1/5 text-center">Haushaltsnah</div>
+                                    <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
+                                        <div class="{{ $this->hasConsumptionByType($cost->costType_id) ? 'block' : 'hidden' }} text-sm absolute bottom-0 text-center">
+                                            Verbrauch 
+                                        </div>
                                     </div>
+                                    @if ($cost->co2Tax)
+                                        <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
+                                            <div class="text-sm absolute bottom-0 text-center">CO2-Abgabe [kg]</div>
+                                        </div>
+                                        <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
+                                            <div class="text-sm absolute bottom-0 text-center">CO2-Kosten</div>
+                                        </div>
+                                    @else
+                                        <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
+                                        </div>
+                                        <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
+                                            @if ($this->hasHaushaltsnahByType($cost->costType_id))
+                                                <div class="text-sm absolute bottom-0 text-center">Haushaltnah</div>
+                                            @endif
+                                        </div>
                                     @endif
-                                    @if (($cost->costType_id == 'BRK'))
-                                    <div class="basis-1/5">
-                                        <div class="text-xs align-text-bottom border-b border-gray-400 basis-1/5 text-center">CO2-Abgabe</div>
+                                    <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
+                                        <div class="text-sm absolute bottom-0 text-center">Betrag</div>
                                     </div>
-                                    @endif
-                                    <div class="basis-1/5">
-                                        <div class="{{ $dateInputMode ? 'block' : 'hidden' }} text-xs align-text-bottom border-b border-gray-400 basis-1/5 text-center">Datum</div>
-                                    </div>
-                                    <div class="basis-1/5">
-                                        <div class="text-xs align-text-bottom border-b border-gray-400 basis-1/5 text-center">Betrag</div>
-                                    </div>
-                                    <div class="basis-1/5">
-                                        <div class="text-xs align-text-bottom  basis-1/5 text-center"></div>
+                                    <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
+                                        <div class="text-sm absolute bottom-0 text-center"></div>
                                     </div>
                                 </div>
                             </div>
@@ -101,35 +115,97 @@
                         <!-- Kostenart -->
                         @forelse ($this->getCostByType($cost->costType_id) as $singleCost)
                             <!-- Kosten-Eingabe Bereich -->
+                            
+                            <!-- Anfangsbestand -->
+                            @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank)
+                            <div class="m-2 flex flex-row items-center justify-start font-normal text-lg h-10 ">
+                                    <div class="basis-1/3 py-1">
+                                        <div class="flex justify-start px-2 items-center border-b border-gray-400 ">
+                                            <div class="text-lg text-center">
+                                                <span class="">{{ 'Anfangsbestand '. $singleCost->caption. ' ['. $singleCost->fuelType->einheit->shortname.']'  }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="basis-2/3 py-1 ">
+                                        <div class="flex px-2 justify-around gap-2 border-b border-gray-400 text-lg">
+                                            <div class="flex justify-around basis-1/6 px-2 items-center ">
+                                                <div class="{{ $dateInputMode ? 'block' : 'hidden' }} text-lg text-center ">
+                                                    <span class=""></span>
+                                                </div>
+                                            </div>
+                                            <div class="flex justify-around basis-1/6 px-2 items-center">
+                                                <div class="{{ $this->hasConsumptionByType($cost->costType_id) ? 'block' : 'hidden' }} text-center">
+                                                    {{ $singleCost->startValueEditing. ' '. $singleCost->fuelType->einheit->shortname  }}
+                                                </div>
+                                            </div>
+                                            
+                                            @if ($cost->co2Tax)
+                                            <div class="flex justify-around basis-1/6 px-2 ">
+                                                <div class=""></div>
+                                            </div>
+                                            <div class="flex justify-around basis-1/6 px-2 ">
+                                                <div class=""></div>
+                                            </div>
+                                            @endif
+                                            <div class="flex justify-around basis-1/6 px-2 ">
+                                                <div class="">
+                                                    {{ $nettoInputMode ? $singleCost->start_value_amount_net_editing : $singleCost->start_value_amount_gros_editing }}
+                                                </div>
+                                            </div>
+                                            <div class="flex justify-around basis-1/6 px-2 relative items-center">
+                                                <div class="text-lg absolute bottom-0 text-center"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <!-- Kosten-Eingabe -->
                             <div class="flex flex-row {{ $singleCost->costAmounts->count() > 0 && $showEditFields ? 'border-b-2' : 'border-b-0' }} items-center justify-start font-normal m-2 text-lg ">
                                 <div class="basis-1/3 py-1 ">
                                     <button wire:click="raise_EditCostModal({{ $singleCost }})"
                                             class="flex rounded-md hover:bg-sky-300 hover:px-2 items-center justify-start ">
-                                        <div class="text-lg">
-                                            {{ $singleCost->nazwa }}
+                                        <div class="mx-2 text-lg">
+                                            @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank)
+                                                {{ $singleCost->caption. ' '. 'Eingabe' }}
+                                            @else
+                                                {{ $singleCost->caption }}
+                                            @endif
                                         </div>
                                     </button>
                                 </div>
                                 @if ($showEditFields)
-                                    <div class="basis-2/3 py-1 bg-orange-800">
+                                    <div class="basis-2/3 py-1">
                                         <livewire:user.costamount.detail-input :cost='$singleCost' :netto='$nettoInputMode' :inputWithDatum='$dateInputMode' :wire:key="'list-cost-costamountinput-'.$singleCost->id"/>
                                     </div>
                                 @else
-                                    <div class="basis-1/3 text-right text-lg py-1 px-6">
-                                        @if ($singleCost->consumption)
-                                            {{ $singleCost->Consumptionsum. ' '. $singleCost->fuelTypeUnitName }}
-                                        @endif
+                                    <!-- Kosten-Ansicht -->
+                                    <div class="basis-2/3 py-1 ">
+                                        <div class="basis-1/6 text-right text-lg py-1 px-6">
+                                        bla
+                                        </div>    
+                                        <div class="basis-1/6 text-right text-lg py-1 px-6">
+                                                @if ($singleCost->consumption)
+                                                    {{ $singleCost->Consumptionsum. ' '. $singleCost->fuelTypeUnitName }}
+                                                @endif
+                                        </div>
+                                        <div class="basis-1/6 text-right text-lg py-1 px-6">
+                                        </div>  
+                                        <div class="basis-1/6 text-right text-lg py-1 px-6">
+                                        </div>
+                                        <div class="basis-1/6 text-right text-lg py-1 px-6 ">
+                                            @if ($singleCost->nettoInputMode)
+                                                {{ $singleCost->Netto }}
+                                            @else
+                                                {{ $singleCost->Brutto }}
+                                            @endif
+                                        </div>
+                                        <div class="basis-1/6 text-right text-lg py-1 px-6">
+                                        </div>
                                     </div>
-                                    <div class="basis-1/3 text-right text-lg py-1 px-6 ">
-                                        @if ($singleCost->nettoInputMode)
-                                            {{ $singleCost->Netto }}
-                                        @else
-                                            {{ $singleCost->Brutto }}
-                                        @endif
-                                    </div>
-
                                 @endif
                             </div>
+
 
                             @if ($showEditFields)
 
@@ -139,44 +215,47 @@
 
                                         <div class="flex flex-row">
                                             <div class="basis-1/3 py-1 ">
-                                                <div class="text-sm">
-                                                    {{ $singleCostAmount->description }}
+                                                <div class="text-sm m-2">
+                                                    @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank)
+                                                        {{ 'Zugang' }}
+                                                    @else
+                                                        {{ $singleCostAmount->description }}
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="basis-2/3 py-1 ">
                                                 <div class="">
-                                                    <div class="flex items-center px-4 py-1 justify-around gap-6 border-b-2 bg-slate-100 border-white">
-
+                                                    <div class="flex items-center px-2 py-1 justify-around gap-2 border-b-2 bg-slate-100 border-white text-center md:text-lg">
+                                                        <div id="user-costamount-listitem-datum{{ $singleCostAmount->id }}"
+                                                            style="-moz-appearance: textfield; margin: 0;"
+                                                            class="basis-1/6 {{ $dateInputMode ? 'invisible' : '' }} ">
+                                                                <span class="">{{ $singleCostAmount->datum }}</span>
+                                                        </div>
                                                         <div id="user-costamount-listitem-consumption{{ $singleCostAmount->id }}"
                                                             style="-moz-appearance: textfield; margin: 0;"
-                                                            class="{{ $singleCost->consumption ? 'block' : 'invisible' }} basis-1/5 md:text-md text-right "   >
-
-                                                                <span class="text-right mr-2">{{ $singleCostAmount->consumption }}</span>
+                                                            class="{{ $singleCost->consumption ? 'block' : 'invisible' }} basis-1/6 "   >
+                                                                <span class="">{{ $singleCostAmount->consumption_editing }}</span>
+                                                        </div>
+                                                        <div class="basis-1/6">
                                                         </div>
                                                         <div id="user-costamount-listitem-haushaltsnah{{ $singleCostAmount->id }}"
                                                             style="-moz-appearance: textfield; margin: 0;"
-                                                            class="{{ $singleCost->haushaltsnah ? 'block' : 'invisible' }} basis-1/5 md:text-md text-right "   >
-
-                                                                <span class="text-right mr-2">{{ $singleCostAmount->haushaltsnah }}</span>
-                                                        </div>
-                                                        <div id="user-costamount-listitem-datum{{ $singleCostAmount->id }}"
-                                                            style="-moz-appearance: textfield; margin: 0;"
-                                                            class="basis-1/5 md:text-md text-right {{ $dateInputMode ? 'invisible' : '' }} "   >
-                                                                <span class="text-right mr-2">{{ $singleCostAmount->datum }}</span>
+                                                            class="{{ $singleCost->haushaltsnah ? 'block' : 'invisible' }} basis-1/6 "   >
+                                                                <span class="">{{ $singleCostAmount->haushaltsnah }}</span>
                                                         </div>
                                                         <div id="user-costamount-listitem-betrag{{ $singleCostAmount->id }}"
                                                             style="-moz-appearance: textfield; margin: 0;"
-                                                            class="basis-1/5 md:text-md text-right "
+                                                            class="basis-1/6"
                                                             >
                                                             @if($nettoInputMode)
-                                                                <span class="text-right mr-2">{{ $singleCostAmount->netto }}</span>
+                                                                <span class="">{{ $singleCostAmount->netto }}</span>
                                                             @else
-                                                            <span class="text-right mr-2">{{ $singleCostAmount->brutto }}</span>
+                                                            <span class="">{{ $singleCostAmount->brutto }}</span>
                                                             @endif
                                                         </div>
 
                                                         <div
-                                                            class="basis-1/5 "
+                                                            class="basis-1/6 "
                                                         >
                                                             <div
                                                                 class="flex">
@@ -214,51 +293,87 @@
                                 </div>
 
                                 <!-- Summenfeld -->
-                                <div class="  {{ $singleCost->costAmounts->count() > 0 && $showEditFields ? 'border-y-2 block bg-slate-200' : 'border-y-0 hidden' }}  border-gray-300  items-center justify-start font-normal m-2 text-lg">
+                                <div class="  {{ $singleCost->costAmounts->count() > 0 && $showEditFields ? 'border-y-2 block bg-slate-200' : 'border-y-0 hidden' }}  border-gray-300  items-center justify-start font-normal md:text-lg mx-2">
                                     <div class="{{ $singleCost->costType_id == 'BRK' || $singleCost->costAmounts->count() > 1 ? 'flex flex-row' : 'hidden' }}">
-                                        <div class="basis-1/3 py-1 ">
+                                        <div class="basis-1/3 text-left font-bold">
+                                            @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank)
+                                            <div class="ml-2">
+                                                Zugänge Gesamt
+                                            </div>    
+                                            @endif
                                         </div>
-                                        <div class="basis-2/3 ">
-                                            <div class="flex items-center px-4 justify-around gap-6">
+                                        <div class="basis-2/3 text-center">
+                                            <div class="flex justify-around gap-2">
+                                                <div class="basis-1/6"></div>
+                                                <div class="basis-1/6 {{ $singleCost->consumption ? 'block' : 'invisible' }} "   >
 
-                                                <div
-                                                    style="-moz-appearance: textfield; margin: 0;"
-                                                    class="{{ $singleCost->consumption ? 'block' : 'invisible' }} basis-1/5 md:text-md text-right "   >
-
-                                                        <span class="text-right font-bold py-1 mr-3">{{ $singleCost->consumptionsum. ' '. $singleCost->fuelTypeUnitName  }}</span>
+                                                    <span class="font-bold py-1">{{ $singleCost->consumptionsum. ' '. $singleCost->fuelTypeUnitName  }}</span>
                                                 </div>
-
-
+                                                <div class="basis-2/6"></div>
                                                 <div
-                                                    style="-moz-appearance: textfield; margin: 0;"
-                                                    class="basis-3/5 md:text-md text-right "
+                                                    class="basis-1/6"
                                                     >
                                                     @if($nettoInputMode)
-                                                        <span class="text-right font-bold">{{ 'Gesamt: '. $singleCost->netto. ' €' }}</span>
+                                                        <span class="font-bold">{{ $singleCost->netto }}</span>
                                                     @else
-                                                    <span class="text-right font-bold">{{ 'Gesamt: '. $singleCost->brutto. ' €' }}</span>
+                                                    <span class="font-bold">{{ $singleCost->brutto }}</span>
                                                     @endif
                                                 </div>
 
                                                 <div
-                                                    class="basis-1/5 invisible "
+                                                    class="basis-1/6 invisible "
                                                 >
-                                                    {{-- <div class="flex">
-                                                        <div class="border text-center bg-sky-300 md:text-md hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 mr-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-sky-600 rounded-md ">
-                                                            <x-icon.fonts.pencil class="text-xs ">
-                                                            </x-icon.fonts.pencil>
-                                                        </div>
-                                                        <div class="border text-center bg-red-300 md:text-md hover:bg-red-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 ml-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-red-600 rounded-md ">
-                                                            <i class="text-red-800 fa-solid fa-trash-can"></i>
-                                                        </div>
-                                                    </div> --}}
-
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
+                            @endif
+
+                            <!-- Endstand -->
+                            <!-- Anfangsbestand -->
+                            @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank)
+                            <div class="m-2 flex flex-row items-center justify-start font-normal text-lg h-10 ">
+                                    <div class="basis-1/3 py-1">
+                                        <div class="flex justify-start px-2 items-center border-b border-gray-400 ">
+                                            <div class="text-lg text-center">
+                                                <span class="">{{ 'Endbestand '. $singleCost->caption. ' ['. $singleCost->fuelType->einheit->shortname.']'  }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="basis-2/3 py-1 ">
+                                        <div class="flex px-2 justify-around gap-2 border-b border-gray-400 text-lg">
+                                            <div class="flex justify-around basis-1/6 px-2 items-center ">
+                                                <div class="{{ $dateInputMode ? 'block' : 'hidden' }} text-lg text-center ">
+                                                    <span class=""></span>
+                                                </div>
+                                            </div>
+                                            <div class="flex justify-around basis-1/6 px-2 items-center">
+                                                <div class="{{ $this->hasConsumptionByType($cost->costType_id) ? 'block' : 'hidden' }} text-center line-clamp-1">
+                                                    {{ $singleCost->endValueEditing  }}
+                                                </div>
+                                            </div>
+                                            
+                                            @if ($cost->co2Tax)
+                                            <div class="flex justify-around basis-1/6 px-2 ">
+                                                <div class=""></div>
+                                            </div>
+                                            <div class="flex justify-around basis-1/6 px-2 ">
+                                                <div class=""></div>
+                                            </div>
+                                            @endif
+                                            <div class="flex justify-around basis-1/6 px-2 ">
+                                                <div class="">
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="flex justify-around basis-1/6 px-2 relative items-center">
+                                                <div class="text-lg absolute bottom-0 text-center"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
                             @empty
                             <div class="flex justify-center items-center space-x-2 bg-sky-100">
