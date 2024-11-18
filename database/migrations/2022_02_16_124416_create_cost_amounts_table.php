@@ -39,8 +39,8 @@ class CreateCostAmountsTable extends Migration
             $table->double('grosAmount')->default(0);
             $table->date('dateCostAmount')->nullable();
             $table->double('consumption')->nullable();
-            $table->double('grosAmount_HH')->default(0);
-            $table->double('co2TaxValue')->default(0);
+            $table->double('grosAmount_HH')->nullable();
+            $table->double('co2TaxValue')->nullable();
             $table->integer('OptimisticLockField')->nullable();
             $table->timestamps();
         });

@@ -29,19 +29,18 @@ class DetailInput extends Component
         $this->cost = $cost;
         $this->inputNet = $netto;
         $this->inputWithDate = $inputWithDatum;
-        if ($this->cost->consumption) {
-            $this->inputStartField = 'consumption';
-        }else{
-            if ($this->inputWithDate) {
+        
+        if ($this->inputWithDate || ($this->cost->fuelType != null && $this->cost->fuelType->hasTank)) {
+            $this->inputStartField = 'datum';
+        }else {
+            if ($this->cost->consumption) {
+                $this->inputStartField = 'consumption';
+            }else{ 
                 $this->inputStartField = 'betrag';
-            }else {
-                $this->inputStartField = 'datum';
             }
         }
         $this->current = $this->makeBlankObject();
     }
-
-
 
     protected $listeners = [
          'refreshDetailInput' => 'refreshByid',
@@ -56,13 +55,8 @@ class DetailInput extends Component
             'co2TaxAmount_net' => 0,
             'co2TaxAmount_gros' => 0,
             'description' => '',
-            'co2TaxValue' => 0, 
-            'consumption' => 0,
-            'netAmount' => 0, 
-            'grosAmount' => 0,
         ]);
     }
-
 
     public function refreshByid($id){
         if ($id == $this->cost->id){
@@ -71,34 +65,42 @@ class DetailInput extends Component
     }
 
 
+
     public function rules()
     {
         return [
             'current.cost_id' => 'required',
-            'current.datum' => 'date|nullable',
-            'current.netAmount' => 'numeric|nullable',
-            'current.grosAmount_HH' => 'nullable',
-            'current.grosAmount' => 'numeric|nullable',
-            'current.consumption' => 'required_if:cost.consumption,==,1|numeric|nullable',
-            'current.consumption_editing' => 'nullable',
+            'current.consumption_editing' => 'required_if:cost.consumption,==,1|nullable|min:0|not_in:0',
             'current.brutto' => 'nullable',
-            'current.co2TaxValue' => 'nullable',
             'current.netto' => 'nullable',
             'current.haushaltsnah' => 'nullable',
             'current.description' => 'nullable',
-            'current.co2TaxAmount_net' => 'nullable',
-            'current.co2TaxAmount_gros' => 'nullable',
-            'current.Co2brutto' => 'nullable',
-            'current.Co2netto' => 'nullable',
-            'current.Co2consupmtion' => 'nullable',
+            'current.cobrutto' => 'nullable',
+            'current.conetto' => 'nullable',
+            'current.coconsupmtion' => 'nullable',
+            'current.datum' => 'required_if:cost.fuel_type.hasTank,==,1|date|nullable',
        ];
     }
+    public function messages()
+    {
+        return [
+            'current.datum' => ':attribute muss angegeben werden',
+            'current.consumption_editing' => ':attribute muss angegeben werden' ,
+        ];
+    }
 
+    public function attributes()
+    {
+        return [
+            'current.datum' => 'Datum',
+            'current.consumption_editing' => 'Verbrauch',
+        ];
+    }
 
     public function save()
     {
        
-        if ($this->validate()){
+        if ($this->validate($this->rules(),$this->messages(),$this->attributes())){
             if(CostAmount::create(collect($this->current)->toArray()))  {
                 $this->current = $this->makeBlankObject();
                 $this->emit('refreshComponents');

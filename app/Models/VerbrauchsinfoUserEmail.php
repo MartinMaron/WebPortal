@@ -41,7 +41,8 @@ class VerbrauchsinfoUserEmail extends Model
         return $this->belongsTo(Realestate::class);
     }
 
-    protected $casts = ['dateFrom' => 'date:d.m.Y',
+    protected $casts = [
+        'dateFrom' => 'date:d.m.Y',
         'dateTo' => 'date:d.m.Y',
     ];
 

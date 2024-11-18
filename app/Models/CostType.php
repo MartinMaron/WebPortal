@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class CostType extends Model
 {
     use HasFactory;
-   
     protected $primaryKey = 'type_id';
     protected $keyType = 'string';
     public $incrementing = false;
+
+    protected $fillable = [
+        'caption', 'type_id', 'costInvoicingType_id'
+    ];
 }

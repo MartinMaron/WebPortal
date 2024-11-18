@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Exception;
 use Carbon\Carbon;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use App\Http\Traits\Helpers;
 use App\Events\CostAmountAdded;
 use App\Events\CostAmountDeleted;
@@ -20,8 +21,9 @@ class CostAmount extends Model
     use WireToast; 
    
     protected $fillable = [
-        'nekoId', 'cost_id', 'bemerkung', 'nekoWebId', 'tryWebDelete', 'description', 'netAmount', 'grosAmount',
-        'co2brutto','dateCostAmount', 'consumption', 'grosAmount_HH', 'netto', 'brutto', 'datum', 'co2TaxAmount_net', 'co2TaxAmount_gros', 'co2TaxValue'
+        'nekoId', 'cost_id', 'bemerkung', 'description',
+        'netAmount', 'grosAmount', 'dateCostAmount', 'consumption', 'netto', 'brutto', 
+        'grosAmount_HH', 'co2TaxValue','co2TaxAmount_gros','co2TaxAmount_net','cobrutto'
     ];
 
     protected $casts = [
@@ -31,9 +33,9 @@ class CostAmount extends Model
         'consumption_editing' => 'decimal:1',
         'brutto' => 'decimal:2',
         'netto' => 'decimal:2',
-        'co2brutto' => 'decimal:2',
-        'co2netto' => 'decimal:2',
-        'co2consupmtion' => 'decimal:2',
+        'cobrutto' => 'decimal:2',
+        'conetto' => 'decimal:2',
+        'coconsupmtion' => 'decimal:1',
         'grosAmount_HH' => 'decimal:2',
         'netAmount' => 'decimal:2' ];
 
@@ -41,12 +43,13 @@ class CostAmount extends Model
         'consumption_editing',
         'brutto',
         'netto',
-        'Co2brutto',
-        'Co2netto',
-        'Co2consupmtion',
+        'cobrutto',
+        'conetto',
+        'coconsupmtion',
         'datum',
         'haushaltsnah',
     ];
+
 
     public function cost()
     {
@@ -95,53 +98,43 @@ class CostAmount extends Model
     }
     public function setDatumAttribute($value)
     {
-        try {
-            $value = str_replace('.','',$value);
-            $dt = Carbon::createFromFormat('dmY', $value);
-            $this->dateCostAmount = Carbon::parse($dt);
-        } catch (Exception $e) {
-        }
+        Debugbar::info('CostAmount-setDatumAttribute:'. $value);
+        try {           
+            if ($value) {
+                $this->dateCostAmount = Carbon::parse($value);
+                $value = str_replace('.','',$value);
+                $dt = Carbon::createFromFormat('dmY', $value);
+                $this->dateCostAmount = Carbon::parse($dt);
+            }else
+            {
+                $this->dateCostAmount = null;
+            }   
+         } catch (Exception $e) {
+         }
     }
 
-    public function setCo2bruttoAttribute($value){
+    public function setCobruttoAttribute($value){
         $this->co2TaxAmount_gros = $this->castStringToDouble($value);
     }
 
-    public function getCo2bruttoAttribute(){
+    public function getCobruttoAttribute(){
         return number_format($this->co2TaxAmount_gros, 2, ',', '.');
     }
     
-    public function setCo2consupmtionAttribute($value){
+    public function setCoconsupmtionAttribute($value){
         $this->co2TaxValue = $this->castStringToDouble($value);
     }
 
-    public function getCo2consupmtionAttribute(){
-        return number_format($this->co2TaxValue, 2, ',', '.');
+    public function getCoconsupmtionAttribute(){
+        return number_format($this->co2TaxValue, 0, ',', '.');
     }
 
-    public function setCo2nettoAttribute($value){
+    public function setConettoAttribute($value){
         $this->co2TaxAmount_net = $this->castStringToDouble($value);
     }
 
-    public function getCo2nettoAttribute(){
+    public function getConettoAttribute(){
         return number_format($this->co2TaxAmount_net, 2, ',', '.');
-    }
-
-
-    public static function validateImportData($data) {
-        return Validator::make($data, [
-            'nekoCostId'=> 'nullable',
-            'bemerkung'=> 'nullable|string|max:500',
-            'tryWebDelete'=> 'required|boolean',
-            'description'=> 'nullable|string|max:500',
-            'netAmount'=> 'required|numeric',
-            'grosAmount'=> 'required|numeric',
-            'datum'=> 'nullable|date',            
-            'dateCostAmount'=> 'nullable|date',
-            'consumption'=> 'nullable|numeric',
-            'grosAmount_HH'=> 'nullable|numeric',
-            'nekoCostAmountId' => 'nullable|numeric',                                               
-        ]);
     }
 
     protected $dispatchesEvents = [

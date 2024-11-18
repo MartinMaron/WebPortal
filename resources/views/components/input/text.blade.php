@@ -3,7 +3,7 @@
     'readonly' => false,
 ])
 
-<div class="flex rounded-md  ">
+<div class="flex rounded-md w-full">
     @if ($leadingAddOn)
         <span class="inline-flex items-center px-3 rounded-l-md  border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
             {{ $leadingAddOn }}

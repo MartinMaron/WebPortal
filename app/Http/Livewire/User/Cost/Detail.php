@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\User\Cost;
 use App\Models\Cost;
 use Livewire\Component;
+use App\Models\CostType;
+use App\Models\FuelType;
 use Usernotnull\Toast\Concerns\WireToast;
 
 
@@ -10,9 +12,22 @@ use Usernotnull\Toast\Concerns\WireToast;
 class Detail extends Component
 {
     use WireToast; 
-
     public $cost = null;
     public $showEditModal = false;
+    public $costTypes = null;
+    public $fuelTypes = null;
+    public bool $netAmountInput = false;
+   
+    /* initialization */
+    public function mount(Cost $cost, bool $netAmountInput)
+    {
+        $this->cost = $cost;
+        $this->costTypes = CostType::all();
+        $this->fuelTypes = FuelType::all();
+        $this->netAmountInput = $netAmountInput;
+    }
+
+
 
     protected $listeners = [
         'showCostDetailModal' => 'showModal',
@@ -22,30 +37,25 @@ class Detail extends Component
     public function rules()
     {
         return [
-            'cost.nazwa' => 'required|min:2',      
+            'cost.caption' => 'required|min:2',      
             'cost.bemerkung' => 'sometimes',
-            'cost.costType' => 'required', 
             'cost.costType_id' => 'required',
-            'cost.vatAmount' => 'nullable', 
-            'cost.fuelType' => 'nullable', 
             'cost.fuelType_id' => 'nullable', 
-            'cost.hasTank' => 'nullable', 
-            'cost.startValue' => 'nullable', 
+            'cost.start_value_editing' => 'nullable', 
             'cost.endValue' => 'nullable', 
-            'cost.startValueAmount' => 'nullable', 
-            'cost.haushaltsnah' => 'nullable', 
-            'cost.keyId'=> 'required',
-            'cost.keyName' => 'nullable', 
-            'cost.keyShortkey' => 'nullable', 
-            'cost.noticeForUser' => 'nullable', 
-            'cost.noticeForNeko' => 'nullable', 
-            'cost.costAbrechnungType' => 'nullable', 
-            'cost.costAbrechnungTypeId' => 'nullable',
-            'cost.fuelTypeUnitType' => 'nullable',
-            'cost.fuelTypeUnitName' => 'nullable', 
             'cost.startValueAmountNet' => 'nullable', 
             'cost.startValueAmountGros' => 'nullable', 
-            'cost.keyUnitType' => 'nullable'
+            'cost.startValueAmountVat' => 'nullable', 
+            'cost.haushaltsnah' => 'nullable', 
+            'cost.co2Tax'=> 'required',
+            'cost.keyName' => 'nullable', 
+            'cost.allocationKey_id' => 'nullable', 
+            'cost.noticeForUser' => 'nullable', 
+            'cost.noticeForNeko' => 'nullable', 
+            'cost.consumption' => 'nullable', 
+            'cost.prevyearPeriod' => 'nullable',
+            'cost.prevyearAmountnet' => 'nullable',
+            'cost.prevyearAmountgros' => 'nullable', 
         ];
     }
 

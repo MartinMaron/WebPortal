@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Exception;
+use Carbon\Carbon;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use App\Events\CostUpdated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
@@ -15,10 +18,11 @@ class Cost extends Model
 
     protected $fillable = [
 
-        'realestate_id', 'nekoId', 'unvid','budguid', 'caption', 'description', 'NekoWebId', 'tryWebDelete', 'costType', 'costType_id',
+        'realestate_id', 'nekoId', 'unvid','budguid', 'caption', 'description', 'costType', 'costType_id',
         'vatAmount', 'fuelType', 'fuelType_id', 'hasTank', 'startValue', 'endValue', 'startValueAmount', 'haushaltsnah', 'keyId',
         'keyName', 'keyShortkey', 'noticeForUser', 'noticeForNeko', 'costAbrechnungType', 'costAbrechnungTypeId','fuelTypeUnitType',
-        'fuelTypeUnitName', 'startValueAmountNet', 'startValueAmountGros', 'keyUnitType', 'consumption', 'co2Tax', 'Tank'
+        'fuelTypeUnitName', 'startValueAmountNet', 'startValueAmountGros', 'keyUnitType', 'consumption', 'co2Tax', 'Tank',
+        'prevyearPeriod', 'prevyearQuantity', 'prevyearAmountnet', 'prevyearAmountgros'
     ];
 
     public function scopeVisible($query)
@@ -49,6 +53,9 @@ class Cost extends Model
                             'end_value_editing',
                             'start_value_amount_gros_editing',
                             'start_value_amount_net_editing',
+                            'prevyear_quantity_view', 
+                            'prevyear_amountnet_view',
+                            'prevyear_amountgros_view'
                         ];
 
     protected $casts = ['consumptionsum' => 'decimal:1',
@@ -58,6 +65,16 @@ class Cost extends Model
                         'end_value_editing' => 'decimal:1',
                         'startValueAmountGros' => 'decimal:2',
                         'startValueAmountNet' => 'decimal:2' ];
+
+    public function getPrevyearQuantityViewAttribute(){
+        return number_format($this->prevyearQuantity, 2, ',', '.');
+    }
+    public function getPrevyearAmountnetViewAttribute(){
+        return number_format($this->prevyearAmountnet, 2, ',', '.');
+    }
+    public function getPrevyearAmountgrosViewAttribute(){
+        return number_format($this->prevyearAmountgros, 2, ',', '.');
+    }
 
     public function getNettoAttribute(){
         return number_format($this->costAmounts->sum('netAmount'), 2, ',', '.');
@@ -186,8 +203,15 @@ class Cost extends Model
         return $this->belongsTo(FuelType::class);
     }
 
-
-
+    public function castStringToDouble($value){
+         if($value){     
+             $tvalue = str_replace('.','@', $value);
+             $tvalue = str_replace(',','.', $tvalue);
+             $tvalue = str_replace('@','', $tvalue);
+             return floatval($tvalue);
+         }
+         return null;
+    }
 
 
     protected $dispatchesEvents = [

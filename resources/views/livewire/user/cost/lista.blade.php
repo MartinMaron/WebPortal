@@ -62,7 +62,9 @@
                         </div>
 
                     </button>
+                    <!-- liste der Kostearten. Columnheader -->
                     <div x-show="expanded" class="mx-2 flex flex-row items-center justify-start font-normal m-2 text-lg ">
+
                         @if ($showEditFields)
                             <div class="basis-1/3 py-1">
                                 <div class="flex justify-start px-2 h-14 relative items-center border-b border-gray-400 ">
@@ -118,16 +120,16 @@
                             
                             <!-- Anfangsbestand -->
                             @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank)
-                            <div class="m-2 flex flex-row items-center justify-start font-normal text-lg h-10 ">
+                            <div class="m-2 flex flex-row items-center justify-start font-normal text-lg h-10 border-b border-gray-400 ">
                                     <div class="basis-1/3 py-1">
-                                        <div class="flex justify-start px-2 items-center border-b border-gray-400 ">
+                                        <div class="flex justify-start px-2 items-center ">
                                             <div class="text-lg text-center">
                                                 <span class="">{{ 'Anfangsbestand '. $singleCost->caption. ' ['. $singleCost->fuelType->einheit->shortname.']'  }}</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="basis-2/3 py-1 ">
-                                        <div class="flex px-2 justify-around gap-2 border-b border-gray-400 text-lg">
+                                        <div class="flex px-2 justify-around gap-2 ">
                                             <div class="flex justify-around basis-1/6 px-2 items-center ">
                                                 <div class="{{ $dateInputMode ? 'block' : 'hidden' }} text-lg text-center ">
                                                     <span class=""></span>
@@ -135,25 +137,27 @@
                                             </div>
                                             <div class="flex justify-around basis-1/6 px-2 items-center">
                                                 <div class="{{ $this->hasConsumptionByType($cost->costType_id) ? 'block' : 'hidden' }} text-center">
-                                                    {{ $singleCost->startValueEditing. ' '. $singleCost->fuelType->einheit->shortname  }}
+                                                    {{ $singleCost->startValueEditing }}
                                                 </div>
                                             </div>
                                             
                                             @if ($cost->co2Tax)
-                                            <div class="flex justify-around basis-1/6 px-2 ">
-                                                <div class=""></div>
-                                            </div>
-                                            <div class="flex justify-around basis-1/6 px-2 ">
-                                                <div class=""></div>
-                                            </div>
+                                                <div class="flex justify-around basis-1/6 px-2 ">
+                                                    <div class=""></div>
+                                                </div>
+                                                <div class="flex justify-around basis-1/6 px-2 ">
+                                                    <div class=""></div>
+                                                </div>
                                             @endif
                                             <div class="flex justify-around basis-1/6 px-2 ">
-                                                <div class="">
-                                                    {{ $nettoInputMode ? $singleCost->start_value_amount_net_editing : $singleCost->start_value_amount_gros_editing }}
+                                                <div class="{{ $showEditFields ? 'block' : 'hidden' }}">
+                                                    {{$nettoInputMode ? $singleCost->start_value_amount_net_editing : $singleCost->start_value_amount_gros_editing }}
                                                 </div>
                                             </div>
-                                            <div class="flex justify-around basis-1/6 px-2 relative items-center">
-                                                <div class="text-lg absolute bottom-0 text-center"></div>
+                                            <div class="flex justify-around basis-1/6 px-2 ">
+                                                <div class="{{ $showEditFields ? 'hidden' : 'block' }}">
+                                                    {{$nettoInputMode ? $singleCost->start_value_amount_net_editing : $singleCost->start_value_amount_gros_editing }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -166,7 +170,7 @@
                                     <button wire:click="raise_EditCostModal({{ $singleCost }})"
                                             class="flex rounded-md hover:bg-sky-300 hover:px-2 items-center justify-start ">
                                         <div class="mx-2 text-lg">
-                                            @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank)
+                                            @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank && $showEditFields)
                                                 {{ $singleCost->caption. ' '. 'Eingabe' }}
                                             @else
                                                 {{ $singleCost->caption }}
@@ -180,27 +184,26 @@
                                     </div>
                                 @else
                                     <!-- Kosten-Ansicht -->
-                                    <div class="basis-2/3 py-1 ">
-                                        <div class="basis-1/6 text-right text-lg py-1 px-6">
-                                        bla
+                                    <div class="flex basis-2/3 text-center text-lg items-center px-2 ustify-around gap-2 bg-sky-200 p-1 rounded-lg">
+                                        <div class="basis-1/6">
                                         </div>    
                                         <div class="basis-1/6 text-right text-lg py-1 px-6">
-                                                @if ($singleCost->consumption)
-                                                    {{ $singleCost->Consumptionsum. ' '. $singleCost->fuelTypeUnitName }}
-                                                @endif
+                                            @if ($singleCost->consumption)
+                                                {{ $singleCost->Consumptionsum. ' '. $singleCost->fuelTypeUnitName }}
+                                            @endif
                                         </div>
                                         <div class="basis-1/6 text-right text-lg py-1 px-6">
                                         </div>  
                                         <div class="basis-1/6 text-right text-lg py-1 px-6">
                                         </div>
                                         <div class="basis-1/6 text-right text-lg py-1 px-6 ">
-                                            @if ($singleCost->nettoInputMode)
-                                                {{ $singleCost->Netto }}
-                                            @else
-                                                {{ $singleCost->Brutto }}
-                                            @endif
                                         </div>
                                         <div class="basis-1/6 text-right text-lg py-1 px-6">
+                                            @if ($singleCost->nettoInputMode)
+                                            {{ $singleCost->Netto }}
+                                        @else
+                                            {{ $singleCost->Brutto }}
+                                        @endif
                                         </div>
                                     </div>
                                 @endif
@@ -212,12 +215,11 @@
                                 <!-- Liste der einzelBeträge -->
                                 <div class=" {{ $singleCost->costAmounts->count() > 0  ? 'block bg-white' : 'invisible' }} items-center justify-start font-normal m-2 text-lg ">
                                     @foreach ($singleCost->costAmounts as $singleCostAmount)
-
                                         <div class="flex flex-row">
                                             <div class="basis-1/3 py-1 ">
                                                 <div class="text-sm m-2">
                                                     @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank)
-                                                        {{ 'Zugang' }}
+                                                        {{ 'Zugang '.$singleCostAmount->datum  }}
                                                     @else
                                                         {{ $singleCostAmount->description }}
                                                     @endif
@@ -233,16 +235,33 @@
                                                         </div>
                                                         <div id="user-costamount-listitem-consumption{{ $singleCostAmount->id }}"
                                                             style="-moz-appearance: textfield; margin: 0;"
-                                                            class="{{ $singleCost->consumption ? 'block' : 'invisible' }} basis-1/6 "   >
+                                                            class="basis-1/6 {{ $singleCost->consumption ? 'block' : 'invisible' }}">
                                                                 <span class="">{{ $singleCostAmount->consumption_editing }}</span>
                                                         </div>
-                                                        <div class="basis-1/6">
-                                                        </div>
-                                                        <div id="user-costamount-listitem-haushaltsnah{{ $singleCostAmount->id }}"
-                                                            style="-moz-appearance: textfield; margin: 0;"
-                                                            class="{{ $singleCost->haushaltsnah ? 'block' : 'invisible' }} basis-1/6 "   >
-                                                                <span class="">{{ $singleCostAmount->haushaltsnah }}</span>
-                                                        </div>
+                                                        @if ($singleCost->co2Tax)
+                                                            <div id="user-costamount-listitem-co2TaxValue{{ $singleCostAmount->id }}"
+                                                                style="-moz-appearance: textfield; margin: 0;"
+                                                                class="basis-1/6 "   >
+                                                                    <span class="">{{ $singleCostAmount->coconsupmtion }}</span>
+                                                            </div>
+                                                            <div id="user-costamount-listitem-haushaltsnah{{ $singleCostAmount->id }}"
+                                                                style="-moz-appearance: textfield; margin: 0;"
+                                                                class="basis-1/6 "   >
+                                                                @if($nettoInputMode)
+                                                                    <span class="">{{ $singleCostAmount->conetto }}</span>
+                                                                @else
+                                                                    <span class="">{{ $singleCostAmount->cobrutto }}</span>
+                                                                @endif
+                                                            </div>
+                                                        @else
+                                                            <div class="basis-1/6">
+                                                            </div>
+                                                            <div id="user-costamount-listitem-haushaltsnah{{ $singleCostAmount->id }}"
+                                                                style="-moz-appearance: textfield; margin: 0;"
+                                                                class="{{ $singleCost->haushaltsnah ? 'block' : 'invisible' }} basis-1/6 "   >
+                                                                    <span class="">{{ $singleCostAmount->haushaltsnah }}</span>
+                                                            </div>
+                                                        @endif
                                                         <div id="user-costamount-listitem-betrag{{ $singleCostAmount->id }}"
                                                             style="-moz-appearance: textfield; margin: 0;"
                                                             class="basis-1/6"
@@ -332,7 +351,6 @@
                             @endif
 
                             <!-- Endstand -->
-                            <!-- Anfangsbestand -->
                             @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank)
                             <div class="m-2 flex flex-row items-center justify-start font-normal text-lg h-10 ">
                                     <div class="basis-1/3 py-1">
@@ -393,7 +411,7 @@
     <div class="xs:max-w-xs xs:w-xs">
         <!-- Save Cost Modal -->
         <div>
-            <livewire:user.cost.detail :wire:key="'modal-realestate-cost-detail'"/>
+            <livewire:user.cost.detail :cost='$current' :netAmountInput='$nettoInputMode' :wire:key="'modal-realestate-cost-detail'"/>
         </div>
         <div>
             <livewire:user.costamount.detail :wire:key="'modal-realestate-costamount-detail'"/>

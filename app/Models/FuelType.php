@@ -15,7 +15,7 @@ class FuelType extends Model
         'hasTank', 'caption'
      ];
  
-     public function Einheit()
+    public function Einheit()
     {
         return $this->belongsTo(Einheit::class);
     }

@@ -29,7 +29,7 @@
             {{ $hoheLabel }}
             {{ $borderless ? '' : 'border-b-2 border-l-2 sm:border-r-2 sm:border-l-0 rounded border-sky-800/50' }}
             {{ $bottom ? '' : 'pt-2' }}
-            {{ $error ? 'pb-2' : '' }}
+            {{ $error ? 'pb-2 text-red-500' : '' }}
             {{ $labelless ? 'hidden' : '' }}
             sm:{{ $labelDirection }}
             px-2 block sm:text-sm font-medium leading-5 text-gray-400">
@@ -40,7 +40,7 @@
                 {{ $label }}
             </label>
         </div>
-        <div class="
+        <div class="flex
             {{ $error ? $hoheContentOnError : $hoheContent }}
             {{ $borderless ? '' : 'border-b-2 border-l-2 sm:border-r-0 border-solid rounded border-sky-800/50' }}
             {{ $labelless ? 'sm:col-span-6' : 'sm:col-span-'. $slotColSpan }}
