@@ -63,7 +63,7 @@
                                 <div x-show="!expanded"  class ="flex-1 mb-1-2 text-gray-500 text-left text-sm line-clamp-1 italic font-extralight" >{{ '     ...  '. $this->getCostByType($cost->costType_id)->pluck('caption')->implode(', ') }} </div>
                             </div>
                             </button>
-                            <button>
+                            <button wire:click="raise_AddCostModal({{ $cost }})">
                                 <i class="fa-regular fa-circle-plus text-3xl m-3 text-sky-600" ></i>
                             </button>
                         </div>

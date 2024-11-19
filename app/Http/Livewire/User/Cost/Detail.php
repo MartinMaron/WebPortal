@@ -58,8 +58,23 @@ class Detail extends Component
         ];
     }
 
-    public function showModal (Cost $cost){
-        $this->cost = $cost;
+    public function makeBlankObject(Cost $cost)
+    {
+        return Cost::make([
+            'nekoId' => "new",
+            'realestate_id' => $cost->realestate->id,
+            'unvid' => $cost->realestate->unvid,
+            'budguid' => $cost->realestate->nekoId,
+            'caption' => 'Nowy',
+        ]);
+    }
+
+    public function showModal (Cost $cost, $add){
+        if ($add) {
+            $this->cost = $this->makeBlankObject($cost);
+        } else {
+            $this->cost = $cost;
+        }
         $this->showEditModal = true;
     }
 
