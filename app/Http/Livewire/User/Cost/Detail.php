@@ -16,6 +16,7 @@ class Detail extends Component
     public $showEditModal = false;
     public $costTypes = null;
     public $fuelTypes = null;
+    public $costKeys = null;
     public bool $netAmountInput = false;
    
     /* initialization */
@@ -24,6 +25,7 @@ class Detail extends Component
         $this->cost = $cost;
         $this->costTypes = CostType::all();
         $this->fuelTypes = FuelType::all();
+        $this->costKeys = $cost->realestate->costsKeys;
         $this->netAmountInput = $netAmountInput;
     }
 
@@ -38,17 +40,14 @@ class Detail extends Component
     {
         return [
             'cost.caption' => 'required|min:2',      
-            'cost.bemerkung' => 'sometimes',
             'cost.costType_id' => 'required',
             'cost.fuelType_id' => 'nullable', 
             'cost.start_value_editing' => 'nullable', 
-            'cost.endValue' => 'nullable', 
-            'cost.startValueAmountNet' => 'nullable', 
-            'cost.startValueAmountGros' => 'nullable', 
-            'cost.startValueAmountVat' => 'nullable', 
+            'cost.start_value_amount_gros_editing'=> 'nullable',
+            'cost.start_value_amount_net_editing'=> 'nullable',
+            'cost.end_value_editing' => 'nullable', 
             'cost.haushaltsnah' => 'nullable', 
             'cost.co2Tax'=> 'required',
-            'cost.keyName' => 'nullable', 
             'cost.allocationKey_id' => 'nullable', 
             'cost.noticeForUser' => 'nullable', 
             'cost.noticeForNeko' => 'nullable', 
@@ -66,7 +65,8 @@ class Detail extends Component
 
     public function closeModal($save){
         if ($save){
-           $this->validate();
+            $this->validate();
+            $this->cost->co2Tax = $this->cost->can_co2;
             $this->cost->save();
             $this->showEditModal = false;
             $this->emit('refreshComponents');         

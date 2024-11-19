@@ -17,11 +17,11 @@ class Cost extends Model
     use WireToast;
 
     protected $fillable = [
-
-        'realestate_id', 'nekoId', 'unvid','budguid', 'caption', 'description', 'costType', 'costType_id',
-        'vatAmount', 'fuelType', 'fuelType_id', 'hasTank', 'startValue', 'endValue', 'startValueAmount', 'haushaltsnah', 'keyId',
-        'keyName', 'keyShortkey', 'noticeForUser', 'noticeForNeko', 'costAbrechnungType', 'costAbrechnungTypeId','fuelTypeUnitType',
-        'fuelTypeUnitName', 'startValueAmountNet', 'startValueAmountGros', 'keyUnitType', 'consumption', 'co2Tax', 'Tank',
+        'realestate_id', 'nekoId', 'caption', 'description', 'costType_id',
+        'fuelType_id', 'startValue', 'endValue',
+        'startValueAmountNet', 'startValueAmountGros', 'startValueAmountVat', 
+        'haushaltsnah', 'co2Tax', 'allocationKey_id', 'consumption',
+        'noticeForUser', 'noticeForNeko', 
         'prevyearPeriod', 'prevyearQuantity', 'prevyearAmountnet', 'prevyearAmountgros'
     ];
 
@@ -55,7 +55,9 @@ class Cost extends Model
                             'start_value_amount_net_editing',
                             'prevyear_quantity_view', 
                             'prevyear_amountnet_view',
-                            'prevyear_amountgros_view'
+                            'prevyear_amountgros_view',
+                            'need_allocation_key',
+                            'can_co2'
                         ];
 
     protected $casts = ['consumptionsum' => 'decimal:1',
@@ -65,6 +67,25 @@ class Cost extends Model
                         'end_value_editing' => 'decimal:1',
                         'startValueAmountGros' => 'decimal:2',
                         'startValueAmountNet' => 'decimal:2' ];
+
+    
+    
+    
+    public function getNeedAllocationKeyAttribute(){
+        return $this->costType != null &&
+                !($this->costType->type_id == 'BRK' ||
+                $this->costType->type_id == 'HNK' ||
+                $this->costType->type_id == 'ZUK' ||
+                $this->costType->type_id == 'ZKW');
+    }
+
+    public function getCanCo2Attribute(){
+        return $this->fuelType != null &&
+                ($this->fuelType->type_id == 'EC4' ||
+                $this->fuelType->type_id == 'GS4' ||
+                $this->fuelType->type_id == 'OL9');
+    }
+
 
     public function getPrevyearQuantityViewAttribute(){
         return number_format($this->prevyearQuantity, 2, ',', '.');
@@ -150,6 +171,7 @@ class Cost extends Model
 
     public function getStartValueAmountGrosEditingAttribute(){
         if ($this->startValueAmountGros <> 0){
+            Debugbar::info("startBetrag: ". $this->startValueAmountGros);
             return number_format($this->startValueAmountGros, 2, ',', '.');
         }else{
             return '';
