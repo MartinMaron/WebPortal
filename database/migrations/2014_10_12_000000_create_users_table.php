@@ -38,6 +38,7 @@ return new class extends Migration
             $table->boolean('isMieter')->default(0);
             $table->string('apiToken')->nullable();
             $table->timestamps();
+            \Illuminate\Support\Facades\DB::statement('SET SESSION sql_require_primary_key=0');
         });
 
     }
