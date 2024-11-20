@@ -49,68 +49,75 @@
                     role="region" class="border border-black rounded-md shadow">
                 	<!-- liste der Kostearten. Eingabeüberschriften -->
                     <h2>
-                        <button
-                            x-on:click="expanded = !expanded"
-                            :aria-expanded="expanded"
-                            class="flex items-end justify-items-end w-full font-bold text-2xl px-3 py-1"
-                        >
-                        <span x-show="!expanded" aria-hidden="true" class="mr-2 mb-1 text-xl"><i class="fa-solid fa-caret-right"></i></span>
-                        <span x-show="expanded" aria-hidden="true" class="mr-2 mb-1 text-xl"><i class="fa-solid fa-caret-down"></i></span>
-                        <div class="flex items-end content-end">
-                            <div class="text-xl mb-1 pr-1">{{ $cost->costType->caption . '  ('. number_format($this->getCostByType($cost->costType_id)->pluck('gros')->sum(), 2, ',', '.') . ' €)' }}</div>
-                            <div x-show="!expanded"  class ="flex-1 mb-1-2 text-gray-500 text-left text-sm line-clamp-1 italic font-extralight" >{{ '     ...  '. $this->getCostByType($cost->costType_id)->pluck('caption')->implode(', ') }} </div>
+                        <div class="flex">
+
+                            <button
+                                x-on:click="expanded = !expanded"
+                                :aria-expanded="expanded"
+                                class="flex items-end justify-items-end w-full font-bold text-2xl px-3 py-1"
+                            >
+                            <span x-show="!expanded" aria-hidden="true" class="mr-2 mb-1 text-xl"><i class="fa-solid fa-caret-right"></i></span>
+                            <span x-show="expanded" aria-hidden="true" class="mr-2 mb-1 text-xl"><i class="fa-solid fa-caret-down"></i></span>
+                            <div class="flex items-end content-end">
+                                <div class="text-xl mb-1 pr-1">{{ $cost->costType->caption . '  ('. number_format($this->getCostByType($cost->costType_id)->pluck('gros')->sum(), 2, ',', '.') . ' €)' }}</div>
+                                <div x-show="!expanded"  class ="flex-1 mb-1-2 text-gray-500 text-left text-sm line-clamp-1 italic font-extralight" >{{ '     ...  '. $this->getCostByType($cost->costType_id)->pluck('caption')->implode(', ') }} </div>
+                            </div>
+                            </button>
+                            <button wire:click="raise_AddCostModal({{ $cost }})">
+                                <i class="fa-regular fa-circle-plus text-3xl m-3 text-sky-600" ></i>
+                            </button>
                         </div>
-
-                    </button>
-                    <!-- liste der Kostearten. Columnheader -->
-                    <div x-show="expanded" class="mx-2 flex flex-row items-center justify-start font-normal m-2 text-lg ">
-
-                        @if ($showEditFields)
-                            <div class="basis-1/3 py-1">
-                                <div class="flex justify-start px-2 h-14 relative items-center border-b border-gray-400 ">
-                                    <div class="text-sm absolute bottom-0 text-center">
-                                        <span class="">Kostenposition</span>
+                        
+                        <!-- liste der Kostearten. Columnheader -->
+                        <div x-show="expanded" class="">
+                            @if ($showEditFields)
+                                <div class="h-10 flex flex-row items-center justify-start font-normal m-1 text-lg ">
+                                <div class="basis-1/3 py-1">
+                                    <div class="flex justify-start px-2 relative items-center border-b border-gray-400 ">
+                                        <div class="text-sm absolute bottom-0 text-center">
+                                            <span class="">Kostenposition</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="basis-2/3 py-1 ">
-                                <div class="flex px-2 justify-around gap-2 border-b border-gray-400 ">
-                                    <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center ">
-                                        <div class="{{ $dateInputMode ? 'block' : 'hidden' }} text-sm absolute bottom-0 text-center ">
-                                            <span class="">Datum</span>
+                                <div class="basis-2/3 py-1 ">
+                                    <div class="flex px-2 justify-around gap-2 border-b border-gray-400 ">
+                                        <div class="flex justify-around basis-1/6 px-2 relative items-center ">
+                                            <div class="{{ $dateInputMode ? 'block' : 'hidden' }} text-sm absolute bottom-0 text-center ">
+                                                <span class="">Datum</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
-                                        <div class="{{ $this->hasConsumptionByType($cost->costType_id) ? 'block' : 'hidden' }} text-sm absolute bottom-0 text-center">
-                                            Verbrauch 
+                                        <div class="flex justify-around basis-1/6 px-2 relative items-center">
+                                            <div class="{{ $this->hasConsumptionByType($cost->costType_id) ? 'block' : 'hidden' }} text-sm absolute bottom-0 text-center">
+                                                Verbrauch 
+                                            </div>
                                         </div>
-                                    </div>
-                                    @if ($cost->co2Tax)
-                                        <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
-                                            <div class="text-sm absolute bottom-0 text-center">CO2-Abgabe [kg]</div>
+                                        @if ($cost->co2Tax)
+                                            <div class="flex justify-around basis-1/6 px-2 relative items-center">
+                                                <div class="text-sm absolute bottom-0 text-center">CO2-Abgabe [kg]</div>
+                                            </div>
+                                            <div class="flex justify-around basis-1/6 px-2 relative items-center">
+                                                <div class="text-sm absolute bottom-0 text-center">CO2-Kosten</div>
+                                            </div>
+                                        @else
+                                            <div class="flex justify-around basis-1/6 px-2 relative items-center">
+                                            </div>
+                                            <div class="flex justify-around basis-1/6 px-2 relative items-center">
+                                                @if ($this->hasHaushaltsnahByType($cost->costType_id))
+                                                    <div class="text-sm absolute bottom-0 text-center">Haushaltnah</div>
+                                                @endif
+                                            </div>
+                                        @endif
+                                        <div class="flex justify-around basis-1/6 px-2 relative items-center">
+                                            <div class="text-sm absolute bottom-0 text-center">Betrag</div>
                                         </div>
-                                        <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
-                                            <div class="text-sm absolute bottom-0 text-center">CO2-Kosten</div>
+                                        <div class="flex justify-around basis-1/6 px-2 relative items-center">
+                                            <div class="text-sm absolute bottom-0 text-center"></div>
                                         </div>
-                                    @else
-                                        <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
-                                        </div>
-                                        <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
-                                            @if ($this->hasHaushaltsnahByType($cost->costType_id))
-                                                <div class="text-sm absolute bottom-0 text-center">Haushaltnah</div>
-                                            @endif
-                                        </div>
-                                    @endif
-                                    <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
-                                        <div class="text-sm absolute bottom-0 text-center">Betrag</div>
-                                    </div>
-                                    <div class="flex justify-around h-14 basis-1/6 px-2 relative items-center">
-                                        <div class="text-sm absolute bottom-0 text-center"></div>
                                     </div>
                                 </div>
-                            </div>
-                        @endif
-                    </div>
+                                </div>
+                            @endif
+                        </div>
                     </h2>
 
                     <div x-show="expanded" >
@@ -120,7 +127,7 @@
                             
                             <!-- Anfangsbestand -->
                             @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank)
-                            <div class="m-2 flex flex-row items-center justify-start font-normal text-lg h-10 border-b border-gray-400 ">
+                                <div class="m-2 flex flex-row items-center justify-start font-normal text-lg h-10 border-b border-gray-400 ">
                                     <div class="basis-1/3 py-1">
                                         <div class="flex justify-start px-2 items-center ">
                                             <div class="text-lg text-center">
@@ -141,15 +148,15 @@
                                                 </div>
                                             </div>
                                             
-                                            @if ($cost->co2Tax)
+                                            {{--  @if ($cost->co2Tax)--}}
                                                 <div class="flex justify-around basis-1/6 px-2 ">
                                                     <div class=""></div>
                                                 </div>
                                                 <div class="flex justify-around basis-1/6 px-2 ">
                                                     <div class=""></div>
                                                 </div>
-                                            @endif
-                                            <div class="flex justify-around basis-1/6 px-2 ">
+                                            {{-- @endif --}}
+                                            <div class="flex justify-around basis-1/6 px-2 "> 
                                                 <div class="{{ $showEditFields ? 'block' : 'hidden' }}">
                                                     {{$nettoInputMode ? $singleCost->start_value_amount_net_editing : $singleCost->start_value_amount_gros_editing }}
                                                 </div>
@@ -180,7 +187,7 @@
                                 </div>
                                 @if ($showEditFields)
                                     <div class="basis-2/3 py-1">
-                                        <livewire:user.costamount.detail-input :cost='$singleCost' :netto='$nettoInputMode' :inputWithDatum='$dateInputMode' :wire:key="'list-cost-costamountinput-'.$singleCost->id"/>
+                                        <livewire:user.costamount.detail-input :cost='$singleCost' :netto='$nettoInputMode' :inputWithDatum='$dateInputMode' :wire:key="'list-cost-costamountinput-'.$singleCost->id" key="{{ now() }}"/>
                                     </div>
                                 @else
                                     <!-- Kosten-Ansicht -->
@@ -373,14 +380,13 @@
                                                 </div>
                                             </div>
                                             
-                                            @if ($cost->co2Tax)
                                             <div class="flex justify-around basis-1/6 px-2 ">
                                                 <div class=""></div>
                                             </div>
                                             <div class="flex justify-around basis-1/6 px-2 ">
                                                 <div class=""></div>
                                             </div>
-                                            @endif
+                                            
                                             <div class="flex justify-around basis-1/6 px-2 ">
                                                 <div class="">
                                                     

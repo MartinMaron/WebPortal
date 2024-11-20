@@ -21,4 +21,9 @@ class CostKey extends Model
     {
         return $this->belongsTo(Realestate::class);
     }
+    
+    public function Einheit()
+    {
+        return $this->belongsTo(Einheit::class);
+    }
 }

@@ -58,7 +58,7 @@ class Lista extends Component
             'realestate_id' => $this->realestate->id,
             'unvid' => $this->realestate->unvid,
             'budguid' => $this->realestate->nekoId,
-            'nazwa' => '...',
+            'caption' => 'Nowy',
         ]);
     }
 
@@ -90,7 +90,13 @@ class Lista extends Component
     public function raise_EditCostModal(Cost $cost)
     {
         $this->setCurrent($cost);
-        $this->emit('showCostDetailModal', $this->current);
+        $this->emit('showCostDetailModal', $this->current, false);
+    }
+
+    public function raise_AddCostModal(Cost $costTemplate)
+    {
+        $this->setCurrent($costTemplate);
+        $this->emit('showCostDetailModal', $this->current, true);
     }
 
     public function editCostAmountModal(CostAmount $costAmount)

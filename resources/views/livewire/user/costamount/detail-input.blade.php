@@ -61,10 +61,9 @@
                 @if ($errors->first('current.haushaltsnah'))
                 <div class="mt-1 text-red-500 text-sm">{{ $errors->first('current.haushaltsnah') }}</div>
                 @endif
-            </div>           
-        @endif
+            </div> 
+        @else          
         <!-- CO2-Abgabe -->            
-        @if (($cost->co2Tax))
         <div class="basis-1/6" >   
             <input
                 wire:model.lazy="current.coconsupmtion"
@@ -89,10 +88,11 @@
                 inputmode="numeric"  
                 wire:model.lazy= {{ $netto ? 'current.conetto' : 'current.cobrutto' }}
                 style="-moz-appearance: textfield; margin: 0;"
-                class="border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                class="{{ $cost->co2Tax ? 'block' : 'hidden' }} border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
             >
         </div>
         @endif
+        
         <!-- Betrag -->        
         <div class="basis-1/6" >
             <input type="text"    

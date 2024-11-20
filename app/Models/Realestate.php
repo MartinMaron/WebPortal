@@ -50,6 +50,11 @@ class Realestate extends Model
         return $this->hasMany(Cost::class);
     }
 
+    public function costsKeys()
+    {
+        return $this->hasMany(CostKey::class);
+    }
+
     public function realestateAbrechnungssetting()
     {
         return $this->hasMany(RealestateAbrechnungssetting::class);
