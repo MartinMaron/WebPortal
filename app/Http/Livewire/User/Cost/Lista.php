@@ -30,7 +30,8 @@ class Lista extends Component
 
     public Cost $current;
     public Realestate $realestate;
-    public bool $showDeleteCostAmountModal = false ;
+    public bool $showDeleteCostAmountModal = false;
+    public bool $hasManyBrennstoffkosten = false;
 
 
     public function rules()
@@ -49,6 +50,10 @@ class Lista extends Component
         $this->current = $this->makeBlankObject();
         $this->nettoInputMode = $realestate->eingabeCostNetto;
         $this->dateInputMode = $realestate->eingabeCostDatum;
+        $this->hasManyBrennstoffkosten = (bool)(Cost::where('realestate_id','=',$this->realestate->id)
+                                        ->where(function (Builder $query) {$query->IsHeizkosten();})
+                                        ->where('costType_id','=','BRK')
+                                        ->count() > 1);
     }
 
     public function makeBlankObject()
@@ -90,14 +95,21 @@ class Lista extends Component
     public function raise_EditCostModal(Cost $cost)
     {
         $this->setCurrent($cost);
-        $this->emit('showCostDetailModal', $this->current, false);
+        $this->emit('showCostDetailModal', $this->current, false, false);
     }
 
     public function raise_AddCostModal(Cost $costTemplate)
     {
         $this->setCurrent($costTemplate);
-        $this->emit('showCostDetailModal', $this->current, true);
+        $this->emit('showCostDetailModal', $this->current, true, false);
     }
+
+    public function raise_EditCostConsumptionModal(Cost $cost)
+    {
+        $this->setCurrent($cost);
+        $this->emit('showCostDetailModal', $this->current, false, true);
+    }
+
 
     public function editCostAmountModal(CostAmount $costAmount)
     {
@@ -115,18 +127,16 @@ class Lista extends Component
         $this->currentCostAmount->delete();
     }
 
-    
-
     public function getCostByType($costTypeId){
         return Cost::where('realestate_id','=',$this->realestate->id)
-        ->where(function (Builder $query) {$query->Visible();})
+        ->where(function (Builder $query) {$query->IsHeizkosten();})
         ->where('costType_id','=',$costTypeId)
         ->get();
     }
 
     public function hasConsumptionByType($costTypeId){
         $ret = Cost::where('realestate_id','=',$this->realestate->id)
-        ->where(function (Builder $query) {$query->Visible();})
+        ->where(function (Builder $query) {$query->IsHeizkosten();})
         ->where('costType_id','=',$costTypeId)
         ->where('consumption','=', 1)
         ->count();
@@ -135,7 +145,7 @@ class Lista extends Component
     }
     public function hasHaushaltsnahByType($costTypeId){
         $ret = Cost::where('realestate_id','=',$this->realestate->id)
-        ->where(function (Builder $query) {$query->Visible();})
+        ->where(function (Builder $query) {$query->IsHeizkosten();})
         ->where('costType_id','=',$costTypeId)
         ->where('haushaltsnah','=', 1)
         ->count();
@@ -146,11 +156,11 @@ class Lista extends Component
     public function render()
     {
         $filtered = Cost::where('realestate_id','=',$this->realestate->id)
-        ->where(function (Builder $query) {$query->Visible();})
+        ->where(function (Builder $query) {$query->IsHeizkosten();})
         ->get()->unique('costType_id')
         ->sortBy('CostTypeSort');
 
-         $filtered->fresh('costAmounts');
+        $filtered->fresh('costAmounts');
 
         return view('livewire.user.cost.lista', [
             'filtered' => $filtered

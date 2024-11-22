@@ -32,7 +32,7 @@
             {{ $error ? 'pb-2 text-red-500' : '' }}
             {{ $labelless ? 'hidden' : '' }}
             sm:{{ $labelDirection }}
-            px-2 block sm:text-sm font-medium leading-5 text-gray-400">
+            px-2 block sm:text-sm font-medium leading-5 text-sky-950">
             <label for="{{ $for }}"
                 class="{{ $alignLabel }}
                        {{ $paddingLabel }}

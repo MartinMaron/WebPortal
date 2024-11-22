@@ -25,7 +25,7 @@ class Cost extends Model
         'prevyearPeriod', 'prevyearQuantity', 'prevyearAmountnet', 'prevyearAmountgros'
     ];
 
-    public function scopeVisible($query)
+    public function scopeIsHeizkosten($query)
     {
         $ret_val = $query
         ->where(function($query)
@@ -35,15 +35,32 @@ class Cost extends Model
             ->orWhere('costType_id', 'KWK')
             ->orWhere('costType_id', 'KWA')
             ->orWhere('costType_id', 'ZKW')
-            ->orWhere('costType_id', 'BEK')
+            ->orWhere('costType_id', 'DIR')
+            ->orWhere('costType_id', 'BEH')
+            ->orWhere('costType_id', 'ZWA')
             ->orWhere('costType_id', 'ZUK');
         });
         return $ret_val;
     }
 
+    public function scopeIsBetriebskosten($query)
+    {
+        $ret_val = $query
+        ->where(function($query)
+        {
+            $query->where('costType_id', 'BEK')
+            ->orWhere('costType_id', 'BEE');
+        });
+        return $ret_val;
+    }
+
+
     protected $appends = [
                             'cost_type_sort',
                             'consumptionsum',
+                            'coconsumptionsum',
+                            'cobruttosum',
+                            'conettosum',
                             'brutto',
                             'netto',
                             'gros',
@@ -106,36 +123,23 @@ class Cost extends Model
     public function getConsumptionsumAttribute(){
         return number_format($this->costAmounts->sum('consumption'), 1, ',', '.');
     }
+    public function getCoconsumptionsumAttribute(){
+        return number_format($this->costAmounts->sum('co2TaxValue'), 1, ',', '.');
+    }
+    public function getCobruttosumAttribute(){
+        return number_format($this->costAmounts->sum('co2TaxAmount_gros'), 1, ',', '.');
+    }
+    public function getConettosumAttribute(){
+        return number_format($this->costAmounts->sum('co2TaxAmount_net'), 1, ',', '.');
+    }
+
 
     public function getCostTypeSortAttribute()
     {
-        $ret_val = 0;
-
-        switch ($this->costType_id) {
-            case 'BRK':
-                $ret_val = 1;
-                break;
-            case 'HNK':
-                $ret_val = 2;
-                break;
-            case 'ZUK':
-                $ret_val = 3;
-                break;
-            case 'ZKW':
-                $ret_val = 4;
-                break;
-            case 'KWK':
-                $ret_val = 5;
-                break;
-            case 'KWA':
-                $ret_val = 6;
-                break;
-            case 'BEK':
-                $ret_val = 7;
-                    break;
+        if ($this->costType != null) {
+            return $this->costType->sort;
         }
-
-        return $ret_val ;
+        return 10000;
     }
     public function getGrosAttribute(){
         return $this->costAmounts->sum('grosAmount');

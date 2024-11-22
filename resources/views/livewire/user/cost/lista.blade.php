@@ -70,7 +70,7 @@
                         
                         <!-- liste der Kostearten. Columnheader -->
                         <div x-show="expanded" class="">
-                            @if ($showEditFields)
+                            @if ($showEditFields || $cost->costType_id =='BRK')
                                 <div class="h-10 flex flex-row items-center justify-start font-normal m-1 text-lg ">
                                 <div class="basis-1/3 py-1">
                                     <div class="flex justify-start px-2 relative items-center border-b border-gray-400 ">
@@ -107,11 +107,11 @@
                                                 @endif
                                             </div>
                                         @endif
-                                        <div class="flex justify-around basis-1/6 px-2 relative items-center">
-                                            <div class="text-sm absolute bottom-0 text-center">Betrag</div>
+                                        <div class="flex {{ $showEditFields ? 'block' : 'hidden'}} justify-around basis-1/6 px-2 relative items-center">
+                                            <div class="{{ $showEditFields ? 'block' : 'hidden'}} text-sm absolute bottom-0 text-center">Betrag</div>
                                         </div>
                                         <div class="flex justify-around basis-1/6 px-2 relative items-center">
-                                            <div class="text-sm absolute bottom-0 text-center"></div>
+                                            <div class="{{ $showEditFields ? 'hidden' : 'block'}} text-sm absolute bottom-0 text-center">Betrag</div>
                                         </div>
                                     </div>
                                 </div>
@@ -120,11 +120,11 @@
                         </div>
                     </h2>
 
-                    <div x-show="expanded" >
+                    <div x-show="expanded"  >
                         <!-- Kostenart -->
                         @forelse ($this->getCostByType($cost->costType_id) as $singleCost)
                             <!-- Kosten-Eingabe Bereich -->
-                            
+                            <div class="{{ $this->hasManyBrennstoffkosten && $singleCost->CostType->type_id=='BRK' ? 'border-2 border-sky-700 rounded-md m-2': ''}}">
                             <!-- Anfangsbestand -->
                             @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank)
                                 <div class="m-2 flex flex-row items-center justify-start font-normal text-lg h-10 border-b border-gray-400 ">
@@ -156,8 +156,8 @@
                                                     <div class=""></div>
                                                 </div>
                                             {{-- @endif --}}
-                                            <div class="flex justify-around basis-1/6 px-2 "> 
-                                                <div class="{{ $showEditFields ? 'block' : 'hidden' }}">
+                                            <div class="flex {{ $showEditFields ? 'block' : 'hidden' }} justify-around basis-1/6 px-2 "> 
+                                                <div class="">
                                                     {{$nettoInputMode ? $singleCost->start_value_amount_net_editing : $singleCost->start_value_amount_gros_editing }}
                                                 </div>
                                             </div>
@@ -175,8 +175,8 @@
                             <div class="flex flex-row {{ $singleCost->costAmounts->count() > 0 && $showEditFields ? 'border-b-2' : 'border-b-0' }} items-center justify-start font-normal m-2 text-lg ">
                                 <div class="basis-1/3 py-1 ">
                                     <button wire:click="raise_EditCostModal({{ $singleCost }})"
-                                            class="flex rounded-md hover:bg-sky-300 hover:px-2 items-center justify-start ">
-                                        <div class="mx-2 text-lg">
+                                            class="flex rounded-md hover:bg-sky-300 px-2 items-center justify-start ">
+                                        <div class="text-lg">
                                             @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank && $showEditFields)
                                                 {{ $singleCost->caption. ' '. 'Eingabe' }}
                                             @else
@@ -191,34 +191,46 @@
                                     </div>
                                 @else
                                     <!-- Kosten-Ansicht -->
-                                    <div class="flex basis-2/3 text-center text-lg items-center px-2 ustify-around gap-2 bg-sky-200 p-1 rounded-lg">
+                                    <div class="flex basis-2/3 text-center text-lg items-center px-2 justify-around gap-2 bg-sky-200 p-1 rounded-lg">
                                         <div class="basis-1/6">
                                         </div>    
-                                        <div class="basis-1/6 text-right text-lg py-1 px-6">
+                                        <div class="basis-1/6 text-center text-lg py-1 px-6">
                                             @if ($singleCost->consumption)
-                                                {{ $singleCost->Consumptionsum. ' '. $singleCost->fuelTypeUnitName }}
+                                                {{ $singleCost->consumptionsum. ' '. $singleCost->fuelTypeUnitName }}
                                             @endif
                                         </div>
-                                        <div class="basis-1/6 text-right text-lg py-1 px-6">
+                                        <div class="basis-1/6 text-center text-lg py-1 px-6">
+                                            @if ($singleCost->co2Tax)
+                                                <div>
+                                                    {{ $singleCost->coconsumptionsum }}
+                                                </div>
+                                            @endif
                                         </div>  
-                                        <div class="basis-1/6 text-right text-lg py-1 px-6">
+                                        <div class="basis-1/6 text-center text-lg py-1 px-6">
+                                            @if ($singleCost->co2Tax)
+                                                <div>
+                                                    @if ($singleCost->nettoInputMode)
+                                                        {{ $singleCost->conettosum }}
+                                                    @else
+                                                        {{ $singleCost->cobruttosum }}
+                                                    @endif
+                                                </div>
+                                            @endif
                                         </div>
-                                        <div class="basis-1/6 text-right text-lg py-1 px-6 ">
+                                        <div class="{{ $showEditFields ? 'block' : 'hidden' }} basis-1/6 text-right text-lg py-1 px-6 ">
                                         </div>
-                                        <div class="basis-1/6 text-right text-lg py-1 px-6">
+                                        <div class="basis-1/6 text-center text-lg py-1 px-6">
                                             @if ($singleCost->nettoInputMode)
-                                            {{ $singleCost->Netto }}
+                                            {{ $singleCost->netto }}
                                         @else
-                                            {{ $singleCost->Brutto }}
+                                            {{ $singleCost->brutto }}
                                         @endif
                                         </div>
                                     </div>
                                 @endif
                             </div>
 
-
                             @if ($showEditFields)
-
                                 <!-- Liste der einzelBeträge -->
                                 <div class=" {{ $singleCost->costAmounts->count() > 0  ? 'block bg-white' : 'invisible' }} items-center justify-start font-normal m-2 text-lg ">
                                     @foreach ($singleCost->costAmounts as $singleCostAmount)
@@ -359,47 +371,62 @@
 
                             <!-- Endstand -->
                             @if ($singleCost->fuelType_id !=null && $singleCost->fuelType->hasTank)
-                            <div class="m-2 flex flex-row items-center justify-start font-normal text-lg h-10 ">
-                                    <div class="basis-1/3 py-1">
-                                        <div class="flex justify-start px-2 items-center border-b border-gray-400 ">
-                                            <div class="text-lg text-center">
-                                                <span class="">{{ 'Endbestand '. $singleCost->caption. ' ['. $singleCost->fuelType->einheit->shortname.']'  }}</span>
-                                            </div>
-                                        </div>
+                            <div class="border-b border-gray-400 m-2 gap-2 flex flex-row items-center justify-start font-normal text-lg h-10 ">
+                                    <div class="basis-1/3 py-1 px-2 flex justify-start items-center text-lg text-center">
+                                        <span class="">{{ 'Endbestand '. $singleCost->caption. ' ['. $singleCost->fuelType->einheit->shortname.']'  }}</span>
                                     </div>
                                     <div class="basis-2/3 py-1 ">
-                                        <div class="flex px-2 justify-around gap-2 border-b border-gray-400 text-lg">
-                                            <div class="flex justify-around basis-1/6 px-2 items-center ">
+                                        <div class="flex justify-around gap-2 text-lg">
+                                            <div class="flex justify-around basis-1/6 items-center ">
                                                 <div class="{{ $dateInputMode ? 'block' : 'hidden' }} text-lg text-center ">
                                                     <span class=""></span>
                                                 </div>
                                             </div>
-                                            <div class="flex justify-around basis-1/6 px-2 items-center">
-                                                <div class="{{ $this->hasConsumptionByType($cost->costType_id) ? 'block' : 'hidden' }} text-center line-clamp-1">
-                                                    {{ $singleCost->endValueEditing  }}
+
+                                            <div class="flex justify-around basis-1/6 items-center">
+                                                <div class="{{ $this->hasConsumptionByType($singleCost->costType_id) ? 'block' : 'hidden' }} w-full text-center">
+                                                    @if ($showEditFields)
+                                                        <div 
+                                                            wire:click="raise_EditCostConsumptionModal({{ $singleCost }})"                                         
+                                                            class=" {{ $showEditFields ? 'block' : 'hidden' }} w-full my-1 border flex justify-around {{ $singleCost->endValue <= 0 ? 'bg-red-300 md:text-md hover:bg-red-500 focus:bg-red-500' : 'hover:bg-sky-300' }} focus:ring-indigo-500 p-1 m-0 focus:border-indigo-500 block sm:text-sm border-gray-900 rounded-md"   
+                                                        >
+                                                            <span class="md:text-md "><i class="text-left pr-1 fa-solid fa-pencil"></i></i></span>
+                                                            @if ($singleCost->endValue <= 0)
+                                                                <span class="md:text-md text-right">Eingabe</span>
+                                                            @else
+                                                                <span class="md:text-md text-right">{{ $singleCost->end_value_editing }}</span>
+                                                            @endif
+                                                        </div>
+                                                    @else
+                                                        <span class="">{{ $singleCost->end_value_editing }}</span>
+                                                    @endif
                                                 </div>
                                             </div>
-                                            
-                                            <div class="flex justify-around basis-1/6 px-2 ">
-                                                <div class=""></div>
-                                            </div>
-                                            <div class="flex justify-around basis-1/6 px-2 ">
-                                                <div class=""></div>
-                                            </div>
-                                            
-                                            <div class="flex justify-around basis-1/6 px-2 ">
-                                                <div class="">
+
+                                            @if (!$showEditFields && $singleCost->endValue <= 0)
+                                                <div class="flex justify-end basis-4/6 items-end text-right text-red-800">
+                                                    noch kein Endstand eingegeben
+                                                </div>
+                                            @else
+                                                <div class="flex justify-around basis-1/6 items-center ">
                                                     
                                                 </div>
-                                            </div>
-                                            <div class="flex justify-around basis-1/6 px-2 relative items-center">
-                                                <div class="text-lg absolute bottom-0 text-center"></div>
-                                            </div>
+                                                <div class="flex justify-around basis-1/6 items-center ">
+                                                    
+                                                </div>
+                                                <div class="flex {{ $showEditFields ? 'block' : 'hidden' }} justify-around basis-1/6 px-2 items-center ">
+                                                    
+                                                </div>
+                                                <div class="flex justify-around basis-1/6 items-center ">
+                                                    
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             @endif
-                            @empty
+                        </div> 
+                        @empty
                             <div class="flex justify-center items-center space-x-2 bg-sky-100">
                                 <span class="font-medium py-8 text-cool-gray-400 text-xl">nichts gefunden...</span>
                             </div>
@@ -417,7 +444,7 @@
     <div class="xs:max-w-xs xs:w-xs">
         <!-- Save Cost Modal -->
         <div>
-            <livewire:user.cost.detail :cost='$current' :netAmountInput='$nettoInputMode' :wire:key="'modal-realestate-cost-detail'"/>
+            <livewire:user.cost.detail :cost='$current' :netAmountInput='$nettoInputMode' :costInvoicingType="'HZ'" :wire:key="'modal-realestate-cost-detail'"/>
         </div>
         <div>
             <livewire:user.costamount.detail :wire:key="'modal-realestate-costamount-detail'"/>

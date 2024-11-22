@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('costInvoicingType_id');
             $table->foreign('costInvoicingType_id')->references('type_id')->on('cost_invoicing_types');
             $table->string('caption');
+            $table->integer('sort');
             $table->timestamps();
         });
     }

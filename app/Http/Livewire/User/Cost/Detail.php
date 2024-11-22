@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\CostType;
 use App\Models\FuelType;
 use Usernotnull\Toast\Concerns\WireToast;
+use Illuminate\Database\Eloquent\Builder;
 
 
 
@@ -18,18 +19,17 @@ class Detail extends Component
     public $fuelTypes = null;
     public $costKeys = null;
     public bool $netAmountInput = false;
-   
+    public bool $onlyConsumptionEdit = false;
+
     /* initialization */
-    public function mount(Cost $cost, bool $netAmountInput)
+    public function mount(Cost $cost, bool $netAmountInput, string $costInvoicingType)
     {
         $this->cost = $cost;
-        $this->costTypes = CostType::all();
+        $this->costTypes = CostType::where('costInvoicingType_id','=', $costInvoicingType)->get()->sortBy('sort');
         $this->fuelTypes = FuelType::all();
         $this->costKeys = $cost->realestate->costsKeys;
         $this->netAmountInput = $netAmountInput;
     }
-
-
 
     protected $listeners = [
         'showCostDetailModal' => 'showModal',
@@ -55,33 +55,38 @@ class Detail extends Component
             'cost.prevyearPeriod' => 'nullable',
             'cost.prevyearAmountnet' => 'nullable',
             'cost.prevyearAmountgros' => 'nullable', 
+            'cost.nekoId' => 'required', 
+            'cost.realestate_id' => 'required', 
         ];
     }
 
     public function makeBlankObject(Cost $cost)
     {
         return Cost::make([
-            'nekoId' => "new",
+            'nekoId' => 0,
             'realestate_id' => $cost->realestate->id,
-            'unvid' => $cost->realestate->unvid,
-            'budguid' => $cost->realestate->nekoId,
-            'caption' => 'Nowy',
+            'costType_id' => $cost->costType->type_id,
+            'consumption' => false
         ]);
     }
 
-    public function showModal (Cost $cost, $add){
+    public function showModal (Cost $cost, $add, $onlyConsumptionEdit){
         if ($add) {
             $this->cost = $this->makeBlankObject($cost);
         } else {
             $this->cost = $cost;
         }
+        $this->onlyConsumptionEdit = $onlyConsumptionEdit;
         $this->showEditModal = true;
     }
 
     public function closeModal($save){
         if ($save){
-            $this->validate();
             $this->cost->co2Tax = $this->cost->can_co2;
+            if ($this->cost->cost_type != null && $this->cost->cost_type == 'BRK') {
+                $this->cost->consumption = true;
+            }
+            $this->validate();
             $this->cost->save();
             $this->showEditModal = false;
             $this->emit('refreshComponents');         
