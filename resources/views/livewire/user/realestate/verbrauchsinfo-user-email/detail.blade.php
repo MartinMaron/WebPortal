@@ -14,28 +14,6 @@
         <!-- Dialog Content -->
         <x-slot name="content">
             <div>
-                <x-input.group class="pb-2 border-0"
-                    :error="$errors->first('userEmail.seit')"
-                    for="verbrauchsinfoUserEmail-detailmodal-date_from_editing" label="seit" hoheLabel="h-6 sm:h-8 sm:pt-1 sm:pb-2" hohe="h-20 sm:h-10">
-                    <x-input.date
-                        wire:model.lazy="userEmail.seit"
-                        hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                        id="verbrauchsinfoUserEmail-detailmodal-date_from_editing"
-                        class="bg-sky-50 sm:h-8"
-                    >
-                    </x-input.date>
-                </x-input.group>
-                <x-input.group class="border-0"
-                    for="costAmount-detailModal-dateTo" label="bis" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                    :error="$errors->first('userEmail.bis')">
-                    <x-input.date
-                        wire:model.lazy="userEmail.bis"
-                        hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                        id="verbrauchsinfoUserEmail-detailmodal-dateTo"
-                        class="bg-sky-50 sm:h-8"
-                    >
-                    </x-input.date>
-                </x-input.group>
                 <x-input.group
                     class="border-0" for="userEmail.firstinitUsername" label="Username für Webaccount" :error="$errors->first('userEmail.firstinitUsername')"
                     hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10">

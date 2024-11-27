@@ -35,11 +35,8 @@ class Detail extends Component
         return [
             'userEmail.email' => 'required|string|email|max:255',
             'userEmail.firstinitUsername' => 'nullable',
-            'userEmail.bis' => 'nullable|date',
-            'userEmail.seit' => 'required|date',
             'userEmail.nutzeinheitNo' => 'required',
             'userEmail.realestate_id' => 'required',
-            'userEmail.webupdate' => 'nullable',
         ];
     }
 
@@ -65,8 +62,6 @@ class Detail extends Component
                     VerbrauchsinfoUserEmail::updateOrcreate(
                             ['id' => $this->userEmail['id']],
                             ['email' => $this->userEmail['email'],
-                            'seit' => $this->userEmail['seit'],
-                            'bis' => $this->userEmail['bis'],
                             'firstinitUsername' => $this->userEmail['firstinitUsername'],
                             ]
                             );

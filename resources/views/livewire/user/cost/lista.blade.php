@@ -1,5 +1,3 @@
-
-
 <div>
     <!-- Main -->
     <div class="max-w-7xl w-full mx-auto sm:px-6 lg:px-8">
@@ -408,18 +406,10 @@
                                                     noch kein Endstand eingegeben
                                                 </div>
                                             @else
-                                                <div class="flex justify-around basis-1/6 items-center ">
-                                                    
-                                                </div>
-                                                <div class="flex justify-around basis-1/6 items-center ">
-                                                    
-                                                </div>
-                                                <div class="flex {{ $showEditFields ? 'block' : 'hidden' }} justify-around basis-1/6 px-2 items-center ">
-                                                    
-                                                </div>
-                                                <div class="flex justify-around basis-1/6 items-center ">
-                                                    
-                                                </div>
+                                                <div class="flex justify-around basis-1/6 items-center "></div>
+                                                <div class="flex justify-around basis-1/6 items-center "></div>
+                                                <div class="flex {{ $showEditFields ? 'block' : 'hidden' }} justify-around basis-1/6 px-2 items-center "></div>
+                                                <div class="flex justify-around basis-1/6 items-center "></div>
                                             @endif
                                         </div>
                                     </div>

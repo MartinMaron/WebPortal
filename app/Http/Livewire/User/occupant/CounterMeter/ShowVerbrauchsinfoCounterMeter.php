@@ -20,9 +20,12 @@ class ShowVerbrauchsinfoCounterMeter extends Component
     protected $listeners = ['SortByNr' => 'sortByNr'];
     public Occupant $occupant;
     public VerbrauchsinfoCounterMeter $counterMeters;
-    public $filter;
     public String $jahr_monat;
-    use WithSorting;
+    public $filter = [
+        'search' => null,
+    ];
+
+
 
     /* initialization */
     public function mount(Occupant $occupant, String $jahr_monat)
@@ -47,10 +50,6 @@ class ShowVerbrauchsinfoCounterMeter extends Component
         ->where(function (Builder $query) {$query->scopeNrFunknrEquals();});
     }
 
-    public function resetFilters()
-    {
-        $this->reset('filter');
-    }
 
     public function getRowsQueryProperty()
     {
@@ -65,11 +64,11 @@ class ShowVerbrauchsinfoCounterMeter extends Component
         $result = $this->occupant->counterMeters
         ->where('jahr_monat', $q)->toquery();
 
-        if ($this->filter) {
+        if ($this->filter['search']) {
             $result = $result
                 ->where(function (Builder $query) {
-                    $query->where('nr', 'LIKE', '%' . $this->filter . '%')
-                        ->orWhere('funkNr', 'LIKE', '%' . $this->filter . '%');
+                    $query->where('nr', 'LIKE', '%'. $this->filter['search'].'%')
+                        ->orWhere('funkNr', 'LIKE', '%'. $this->filter['search'].'%');
                 });
         };
 

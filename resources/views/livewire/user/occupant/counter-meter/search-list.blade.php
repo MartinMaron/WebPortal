@@ -26,7 +26,9 @@
     <div class="">
         <livewire:user.occupant.occupant-header :occupant='$occupant'/>
     </div>
-    <x-input.search wire:model.debounce.2000="filter"/>
+    <div class="flex">
+        <x-input.search wire:model.debounce.600ms="filter.search"></x-input.search>
+    </div>
 
     @if ($nutzergruppen->count()!=0)
     <div class="pb-4 mt-16">

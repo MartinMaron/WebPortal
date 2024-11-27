@@ -231,11 +231,12 @@ class Occupant extends Model
     {
         return $this->hasMany(VerbrauchsinfoUserEmail::class);
     }
+    
     public function users()
     {
         return $this->hasMany(User::class);
     }
 
-
+    
 
 }

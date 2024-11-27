@@ -66,7 +66,7 @@
                                 <x-input.group
                                 class="my-1" errorDirection="text-left"
                                 labelless="true" paddingLabel="" borderless="true" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                                for="dateFrom" label="Zeitraum" :error="$errors->first('dateFromNewOccupant')"
+                                for="dateFrom" label="Zeitraum"
                                 >
                                     <div class="flex items-end justify-between h-10 sm:h-8">
                                         <x-input.date class="w-28"
@@ -99,7 +99,9 @@
                                     <x-input.date
                                         wire:model.lazy="current.date_from_editing"
                                         type="text"
-                                        id="dialog.dateFrom" >
+                                        id="dialog.dateFrom"
+                                        disabled="{{$current->nekoId !='new'}}"
+                                        >
                                     </x-input.date>
                                     <div class="sm:mt-3 sm:pt-1">
                                         <span class="">
@@ -109,7 +111,10 @@
                                     <x-input.date
                                         wire:model.lazy="current.date_to_editing"
                                         type="text"
-                                        id="dialog.dateTo">
+                                        id="dialog.dateTo"
+                                        placeholder='offen'
+                                        disabled
+                                        >
                                     </x-input.date>
                                 </div>
                             </x-input.group>
