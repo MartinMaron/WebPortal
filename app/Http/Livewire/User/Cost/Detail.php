@@ -5,6 +5,7 @@ use App\Models\Cost;
 use Livewire\Component;
 use App\Models\CostType;
 use App\Models\FuelType;
+use App\Models\Realestate;
 use Usernotnull\Toast\Concerns\WireToast;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -25,15 +26,17 @@ class Detail extends Component
     public function mount(Cost $cost, bool $netAmountInput, string $costInvoicingType)
     {
         $this->cost = $cost;
-        $this->costTypes = CostType::where('costInvoicingType_id','=', $costInvoicingType)->get()->sortBy('sort');
         $this->fuelTypes = FuelType::all();
         $this->costKeys = $cost->realestate->costsKeys;
+        $this->costTypes = CostType::all();
         $this->netAmountInput = $netAmountInput;
     }
 
     protected $listeners = [
         'showCostDetailModal' => 'showModal',
         'closeCostDetailModal' => 'closeModal',
+        'showBetriebskostenCostDetailModal'=> 'showModalBetriebskosten',
+        'addBetriebskostenCostDetailModal'=> 'addModalBetriebskosten',
     ];
  
     public function rules()
@@ -70,13 +73,39 @@ class Detail extends Component
         ]);
     }
 
+    public function makeBlankObjectBetriebskosten(Realestate $realestate)
+    {
+        return Cost::make([
+            'nekoId' => 0,
+            'realestate_id' => $realestate->id,
+            'costType_id' => 'BEK',
+            'consumption' => false,
+            'caption' => 'neue Kostenposition'
+        ]);
+    }
+
     public function showModal (Cost $cost, $add, $onlyConsumptionEdit){
         if ($add) {
             $this->cost = $this->makeBlankObject($cost);
         } else {
             $this->cost = $cost;
         }
+        $this->costTypes = CostType::where('costInvoicingType_id','=', 'HZ')->get()->sortBy('sort');
         $this->onlyConsumptionEdit = $onlyConsumptionEdit;
+        $this->showEditModal = true;
+    }
+
+    public function showModalBetriebskosten (Cost $cost){
+        $this->cost = $cost;
+        $this->costTypes = CostType::where('costInvoicingType_id','=', 'BE')->get()->sortBy('sort');
+        $this->onlyConsumptionEdit = false;
+        $this->showEditModal = true;
+    }
+
+    public function addModalBetriebskosten (Realestate $realestate){
+        $this->cost = $this->makeBlankObjectBetriebskosten($realestate);
+        $this->costTypes = CostType::where('costInvoicingType_id','=', 'BE')->get()->sortBy('sort');
+        $this->onlyConsumptionEdit = false;
         $this->showEditModal = true;
     }
 

@@ -5,6 +5,7 @@ namespace App\Models;
 use Exception;
 use Carbon\Carbon;
 use Barryvdh\Debugbar\Facades\Debugbar;
+use App\Http\Traits\Helpers;
 use App\Events\CostUpdated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
@@ -15,6 +16,7 @@ class Cost extends Model
 {
     use HasFactory;
     use WireToast;
+    use Helpers;
 
     protected $fillable = [
         'realestate_id', 'nekoId', 'caption', 'description', 'costType_id',
@@ -74,7 +76,9 @@ class Cost extends Model
                             'prevyear_amountnet_view',
                             'prevyear_amountgros_view',
                             'need_allocation_key',
-                            'can_co2'
+                            'can_co2',
+                            'allocation_key',
+                            'haushaltsnah_sum'
                         ];
 
     protected $casts = ['consumptionsum' => 'decimal:1',
@@ -104,6 +108,9 @@ class Cost extends Model
     }
 
 
+   
+    
+
     public function getPrevyearQuantityViewAttribute(){
         return number_format($this->prevyearQuantity, 2, ',', '.');
     }
@@ -119,6 +126,9 @@ class Cost extends Model
     }
     public function getBruttoAttribute(){
         return number_format($this->costAmounts->sum('grosAmount'), 2, ',', '.');
+    }
+    public function getHaushaltsnahSumAttribute(){
+        return number_format($this->costAmounts->sum('grosAmount_HH'), 2, ',', '.');
     }
     public function getConsumptionsumAttribute(){
         return number_format($this->costAmounts->sum('consumption'), 1, ',', '.');
@@ -175,7 +185,6 @@ class Cost extends Model
 
     public function getStartValueAmountGrosEditingAttribute(){
         if ($this->startValueAmountGros <> 0){
-            Debugbar::info("startBetrag: ". $this->startValueAmountGros);
             return number_format($this->startValueAmountGros, 2, ',', '.');
         }else{
             return '';
@@ -199,6 +208,11 @@ class Cost extends Model
         return CostType::where('type_id', $this->costType_id)->first();
     }
 
+    public function getAllocationKeyAttribute()
+    {
+        return CostKey::where('id', $this->allocationKey_id)->first();
+    }
+
     public function getFuelTypeAttribute()
     {
         return FuelType::where('type_id', $this->fuelType_id)->first();
@@ -214,9 +228,9 @@ class Cost extends Model
         return $this->hasMany(CostAmount::class);
     }
 
-    public function costKeys()
+    public function allocationKey()
     {
-        return $this->hasMany(CostKey::class);
+        return $this->belongsTo(CostKey::class);
     }
 
     public function costType()
@@ -229,15 +243,15 @@ class Cost extends Model
         return $this->belongsTo(FuelType::class);
     }
 
-    public function castStringToDouble($value){
-         if($value){     
-             $tvalue = str_replace('.','@', $value);
-             $tvalue = str_replace(',','.', $tvalue);
-             $tvalue = str_replace('@','', $tvalue);
-             return floatval($tvalue);
-         }
-         return null;
-    }
+    // public function castStringToDouble($value){
+    //      if($value){     
+    //          $tvalue = str_replace('.','@', $value);
+    //          $tvalue = str_replace(',','.', $tvalue);
+    //          $tvalue = str_replace('@','', $tvalue);
+    //          return floatval($tvalue);
+    //      }
+    //      return null;
+    // }
 
 
     protected $dispatchesEvents = [

@@ -5,7 +5,7 @@
         <x-slot name="title">
             <div class="flex">
                 @if ($cost)
-                    <div class="text-lg font-bold text-sky-500">{{ $cost->nazwa }}</div> <x-icon.fonts.pen-line class="text-sky-500 pl-10 h-6 mt-1" ></x-icon.fonts.pen-line>
+                    <div class="text-lg font-bold text-sky-500">{{ $cost->caption }}</div> <x-icon.fonts.pen-line class="text-sky-500 pl-10 h-6 mt-1" ></x-icon.fonts.pen-line>
                 @else
                     <div class="text-lg font-bold text-sky-500">Neu</div> <x-icon.fonts.pen-line class="text-sky-500 pl-10 h-6 mt-1" ></x-icon.fonts.pen-line>
                 @endif

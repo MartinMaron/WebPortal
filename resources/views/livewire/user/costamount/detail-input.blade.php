@@ -8,112 +8,189 @@
             </span>
         </div>
     @endif
-    <div x-data = "
-                    {
-                        focusAndSelectNekoElementById(id) 
-                        { 
-                            document.getElementById(id).focus()
-                            document.getElementById(id).select()
+    <div class="{{ $cost->cost_type->costInvoicingType_id == 'HZ' ? 'block' : 'hidden' }}">
+        <div x-data = "
+                        {
+                            focusAndSelectNekoElementById(id) 
+                            { 
+                                document.getElementById(id).focus()
+                                document.getElementById(id).select()
+                            }
                         }
-                    }
-                "
-        class="flex items-center px-2 ustify-around gap-2 bg-sky-200 p-1 rounded-lg">
-        
-        <!-- Datum -->            
-        <div class="basis-1/6" >   
-            <x-input.date
-                wire:model.lazy="current.datum"
-                id="user-costamount-detailinput-datum{{ $cost->id }}"
-                @keyup.down="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-datum'. $cost->id + 1 }}')"
-                @keyup.up="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-datum'. $cost->id -1 }}')"
-                type="text"
-                :error="$errors->first('current.datum')"
-                class="{{ $inputWithDate || ($cost->fuelType_id !=null && $cost->fuelType->hasTank) ? 'block' : 'hidden' }} 
-                            bg-white text-center md:text-lg border 
-                            {{ $errors->first('current.datum') ? 'bg-red-50 focus:border-red-900 border-red-900' : 'focus:border-indigo-500 border-gray-300' }}"
-                >
-            </x-input.date>
-        </div>
-        <!-- Verbrauch -->        
-        <div class="basis-1/6" >
-            <input type="text"  
-                id="user-costamount-detailinput-consumption{{ $cost->id }}"
-                inputmode="numeric"  
-                placeholder="0"
-                wire:model.lazy="current.consumption_editing"
-                style="-moz-appearance: textfield; margin: 0;"
-                class="border {{ $cost->consumption ? 'block' : 'hidden' }} text-center {{ $errors->first('current.consumption') ? 'bg-red-50 focus:border-red-900 border-red-900' : 'focus:border-indigo-500 border-gray-300' }} md:text-md focus:ring-black p-1 px-2 m-0  w-full sm:text-sm  rounded-md"   
-            >
-        </div>
-        <!-- haushaltsnah -->      
-        @if (!($cost->costType_id == 'BRK'))
-            <div class="basis-1/6">
-            </div> 
+                    "
+            class="flex items-center px-2 ustify-around gap-2 bg-sky-200 p-1 rounded-lg">
+            
+            <div class="">
+                
+            </div>
+            <!-- Datum -->            
+            <div class="basis-1/6" >   
+                <x-input.date
+                    wire:model.lazy="current.datum"
+                    id="user-costamount-detailinput-datum{{ $cost->id }}"
+                    @keyup.down="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-datum'. $cost->id + 1 }}')"
+                    @keyup.up="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-datum'. $cost->id -1 }}')"
+                    type="text"
+                    :error="$errors->first('current.datum')"
+                    class="{{ $inputWithDate || ($cost->fuelType_id !=null && $cost->fuelType->hasTank) ? 'block' : 'hidden' }} 
+                                bg-white text-center md:text-lg border 
+                                {{ $errors->first('current.datum') ? 'bg-red-50 focus:border-red-900 border-red-900' : 'focus:border-indigo-500 border-gray-300' }}"
+                    >
+                </x-input.date>
+            </div>
+            <!-- Verbrauch -->        
             <div class="basis-1/6" >
                 <input type="text"  
-                id="user-costamount-detailinput-haushaltsnah{{ $cost->id }}"
-                inputmode="numeric"  
-                placeholder="1"
-                wire:model.lazy="current.haushaltsnah"
-                style="-moz-appearance: textfield; margin: 0;"
-                class="{{ $cost->haushaltsnah ? 'block' : 'hidden' }} border text-right md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
-                > 
-                @if ($errors->first('current.haushaltsnah'))
-                <div class="mt-1 text-red-500 text-sm">{{ $errors->first('current.haushaltsnah') }}</div>
-                @endif
-            </div> 
-        @else          
-        <!-- CO2-Abgabe -->            
-        <div class="basis-1/6" >   
-            <input
-                wire:model.lazy="current.coconsupmtion"
-                id="user-costamount-detailinput-coconsupmtion{{ $cost->id }}"
-                @keyup.down="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-coconsupmtion'. $cost->id + 1 }}')"
-                @keyup.up="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-coconsupmtion'. $cost->id -1 }}')"
-                type="text"
-                inputmode="numeric" 
-                style="-moz-appearance: textfield; margin: 0;"
-                :error="$errors->first('current.coconsupmtion')"
-                class="{{ $cost->co2Tax ? 'block' : 'hidden' }} bg-white border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                    id="user-costamount-detailinput-consumption{{ $cost->id }}"
+                    inputmode="numeric"  
+                    placeholder="0"
+                    wire:model.lazy="current.consumption_editing"
+                    style="-moz-appearance: textfield; margin: 0;"
+                    class="border {{ $cost->consumption ? 'block' : 'hidden' }} text-center {{ $errors->first('current.consumption') ? 'bg-red-50 focus:border-red-900 border-red-900' : 'focus:border-indigo-500 border-gray-300' }} md:text-md focus:ring-black p-1 px-2 m-0  w-full sm:text-sm  rounded-md"   
                 >
+            </div>
+            <!-- haushaltsnah -->      
+            @if (!($cost->costType_id == 'BRK'))
+                <div class="basis-1/6">
+                </div> 
+                <div class="basis-1/6" >
+                    <input type="text"  
+                    id="user-costamount-detailinput-haushaltsnah{{ $cost->id }}"
+                    inputmode="numeric"  
+                    placeholder="1"
+                    wire:model.lazy="current.haushaltsnah"
+                    style="-moz-appearance: textfield; margin: 0;"
+                    class="{{ $cost->haushaltsnah ? 'block' : 'hidden' }} border text-right md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                    > 
+                    @if ($errors->first('current.haushaltsnah'))
+                    <div class="mt-1 text-red-500 text-sm">{{ $errors->first('current.haushaltsnah') }}</div>
+                    @endif
+                </div> 
+            @else          
+            <!-- CO2-Abgabe -->            
+            <div class="basis-1/6" >   
+                <input
+                    wire:model.lazy="current.coconsupmtion"
+                    id="user-costamount-detailinput-coconsupmtion{{ $cost->id }}"
+                    @keyup.down="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-coconsupmtion'. $cost->id + 1 }}')"
+                    @keyup.up="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-coconsupmtion'. $cost->id -1 }}')"
+                    type="text"
+                    inputmode="numeric" 
+                    style="-moz-appearance: textfield; margin: 0;"
+                    :error="$errors->first('current.coconsupmtion')"
+                    class="{{ $cost->co2Tax ? 'block' : 'hidden' }} bg-white border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                    >
+            </div>
+            <!-- CO2 Betrag -->        
+            <div class="basis-1/6" >
+                <input type="text"    
+                    id="user-costamount-detailinput-co2betrag{{ $cost->id }}"
+                    @keyup.down="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-co2betrag'. $cost->id + 1 }}')"
+                    @keyup.up="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-co2betrag'. $cost->id -1 }}')"
+                    @keyup.enter="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-co2betrag'. $cost->id}}')"
+                    wire:keyup.enter="save"
+                    inputmode="numeric"  
+                    wire:model.lazy= {{ $netto ? 'current.conetto' : 'current.cobrutto' }}
+                    style="-moz-appearance: textfield; margin: 0;"
+                    class="{{ $cost->co2Tax ? 'block' : 'hidden' }} border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                >
+            </div>
+            @endif
+            <!-- Betrag -->        
+            <div class="basis-1/6" >
+                <input type="text"    
+                    id="user-costamount-detailinput-betrag{{ $cost->id }}"
+                    @keyup.down="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-betrag'. $cost->id + 1 }}')"
+                    @keyup.up="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-betrag'. $cost->id -1 }}')"
+                    @keyup.enter="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-betrag'. $cost->id}}')"
+                    wire:keyup.enter="save"
+                    inputmode="numeric"  
+                    wire:model.lazy= {{ $netto ? 'current.netto' : 'current.brutto' }}
+                    style="-moz-appearance: textfield; margin: 0;"
+                    class="border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                >
+            </div>
+            <button 
+                wire:click="save()"                                          
+                x-on:click="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-'. $inputStartField. $cost->id }}')"
+                class="basis-1/6 border text-justify bg-sky-300 md:text-md hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 p-1 px-2 m-0 focus:border-indigo-500 block sm:text-sm border-gray-900 rounded-md"   
+                >
+                <span class="md:text-md "><i class="text-left pr-1 fa-solid fa-layer-plus"></i></i></span>
+                <span class="md:text-md text-right">Einfg</span>
+            </button>
         </div>
-        <!-- CO2 Betrag -->        
-        <div class="basis-1/6" >
-            <input type="text"    
-                id="user-costamount-detailinput-co2betrag{{ $cost->id }}"
-                @keyup.down="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-co2betrag'. $cost->id + 1 }}')"
-                @keyup.up="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-co2betrag'. $cost->id -1 }}')"
-                @keyup.enter="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-co2betrag'. $cost->id}}')"
-                wire:keyup.enter="save"
-                inputmode="numeric"  
-                wire:model.lazy= {{ $netto ? 'current.conetto' : 'current.cobrutto' }}
-                style="-moz-appearance: textfield; margin: 0;"
-                class="{{ $cost->co2Tax ? 'block' : 'hidden' }} border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
-            >
-        </div>
-        @endif
-        
-        <!-- Betrag -->        
-        <div class="basis-1/6" >
-            <input type="text"    
-                id="user-costamount-detailinput-betrag{{ $cost->id }}"
-                @keyup.down="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-betrag'. $cost->id + 1 }}')"
-                @keyup.up="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-betrag'. $cost->id -1 }}')"
-                @keyup.enter="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-betrag'. $cost->id}}')"
-                wire:keyup.enter="save"
-                inputmode="numeric"  
-                wire:model.lazy= {{ $netto ? 'current.netto' : 'current.brutto' }}
-                style="-moz-appearance: textfield; margin: 0;"
-                class="border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
-            >
-        </div>
-        <button 
-            wire:click="save()"                                          
-            x-on:click="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-'. $inputStartField. $cost->id }}')"
-            class="basis-1/6 border text-justify bg-sky-300 md:text-md hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 p-1 px-2 m-0 focus:border-indigo-500 block sm:text-sm border-gray-900 rounded-md"   
+    </div>
+    <div class="{{ $cost->cost_type->costInvoicingType_id == 'BE' ? 'block' : 'hidden' }}">
+        <div x-data = "
+                        {
+                            focusAndSelectNekoElementById(id) 
+                            { 
+                                document.getElementById(id).focus()
+                                document.getElementById(id).select()
+                            }
+                        }
+                    "
+            class=""
         >
-            <span class="md:text-md "><i class="text-left pr-1 fa-solid fa-layer-plus"></i></i></span>
-            <span class="md:text-md text-right">Einfg</span>
-        </button>
+            <div class="flex justify-around gap-1 p-1 rounded-md bg-sky-300 items-center text-lg text-center">
+                <div class="bg-sky-100 rounded-md basis-4/12 text-center">
+                    <span class="">{{$cost->noticeForUser }}</span>
+                </div>
+                <div class="flex basis-4/12">
+                    <div class="basis-1/2">
+                        {{-- @if ($cost->consumption) --}}
+                        <input type="text"  
+                            id="user-costamount-detailinput-consumption{{ $cost->id }}"
+                            inputmode="numeric"  
+                            placeholder="0"
+                            wire:model.lazy="current.consumption_editing"
+                            style="-moz-appearance: textfield; margin: 0;"
+                            class="border {{ $cost->consumption ? 'block' : 'hidden' }} text-center {{ $errors->first('current.consumption') ? 'bg-red-50 focus:border-red-900 border-red-900' : 'focus:border-indigo-500 border-gray-300' }} md:text-md focus:ring-black p-1 px-2 m-0  w-full sm:text-sm  rounded-md"   
+                        >   
+                        {{-- @endif --}}
+                    </div>
+                    <div class="basis-1/2">
+                        {{-- @if ($cost->haushaltsnah) --}}
+                        <input type="text"  
+                            id="user-costamount_bk-detailinput-haushaltsnah{{ $cost->id }}"
+                            inputmode="numeric"  
+                            placeholder="1"
+                            wire:model.lazy="current.haushaltsnah"
+                            style="-moz-appearance: textfield; margin: 0;"
+                            class="{{ $cost->haushaltsnah ? 'block' : 'hidden' }} text-center border md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                            > 
+                            @if ($errors->first('current.haushaltsnah'))
+                            <div class="mt-1 text-red-500 text-sm">{{ $errors->first('current.haushaltsnah') }}</div>
+                            @endif
+                        {{-- @endif --}}
+                    </div>
+                </div>
+                <div class=" basis-2/12">
+                    <input type="text"    
+                    id="user-costamount-bk-detailinput-betrag{{ $cost->id }}"
+                    @keyup.down="focusAndSelectNekoElementById('{{ 'user-costamount-bk-detailinput-betrag'. $cost->id + 1 }}')"
+                    @keyup.up="focusAndSelectNekoElementById('{{ 'user-costamount-bk-detailinput-betrag'. $cost->id -1 }}')"
+                    @keyup.enter="focusAndSelectNekoElementById('{{ 'user-costamount-bk-detailinput-betrag'. $cost->id}}')"
+                    wire:keyup.enter="save"
+                    inputmode="numeric"  
+                    wire:model.lazy= {{ $netto ? 'current.netto' : 'current.brutto' }}
+                    style="-moz-appearance: textfield; margin: 0;"
+                    class="border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                >
+                </div>
+                <button 
+                    wire:click="save()"                                          
+                    x-on:click="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-'. $inputStartField. $cost->id }}')"
+                    class="basis-2/12 "   
+                    >
+                    <div class="border text-justify bg-sky-300 md:text-md hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 p-1 px-2 m-0 focus:border-indigo-500 block sm:text-sm border-gray-900 rounded-md">
+                        <span class="md:text-md "><i class="text-left pr-1 fa-solid fa-layer-plus"></i></i></span>
+                        <span class="md:text-md text-right">Einfg</span>
+                    </div>
+                   
+                </button>
+            </div>
+
+        </div>
     </div>
 </div>
