@@ -2,6 +2,9 @@
 
 <div key="{{ now() }}">
     <div class="block w-full mx-auto max-w-7xl" key="{{ now() }}">
+        <div class="text-3xl pt-3 font-bold text-sky-800 text-center w-full">
+            NUTZERLISTE  
+        </div>
         <div class="">
             <!-- Suchfeld -->
             <x-input.search wire:model.debounce.600ms="filters.search"></x-input.search>

@@ -19,9 +19,12 @@
                     <x-jet-dropdown-link href="{{ route('guest.home') }}">
                         {{ __('Startseite') }}
                     </x-jet-dropdown-link>
-                    <x-jet-dropdown-link href="{{ route('user.verbrauchsinfos') }}">
-                        {{ __('Verbraucherinformationen') }}
-                    </x-jet-dropdown-link>
+                    @if (auth()->user()->isMieter)
+                        <x-jet-dropdown-link href="{{ route('user.verbrauchsinfos') }}">
+                            {{ __('Verbraucherinformationen') }}
+                        </x-jet-dropdown-link>
+                    @endif
+                    
                     <x-jet-dropdown-link href="{{ route('user.realestates') }}">
                         {{ __('Liegenschaften') }}
                     </x-jet-dropdown-link>

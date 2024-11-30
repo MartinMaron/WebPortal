@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('createDate');
             $table->string('caption')->nullable();
             $table->string('description')->nullable();
-            $table->string('fileName');
+            $table->string('fileName')->nullable();
             $table->unsignedBigInteger('realestate_id');
             $table->foreign('realestate_id')->references('id')->on('realestates');
             $table->string('nekoId');

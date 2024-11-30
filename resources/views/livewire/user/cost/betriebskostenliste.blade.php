@@ -1,6 +1,9 @@
 <div>
     <!-- Main -->
-    <div class="max-w-7xl w-full mx-auto sm:px-1 lg:px-1">
+    <div class="max-w-7xl w-full mx-auto sm:px-1 lg:px-1 m-0">
+        <div class="text-3xl pt-3 font-bold text-sky-800 text-center w-full">
+            KOSTENLISTE - BETRIEBSKOSTEN 
+        </div>
         <div class="flex justify-end">
             <div wire:click="togleShowEditFields"
                 class="w-45 relative mt-1 mr-3 pt-1 pb-2 align-middle select-none transition duration-200 ease-in">
@@ -20,8 +23,8 @@
                 </div>
             </div>
             <div class="basis-4/5">
-                <div class="flex bg-sky-100 justify-around gap-1 items-center text-lg text-center">
-                    <div class="bg-red-300 basis-4/12">
+                <div class="flex justify-around gap-1 items-center text-lg text-center">
+                    <div class="basis-4/12">
                         <span class="">Hinweis</span>
                     </div>
                     <div class="{{ $showEditFields ? 'hidden' : 'block'}} basis-3/12">
@@ -29,7 +32,7 @@
                     </div>
                     <div class="flex {{ $showEditFields ? 'basis-4/12' : 'basis-3/12'}} gap-1 ">
                         <div class="basis-1/2">
-                            @if ($this->hasHaushaltsnahByType('BEK'))
+                            @if ($this->hasConsumptionByType('BEK'))
                              <div class="">
                                 <span class="">Verbrauch</span>
                              </div>    
@@ -125,45 +128,62 @@
             </div>
             @if ($showEditFields)
             <!-- Liste der einzelBeträge -->
-            <div class=" {{ $cost->costAmounts->count() > 0  ? 'block bg-white' : 'invisible' }} items-center justify-start font-normal m-2 text-lg ">
+            <div class=" {{ $cost->costAmounts->count() > 0  ? 'block bg-white' : 'invisible' }} items-center justify-start font-normal text-lg ">
                 @foreach ($cost->costAmounts as $singleCostAmount)
                     <div class="flex flex-row">
                         <div class="basis-1/5 py-1 ">
                             
                         </div>
                         <div class="basis-4/5">
-                            <div class="flex px-2 justify-around gap-1 items-center text-sm text-center">
+                            <div class="flex justify-start gap-1 items-center text-sm text-center">
                                 <div class="basis-4/12">
                                     @if ($singleCostAmount->nekoId == 0)
-                                    <div class="bg-sky-100 rounded-md ">
-                                        {{ 'Eingabe am: '.  $singleCostAmount->created_at   }}
-                                    </div> 
+                                        <div class=" rounded-md ">
+                                            {{-- {{ 'Eingabe am: '.  $singleCostAmount->created_at   }} --}}
+                                        </div> 
                                     @else
-                                    <div class="text-left line-clamp-1">
-                                        {{  $singleCostAmount->description   }}
-                                    </div> 
+                                        <div class="text-left line-clamp-1">
+                                            {{  $singleCostAmount->description   }}
+                                        </div> 
                                     @endif
                                 </div>
-                                <div class="px-4 bg-sky-100 rounded-md basis-2/12 flex justify-evenly gap-3">
-                                    @if ($cost->consumption)
-                                    <div class="bg-sky-100 rounded-md">
-                                        <span class="">{{ $singleCostAmount->consumption.  ' '. $cost->allocation_key->einheit->shortname }}</span>
-                                    </div>    
-                                    @endif
-                                </div>
-                                <div class="basis-2/12">
-                                    @if ($cost->haushaltsnah)
-                                    <div class="rounded-md">
-                                        <span class="rounded-md">{{ $singleCostAmount->haushaltsnah }}</span>
+                                <div class="basis-8/12 flex justify-around gap-1 items-center p-1 ">
+                                   <div class="basis-1/4 bg-sky-100 rounded-md ">
+                                        @if ($cost->consumption)
+                                        <div class="bg-sky-100 rounded-md">
+                                            <span class="">{{ $singleCostAmount->consumption.  ' '. $cost->allocation_key->einheit->shortname }}</span>
+                                        </div>    
+                                        @endif
                                     </div>
-                                    @endif
+                                    <div class="basis-1/4">
+                                        @if ($cost->haushaltsnah)
+                                        <div class="rounded-md">
+                                            <span class="rounded-md">{{ $singleCostAmount->haushaltsnah }}</span>
+                                        </div>
+                                        @endif
+                                    </div>
+                                    <div class="basis-1/4 {{ $showEditFields ? 'block' : 'hidden'}} ">
+                                        <span class="text-sm">{{ $singleCostAmount->brutto }}</span>
+                                    </div>
+                                    <div class="basis-1/4 {{ $showEditFields ? 'block' : 'hidden'}}">
+                                        <div
+                                            class="flex py-1 px-1 gap-1">
+                                            <div
+                                                wire:click="editCostAmountModal({{ $singleCostAmount }})"
+                                                class="border text-center bg-sky-300 hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 focus:border-indigo-500 w-full sm:text-xs border-sky-600 rounded-md ">
+                                                <x-icon.fonts.pencil class="text-xs ">
+                                                </x-icon.fonts.pencil>
+                                            </div>
+                                            <div
+                                                wire:click="questionDeleteCostAmount({{ $singleCostAmount }})"
+                                                class="border text-center bg-red-300 hover:bg-red-500 focus:bg-sky-500 focus:ring-indigo-500 py-1  focus:border-indigo-500 w-full sm:text-xs border-red-600 rounded-md ">
+                                                <x-icon.fonts.trash class="text-blue-800 "></x-icon.fonts.trash>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
-                                <div class="{{ $showEditFields ? 'block' : 'hidden'}} basis-2/12">
-                                    <span class="text-sm">{{ $singleCostAmount->brutto }}</span>
-                                </div>
-                                <div class="basis-2/12 px-2 ">
-                                   
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -171,7 +191,7 @@
             </div>
 
             <!-- Summenfeld -->
-            <div class="  {{ $cost->costAmounts->count() > 0 && $showEditFields ? 'border-y-2 block bg-slate-200' : 'border-y-0 hidden' }}  border-gray-300  items-center justify-start font-normal md:text-lg mx-2">
+            <div class="  {{ $cost->costAmounts->count() > 0 && $showEditFields ? 'border-y-2 block bg-slate-200' : 'hidden' }}  items-center justify-start font-normal md:text-lg">
                 <div class="{{ $cost->costType_id == 'BRK' || $cost->costAmounts->count() > 1 ? 'flex flex-row' : 'hidden' }}">
                     <div class="basis-1/5 text-left font-bold">
                         <div class="ml-2">
@@ -179,8 +199,8 @@
                         </div>    
                     </div>
                     <div class="basis-4/5 text-center">
-                        <div class="flex justify-around gap-2">
-                            <div class="text-left basis-4/12">
+                        <div class="flex justify-around gap-1">
+                            <div class="text-right basis-4/12">
                                 {{ 'Summe '. $cost->caption }}
                             </div>
                             <div class="basis-2/12">
@@ -202,7 +222,7 @@
                             </div>
                             <div class="basis-2/12"></div>
                             
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>

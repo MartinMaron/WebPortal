@@ -1,6 +1,9 @@
 <div>
     <!-- Main -->
     <div class="max-w-7xl w-full mx-auto sm:px-6 lg:px-8">
+        <div class="text-3xl pt-3 font-bold text-sky-800 text-center w-full">
+            KOSTENLISTE - HEIZKOSTEN 
+        </div>
         <!-- Einstellungen -->
         <div class="mt-4 py-3 border border-black rounded-md shadow">
             <div  x-data="{ open: false }">
