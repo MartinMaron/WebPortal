@@ -3,8 +3,8 @@
 namespace App\Http\Livewire\User\Cost;
 use App\Models\Cost;
 use Livewire\Component;
-use App\Models\CostType;
-use App\Models\FuelType;
+use App\Models\Costtype;
+use App\Models\Fueltype;
 use App\Models\Realestate;
 use Usernotnull\Toast\Concerns\WireToast;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,19 +16,19 @@ class Detail extends Component
     use WireToast; 
     public $cost = null;
     public $showEditModal = false;
-    public $costTypes = null;
-    public $fuelTypes = null;
-    public $costKeys = null;
+    public $costtypes = null;
+    public $fueltypes = null;
+    public $costkeys = null;
     public bool $netAmountInput = false;
     public bool $onlyConsumptionEdit = false;
 
     /* initialization */
-    public function mount(Cost $cost, bool $netAmountInput, string $costInvoicingType)
+    public function mount(Cost $cost, bool $netAmountInput, string $costinvoicingtype)
     {
         $this->cost = $cost;
-        $this->fuelTypes = FuelType::all();
-        $this->costKeys = $cost->realestate->costsKeys;
-        $this->costTypes = CostType::all();
+        $this->fueltypes = Fueltype::all();
+        $this->costkeys = $cost->realestate->costsKeys;
+        $this->costtypes = Costtype::all();
         $this->netAmountInput = $netAmountInput;
     }
 
@@ -43,15 +43,15 @@ class Detail extends Component
     {
         return [
             'cost.caption' => 'required|min:2',      
-            'cost.costType_id' => 'required',
-            'cost.fuelType_id' => 'nullable', 
+            'cost.costtype_id' => 'required',
+            'cost.fueltype_id' => 'nullable', 
             'cost.start_value_editing' => 'nullable', 
             'cost.start_value_amount_gros_editing'=> 'nullable',
             'cost.start_value_amount_net_editing'=> 'nullable',
             'cost.end_value_editing' => 'nullable', 
             'cost.haushaltsnah' => 'nullable', 
             'cost.co2Tax'=> 'required',
-            'cost.allocationKey_id' => 'nullable', 
+            'cost.costkey_id' => 'nullable', 
             'cost.noticeForUser' => 'nullable', 
             'cost.noticeForNeko' => 'nullable', 
             'cost.consumption' => 'nullable', 
@@ -68,7 +68,7 @@ class Detail extends Component
         return Cost::make([
             'nekoId' => 0,
             'realestate_id' => $cost->realestate->id,
-            'costType_id' => $cost->costType->type_id,
+            'costtype_id' => $cost->costtype_id,
             'consumption' => false
         ]);
     }
@@ -78,7 +78,7 @@ class Detail extends Component
         return Cost::make([
             'nekoId' => 0,
             'realestate_id' => $realestate->id,
-            'costType_id' => 'BEK',
+            'costtype_id' => 'BEK',
             'consumption' => false,
             'caption' => 'neue Kostenposition'
         ]);
@@ -90,21 +90,21 @@ class Detail extends Component
         } else {
             $this->cost = $cost;
         }
-        $this->costTypes = CostType::where('costInvoicingType_id','=', 'HZ')->get()->sortBy('sort');
+        $this->costtypes = Costtype::where('costinvoicingtype_id','=', 'HZ')->get()->sortBy('sort');
         $this->onlyConsumptionEdit = $onlyConsumptionEdit;
         $this->showEditModal = true;
     }
 
     public function showModalBetriebskosten (Cost $cost){
         $this->cost = $cost;
-        $this->costTypes = CostType::where('costInvoicingType_id','=', 'BE')->get()->sortBy('sort');
+        $this->costtypes = Costtype::where('costinvoicingtype_id','=', 'BE')->get()->sortBy('sort');
         $this->onlyConsumptionEdit = false;
         $this->showEditModal = true;
     }
 
     public function addModalBetriebskosten (Realestate $realestate){
         $this->cost = $this->makeBlankObjectBetriebskosten($realestate);
-        $this->costTypes = CostType::where('costInvoicingType_id','=', 'BE')->get()->sortBy('sort');
+        $this->costtypes = Costtype::where('Costinvoicingtype_id','=', 'BE')->get()->sortBy('sort');
         $this->onlyConsumptionEdit = false;
         $this->showEditModal = true;
     }
@@ -112,7 +112,7 @@ class Detail extends Component
     public function closeModal($save){
         if ($save){
             $this->cost->co2Tax = $this->cost->can_co2;
-            if ($this->cost->cost_type != null && $this->cost->cost_type == 'BRK') {
+            if ($this->cost->costtype != null && $this->cost->costtype_id == 'BRK') {
                 $this->cost->consumption = true;
             }
             $this->validate();

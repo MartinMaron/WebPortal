@@ -27,7 +27,7 @@ return new class extends Migration
     public function up()
 
     {
-        Schema::create('cost_keys', function (Blueprint $table) {
+        Schema::create('costkeys', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('nekoKey_id')->default(0);
             $table->unsignedBigInteger('realestate_id');

@@ -52,7 +52,7 @@ class Lista extends Component
         $this->dateInputMode = $realestate->eingabeCostDatum;
         $this->hasManyBrennstoffkosten = (bool)(Cost::where('realestate_id','=',$this->realestate->id)
                                         ->where(function (Builder $query) {$query->IsHeizkosten();})
-                                        ->where('costType_id','=','BRK')
+                                        ->where('costtype_id','=','BRK')
                                         ->count() > 1);
     }
 
@@ -127,26 +127,27 @@ class Lista extends Component
         $this->currentCostAmount->delete();
     }
 
-    public function getCostByType($costTypeId){
+    public function getCostByType($costtypeId){
         return Cost::where('realestate_id','=',$this->realestate->id)
         ->where(function (Builder $query) {$query->IsHeizkosten();})
-        ->where('costType_id','=',$costTypeId)
+        ->where('costtype_id','=',$costtypeId)
         ->get();
     }
 
-    public function hasConsumptionByType($costTypeId){
+    public function hasConsumptionByType($costtypeId){
+      
         $ret = Cost::where('realestate_id','=',$this->realestate->id)
         ->where(function (Builder $query) {$query->IsHeizkosten();})
-        ->where('costType_id','=',$costTypeId)
+        ->where('costtype_id','=',$costtypeId)
         ->where('consumption','=', 1)
         ->count();
         return (bool)($ret > 0);
-        // return $ret;
     }
-    public function hasHaushaltsnahByType($costTypeId){
+
+    public function hasHaushaltsnahByType($costtypeId){
         $ret = Cost::where('realestate_id','=',$this->realestate->id)
         ->where(function (Builder $query) {$query->IsHeizkosten();})
-        ->where('costType_id','=',$costTypeId)
+        ->where('costtype_id','=',$costtypeId)
         ->where('haushaltsnah','=', 1)
         ->count();
         return (bool)($ret > 0);
@@ -157,7 +158,7 @@ class Lista extends Component
     {
         $filtered = Cost::where('realestate_id','=',$this->realestate->id)
         ->where(function (Builder $query) {$query->IsHeizkosten();})
-        ->get()->unique('costType_id')
+        ->get()->unique('costtype_id')
         ->sortBy('CostTypeSort');
 
         $filtered->fresh('costAmounts');

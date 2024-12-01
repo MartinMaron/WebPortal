@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CostType extends Model
+class Costtype extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'type_id';
+    protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
 
     protected $fillable = [
-        'caption', 'type_id', 'costInvoicingType_id'
+        'caption', 'id', 'costinvoicingtype_id'
     ];
 
     public function scopeIsHeizkosten($query)
@@ -42,5 +42,8 @@ class CostType extends Model
         return $ret_val;
     }
 
-
+    public function costinvoicingtype()
+    {
+        return $this->belongsTo(Costinvoicingtype::class);
+    }
 }

@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::table('realestates', function($table)
         {
-            $table->unsignedBigInteger('activeAbrechnungssetting_id')->nullable();
-            $table->foreign('activeAbrechnungssetting_id')->references('id')->on('realestate_abrechnungssettings')->onDelete('cascade');
+            $table->unsignedBigInteger('abrechnungssetting_id')->nullable();
+            $table->foreign('abrechnungssetting_id')->references('id')->on('abrechnungssettings')->onDelete('cascade');
             $table->dropColumn('periodFrom');
             $table->dropColumn('periodTo');
         });
 
-        Schema::table('realestate_abrechnungssettings', function($table)
+        Schema::table('abrechnungssettings', function($table)
         {
             $table->date('periodFrom')->nullable();
             $table->date('periodTo')->nullable();

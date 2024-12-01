@@ -8,7 +8,8 @@
             </span>
         </div>
     @endif
-    <div class="{{ $cost->cost_type->costInvoicingType_id == 'HZ' ? 'block' : 'hidden' }}">
+ 
+    <div class="{{ $cost->costtype->costinvoicingtype->id == 'HZ' ? 'block' : 'hidden' }}">
         <div x-data = "
                         {
                             focusAndSelectNekoElementById(id) 
@@ -32,7 +33,7 @@
                     @keyup.up="focusAndSelectNekoElementById('{{ 'user-costamount-detailinput-datum'. $cost->id -1 }}')"
                     type="text"
                     :error="$errors->first('current.datum')"
-                    class="{{ $inputWithDate || ($cost->fuelType_id !=null && $cost->fuelType->hasTank) ? 'block' : 'hidden' }} 
+                    class="{{ $inputWithDate || ($cost->fueltype_id !=null && $cost->fueltype->hasTank) ? 'block' : 'hidden' }} 
                                 bg-white text-center md:text-lg border 
                                 {{ $errors->first('current.datum') ? 'bg-red-50 focus:border-red-900 border-red-900' : 'focus:border-indigo-500 border-gray-300' }}"
                     >
@@ -120,7 +121,7 @@
             </button>
         </div>
     </div>
-    <div class="{{ $cost->cost_type->costInvoicingType_id == 'BE' ? 'block' : 'hidden' }}">
+    <div class="{{ $cost->costtype->Costinvoicingtype->id == 'BE' ? 'block' : 'hidden' }}">
         <div x-data = "
                         {
                             focusAndSelectNekoElementById(id) 

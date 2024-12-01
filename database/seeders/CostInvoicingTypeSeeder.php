@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\CostInvoicingType;
+use App\Models\Costinvoicingtype;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CostInvoicingTypeSeeder extends Seeder
+class CostinvoicingtypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,9 +15,9 @@ class CostInvoicingTypeSeeder extends Seeder
      */
     public function run()
     {
-        CostInvoicingType::create(['type_id' => 'BE', 'caption' => 'Betriebskostenabrechnung']);
-        CostInvoicingType::create(['type_id' => 'HZ', 'caption' => 'Heizkostenabrechnung']);
-        CostInvoicingType::create(['type_id' => 'NO', 'caption' => 'geht in keine Abrechnung']);
-        CostInvoicingType::create(['type_id' => 'WA', 'caption' => 'Wasserabrechnung (Kalt und/oder  Warm)']);        
+        Costinvoicingtype::create(['id' => 'BE', 'caption' => 'Betriebskostenabrechnung']);
+        Costinvoicingtype::create(['id' => 'HZ', 'caption' => 'Heizkostenabrechnung']);
+        Costinvoicingtype::create(['id' => 'NO', 'caption' => 'geht in keine Abrechnung']);
+        Costinvoicingtype::create(['id' => 'WA', 'caption' => 'Wasserabrechnung (Kalt und/oder  Warm)']);        
     }
 }

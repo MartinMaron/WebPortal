@@ -23,7 +23,8 @@ class CostAmount extends Model
     protected $fillable = [
         'nekoId', 'cost_id', 'bemerkung', 'description',
         'netAmount', 'grosAmount', 'dateCostAmount', 'consumption', 'netto', 'brutto', 
-        'grosAmount_HH', 'co2TaxValue','co2TaxAmount_gros','co2TaxAmount_net','cobrutto'
+        'grosAmount_HH', 'co2TaxValue','co2TaxAmount_gros','co2TaxAmount_net','cobrutto',
+        'abrechnungssetting_id'
     ];
 
     protected $casts = [
@@ -71,7 +72,11 @@ class CostAmount extends Model
     }
 
     public function getBruttoAttribute(){
+        if ($this->grosAmount) {
             return number_format($this->grosAmount, 2, ',', '.');
+        } else {
+            return 0;
+        }
     }
 
     public function setNettoAttribute($value){
@@ -79,7 +84,11 @@ class CostAmount extends Model
     }
 
     public function getNettoAttribute(){
+        if ($this->netAmount) {
             return number_format($this->netAmount, 2, ',', '.');
+        } else {
+            return 0;
+        }
     }
 
     public function setHaushaltsnahAttribute($value){
@@ -87,7 +96,11 @@ class CostAmount extends Model
     }
 
     public function getHaushaltsnahAttribute(){
-        return number_format($this->grosAmount_HH, 2, ',', '.');
+        if ($this->grosAmount_HH) {
+            return number_format($this->grosAmount_HH, 2, ',', '.');
+        } else {
+            return 0;
+        }
     }
 
     public function getDatumAttribute()
@@ -126,7 +139,12 @@ class CostAmount extends Model
     }
 
     public function getCoconsupmtionAttribute(){
-        return number_format($this->co2TaxValue, 0, ',', '.');
+        if ($this->co2TaxValue) {
+            return number_format($this->co2TaxValue, 0, ',', '.');
+        } else {
+            return 0;
+        }
+        
     }
 
     public function setConettoAttribute($value){

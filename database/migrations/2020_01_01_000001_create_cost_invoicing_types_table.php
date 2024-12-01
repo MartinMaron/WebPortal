@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cost_invoicing_types', function (Blueprint $table) {
-            $table->string('type_id')->primary();
+        Schema::create('costinvoicingtypes', function (Blueprint $table) {
+            $table->string('id')->primary();
             $table->string('caption');
             $table->timestamps();
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cost_invoicing_types');
+        Schema::dropIfExists('costinvoicingtypes');
     }
 };

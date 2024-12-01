@@ -18,18 +18,18 @@ return new class extends Migration
             $table->unsignedBigInteger('occupant_id')->nullable();
             $table->foreign('occupant_id')->references('id')->on('occupants');
             $table->unsignedBigInteger('nekoId')->default(0);
-            $table->double('netAmount')->default(0);
-            $table->double('grosAmount')->default(0);
-            $table->string('prepaidType')->default('H');
+            $table->double('netAmount')->nullable();
+            $table->double('grosAmount')->nullable();
+            $table->string('prepaidtype')->default('H');
             $table->unsignedBigInteger('abrechnungssetting_id')->nullable();
-            $table->foreign('abrechnungssetting_id')->references('id')->on('realestate_abrechnungssettings');
+            $table->foreign('abrechnungssetting_id')->references('id')->on('abrechnungssettings');
             $table->integer('OptimisticLockField')->nullable();
             $table->timestamps();
         });
 
         Schema::table('cost_amounts', function (Blueprint $table) {
             $table->unsignedBigInteger('abrechnungssetting_id')->nullable();
-            $table->foreign('abrechnungssetting_id')->references('id')->on('realestate_abrechnungssettings');
+            $table->foreign('abrechnungssetting_id')->references('id')->on('abrechnungssettings');
         });
     }
 

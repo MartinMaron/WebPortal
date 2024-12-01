@@ -28,7 +28,7 @@ return new class extends Migration
 
     {
 
-        Schema::create('realestate_abrechnungssettings', function (Blueprint $table) {
+        Schema::create('abrechnungssettings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('realestate_id');
             $table->foreign('realestate_id')->references('id')->on('realestates');
@@ -61,7 +61,7 @@ return new class extends Migration
 
     {
 
-        Schema::dropIfExists('realestate_abrechnungssettings');
+        Schema::dropIfExists('abrechnungssettings');
 
     }
 

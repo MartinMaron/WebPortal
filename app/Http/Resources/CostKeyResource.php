@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CostKeyResource extends JsonResource
+class CostkeyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,7 +15,7 @@ class CostKeyResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'nekoCostKey_id'=> $this['nekoCostKeyId'],
+            'nekocostkey_id'=> $this['nekocostkeyId'],
             'nekoKey_id'=> $this['nekoKeyId'],            
             'bemerkung'=> $this['bemerkung'],
             'tryWebDelete'=> $this['tryWebDelete'],

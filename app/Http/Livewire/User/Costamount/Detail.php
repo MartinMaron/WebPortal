@@ -52,7 +52,7 @@ class Detail extends Component
             'costAmount.cobrutto' => 'nullable',
             'costAmount.conetto' => 'nullable',
             'costAmount.coconsupmtion' => 'nullable',
-            'costAmount.datum' => 'required_if:costAmount.cost.fuel_type.hasTank,==,1|date|nullable',
+            'costAmount.datum' => 'required_if:costAmount.cost.fueltype.hasTank,==,1|date|nullable',
         ];
     }
 

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('realestate_abrechnungssettings', function($table)
+        Schema::table('abrechnungssettings', function($table)
         {
             $table->boolean('co2_kennzeichen_WEG')->nullable();
             $table->boolean('co2_wohngeb')->nullable();

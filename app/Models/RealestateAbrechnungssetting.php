@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,11 +14,23 @@ class RealestateAbrechnungssetting extends Model
     protected $fillable = [
         'neko_id','realestate_id', 'bemerkung', 'tryWebDelete', 'description', 'nabi_inhaber', 'nabi_nr',
         'stromkosten','brenwert_gasabrechnug','eigen_energielieferung','aktiv',
-        'co2_kennzeichen_WEG', 'co2_wohngeb','co2_kennzeichen_1_9', 'co2_kennzeichen_2_9', 'co2_anschluss_nach_2022'
+        'co2_kennzeichen_WEG', 'co2_wohngeb','co2_kennzeichen_1_9', 'co2_kennzeichen_2_9', 'co2_anschluss_nach_2022',
+        'periodFrom', 'periodTo'
     ];
 
-    protected $appends = ['gebart',
-                         ];
+    
+    protected $appends = [
+        'gebart',
+        'period_from_editing',
+        'period_to_editing',
+        ];
+
+    protected $casts = [
+        'periodFrom' => 'date:d.m.Y',
+        'periodTo' => 'date:d.m.Y'
+        ];
+
+
 
     public static function validateImportData($data)
     {
@@ -61,6 +74,37 @@ class RealestateAbrechnungssetting extends Model
     {
         return $this->belongsTo(Realestate::class);
     }
+
+    protected function getPeriodFromEditingAttribute()
+    {
+        return Carbon::parse($this->periodFrom)->format('d.m.Y');
+    }
+
+    protected function setPeriodFromEditingAttribute($value)
+    {
+        try {
+            $this->periodFrom = Carbon::parse($value);
+        } catch (\Carbon\Exceptions\InvalidFormatException $e) {
+
+        }
+    }
+
+    protected function getPeriodToEditingAttribute()
+    {
+        if($this->periodTo){
+            return Carbon::parse($this->periodTo)->format('d.m.Y');
+        }
+        return '';
+    }
+
+    protected function setPeriodToEditingAttribute($value)
+    {
+        if($value)
+        {
+            $this->periodTo = Carbon::parse($value);
+        }
+    }
+
 
 }
 

@@ -7,6 +7,9 @@ use Livewire\Component;
 use App\Models\CostAmount;
 use App\Models\Realestate;
 use App\Events\CostAmountDeleted;
+use App\Models\Costinvoicingtype;
+use App\Models\Costtype;
+use App\Models\Occupant;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Builder;
 use Usernotnull\Toast\Concerns\WireToast;
@@ -47,13 +50,14 @@ class Betriebskostenliste extends Component
     /* initialization */
     public function mount($realestate)
     {
+        
         $this->realestate = $realestate;
         $this->current = $this->makeBlankObject();
         $this->nettoInputMode = $realestate->eingabeCostNetto;
         $this->dateInputMode = $realestate->eingabeCostDatum;
         $this->hasManyBrennstoffkosten = (bool)(Cost::where('realestate_id','=',$this->realestate->id)
                                         ->where(function (Builder $query) {$query->IsHeizkosten();})
-                                        ->where('costType_id','=','BRK')
+                                        ->where('costtype_id','=','BRK')
                                         ->count() > 1);
     }
 
@@ -96,7 +100,7 @@ class Betriebskostenliste extends Component
     public function raise_EditCostModal(Cost $cost)
     {
         $this->setCurrent($cost);
-        if ($cost->costType->costInvoicingType_id == 'HZ')
+        if ($cost->costtype->costinvoicingtype_id == 'HZ')
         {
              $this->emit('showCostDetailModal', $this->current, false, false);
         }else 
@@ -133,19 +137,19 @@ class Betriebskostenliste extends Component
         $this->currentCostAmount->delete();
     }
 
-    public function hasConsumptionByType($costTypeId){
+    public function hasConsumptionByType($costtypeId){
         $ret = Cost::where('realestate_id','=',$this->realestate->id)
         ->where(function (Builder $query) {$query->IsBetriebskosten();})
-        ->where('costType_id','=',$costTypeId)
+        ->where('costtype_id','=',$costtypeId)
         ->where('consumption','=', 1)
         ->count();
         return (bool)($ret > 0);
         // return $ret;
     }
-    public function hasHaushaltsnahByType($costTypeId){
+    public function hasHaushaltsnahByType($costtypeId){
         $ret = Cost::where('realestate_id','=',$this->realestate->id)
         ->where(function (Builder $query) {$query->IsBetriebskosten();})
-        ->where('costType_id','=',$costTypeId)
+        ->where('costtype_id','=',$costtypeId)
         ->where('haushaltsnah','=', 1)
         ->count();
         return (bool)($ret > 0);
@@ -154,7 +158,8 @@ class Betriebskostenliste extends Component
     public function render()
     {
         $filtered = Cost::where('realestate_id','=',$this->realestate->id)
-        ->where(function (Builder $query) {$query->IsBetriebskosten();})
+        ->where(function (Builder $query) {
+            $query->IsBetriebskosten();})
         ->get()->sortBy('caption');
 
         $filtered->fresh('costAmounts');

@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\CostInvoicingType;
-use App\Models\CostType;
-use App\Models\FuelType;
+use App\Models\Costinvoicingiype;
+use App\Models\Costtype;
+use App\Models\Fueltype;
 use App\Models\Salutation;
 use App\Models\ZaehlerArt;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -25,9 +25,9 @@ class DatabaseSeeder extends Seeder
             EinheitSeeder::class,
             ZaehlerArtSeeder::class,
             UnitUsageTypeSeeder::class,
-            CostInvoicingTypeSeeder::class,
-            CostTypeSeeder::class,
-            FuelTypeSeeder::class,
+            CostinvoicingtypeSeeder::class,
+            CosttypeSeeder::class,
+            FueltypeSeeder::class,
         ]);
 
 

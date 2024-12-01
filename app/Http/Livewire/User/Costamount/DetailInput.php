@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\CostAmount;
 use PhpParser\Node\Expr\Cast\Double;
 use Barryvdh\Debugbar\Facades\Debugbar;
+use PhpParser\Node\NullableType;
 use Usernotnull\Toast\Concerns\WireToast;
 
 class DetailInput extends Component
@@ -30,7 +31,7 @@ class DetailInput extends Component
         $this->inputNet = $netto;
         $this->inputWithDate = $inputWithDatum;
         
-        if ($this->inputWithDate || ($this->cost->fuelType != null && $this->cost->fuelType->hasTank)) {
+        if ($this->inputWithDate || ($this->cost->fueltype != null && $this->cost->fueltype->hasTank)) {
             $this->inputStartField = 'datum';
         }else {
             if ($this->cost->consumption) {
@@ -51,6 +52,7 @@ class DetailInput extends Component
        return CostAmount::make([
             'nekoCostId' => $this->cost->nekoId,
             'cost_id' => $this->cost->id,
+            'abrechnungssetting_id' => $this->cost->realestate->activeAbrechnungssetting_id,
             'bemerkung' =>'',
             'co2TaxAmount_net' => 0,
             'co2TaxAmount_gros' => 0,
@@ -78,7 +80,8 @@ class DetailInput extends Component
             'current.cobrutto' => 'nullable',
             'current.conetto' => 'nullable',
             'current.coconsupmtion' => 'nullable',
-            'current.datum' => 'required_if:cost.fuel_type.hasTank,==,1|date|nullable',
+            'current.datum' => 'required_if:cost.fueltype.hasTank,==,1|date|nullable',
+            'current.abrechnungssetting_id' => 'nullable',
        ];
     }
     public function messages()

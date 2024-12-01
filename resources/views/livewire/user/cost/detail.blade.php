@@ -31,13 +31,13 @@
                     <div>
                         <x-input.group
                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                        for="cost.costType_id" label="Kostenart" :error="$errors->first('cost.costType_id')"
+                        for="cost.costtype_id" label="Kostenart" :error="$errors->first('cost.costtype_id')"
                         >
                         <x-input.select
-                        class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="cost.costType_id" id="cost-detail-cost.costType_id" placeholder="Bitte auswählen" value="">
+                        class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="cost.costtype_id" id="cost-detail-cost.costtype_id" placeholder="Bitte auswählen" value="">
                         <div class="h-10">
-                            @foreach ($this->costTypes as $label)
-                            <option value="{{ $label->type_id }}">
+                            @foreach ($this->costtypes as $label)
+                            <option value="{{ $label->id }}">
                                         {{ $label->caption }}
                                     </option>
                                     @endforeach
@@ -49,19 +49,19 @@
                     @endif
                 @if ($onlyConsumptionEdit!=true)
                     <!-- Brennstoffart-->
-                    <div class="{{ $cost->costType_id == 'BRK' ? 'block' : 'hidden' }}">
+                    <div class="{{ $cost->costtype_id == 'BRK' ? 'block' : 'hidden' }}">
                         <x-input.group
                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                            for="fuelType" label="Brennstoff" :error="$errors->first('cost.fuelType_id')"
+                            for="fueltype_id" label="Brennstoff" :error="$errors->first('cost.fueltype_id')"
                             >
                             <x-input.select
-                            class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="cost.fuelType_id" id="cost-detail-cost.costType_id" placeholder="Bitte auswählen" value="">
+                            class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="cost.fueltype_id" id="cost-detail-cost.fueltype_id" placeholder="Bitte auswählen" value="">
                             <div class="h-10">
-                                @foreach ($this->fuelTypes as $label)
-                                <option value="{{ $label->type_id }}">
+                                @foreach ($this->fueltypes as $label)
+                                <option value="{{ $label->id }}">
                                     <div class="flex">
                                         <div class="">
-                                            {{ $label->caption. ' ('. $label->Einheit->shortname. ')'   }}
+                                            {{ $label->caption. ' ('. $label->einheit->shortname. ')'   }}
                                         </div>
                                     </div>
                                 </option>
@@ -72,7 +72,7 @@
                     </div>
                 @endif
 
-                @if ($cost->costType_id =='BRK' && $cost->fuelType != null && $cost->fuelType->hasTank)
+                @if ($cost->costtype_id =='BRK' && $cost->fueltype != null && $cost->fueltype->hasTank)
                     @if ($onlyConsumptionEdit!=true)
                         <!-- Anfangsstand-->  
                         <div>
@@ -104,7 +104,7 @@
                     </div>
                 @endif
                
-                @if ($cost->cost_type !=null && $cost->cost_type->type_id != 'BRK')
+                @if ($cost->costtype !=null && $cost->costtype_id != 'BRK')
                     <!-- Haushaltsnah-->  
                     <div>
                         <x-input.group
@@ -119,24 +119,24 @@
                     </div>
                 @endif
                 
-                @if ($cost->need_allocation_key)
+                @if ($cost->need_costkey)
                 <!-- Umlageschlüssel--> 
                 <div>
                     <x-input.group
                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                        for="allocationKey_id" label="Umlageschlüssel" :error="$errors->first('cost.allocationKey_id')"
+                        for="costkey_id" label="Umlageschlüssel" :error="$errors->first('cost.costkey_id')"
                         x-data
-                        x-init="$refs.inputAllocationKey.focus()"
+                        x-init="$refs.inputcostkey.focus()"
                         >
                         <x-input.select
-                        x-ref="inputAllocationKey"
-                        class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="cost.allocationKey_id" id="cost-detail-cost.allocationKey_id" placeholder="Bitte auswählen" value="">
-                        @foreach ($this->costKeys as $label)
+                        x-ref="inputcostkey"
+                        class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="cost.costkey_id" id="cost-detail-cost.costkey_id" placeholder="Bitte auswählen" value="">
+                        @foreach ($this->costkeys as $label)
                         <div class="h-10">
                             <option value="{{ $label->id }}">
                                 <div class="flex">
                                     <div class="">
-                                        {{ $label->viewText. ' ('. $label->Einheit->shortname. ')'   }}
+                                        {{ $label->viewText. ' ('. $label->einheit->shortname. ')'   }}
                                     </div>
                                 </div>
                             </option>

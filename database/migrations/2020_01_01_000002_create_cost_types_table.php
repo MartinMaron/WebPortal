@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cost_types', function (Blueprint $table) {
-            $table->string('type_id')->primary();
-            $table->string('costInvoicingType_id');
-            $table->foreign('costInvoicingType_id')->references('type_id')->on('cost_invoicing_types');
+        Schema::create('costtypes', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->string('costinvoicingtype_id');
+            $table->foreign('costinvoicingtype_id')->references('id')->on('costinvoicingtypes');
             $table->string('caption');
             $table->integer('sort');
             $table->timestamps();

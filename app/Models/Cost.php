@@ -19,10 +19,11 @@ class Cost extends Model
     use Helpers;
 
     protected $fillable = [
-        'realestate_id', 'nekoId', 'caption', 'description', 'costType_id',
-        'fuelType_id', 'startValue', 'endValue',
+        'realestate',
+        'realestate_id', 'nekoId', 'caption', 'description', 'costtype_id', 'costtype',
+        'fueltype_id', 'startValue', 'endValue',
         'startValueAmountNet', 'startValueAmountGros', 'startValueAmountVat', 
-        'haushaltsnah', 'co2Tax', 'allocationKey_id', 'consumption',
+        'haushaltsnah', 'co2Tax', 'costkey_id', 'consumption', 'costkey',
         'noticeForUser', 'noticeForNeko', 
         'prevyearPeriod', 'prevyearQuantity', 'prevyearAmountnet', 'prevyearAmountgros'
     ];
@@ -32,15 +33,15 @@ class Cost extends Model
         $ret_val = $query
         ->where(function($query)
         {
-            $query->where('costType_id', 'HNK')
-            ->orWhere('costType_id', 'BRK')
-            ->orWhere('costType_id', 'KWK')
-            ->orWhere('costType_id', 'KWA')
-            ->orWhere('costType_id', 'ZKW')
-            ->orWhere('costType_id', 'DIR')
-            ->orWhere('costType_id', 'BEH')
-            ->orWhere('costType_id', 'ZWA')
-            ->orWhere('costType_id', 'ZUK');
+            $query->where('costtype_id', 'HNK')
+            ->orWhere('costtype_id', 'BRK')
+            ->orWhere('costtype_id', 'KWK')
+            ->orWhere('costtype_id', 'KWA')
+            ->orWhere('costtype_id', 'ZKW')
+            ->orWhere('costtype_id', 'DIR')
+            ->orWhere('costtype_id', 'BEH')
+            ->orWhere('costtype_id', 'ZWA')
+            ->orWhere('costtype_id', 'ZUK');
         });
         return $ret_val;
     }
@@ -50,8 +51,8 @@ class Cost extends Model
         $ret_val = $query
         ->where(function($query)
         {
-            $query->where('costType_id', 'BEK')
-            ->orWhere('costType_id', 'BEE');
+            $query->where('costtype_id', 'BEK')
+            ->orWhere('costtype_id', 'BEE');
         });
         return $ret_val;
     }
@@ -66,8 +67,6 @@ class Cost extends Model
                             'brutto',
                             'netto',
                             'gros',
-                            'cost_type',
-                            'fuel_type',
                             'start_value_editing',
                             'end_value_editing',
                             'start_value_amount_gros_editing',
@@ -75,10 +74,9 @@ class Cost extends Model
                             'prevyear_quantity_view', 
                             'prevyear_amountnet_view',
                             'prevyear_amountgros_view',
-                            'need_allocation_key',
+                            'need_costkey',
                             'can_co2',
-                            'allocation_key',
-                            'haushaltsnah_sum'
+                            'haushaltsnah_sum',
                         ];
 
     protected $casts = ['consumptionsum' => 'decimal:1',
@@ -92,40 +90,52 @@ class Cost extends Model
     
     
     
-    public function getNeedAllocationKeyAttribute(){
-        return $this->costType != null &&
-                !($this->costType->type_id == 'BRK' ||
-                $this->costType->type_id == 'HNK' ||
-                $this->costType->type_id == 'ZUK' ||
-                $this->costType->type_id == 'ZKW');
+    public function getNeedCostkeyAttribute(){
+        return  $this->costtype != null &&
+                !($this->costtype->id == 'BRK' ||
+                $this->costtype->id == 'HNK' ||
+                $this->costtype->id == 'ZUK' ||
+                $this->costtype->id == 'ZKW');
     }
 
     public function getCanCo2Attribute(){
-        return $this->fuelType != null &&
-                ($this->fuelType->type_id == 'EC4' ||
-                $this->fuelType->type_id == 'GS4' ||
-                $this->fuelType->type_id == 'OL9');
+        return $this->fueltype != null &&
+                ($this->fueltype_id == 'EC4' ||
+                $this->fueltype_id == 'GS4' ||
+                $this->fueltype_id == 'OL9');
     }
-
-
-   
-    
 
     public function getPrevyearQuantityViewAttribute(){
-        return number_format($this->prevyearQuantity, 2, ',', '.');
+        if ($this->prevyearQuantity) {
+            return number_format($this->prevyearQuantity, 2, ',', '.');
+        } else {
+            return null;        
+        }
     }
     public function getPrevyearAmountnetViewAttribute(){
-        return number_format($this->prevyearAmountnet, 2, ',', '.');
+        if ($this->prevyearAmountnet) {
+            return number_format($this->prevyearAmountnet, 2, ',', '.');
+        } else {
+            return null;        
+        }
     }
     public function getPrevyearAmountgrosViewAttribute(){
-        return number_format($this->prevyearAmountgros, 2, ',', '.');
+        if ($this->prevyearAmountgros) {
+            return number_format($this->prevyearAmountgros, 2, ',', '.');
+        } else {
+            return null;        
+        }
     }
 
     public function getNettoAttribute(){
         return number_format($this->costAmounts->sum('netAmount'), 2, ',', '.');
     }
     public function getBruttoAttribute(){
-        return number_format($this->costAmounts->sum('grosAmount'), 2, ',', '.');
+        if ($this->realestate) {
+            return number_format($this->costAmounts->where('abrechnungssetting_id','=',$this->realestate->activeAbrechnungssetting_id)->sum('grosAmount'), 2, ',', '.');
+        } else {
+        return null;        
+        }
     }
     public function getHaushaltsnahSumAttribute(){
         return number_format($this->costAmounts->sum('grosAmount_HH'), 2, ',', '.');
@@ -146,8 +156,8 @@ class Cost extends Model
 
     public function getCostTypeSortAttribute()
     {
-        if ($this->costType != null) {
-            return $this->costType->sort;
+        if ($this->costtype != null) {
+            return $this->costtype->sort;
         }
         return 10000;
     }
@@ -203,21 +213,6 @@ class Cost extends Model
         } 
     }
 
-    public function getCostTypeAttribute()
-    {
-        return CostType::where('type_id', $this->costType_id)->first();
-    }
-
-    public function getAllocationKeyAttribute()
-    {
-        return CostKey::where('id', $this->allocationKey_id)->first();
-    }
-
-    public function getFuelTypeAttribute()
-    {
-        return FuelType::where('type_id', $this->fuelType_id)->first();
-    }
-
     public function realestate()
     {
         return $this->belongsTo(Realestate::class);
@@ -228,31 +223,20 @@ class Cost extends Model
         return $this->hasMany(CostAmount::class);
     }
 
-    public function allocationKey()
+    public function costkey()
     {
-        return $this->belongsTo(CostKey::class);
+        return $this->belongsTo(Costkey::class);
     }
 
-    public function costType()
+    public function costtype()
     {
-        return $this->belongsTo(CostType::class);
+        return $this->belongsTo(Costtype::class);
     }
 
-    public function fuelType()
+    public function fueltype()
     {
-        return $this->belongsTo(FuelType::class);
+        return $this->belongsTo(Fueltype::class);
     }
-
-    // public function castStringToDouble($value){
-    //      if($value){     
-    //          $tvalue = str_replace('.','@', $value);
-    //          $tvalue = str_replace(',','.', $tvalue);
-    //          $tvalue = str_replace('@','', $tvalue);
-    //          return floatval($tvalue);
-    //      }
-    //      return null;
-    // }
-
 
     protected $dispatchesEvents = [
         'updated' => CostUpdated::class,
