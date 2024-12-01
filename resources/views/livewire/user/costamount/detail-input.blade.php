@@ -51,7 +51,7 @@
                 >
             </div>
             <!-- haushaltsnah -->      
-            @if (!($cost->costType_id == 'BRK'))
+            @if (!($cost->costtype_id == 'BRK'))
                 <div class="basis-1/6">
                 </div> 
                 <div class="basis-1/6" >

@@ -200,7 +200,7 @@
                                         </div>    
                                         <div class="basis-1/6 text-center text-lg py-1 px-6">
                                             @if ($singleCost->consumption)
-                                                {{ $singleCost->consumptionsum. ' '. $singleCost->fueltype->einheit->shortname }}
+                                                {{ $singleCost->consumptionsum }}
                                             @endif
                                         </div>
                                         <div class="basis-1/6 text-center text-lg py-1 px-6">
@@ -238,99 +238,101 @@
                                 <!-- Liste der einzelBeträge -->
                                 <div class=" {{ $singleCost->costAmounts->count() > 0  ? 'block bg-white' : 'invisible' }} items-center justify-start font-normal m-2 text-lg ">
                                     @foreach ($singleCost->costAmounts as $singleCostAmount)
-                                        <div class="flex flex-row">
-                                            <div class="basis-1/3 py-1 ">
-                                                <div class="text-sm m-2">
-                                                    @if ($singleCost->fueltype_id !=null && $singleCost->fueltype->hasTank)
-                                                        {{ 'Zugang '.$singleCostAmount->datum  }}
-                                                    @else
-                                                        {{ $singleCostAmount->description }}
-                                                    @endif
+                                        @if ($singleCostAmount->abrechnungssetting_id == $cost->realestate->abrechnungssetting_id && ! $singleCostAmount->startvalue && ! $singleCostAmount->endvalue )
+                                            <div class="flex flex-row">
+                                                <div class="basis-1/3 py-1 ">
+                                                    <div class="text-sm m-2">
+                                                        @if ($singleCost->fueltype_id !=null && $singleCost->fueltype->hasTank)
+                                                            {{ 'Zugang '.$singleCostAmount->datum  }}
+                                                        @else
+                                                            {{ $singleCostAmount->description }}
+                                                        @endif
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="basis-2/3 py-1 ">
-                                                <div class="">
-                                                    <div class="flex items-center px-2 py-1 justify-around gap-2 border-b-2 bg-slate-100 border-white text-center md:text-lg">
-                                                        <div id="user-costamount-listitem-datum{{ $singleCostAmount->id }}"
-                                                            style="-moz-appearance: textfield; margin: 0;"
-                                                            class="basis-1/6 {{ $dateInputMode ? 'invisible' : '' }} ">
-                                                                <span class="">{{ $singleCostAmount->datum }}</span>
-                                                        </div>
-                                                        <div id="user-costamount-listitem-consumption{{ $singleCostAmount->id }}"
-                                                            style="-moz-appearance: textfield; margin: 0;"
-                                                            class="basis-1/6 {{ $singleCost->consumption ? 'block' : 'invisible' }}">
-                                                                <span class="">{{ $singleCostAmount->consumption_editing }}</span>
-                                                        </div>
-                                                        @if ($singleCost->co2Tax)
-                                                            <div id="user-costamount-listitem-co2TaxValue{{ $singleCostAmount->id }}"
+                                                <div class="basis-2/3 py-1 ">
+                                                    <div class="">
+                                                        <div class="flex items-center px-2 py-1 justify-around gap-2 border-b-2 bg-slate-100 border-white text-center md:text-lg">
+                                                            <div id="user-costamount-listitem-datum{{ $singleCostAmount->id }}"
                                                                 style="-moz-appearance: textfield; margin: 0;"
-                                                                class="basis-1/6 "   >
-                                                                    <span class="">{{ $singleCostAmount->coconsupmtion }}</span>
+                                                                class="basis-1/6 {{ $dateInputMode ? 'invisible' : '' }} ">
+                                                                    <span class="">{{ $singleCostAmount->datum }}</span>
                                                             </div>
-                                                            <div id="user-costamount-listitem-haushaltsnah{{ $singleCostAmount->id }}"
+                                                            <div id="user-costamount-listitem-consumption{{ $singleCostAmount->id }}"
                                                                 style="-moz-appearance: textfield; margin: 0;"
-                                                                class="basis-1/6 "   >
+                                                                class="basis-1/6 {{ $singleCost->consumption ? 'block' : 'invisible' }}">
+                                                                    <span class="">{{ $singleCostAmount->consumption_editing }}</span>
+                                                            </div>
+                                                            @if ($singleCost->co2Tax)
+                                                                <div id="user-costamount-listitem-co2TaxValue{{ $singleCostAmount->id }}"
+                                                                    style="-moz-appearance: textfield; margin: 0;"
+                                                                    class="basis-1/6 "   >
+                                                                        <span class="">{{ $singleCostAmount->coconsupmtion }}</span>
+                                                                </div>
+                                                                <div id="user-costamount-listitem-haushaltsnah{{ $singleCostAmount->id }}"
+                                                                    style="-moz-appearance: textfield; margin: 0;"
+                                                                    class="basis-1/6 "   >
+                                                                    @if($nettoInputMode)
+                                                                        <span class="">{{ $singleCostAmount->conetto }}</span>
+                                                                    @else
+                                                                        <span class="">{{ $singleCostAmount->cobrutto }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            @else
+                                                                <div class="basis-1/6">
+                                                                </div>
+                                                                <div id="user-costamount-listitem-haushaltsnah{{ $singleCostAmount->id }}"
+                                                                    style="-moz-appearance: textfield; margin: 0;"
+                                                                    class="{{ $singleCost->haushaltsnah ? 'block' : 'invisible' }} basis-1/6 "   >
+                                                                        <span class="">{{ $singleCostAmount->haushaltsnah }}</span>
+                                                                </div>
+                                                            @endif
+                                                            <div id="user-costamount-listitem-betrag{{ $singleCostAmount->id }}"
+                                                                style="-moz-appearance: textfield; margin: 0;"
+                                                                class="basis-1/6"
+                                                                >
                                                                 @if($nettoInputMode)
-                                                                    <span class="">{{ $singleCostAmount->conetto }}</span>
+                                                                    <span class="">{{ $singleCostAmount->netto }}</span>
                                                                 @else
-                                                                    <span class="">{{ $singleCostAmount->cobrutto }}</span>
+                                                                <span class="">{{ $singleCostAmount->brutto }}</span>
                                                                 @endif
                                                             </div>
-                                                        @else
-                                                            <div class="basis-1/6">
-                                                            </div>
-                                                            <div id="user-costamount-listitem-haushaltsnah{{ $singleCostAmount->id }}"
-                                                                style="-moz-appearance: textfield; margin: 0;"
-                                                                class="{{ $singleCost->haushaltsnah ? 'block' : 'invisible' }} basis-1/6 "   >
-                                                                    <span class="">{{ $singleCostAmount->haushaltsnah }}</span>
-                                                            </div>
-                                                        @endif
-                                                        <div id="user-costamount-listitem-betrag{{ $singleCostAmount->id }}"
-                                                            style="-moz-appearance: textfield; margin: 0;"
-                                                            class="basis-1/6"
-                                                            >
-                                                            @if($nettoInputMode)
-                                                                <span class="">{{ $singleCostAmount->netto }}</span>
-                                                            @else
-                                                            <span class="">{{ $singleCostAmount->brutto }}</span>
-                                                            @endif
-                                                        </div>
 
-                                                        <div
-                                                            class="basis-1/6 "
-                                                        >
                                                             <div
-                                                                class="flex">
+                                                                class="basis-1/6 "
+                                                            >
                                                                 <div
-                                                                    x-data = "
-                                                                    {
-                                                                        focusAndSelectNekoElementById(id)
+                                                                    class="flex">
+                                                                    <div
+                                                                        x-data = "
                                                                         {
-                                                                            document.getElementById(id).focus();
-                                                                            document.getElementById(id).select();
+                                                                            focusAndSelectNekoElementById(id)
+                                                                            {
+                                                                                document.getElementById(id).focus();
+                                                                                document.getElementById(id).select();
+                                                                            }
                                                                         }
-                                                                    }
-                                                                    "
-                                                                    x-on:click="
-                                                                       setTimeout(() => focusAndSelectNekoElementById('costamount-detailmodal-datum'), 1000)
-                                                                    "
-                                                                    wire:click="editCostAmountModal({{ $singleCostAmount }})"
-                                                                    class="border text-center bg-sky-300 md:text-md hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 mr-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-sky-600 rounded-md ">
-                                                                    <x-icon.fonts.pencil class="text-xs ">
-                                                                    </x-icon.fonts.pencil>
+                                                                        "
+                                                                        x-on:click="
+                                                                        setTimeout(() => focusAndSelectNekoElementById('costamount-detailmodal-datum'), 1000)
+                                                                        "
+                                                                        wire:click="editCostAmountModal({{ $singleCostAmount }})"
+                                                                        class="border text-center bg-sky-300 md:text-md hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 mr-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-sky-600 rounded-md ">
+                                                                        <x-icon.fonts.pencil class="text-xs ">
+                                                                        </x-icon.fonts.pencil>
+                                                                    </div>
+                                                                    <div
+                                                                        wire:click="questionDeleteCostAmount({{ $singleCostAmount }})"
+                                                                        class="border text-center bg-red-300 md:text-md hover:bg-red-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 ml-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-red-600 rounded-md ">
+                                                                        <x-icon.fonts.trash class="text-blue-800 "></x-icon.fonts.trash>
+                                                                    </div>
                                                                 </div>
-                                                                <div
-                                                                    wire:click="questionDeleteCostAmount({{ $singleCostAmount }})"
-                                                                    class="border text-center bg-red-300 md:text-md hover:bg-red-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 ml-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-red-600 rounded-md ">
-                                                                    <x-icon.fonts.trash class="text-blue-800 "></x-icon.fonts.trash>
-                                                                </div>
-                                                            </div>
 
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     @endforeach
                                 </div>
 
@@ -347,9 +349,11 @@
                                         <div class="basis-2/3 text-center">
                                             <div class="flex justify-around gap-2">
                                                 <div class="basis-1/6"></div>
-                                                <div class="basis-1/6 {{ $singleCost->consumption ? 'block' : 'invisible' }} "   >
-
-                                                    <span class="font-bold py-1">{{ $singleCost->consumptionsum. ' . $singleCost->fueltype->einheit->shortname'  }}</span>
+                                                <div class="basis-1/6 {{ $singleCost->consumption ? 'block' : 'hidden' }} "   >
+                                                    <span class="font-bold py-1">{{ $singleCost->consumptionsum}}</span>
+                                                    @if ($singleCost->fueltype !=null)
+                                                        <span class="font-bold py-1">{{ $singleCost->fueltype->einheit->shortname}}</span>
+                                                    @endif
                                                 </div>
                                                 <div class="basis-2/6"></div>
                                                 <div

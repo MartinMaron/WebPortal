@@ -55,6 +55,7 @@ class Betriebskostenliste extends Component
         $this->current = $this->makeBlankObject();
         $this->nettoInputMode = $realestate->eingabeCostNetto;
         $this->dateInputMode = $realestate->eingabeCostDatum;
+        $this->showEditFields = $realestate->kosteneingabe;
         $this->hasManyBrennstoffkosten = (bool)(Cost::where('realestate_id','=',$this->realestate->id)
                                         ->where(function (Builder $query) {$query->IsHeizkosten();})
                                         ->where('costtype_id','=','BRK')
@@ -82,6 +83,8 @@ class Betriebskostenliste extends Component
 
     public function togleShowEditFields(){
         $this->showEditFields = !$this->showEditFields;
+        $this->realestate->kosteneingabe = $this->showEditFields;
+        $this->realestate->save();
     }
 
     public function create()

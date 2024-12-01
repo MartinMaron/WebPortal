@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Cost;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
-use App\Models\RealestateAbrechnungssetting;
+use App\Models\Abrechnungssetting;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -26,7 +26,7 @@ class Realestate extends Model
     protected $fillable = [
         'nekoId', 'email', 'unvid', 'address', 'street', 'postCode','city','heizkosten','rauchmelder','miete',
         'user_id', 'eingabeCostNetto', 'eingabeCostOhneDatum', 'occupant_name_mode', 'occupant_number_mode',
-        'activeAbrechnungssetting_id'
+        'abrechnungssetting_id','kosteneingabe'
     ];
 
     protected $appends = [
@@ -58,9 +58,14 @@ class Realestate extends Model
         return $this->hasMany(Costkey::class);
     }
 
-    public function realestateAbrechnungssetting()
+    public function abrechnungssettings()
     {
-        return $this->hasMany(RealestateAbrechnungssetting::class);
+        return $this->hasMany(Abrechnungssetting::class);
+    }
+
+    public function abrechnungssetting()
+    {
+        return $this->belongsTo(Abrechnungssetting::class);
     }
 
     public function verbrauchsinfoUserEmails()

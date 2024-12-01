@@ -130,7 +130,7 @@
             
             <div class="font-normal text-lg ">
                 @foreach ($cost->costAmounts as $singleCostAmount)
-                    @if ($singleCostAmount->abrechnungssetting_id == $cost->realestate->activeAbrechnungssetting_id)
+                    @if ($singleCostAmount->abrechnungssetting_id == $cost->realestate->abrechnungssetting_id)
                         <div class="flex flex-row">
                             <div class="basis-1/5 py-1 ">
                                 

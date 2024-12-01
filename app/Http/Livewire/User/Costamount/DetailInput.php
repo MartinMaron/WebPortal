@@ -52,7 +52,7 @@ class DetailInput extends Component
        return CostAmount::make([
             'nekoCostId' => $this->cost->nekoId,
             'cost_id' => $this->cost->id,
-            'abrechnungssetting_id' => $this->cost->realestate->activeAbrechnungssetting_id,
+            'abrechnungssetting_id' => $this->cost->realestate->abrechnungssetting_id,
             'bemerkung' =>'',
             'co2TaxAmount_net' => 0,
             'co2TaxAmount_gros' => 0,

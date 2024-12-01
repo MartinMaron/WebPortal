@@ -30,6 +30,8 @@ return new class extends Migration
         Schema::table('cost_amounts', function (Blueprint $table) {
             $table->unsignedBigInteger('abrechnungssetting_id')->nullable();
             $table->foreign('abrechnungssetting_id')->references('id')->on('abrechnungssettings');
+            $table->boolean('startvalue')->nullable();
+            $table->boolean('endvalue')->nullable();
         });
     }
 

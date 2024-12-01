@@ -4,20 +4,18 @@ namespace App\Http\Livewire\User\Realestate\Abrechnung;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use App\Models\Realestate;
-use App\Models\RealestateAbrechnungssetting;
+use App\Models\Abrechnungssetting;
 use Helpers;
 
 class Einstellungen extends Component
 {
     public Realestate $realestate;
-    public RealestateAbrechnungssetting $einstellungen;
+    public Abrechnungssetting $einstellungen;
 
     public function mount($baseobject)
     {
         $this->realestate = $baseobject;
-        $this->einstellungen = RealestateAbrechnungssetting::query()
-        ->where('realestate_id', '=', $this->realestate->id)
-        ->first();
+        $this->einstellungen = $this->realestate->abrechnungssetting;
      }
     
      public function commit(){

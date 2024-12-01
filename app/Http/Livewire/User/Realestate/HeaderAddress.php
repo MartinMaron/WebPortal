@@ -19,7 +19,7 @@ class HeaderAddress extends Component
     public function rules()
     {
         return [
-            'realestate.activeAbrechnungssetting_id' => 'required',      
+            'realestate.abrechnungssetting_id' => 'required',      
         ];
     }
 

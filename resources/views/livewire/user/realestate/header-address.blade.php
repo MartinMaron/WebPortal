@@ -4,9 +4,9 @@
             {{ $this->realestate->address }}
         </span>
         <x-input.select
-        class="text-left h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="realestate.activeAbrechnungssetting_id" id="realestate-header-address-activeAbrechnungssetting-id" value="">
+        class="text-left h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="realestate.abrechnungssetting_id" id="realestate-header-address-abrechnungssetting-id" value="">
         <div class="h-10">
-            @foreach ($this->realestate->realestateAbrechnungssetting as $label)
+            @foreach ($this->realestate->abrechnungssettings as $label)
             <option value="{{ $label->id }}">
                 <div class="flex justify-end">
                     <div class="text-left">

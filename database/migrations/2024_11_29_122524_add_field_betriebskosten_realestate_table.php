@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::table('realestates', function($table)
         {
             $table->boolean('betriebskosten')->default(0);
+            $table->boolean('kosteneingabe')->default(0);
         });
     }
 
