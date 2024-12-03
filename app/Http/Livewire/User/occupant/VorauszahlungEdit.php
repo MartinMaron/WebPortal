@@ -15,17 +15,18 @@ class VorauszahlungEdit extends Component
 
     public function mount(Occupant $occupant){
         $this->occupant = $occupant;
-        $this->vorauszahlung = $occupant->vorauszahlung;
+        $this->vorauszahlung = $occupant->vorauszahlung_editing;
       }
 
     public function confirmPrePaid()
     {
-        $this->occupant->vorauszahlung= floatval($this->vorauszahlung);
+        $this->occupant->vorauszahlung_editing = floatval($this->vorauszahlung);
         $this->occupant->save();
     }
 
     public function rules() { return [
-         'occupant.vorauszahlung' => 'nullable',
+         'occupant.vorauszahlung_editing' => 'nullable',
+         'vorauszahlung' => 'nullable',
     ]; }
     public function render()
     {

@@ -17,11 +17,13 @@
                     <x-icon.fonts.file-signature class="text-sky-700 hover:text-sky-300"></x-icon.fonts.file-signature>
                 </a>
             </div>
-            <div class="px-2 sm:px-4">
-                <a href="{{route('user.betriebskostenliste', $realestate)}}">
-                    <i class="fa-regular fa-file-signature text-sky-700 hover:text-sky-300""></i>
-                </a>
-            </div>
+            @if ($realestate->betriebskosten)
+                <div class="px-2 sm:px-4">
+                    <a href="{{route('user.betriebskostenliste', $realestate)}}">
+                        <i class="fa-regular fa-file-signature text-sky-700 hover:text-sky-300""></i>
+                    </a>
+                </div>
+            @endif
             
             <div class="px-2 sm:px-4">
                 <a href="{{route('user.realestateVerbrauchsinfoUserEmails', $realestate)}}">

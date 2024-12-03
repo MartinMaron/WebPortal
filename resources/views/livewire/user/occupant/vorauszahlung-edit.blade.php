@@ -1,5 +1,6 @@
-<input type="number"
-    format:
+<input     
+    type="text"
+    inputmode="numeric" 
     wire:model.lazy="vorauszahlung"
     wire:focusout ="confirmPrePaid()"
     style="-moz-appearance: textfield; margin: 0;"

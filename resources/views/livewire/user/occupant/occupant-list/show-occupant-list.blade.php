@@ -1,7 +1,7 @@
 
 
 <div key="{{ now() }}">
-    <div class="block w-full mx-auto max-w-7xl" key="{{ now() }}">
+    <div class="block w-full mx-auto max-w-7xl mb-48" key="{{ now() }}">
         <div class="text-3xl pt-3 font-bold text-sky-800 text-center w-full">
             NUTZERLISTE  
         </div>
@@ -9,7 +9,7 @@
             <!-- Suchfeld -->
             <x-input.search wire:model.debounce.600ms="filters.search"></x-input.search>
         </div>
-        <div class="flex-row w-full">
+        <div class="flex w-full justify-between">
             <div class="flex w-full px-5 sm:px-1 gap-2 justify-between sm:justify-start">
 
                 @if ($hasAnyCustomEinheitNo)
@@ -35,6 +35,33 @@
                         @endif
                     </label>
                 </div>
+                @endif
+            </div>
+            <div class="flex gap-4">
+                
+                @if ($this->realestate->betriebskosten)
+                    <div wire:click="toggle('prepaidtype')" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
+                        <input wire:model="prepaidtype" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
+                        <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
+                            @if ($prepaidtype)
+                            <span class="font-medium text-gray-900 text-md">Heizkosten</span>
+                            @else
+                            <span class="font-medium text-gray-900 text-md">Betriebskosten</span>
+                            @endif
+                        </label>
+                    </div>
+                @endif
+                @if ($hasVat)
+                    <div wire:click="toggle('prepaidnet')" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
+                        <input wire:model="prepaidnet" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
+                        <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
+                            @if ($prepaidnet)
+                            <span class="font-medium text-gray-900 text-md">netto</span>
+                            @else
+                            <span class="font-medium text-gray-900 text-md">brutto</span>
+                            @endif
+                        </label>
+                    </div>
                 @endif
             </div>
         </div>            
@@ -105,7 +132,8 @@
                                         <span>{{ $occupant->date_to_editing }}</span>
                                     @else
                                         <div class="w-40 px-auto gap-2 {{ $occupant->canDelete ? 'flex justify-between' : 'flex justify-center' }} items-center mx-1">
-                                            <button class="w-18 px-auto border-2"
+                                            <button class="w-18 px-auto border-2 "
+                                                tabindex="-1"
                                                 style="min-width: 3rem; max-width: 3rem"
                                                 wire:click='change({{$occupant}})'>
                                                 <x-icon.fonts.user-move 
@@ -115,6 +143,7 @@
                                             @if ($occupant->canDelete)
                                                 <button class="w-18 px-auto border-2"
                                                 wire:click='emit_QuestionDeleteModal({{$occupant}})'
+                                                tabindex="-1"
                                                 style="min-width: 3rem; max-width: 3rem"
                                                 >
                                                 <span >
@@ -139,7 +168,7 @@
                                 @if ($editVorauszahlungen)
                                     <livewire:user.occupant.vorauszahlung-edit :occupant='$occupant'/>
                                 @else
-                                    <span class="pr-2 ">{{number_format($occupant->vorauszahlung,  2, ',', '.') }}</span>
+                                    <span class="pr-2 ">{{$occupant->vorauszahlung_editing }}</span>
                                 @endif
                             </x-table.td>
                        </x-table.tr>
@@ -252,6 +281,9 @@
         </div>
         <div class="">
             <livewire:user.dialog.delete-modal :wire:key="'modal-occupant-list-delete'"/>
+        </div>
+        <div class="mt-6 my-5">
+            {{ $rows->onEachSide(2)->links() }}
         </div>
     </div>
 </div>

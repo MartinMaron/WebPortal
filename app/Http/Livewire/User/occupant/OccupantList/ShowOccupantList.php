@@ -8,25 +8,29 @@ use Livewire\Component;
 use App\Models\Occupant;
 use App\Models\Realestate;
 use App\Models\Salutation;
+use Livewire\WithPagination;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
+use App\Models\UserVerbrauchsinfoAccessControl;
 use App\Http\Livewire\DataTable\WithBulkActions;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
-use App\Models\UserVerbrauchsinfoAccessControl;
 
 class ShowOccupantList extends Component
 {
 
-    use WithPerPagePagination, WithSorting, WithBulkActions, WithCachedRows;
+    use WithPerPagePagination, WithSorting, WithBulkActions, WithCachedRows, WithPagination;
 
     public $showCustomEinheitNo = true;
     public $hasAnyCustomEinheitNo = false;
     public $hasAnyEigentumer = false;
+    public $hasVat = false;
     public $showEigentumer = true;
     public $showDeleteModal = false;
     public $showEditModal = false;
     public $showFilters = false;
+    public $prepaidtype = true;
+    public $prepaidnet = false;
     public bool $editVorauszahlungen = false;
     public $currentVorauszahlung = 0;
     public $salutations = null;
@@ -111,7 +115,9 @@ class ShowOccupantList extends Component
         $this->realestate = $baseobject;
         $this->hasAnyCustomEinheitNo = (bool) $this->realestate->occupants->where('customEinheitNo', '<>', '')->count();
         $this->hasAnyEigentumer = (bool) $this->realestate->occupants->where('eigentumer', '<>', '')->count();
+        $this->hasVat = (bool) $this->realestate->occupants->where('vat', '=', '1')->count();
         $this->salutations = Salutation::all();
+        $this->prepaidnet = $this->realestate->eingabeCostNetto;
         $this->sorts = [
             'unvid' => 'asc'
             ];
@@ -139,6 +145,21 @@ class ShowOccupantList extends Component
             $this->realestate->occupant_name_mode = $this->showEigentumer;
             $this->realestate->save();
         }
+        if ($value == 'prepaidtype'){
+            $this->prepaidtype = !$this->prepaidtype;
+            if($this->prepaidtype){
+                $this->realestate->prepaidtype = 'H';
+            }else{
+                $this->realestate->prepaidtype = 'B';
+            }
+            $this->realestate->save();
+        }
+        if ($value == 'prepaidnet'){
+            $this->prepaidnet = !$this->prepaidnet;
+            $this->realestate->eingabeCostNetto = $this->prepaidnet;
+            $this->realestate->save();
+        }
+        
     }
 
     public function change(Occupant $occupant)
@@ -173,6 +194,11 @@ class ShowOccupantList extends Component
         $this->reset('filters');
     }
 
+    public function updatingfilter()
+    {
+        $this->resetPage();
+    }
+
     public function getRowsQueryProperty()
     {
         if ($this->filters['search']) {
@@ -199,7 +225,7 @@ class ShowOccupantList extends Component
     public function getRowsProperty()
     {
         // return $this->cache(function () {
-        return $this->rowsQuery->get();
+        return $this->rowsQuery->paginate(20);
         // });
     }
 

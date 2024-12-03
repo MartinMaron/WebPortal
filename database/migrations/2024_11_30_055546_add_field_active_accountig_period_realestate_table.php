@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('abrechnungssetting_id')->references('id')->on('abrechnungssettings')->onDelete('cascade');
             $table->dropColumn('periodFrom');
             $table->dropColumn('periodTo');
+            $table->string('prepaidtype')->default('H');
         });
 
         Schema::table('abrechnungssettings', function($table)
