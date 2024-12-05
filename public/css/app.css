@@ -1508,6 +1508,12 @@ select {
 .basis-8\/12 {
   flex-basis: 66.666667%;
 }
+.basis-0 {
+  flex-basis: 0px;
+}
+.basis-1 {
+  flex-basis: 0.25rem;
+}
 .origin-top {
   transform-origin: top;
 }

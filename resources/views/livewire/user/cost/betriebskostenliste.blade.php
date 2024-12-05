@@ -171,13 +171,13 @@
                                                 class="flex py-1 px-1 gap-1">
                                                 <div
                                                     wire:click="editCostAmountModal({{ $singleCostAmount }})"
-                                                    class="border text-center bg-sky-300 hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 focus:border-indigo-500 w-full sm:text-xs border-sky-600 rounded-md ">
+                                                    class="{{ $singleCostAmount->nekoId == 0 ? 'block' : 'hidden'}} border text-center bg-sky-300 hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 focus:border-indigo-500 w-full sm:text-xs border-sky-600 rounded-md ">
                                                     <x-icon.fonts.pencil class="text-xs ">
                                                     </x-icon.fonts.pencil>
                                                 </div>
                                                 <div
                                                     wire:click="questionDeleteCostAmount({{ $singleCostAmount }})"
-                                                    class="border text-center bg-red-300 hover:bg-red-500 focus:bg-sky-500 focus:ring-indigo-500 py-1  focus:border-indigo-500 w-full sm:text-xs border-red-600 rounded-md ">
+                                                    class="{{ $singleCostAmount->nekoId == 0 ? 'block' : 'hidden'}} border text-center bg-red-300 hover:bg-red-500 focus:bg-sky-500 focus:ring-indigo-500 py-1  focus:border-indigo-500 w-full sm:text-xs border-red-600 rounded-md ">
                                                     <x-icon.fonts.trash class="text-blue-800 "></x-icon.fonts.trash>
                                                 </div>
                                             </div>

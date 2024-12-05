@@ -5,17 +5,11 @@
         </span>
         <x-input.select
         class="text-left h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="realestate.abrechnungssetting_id" id="realestate-header-address-abrechnungssetting-id" value="">
-        <div class="h-10">
             @foreach ($this->realestate->abrechnungssettings as $label)
-            <option value="{{ $label->id }}">
-                <div class="flex justify-end">
-                    <div class="text-left">
-                        {{ $label->period_from_editing. ' - '. $label->period_to_editing   }}
-                    </div>
-                </div>
+            <option class="h-10 text-left" value="{{ $label->id }}">
+                {{ $label->period_from_editing. ' - '. $label->period_to_editing   }}
             </option>
             @endforeach
-        </div>
         </x-input.select>
     </div>
 

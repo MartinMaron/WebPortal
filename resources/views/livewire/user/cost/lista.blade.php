@@ -316,13 +316,13 @@
                                                                         setTimeout(() => focusAndSelectNekoElementById('costamount-detailmodal-datum'), 1000)
                                                                         "
                                                                         wire:click="editCostAmountModal({{ $singleCostAmount }})"
-                                                                        class="border text-center bg-sky-300 md:text-md hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 mr-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-sky-600 rounded-md ">
+                                                                        class="{{ $singleCostAmount->nekoId == 0 ? 'block' : 'hidden'}} border text-center bg-sky-300 md:text-md hover:bg-sky-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 mr-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-sky-600 rounded-md ">
                                                                         <x-icon.fonts.pencil class="text-xs ">
                                                                         </x-icon.fonts.pencil>
                                                                     </div>
                                                                     <div
                                                                         wire:click="questionDeleteCostAmount({{ $singleCostAmount }})"
-                                                                        class="border text-center bg-red-300 md:text-md hover:bg-red-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 ml-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-red-600 rounded-md ">
+                                                                        class="{{ $singleCostAmount->nekoId == 0 ? 'block' : 'hidden'}} border text-center bg-red-300 md:text-md hover:bg-red-500 focus:bg-sky-500 focus:ring-indigo-500 py-1 ml-2 m-0 focus:border-indigo-500 w-full sm:text-sm border-red-600 rounded-md ">
                                                                         <x-icon.fonts.trash class="text-blue-800 "></x-icon.fonts.trash>
                                                                     </div>
                                                                 </div>
@@ -351,9 +351,9 @@
                                                 <div class="basis-1/6"></div>
                                                 <div class="basis-1/6 {{ $singleCost->consumption ? 'block' : 'hidden' }} "   >
                                                     <span class="font-bold py-1">{{ $singleCost->consumptionsum}}</span>
-                                                    @if ($singleCost->fueltype !=null)
+                                                    {{-- @if ($singleCost->fueltype !=null)
                                                         <span class="font-bold py-1">{{ $singleCost->fueltype->einheit->shortname}}</span>
-                                                    @endif
+                                                    @endif --}}
                                                 </div>
                                                 <div class="basis-2/6"></div>
                                                 <div

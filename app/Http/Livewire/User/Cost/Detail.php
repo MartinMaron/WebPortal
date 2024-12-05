@@ -115,6 +115,7 @@ class Detail extends Component
             if ($this->cost->costtype != null && $this->cost->costtype_id == 'BRK') {
                 $this->cost->consumption = true;
             }
+            $this->cost->OptimisticLockField = $this->cost->OptimisticLockField + 1;            
             $this->validate();
             $this->cost->save();
             $this->showEditModal = false;

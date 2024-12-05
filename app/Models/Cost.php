@@ -25,7 +25,8 @@ class Cost extends Model
         'startValueAmountNet', 'startValueAmountGros', 'startValueAmountVat', 
         'haushaltsnah', 'co2Tax', 'costkey_id', 'consumption', 'costkey',
         'noticeForUser', 'noticeForNeko', 
-        'prevyearPeriod', 'prevyearQuantity', 'prevyearAmountnet', 'prevyearAmountgros'
+        'prevyearPeriod', 'prevyearQuantity', 'prevyearAmountnet', 'prevyearAmountgros',
+        'OptimisticLockField'
     ];
 
     public function scopeIsHeizkosten($query)
@@ -229,7 +230,7 @@ class Cost extends Model
     }
 
     public function setStartValueEditingAttribute($value){
-        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype() && $this->fueltype->hasTank) {
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
             $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
             ->where('startvalue','=', true)->get();
             if ($q->count() > 0) {
@@ -245,7 +246,7 @@ class Cost extends Model
     }
 
     public function getStartValueEditingAttribute(){
-        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype() && $this->fueltype->hasTank) {
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
             $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
             ->where('startvalue','=', true)->get();
             if ($q->count() > 0) {
@@ -260,7 +261,7 @@ class Cost extends Model
     }
 
     public function setStartValueAmountNetEditingAttribute($value){
-        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype() && $this->fueltype->hasTank) {
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
             $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
             ->where('startvalue','=', true)->get();
             if ($q->count() > 0) {
@@ -284,7 +285,7 @@ class Cost extends Model
     }
 
     public function setStartValueAmountGrosEditingAttribute($value){
-        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype() && $this->fueltype->hasTank) {
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
             $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
             ->where('startvalue','=', true)->get();
             if ($q->count() > 0) {
@@ -300,7 +301,7 @@ class Cost extends Model
     }
 
     public function getStartValueAmountGrosEditingAttribute(){
-        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype() && $this->fueltype->hasTank) {
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
             $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
             ->where('startvalue','=', true)->get();
             if ($q->count() > 0) {
@@ -315,7 +316,7 @@ class Cost extends Model
     }
 
     public function setEndValueEditingAttribute($value){
-        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype() && $this->fueltype->hasTank) {
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
             $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
             ->where('endvalue','=', true)->get();
             if ($q->count() > 0) {
@@ -331,7 +332,7 @@ class Cost extends Model
     }
 
     public function getEndValueEditingAttribute(){
-        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype() && $this->fueltype->hasTank) {
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
             $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
             ->where('endvalue','=', true)->get();
             if ($q->count() > 0) {

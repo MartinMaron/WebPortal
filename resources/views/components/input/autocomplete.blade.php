@@ -82,7 +82,7 @@
                         b.appendChild(e);
                         b.addEventListener('click', function(e) {
                             $el.value = this.getElementsByTagName('input')[0].value;
-                            closeAllLists();
+                            
                         });
                         a.appendChild(b);
                     }

@@ -43,5 +43,11 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('prepaids');
+
+        Schema::table('cost_amounts', function (Blueprint $table) {
+            $table->dropColumn('abrechnungssetting_id');
+            $table->dropColumn('startvalue');
+            $table->dropColumn('endvalue');
+        });
     }
 };

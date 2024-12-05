@@ -244,6 +244,7 @@
                                     wire:model.lazy="current.lage"
                                     customPlaceholder="Lage"
                                     customId="0"
+                                    class="basis-1/2"
                                     fieldname="inpLage"
                                     data="[
                                         'EG.', 'EG. L.', 'EG. R.','EG. ML.','EG. MR.',
