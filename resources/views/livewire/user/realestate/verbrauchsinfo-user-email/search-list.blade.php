@@ -1,6 +1,6 @@
 <div class="w-full px-4 py-1 sm:px-6 lg:px-8 max-w-7xl ">
     <div class="font-bold text-lg sm:text-2xl mb-8 text-center hover:text-sky-700">
-       hier können Sie eintragen an welche Emails die unterjährige Informationen versendet werden sollen            
+        hier können Sie eintragen an welche Emails die unterjährige Informationen versendet werden sollen            
     </div>    
     <div
             x-data="{open:true}"
@@ -47,38 +47,39 @@
        
         @foreach ($occupants as $occupant)
             <div class="block my-1 border border-b-2 border-gray-300 rounded-lg shadow-sm ">
-                <div class="flex items-center py-1 justify-between sm:justify-between">
-                    {{-- pokazac ostatniego lokatora mieszkania --}}
-                    <div class="text-md ml-1">
-                        <livewire:user.occupant.occupant-header :occupant='$occupant' key="{{ now() }}"/>
+                    <div class="flex items-center py-3 md:justify-center">
+                        {{-- pokazac ostatniego lokatora mieszkania --}}
+                        <div class="text-sm">
+                            <livewire:user.occupant.occupant-header :occupant='$occupant' key="{{ now() }}"/>
+                        </div>
                     </div>
-                    <button 
-                        wire:click='raise_CreateVerbrauchsinfoUserEmailModal({{$occupant}})'
-                        class="">
-                        <i class="fa-regular fa-circle-plus text-xl sm:text-3xl m-1 sm:mr-3 text-sky-600" ></i>
-                    </button>
-                </div>
 
-                @forelse ($occupant->verbrauchsinfoUserEmails as $userEmail)
-                    @if (!$userEmail->anonym)
-                    <div>
-                        <livewire:user.realestate.verbrauchsinfo-user-email.listitem  :userEmail='$userEmail' :wire:key="'verbrauchsinfo-user-email-listitem-'.$userEmail->id"  key="{{ now() }}"/>
-                    </div>
-                    @endif   
-                @endforeach
-
-                {{-- <div class="hidden sm:flex items-center py-1 sm:py-3 md:justify-center">
-                    <x-button.verbrauchsinfo 
-                    class="text-red-600"
-                    wire:click='raise_CreateVerbrauchsinfoUserEmailModal({{$occupant}})'
-                    >
-                    @if ($occupant->verbrauchsinfoUserEmails->where('anonym','=','0')->count() != 0)
-                        weitere Nutzer hinzufügen   
-                    @else
-                        Nutzer hinzufügen   
-                    @endif 
-                    </x-button.verbrauchsinfo>
-                </div> --}}
+                    @forelse ($occupant->verbrauchsinfoUserEmails as $userEmail)
+                        @if (!$userEmail->anonym)
+                        <div>
+                            <livewire:user.realestate.verbrauchsinfo-user-email.listitem  :userEmail='$userEmail' :wire:key="'verbrauchsinfo-user-email-listitem-'.$userEmail->id"  key="{{ now() }}"/>
+                        </div>
+                        @endif   
+                    @endforeach
+                        @if ($occupant->verbrauchsinfoUserEmails->where('anonym','=','0')->count() != 0)
+                        <div class="flex items-center py-3 md:justify-center">
+                            <x-button.verbrauchsinfo 
+                            class="text-red-600"
+                            wire:click='raise_CreateVerbrauchsinfoUserEmailModal({{$occupant}})'
+                            >
+                               weitere Emails hinzufügen   
+                            </x-button.verbrauchsinfo>
+                        </div>
+                        @else
+                        <div class="flex items-center py-3 md:justify-center">
+                            <x-button.verbrauchsinfo 
+                            class="text-red-600"
+                            wire:click='raise_CreateVerbrauchsinfoUserEmailModal({{$occupant}})'
+                            >
+                                hinzufügen   
+                            </x-button.verbrauchsinfo>
+                        </div>
+                    @endif
             </div>
         @endforeach
 

@@ -11,7 +11,7 @@
         </div>
         <div class="flex w-full justify-between">
             <div class="flex w-full px-5 sm:px-1 gap-2 justify-between sm:justify-start">
-                
+
                 @if ($hasAnyCustomEinheitNo)
                 <div wire:click="toggle('nummer')" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
                     <input wire:model="showCustomEinheitNo" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
@@ -40,8 +40,7 @@
             <div class="flex gap-4">
                 
                 @if ($this->realestate->betriebskosten)
-                    <div wire:click="toggle('prepaidtype')" 
-                        class="relative inline-block w-40 mr-3 sm:mr-1 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
+                    <div wire:click="toggle('prepaidtype')" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
                         <input wire:model="prepaidtype" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
                         <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
                             @if ($prepaidtype)
@@ -67,7 +66,7 @@
             </div>
         </div>            
 
-        <!-- Big screen Occupants List TABELLA -->
+        <!-- Big screen TABELLA -->
         <div class="hidden sm:block md:max-w-7xl" key="{{ now() }}">
             <x-table class="occu-table" key="{{ now() }}">
                 <x-slot name="head">
@@ -185,87 +184,100 @@
             </x-table>
         </div>
 
-        <!-- Small Screen Occupants List -->
+        <!-- Occupants List -->
         <div class="block sm:hidden" key="{{ now() }}">
             <div class="grid w-full grid-cols-1 gap-4 mt-6 sm:grid-cols-2 lg:grid-cols-3" key="{{ now() }}">
                     
                 @foreach ($rows as $occupant)
-                    <div wire:key="row-{{ $occupant->id }}" 
-                        class="my-1 mx-3 block divide-gray-200 rounded-lg shadow-md bg-sky-50" key="{{ now() }}" >
-                            
-                        <div class="flex my-1 justify-between gap-2 m-auto text-lg text-sky-700">
-                            @if ($showCustomEinheitNo)
-                            <span class="{{ $occupant->customEinheitNo ? 'font-bold' : 'font-thin text-opacity-50' }}">
-                                {{ $occupant->display_einheit }}
-                            </span>
-                            @else
-                                {{ $occupant->NutzerKennnummer }}
-                            @endif
-                            <div class="">
-                                {{ $occupant->qmkcEditing }} m²
+                    <div wire:key="flex row-{{ $occupant->id }}" class="divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-50" key="{{ now() }}" >
+                        <div class="flex items-center justify-between w-full p-2 space-x-6 ">
+                            <div class="flex-1 border-sky-100 ">
+                                <div class="w-full text-gray-700">
+                                    <div class="items-center ">
+                                        <div class="">
+
+                                            <div class="flex justify-between gap-2 m-auto text-lg text-sky-700">
+                                                @if ($showCustomEinheitNo)
+                                                <span class="{{ $occupant->customEinheitNo ? 'font-bold' : 'font-thin text-opacity-50' }}">
+                                                    {{ $occupant->display_einheit }}
+                                                </span>
+                                                @else
+                                                    {{ $occupant->NutzerKennnummer }}
+                                                @endif
+                                                <div class="">
+                                                    {{ $occupant->qmkcEditing }} m²
+                                                </div>
+                                            </div>
+
+                                            <div class="flex justify-between text-lg font-semibold text-sky-700">
+                                                @if ($showEigentumer)
+                                                <span class="{{ $occupant->eigentumer ? 'font-bold' : 'font-thin text-opacity-50' }}">
+                                                    {{ $occupant->display_eigentumer_name }}
+                                                </span>
+                                                @else
+                                                    {{ $occupant->vorname . ' '. $occupant->nachname }}
+                                                @endif
+                                                <div class="">
+                                                    <x-jet-dropdown align="right" class="w-40">
+                                                        <x-slot name="trigger">
+                                                            <button class="px-2 py-1 duration-150 rounded-lg bg-sky-100 border-sky-100 text-md text-sky-700 opacity-90 group-hover:opacity-100 ease">&ctdot;</button>
+                                                        </x-slot>
+                                                        <x-slot name="content" class="">
+                                                            <x-jet-dropdown-link 
+                                                                class="cursor-pointer"
+                                                                wire:click='edit({{$occupant}})'
+                                                                >
+                                                                <x-icon.fonts.editable-pencil class="text-sm cursor-pointer text-sky-700 hover:text-sky-300"></x-icon.fonts.editable-pencil>
+                                                                {{ __('Bearbeiten') }}
+                                                            </x-jet-dropdown-link>
+                                                            
+                                                            <x-jet-dropdown-link 
+                                                                class="cursor-pointer"
+                                                                wire:click='change({{$occupant}})'
+                                                                >
+                                                                <x-icon.fonts.user-move class="cursor-pointer text-sky-700 hover:text-sky-300 fa-solid fa-house-person-leave"></x-icon.fonts.user-move>
+                                                                {{ __('Nutzerwechsel') }}
+                                                            </x-jet-dropdown-link>
+                                                            @if ($occupant->canDelete)
+
+                                                                <x-jet-dropdown-link 
+                                                                    class="cursor-pointer"
+                                                                    wire:click='emit_QuestionDeleteModal({{$occupant}})'
+                                                                    >
+                                                                    <x-icon.fonts.trash class="cursor-pointer text-red-700 hover:text-sky-300 fa-solid "></x-icon.fonts.trash>
+                                                                    {{ __('Löschen') }}
+                                                                </x-jet-dropdown-link>
+                                                            @endif
+                                                        </x-slot>
+                                                    </x-jet-dropdown>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex justify-between text-sm">
+                                                <div class="">
+                                                    {{ $occupant->zeitraumText }}
+                                                </div>
+                                                <div class="">
+                                                    {{-- <span class="ml-3">Nutzerwechsel</span> --}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="flex justify-between text-lg font-semibold text-sky-700">
-                            @if ($showEigentumer)
-                            <span class="{{ $occupant->eigentumer ? 'font-bold' : 'font-thin text-opacity-50' }}">
-                                {{ $occupant->display_eigentumer_name }}
-                            </span>
-                            @else
-                                {{ $occupant->vorname . ' '. $occupant->nachname }}
-                            @endif
-                            <div class="">
-                                <x-jet-dropdown align="right" class="w-40">
-                                    <x-slot name="trigger">
-                                        <button class="px-2 py-1 duration-150 rounded-lg bg-sky-100 border-sky-100 text-md text-sky-700 opacity-90 group-hover:opacity-100 ease">&ctdot;</button>
-                                    </x-slot>
-                                    <x-slot name="content" class="">
-                                        <x-jet-dropdown-link 
-                                            class="cursor-pointer"
-                                            wire:click='edit({{$occupant}})'
-                                            >
-                                            <x-icon.fonts.editable-pencil class="text-sm cursor-pointer text-sky-700 hover:text-sky-300"></x-icon.fonts.editable-pencil>
-                                            {{ __('Bearbeiten') }}
-                                        </x-jet-dropdown-link>
-                                        
-                                        <x-jet-dropdown-link 
-                                            class="cursor-pointer"
-                                            wire:click='change({{$occupant}})'
-                                            >
-                                            <x-icon.fonts.user-move class="cursor-pointer text-sky-700 hover:text-sky-300 fa-solid fa-house-person-leave"></x-icon.fonts.user-move>
-                                            {{ __('Nutzerwechsel') }}
-                                        </x-jet-dropdown-link>
-                                        @if ($occupant->canDelete)
-
-                                            <x-jet-dropdown-link 
-                                                class="cursor-pointer"
-                                                wire:click='emit_QuestionDeleteModal({{$occupant}})'
-                                                >
-                                                <x-icon.fonts.trash class="cursor-pointer text-red-700 hover:text-sky-300 fa-solid "></x-icon.fonts.trash>
-                                                {{ __('Löschen') }}
-                                            </x-jet-dropdown-link>
-                                        @endif
-                                    </x-slot>
-                                </x-jet-dropdown>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-between text-sm">
-                            <div class="">
-                                {{ $occupant->zeitraumText }}
-                            </div>
-                            <div class="">
-                                {{-- <span class="ml-3">Nutzerwechsel</span> --}}
-                            </div>
-                        </div>
-                            
                     </div>
                 @endforeach
             </div>
         </div>
 
         <div class="">
+           {{-- 
+            <livewire:user.occupant.occupant-list.dialog :realestate='$realestate'/>
+         --}}
+         
             <livewire:user.occupant.detail.dialog :realestate='$realestate' key="{{ now() }}"/>
+        
         </div>
         <div class="">
             <livewire:user.dialog.delete-modal :wire:key="'modal-occupant-list-delete'"/>

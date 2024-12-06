@@ -18,10 +18,8 @@ class VerbrauchsinfoUserEmail extends Model
 
     protected $fillable = [
         'realestate_id', 'nutzeinheitNo',
-        'email', 'firstinitUsername', 'occupant_id',
-        'infoPerPortal','infoPerEmail','infoPerPost',
+        'email', 'firstinitUsername', 'occupant_id'
     ];
-
 
     public function createdFromWebForOccupant()
     {

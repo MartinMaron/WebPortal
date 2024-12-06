@@ -37,9 +37,6 @@ class Detail extends Component
             'userEmail.firstinitUsername' => 'nullable',
             'userEmail.nutzeinheitNo' => 'required',
             'userEmail.realestate_id' => 'required',
-            'userEmail.info_per_portal_editing' => 'nullable',
-            'userEmail.infoPerPortal' => 'nullable',
-            'userEmail.info_per_post_editing' => 'nullable',
         ];
     }
 
@@ -62,14 +59,10 @@ class Detail extends Component
                  }
                 if($this->dialogMode == 'edit')
                 {
-                    
                     VerbrauchsinfoUserEmail::updateOrcreate(
                             ['id' => $this->userEmail['id']],
                             ['email' => $this->userEmail['email'],
                             'firstinitUsername' => $this->userEmail['firstinitUsername'],
-                            'infoPerPortal' => $this->userEmail['infoPerPortal'],
-                            'infoPerEmail' => $this->userEmail['infoPerEmail'],
-                            'infoPerPost' => $this->userEmail['infoPerPost'],
                             ]
                             );
                     toast()->success('Emailadresse für Verbraucherinformationen wurde geändert','Achtung')->push();
