@@ -10,6 +10,6 @@
         </span>
     @endif
 
-    <input  {{ $readonly ? 'disabled ' : '' }}   {{ $attributes->merge(['class' => ' sm:pt-0 placeholder-gray-500 flex-1 pl-1 form-input bg-sky-50 block w-full transition duration-150 ease-in-out focus:outline-none focus:border focus:border-blue-500 sm:rounded sm:text-sm lg:text-sm sm:leading-5' . ($leadingAddOn ? ' rounded-none rounded-r-md' : '')]) }}/>
+    <input  {{ $readonly ? 'disabled ' : '' }}   {{ $attributes->merge(['class' => ' sm:pt-0 placeholder-gray-500 flex-1 pl-1 form-input  block w-full transition duration-150 ease-in-out focus:outline-none focus:border focus:border-blue-500 sm:rounded sm:text-sm lg:text-sm sm:leading-5' . ($leadingAddOn ? ' rounded-none rounded-r-md' : '')]) }}/>
 
 </div>

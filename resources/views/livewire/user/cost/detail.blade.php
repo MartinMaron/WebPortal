@@ -34,12 +34,14 @@
                         for="cost.costtype_id" label="Kostenart" :error="$errors->first('cost.costtype_id')"
                         >
                         <x-input.select
-                            class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="cost.costtype_id" id="cost-detail-cost.costtype_id" placeholder="Bitte auswählen" value="">
+                        class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="cost.costtype_id" id="cost-detail-cost.costtype_id" placeholder="Bitte auswählen" value="">
+                        <div class="h-10">
                             @foreach ($this->costtypes as $label)
-                                <option class="h-10" value="{{ $label->id }}">
+                            <option value="{{ $label->id }}">
                                         {{ $label->caption }}
-                                </option>
-                            @endforeach
+                                    </option>
+                                    @endforeach
+                                </div>
                             </x-input.select>
                         </x-input.group>
                     </div>
@@ -54,11 +56,17 @@
                             >
                             <x-input.select
                             class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="cost.fueltype_id" id="cost-detail-cost.fueltype_id" placeholder="Bitte auswählen" value="">
+                            <div class="h-10">
                                 @foreach ($this->fueltypes as $label)
-                                <option class="flex h-10" value="{{ $label->id }}">
-                                    {{ $label->caption. ' ('. $label->einheit->shortname. ')'   }}
+                                <option value="{{ $label->id }}">
+                                    <div class="flex">
+                                        <div class="">
+                                            {{ $label->caption. ' ('. $label->einheit->shortname. ')'   }}
+                                        </div>
+                                    </div>
                                 </option>
                                 @endforeach
+                            </div>
                             </x-input.select>
                         </x-input.group>
                     </div>
@@ -124,11 +132,15 @@
                         x-ref="inputcostkey"
                         class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="cost.costkey_id" id="cost-detail-cost.costkey_id" placeholder="Bitte auswählen" value="">
                         @foreach ($this->costkeys as $label)
-                        <option class="flex h-10" value="{{ $label->id }}">
-                            <span class="">
-                                {{ $label->viewText. ' ('. $label->einheit->shortname. ')'   }}
-                            </span>
-                        </option>
+                        <div class="h-10">
+                            <option value="{{ $label->id }}">
+                                <div class="flex">
+                                    <div class="">
+                                        {{ $label->viewText. ' ('. $label->einheit->shortname. ')'   }}
+                                    </div>
+                                </div>
+                            </option>
+                        </div>
                         @endforeach
                         </x-input.select>
                     </x-input.group>

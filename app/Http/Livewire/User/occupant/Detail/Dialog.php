@@ -5,23 +5,23 @@ namespace App\Http\Livewire\User\Occupant\Detail;
 use Helpers;
 use DateTime;
 use Carbon\Carbon;
-use App\Models\Lage;
 use Livewire\Component;
 use App\Models\Occupant;
 use App\Models\Realestate;
 use App\Models\Salutation;
-use App\Models\UnitUsageType;
 use Illuminate\Support\Facades\Route;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use PhpParser\Node\Expr\BinaryOp\BooleanOr;
-use App\Rules\OccupantDateFromLessDateToRule;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Rules\OcccupantDateFromGreaterPreviousRule;
 use App\Http\Traits\Api\Job\Realestate\OccupantAdapter;
+use App\Models\UnitUsageType;
+use App\Rules\OccupantDateFromLessDateToRule;
 
 class Dialog extends Component
 {
     use OccupantAdapter; 
+
 
     public $salutations = null;
     public $unitUsageTypes = null;
@@ -32,9 +32,7 @@ class Dialog extends Component
     // Form properties
     public $dateFromNewOccupant = null;
     public $hasLeerstand = false;
-    public $mlage = '';
-
-
+    
     public string $qmkc = "";
     public string $pe  = "";
     public string $vorauszahlung = "";
@@ -145,7 +143,7 @@ class Dialog extends Component
             'current.vat' => 'boolean',
             'current.lokalart' => 'nullable',
             'current.customEinheitNo' => 'nullable',
-            'current.lage' => 'required',
+            'current.lage' => 'nullable',
             'current.personen_zahl' => 'nullable',      
         ],
         4 => [
@@ -167,7 +165,6 @@ class Dialog extends Component
     protected $listeners = [
         'showOccupantModal' => 'showModal',
         'changeOccupantModal' => 'changeModal',
-        'LageAutocompleteDisplaychanged' => 'lageModalChanged'
     ];
 
     public function rules()
@@ -193,16 +190,10 @@ class Dialog extends Component
         $this->unitUsageTypes = UnitUsageType::all();
     }
 
-    public function lageModalChanged($value){
-        Debugbar::info('lageModalChanged:'. $value);
-        $this->current->lage = $value;
-        $this->updated('current.lage');
-    }
 
 
     public function updated($propertyName)
     {
-        Debugbar::info('occupant.detail.dialog-updated:'. $propertyName);
         $calcRules = null;
         if ($this->dialogMode == 'change'){
             $calcRules = $this->validationRulesChange;
@@ -214,8 +205,6 @@ class Dialog extends Component
         $myRules = $calcRules[$this->currentPage];
         $myRules['current.date_from_editing']=['required', 'date', new OccupantDateFromLessDateToRule];
         $myRules['dateFromNewOccupant']=['required', 'date', new OcccupantDateFromGreaterPreviousRule];
-
-
 
         $this->validateOnly($propertyName, $myRules, $this->messages);
     }

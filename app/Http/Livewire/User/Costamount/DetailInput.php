@@ -22,14 +22,11 @@ class DetailInput extends Component
     public $netto;
     public bool $inputWithDate;
     public bool $inputNet;
-    public int $index;
-    public int $editedindex = 1;
 
     public CostAmount $current;
     public string $inputStartField;
 
-    public function mount(Cost $cost, $netto, $inputWithDatum, $index) {
-        $this->index = $index;
+    public function mount(Cost $cost, $netto, $inputWithDatum) {
         $this->cost = $cost;
         $this->inputNet = $netto;
         $this->inputWithDate = $inputWithDatum;
@@ -103,16 +100,15 @@ class DetailInput extends Component
         ];
     }
 
-    public function save($editedIndex)
+    public function save()
     {
-        $this->editedindex = $editedIndex;
+       
         if ($this->validate($this->rules(),$this->messages(),$this->attributes())){
             if(CostAmount::create(collect($this->current)->toArray()))  {
                 $this->current = $this->makeBlankObject();
-                $this->emit('$refresh');
+                $this->emit('refreshComponents');
             }
         };
-        
     }
 
     public function render()

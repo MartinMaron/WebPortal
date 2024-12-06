@@ -55,7 +55,6 @@
                             <button
                                 x-on:click="expanded = !expanded"
                                 :aria-expanded="expanded"
-                                tabindex="-1"
                                 class="flex items-end justify-items-end w-full font-bold text-2xl px-3 py-1"
                             >
                             <span x-show="!expanded" aria-hidden="true" class="mr-2 mb-1 text-xl"><i class="fa-solid fa-caret-right"></i></span>
@@ -65,8 +64,7 @@
                                 <div x-show="!expanded"  class ="flex-1 mb-1-2 text-gray-500 text-left text-sm line-clamp-1 italic font-extralight" >{{ '     ...  '. $this->getCostByType($cost->costtype_id)->pluck('caption')->implode(', ') }} </div>
                             </div>
                             </button>
-                            <button wire:click="raise_AddCostModal({{ $cost }})"
-                                tabindex="-1">
+                            <button wire:click="raise_AddCostModal({{ $cost }})">
                                 <i class="fa-regular fa-circle-plus text-3xl m-3 text-sky-600" ></i>
                             </button>
                         </div>
@@ -181,7 +179,6 @@
                             <div class="flex flex-row {{ $singleCost->costAmounts->count() > 0 && $showEditFields ? 'border-b-2' : 'border-b-0' }} items-center justify-start font-normal m-2 text-lg ">
                                 <div class="basis-1/3 py-1 ">
                                     <button wire:click="raise_EditCostModal({{ $singleCost }})"
-                                            tabindex="-1"
                                             class="flex rounded-md hover:bg-sky-300 px-2 items-center justify-start ">
                                         <div class="text-lg">
                                             @if ($singleCost->fueltype_id !=null && $singleCost->fueltype->hasTank && $showEditFields)
@@ -194,7 +191,7 @@
                                 </div>
                                 @if ($showEditFields)
                                     <div class="basis-2/3 py-1">
-                                        <livewire:user.costamount.detail-input :cost='$singleCost' :netto='$nettoInputMode' :inputWithDatum='$dateInputMode' :wire:key="'list-cost-costamountinput-'.$singleCost->id" key="{{ now() }}" :index="$this->getCostIndex()"/>
+                                        <livewire:user.costamount.detail-input :cost='$singleCost' :netto='$nettoInputMode' :inputWithDatum='$dateInputMode' :wire:key="'list-cost-costamountinput-'.$singleCost->id" key="{{ now() }}"/>
                                     </div>
                                 @else
                                     <!-- Kosten-Ansicht -->

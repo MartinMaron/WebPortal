@@ -28,7 +28,6 @@ class DatabaseSeeder extends Seeder
             CostinvoicingtypeSeeder::class,
             CosttypeSeeder::class,
             FueltypeSeeder::class,
-            LageSeeder::class,
         ]);
 
 
