@@ -1,5 +1,5 @@
 
-<div class="p-4 text-lg text-right rounded-md sm:text-3xl bg-sky-100">
+<div class="p-4 w-full text-lg text-right rounded-md sm:text-3xl bg-sky-100">
     <div class="flex items-center justify-between">
         <div class="flex items-center justify-between">
             <div class="px-2 sm:px-4">
@@ -40,5 +40,17 @@
             <livewire:user.realestate.header-address :baseobject='$realestate' />
         </div>
 
+    </div>
+    <div class="xs:block sm:invisible">
+        <div class="mt-3 text-left ">
+            <x-input.select
+            class="text-left h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="realestate.abrechnungssetting_id" id="realestate-header-address-abrechnungssetting-id" value="">
+                @foreach ($this->realestate->abrechnungssettings as $label)
+                    <option class="h-10 text-left" value="{{ $label->id }}">
+                        <span class="">{{ $label->period_from_editing. ' - '. $label->period_to_editing   }}</span>
+                    </option>
+                @endforeach
+            </x-input.select>
+        </div>
     </div>
 </div>
