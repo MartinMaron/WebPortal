@@ -121,11 +121,9 @@
                                 x-ref="inputAnrede"
                                 class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0" wire:model="current.anrede" id="anrede" placeholder="Bitte auswählen" value="">
                                 @foreach ($this->salutations as $label)
-                                <div class="h-10">
-                                    <option value="{{ $label->bezeichnung }}">
+                                    <option class="h-10" value="{{ $label->bezeichnung }}">
                                         {{ $label->bezeichnung }}
                                     </option>
-                                </div>
                                 @endforeach
                             </x-input.select>
                         </x-input.group>
