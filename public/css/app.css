@@ -1508,12 +1508,6 @@ select {
 .basis-8\/12 {
   flex-basis: 66.666667%;
 }
-.basis-0 {
-  flex-basis: 0px;
-}
-.basis-1 {
-  flex-basis: 0.25rem;
-}
 .origin-top {
   transform-origin: top;
 }
@@ -1623,6 +1617,9 @@ select {
 }
 .justify-evenly {
   justify-content: space-evenly;
+}
+.justify-items-start {
+  justify-items: start;
 }
 .justify-items-end {
   justify-items: end;
@@ -2000,6 +1997,10 @@ select {
 .bg-sky-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(125 211 252 / var(--tw-bg-opacity));
+}
+.bg-sky-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(56 189 248 / var(--tw-bg-opacity));
 }
 .bg-sky-50 {
   --tw-bg-opacity: 1;

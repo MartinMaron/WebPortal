@@ -38,6 +38,13 @@ class Betriebskostenliste extends Component
     public bool $hasManyBrennstoffkosten = false;
 
 
+    public int $costIndex = 0;
+
+    public function getCostIndex(){
+        $this->costIndex++;
+        return $this->costIndex;
+    }
+
     public function rules()
     {
         return [

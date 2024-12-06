@@ -70,6 +70,7 @@
                     <div class="">
                         <button 
                             wire:click="raise_EditCostModal({{ $cost }})"
+                            tabindex="-1"
                             class="text-lg text-left px-2 flex rounded-md hover:bg-sky-300 ">
                             <span class="py-1 line-clamp-1">{{ $cost->caption }}</span>
                         </button>
@@ -78,7 +79,7 @@
                 @if ($showEditFields)   
                     <div class="basis-4/5 py-1">
                         <div class="">
-                            <livewire:user.costamount.detail-input :cost='$cost' :netto='false' :inputWithDatum='false' :wire:key="'list-cost-costamountinput-'.$singleCost->id" key="{{ now() }}"/>
+                            <livewire:user.costamount.detail-input :cost='$cost' :netto='false' :inputWithDatum='false' :wire:key="'list-cost-costamountinput-'.$singleCost->id" key="{{ now() }}" :index="$this->getCostIndex()"/>
                         </div>
                     </div>
                 @else 
