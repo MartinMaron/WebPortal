@@ -32,7 +32,12 @@ class Lista extends Component
     public Realestate $realestate;
     public bool $showDeleteCostAmountModal = false;
     public bool $hasManyBrennstoffkosten = false;
+    public int $costIndex = 0;
 
+    public function getCostIndex(){
+        $this->costIndex++;
+        return $this->costIndex;
+    }
 
     public function rules()
     {
@@ -159,6 +164,7 @@ class Lista extends Component
 
     public function render()
     {
+        $this->costIndex = 0;
         $filtered = Cost::where('realestate_id','=',$this->realestate->id)
         ->where(function (Builder $query) {$query->IsHeizkosten();})
         ->get()->unique('costtype_id')
