@@ -17,7 +17,7 @@ use Illuminate\Support\Carbon\Carbon;
 
 use function Termwind\render;
 
-class Betriebskostenliste extends Component
+class Heizkostenliste extends Component
 {
     use WireToast;
 
@@ -31,6 +31,7 @@ class Betriebskostenliste extends Component
     public Cost $current;
     public Realestate $realestate;
     public bool $showDeleteCostAmountModal = false;
+    public bool $hasManyBrennstoffkosten = false;
 
     public function rules()
     {
@@ -44,11 +45,16 @@ class Betriebskostenliste extends Component
     /* initialization */
     public function mount($realestate)
     {
+        
         $this->realestate = $realestate;
         $this->current = $this->makeBlankObject();
         $this->nettoInputMode = $realestate->eingabeCostNetto;
         $this->dateInputMode = $realestate->eingabeCostDatum;
         $this->showEditFields = $realestate->kosteneingabe;
+        $this->hasManyBrennstoffkosten = (bool)(Cost::where('realestate_id','=',$this->realestate->id)
+                                        ->where(function (Builder $query) {$query->IsHeizkosten();})
+                                        ->where('costtype_id','=','BRK')
+                                        ->count() > 1);
     }
 
     public function makeBlankObject()
@@ -58,7 +64,7 @@ class Betriebskostenliste extends Component
             'realestate_id' => $this->realestate->id,
             'unvid' => $this->realestate->unvid,
             'budguid' => $this->realestate->nekoId,
-            'costtype' => Costtype::find('BEK'),
+            'costtype' => Costtype::find('HNK'),
             'caption' => 'Neue Kostenposition',
         ]);
     }
@@ -68,18 +74,12 @@ class Betriebskostenliste extends Component
                             'refreshComponents' => '$refresh',
                         ];
 
-    public function create()
+    public function setCurrent(Cost $cost)
     {
-        if ($this->current->getKey()) $this->current = $this->makeBlankTransaction();
-        $this->showEditModal = true;
+        if ($this->current->isNot($cost)) {
+            $this->current = $cost;
+        }
     }
-
-    // public function setCurrent(Cost $cost)
-    // {
-    //     if ($this->current->isNot($cost)) {
-    //         $this->current = $cost;
-    //     }
-    // }
 
     public function raise_EditCostModal(Cost $cost)
     {
@@ -105,7 +105,6 @@ class Betriebskostenliste extends Component
         ->where('consumption','=', 1)
         ->count();
         return (bool)($ret > 0);
-        // return $ret;
     }
     public function hasHaushaltsnahByType($costtypeId){
         $ret = Cost::where('realestate_id','=',$this->realestate->id)
@@ -116,17 +115,23 @@ class Betriebskostenliste extends Component
         return (bool)($ret > 0);
     }
 
+    public function getCostByType($costtypeId){
+        return Cost::where('realestate_id','=',$this->realestate->id)
+        ->where(function (Builder $query) {$query->IsHeizkosten();})
+        ->where('costtype_id','=',$costtypeId)
+        ->get();
+    }
+
     public function render()
     {
-        $filtered = Cost::where('realestate_id','=',$this->realestate->id)
-        ->where(function (Builder $query) {
-            $query->IsBetriebskosten();})
-            ->get()->sortBy('caption');
+        $costtypes = Cost::where('realestate_id','=',$this->realestate->id)
+        ->where(function (Builder $query) {$query->IsHeizkosten();})
+        ->get()->unique('costtype_id')
+        ->sortBy('CostTypeSort');
 
-        $filtered->fresh('costAmounts');
-
-        return view('livewire.user.cost.betriebskostenliste', [
-            'filtered' => $filtered
+        return view('livewire.user.cost.heizkostenliste', [
+            'costtypes' => $costtypes
         ]);
     }
 }
+

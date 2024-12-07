@@ -146,11 +146,16 @@ class DetailInput extends Component
 
     public function render()
     {
-        if($this->cost->costtype->costinvoicingtype_id == 'BE')
+        if($this->cost->costtype->id=='BRK')
         {
-            return view('livewire.user.costamount.detail-input-bk');
+             return view('livewire.user.costamount.detail-input');
         }else{
-            return view('livewire.user.costamount.detail-input');
+            if($this->cost->costtype->costinvoicingtype_id =='BE'){ 
+                return view('livewire.user.costamount.detail-input-bk');
+            } 
+            if($this->cost->costtype->costinvoicingtype_id =='HZ'){ 
+                return view('livewire.user.costamount.detail-input-hk');
+            } 
         }
 
     }
