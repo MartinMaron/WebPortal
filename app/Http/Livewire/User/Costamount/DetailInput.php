@@ -28,8 +28,7 @@ class DetailInput extends Component
     public CostAmount $current;
     public string $inputStartField;
 
-    public function mount(Cost $cost, $netto, $inputWithDatum, $index) {
-        $this->index = $index;
+    public function mount(Cost $cost, $netto, $inputWithDatum) {
         $this->cost = $cost;
         $this->inputNet = $netto;
         $this->inputWithDate = $inputWithDatum;
@@ -43,7 +42,18 @@ class DetailInput extends Component
                 $this->inputStartField = 'betrag';
             }
         }
-        $this->current = $this->makeBlankObject();
+        // nur für Brennstoffkosten können mehrere Beträge eingegeben werden
+        // für alle anderen existiert nuer ein CostAmount als Singelton für Abrechnungszeitraum
+        if ($this->cost->costtype_id == 'BRK') {
+            $this->current = $this->makeBlankObject();
+        } else {
+           $qAmounts = $this->cost->costAmounts->where('abrechnungssetting_id','=',$this->cost->realestate->abrechnungssetting_id);
+           if($qAmounts->count()>0){
+                $this->current = $qAmounts->first();
+           }else{
+                $this->current = $this->makeBlankObject();
+           }
+        }
     }
 
     protected $listeners = [
@@ -69,7 +79,10 @@ class DetailInput extends Component
         }
     }
 
-
+    public function raise_EditCostModal(Cost $cost)
+    {
+        $this->emit('showCostDetailModal', $cost, false, false);
+    }
 
     public function rules()
     {
@@ -103,20 +116,42 @@ class DetailInput extends Component
         ];
     }
 
-    public function save($editedIndex)
+    public function save()
     {
-        $this->editedindex = $editedIndex;
         if ($this->validate($this->rules(),$this->messages(),$this->attributes())){
-            if(CostAmount::create(collect($this->current)->toArray()))  {
-                $this->current = $this->makeBlankObject();
-                $this->emit('$refresh');
+            if ($this->cost->costtype->id =='BRK') {
+                if(CostAmount::create(collect($this->current)->toArray()))  {
+                    $this->current = $this->makeBlankObject();
+                    $this->emit('refreshComponents');
+                }
+            } else {
+                dd($this->current);
+                CostAmount::updateOrcreate(
+                    ['cost_id' => $this->cost->id, 
+                    'abrechnungssetting_id' => $this->cost->realestate->abrechnungssetting_id,],
+                    [
+                        'brutto'=>$this->current->brutto,
+                        'netto'=>$this->current->netto,
+                        'datum'=>$this->current->datum,
+                        'consumption_editing'=>$this->current->consumption_editing,
+                        'cobrutto'=>$this->current->cobrutto,
+                        'conetto'=>$this->current->conetto,
+                        'coconsupmtion'=>$this->current->coconsupmtion,
+                        'haushaltsnah'=>$this->current->haushaltsnah,
+                    ]
+                );
             }
         };
-        
     }
 
     public function render()
     {
-        return view('livewire.user.costamount.detail-input');
+        if($this->cost->costtype->costinvoicingtype_id == 'BE')
+        {
+            return view('livewire.user.costamount.detail-input-bk');
+        }else{
+            return view('livewire.user.costamount.detail-input');
+        }
+
     }
 }

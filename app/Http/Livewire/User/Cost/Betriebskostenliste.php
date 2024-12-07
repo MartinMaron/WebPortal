@@ -27,23 +27,11 @@ class Betriebskostenliste extends Component
     public $showFilters = false;
     public $nettoInputMode = false;
     public $dateInputMode = true;
-
-    public $currentCostAmount = null;
-
     public $dateFrom = null;
-
     public Cost $current;
     public Realestate $realestate;
     public bool $showDeleteCostAmountModal = false;
     public bool $hasManyBrennstoffkosten = false;
-
-
-    public int $costIndex = 0;
-
-    public function getCostIndex(){
-        $this->costIndex++;
-        return $this->costIndex;
-    }
 
     public function rules()
     {
@@ -76,6 +64,7 @@ class Betriebskostenliste extends Component
             'realestate_id' => $this->realestate->id,
             'unvid' => $this->realestate->unvid,
             'budguid' => $this->realestate->nekoId,
+            'costtype' => Costtype::find('BEK'),
             'caption' => 'Neue Kostenposition',
         ]);
     }
@@ -134,12 +123,6 @@ class Betriebskostenliste extends Component
     public function editCostAmountModal(CostAmount $costAmount)
     {
         $this->emit('showCostAmountDetailModal', $costAmount);
-    }
-
-    public function questionDeleteCostAmount(CostAmount $costAmount)
-    {
-        $this->currentCostAmount = $costAmount;
-        $this->showDeleteCostAmountModal = true;
     }
 
     public function deleteCostAmountModal() {

@@ -1136,6 +1136,12 @@ select {
 .m-auto {
   margin: auto;
 }
+.m-4 {
+  margin: 1rem;
+}
+.m-10 {
+  margin: 2.5rem;
+}
 .mx-1 {
   margin-left: 0.25rem;
   margin-right: 0.25rem;
@@ -1279,6 +1285,9 @@ select {
 }
 .mt-8 {
   margin-top: 2rem;
+}
+.mr-10 {
+  margin-right: 2.5rem;
 }
 .line-clamp-1 {
   overflow: hidden;
@@ -1509,6 +1518,18 @@ select {
 .basis-8\/12 {
   flex-basis: 66.666667%;
 }
+.basis-1 {
+  flex-basis: 0.25rem;
+}
+.basis-1\/12 {
+  flex-basis: 8.333333%;
+}
+.basis-10\/12 {
+  flex-basis: 83.333333%;
+}
+.basis-11\/12 {
+  flex-basis: 91.666667%;
+}
 .origin-top {
   transform-origin: top;
 }
@@ -1730,6 +1751,9 @@ select {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.text-ellipsis {
+  text-overflow: ellipsis;
+}
 .text-clip {
   text-overflow: clip;
 }
@@ -1738,9 +1762,6 @@ select {
 }
 .rounded {
   border-radius: 0.25rem;
-}
-.rounded-2xl {
-  border-radius: 1rem;
 }
 .rounded-full {
   border-radius: 9999px;
