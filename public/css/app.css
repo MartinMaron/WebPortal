@@ -1142,6 +1142,9 @@ select {
 .m-10 {
   margin: 2.5rem;
 }
+.m-8 {
+  margin: 2rem;
+}
 .mx-1 {
   margin-left: 0.25rem;
   margin-right: 0.25rem;
@@ -2336,6 +2339,9 @@ select {
 }
 .font-thin {
   font-weight: 100;
+}
+.font-extrabold {
+  font-weight: 800;
 }
 .uppercase {
   text-transform: uppercase;

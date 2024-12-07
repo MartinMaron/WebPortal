@@ -20,7 +20,7 @@
             @if ($realestate->betriebskosten)
                 <div class="px-2 sm:px-4">
                     <a href="{{route('user.betriebskostenliste', $realestate)}}">
-                        <i class="fa-regular fa-file-signature text-sky-700 hover:text-sky-300""></i>
+                        <i class="fa-regular fa-file-signature text-sky-700 hover:text-sky-300"></i>
                     </a>
                 </div>
             @endif
@@ -41,7 +41,7 @@
         </div>
 
     </div>
-    <div class="xs:block sm:invisible">
+    <div class="xs:block sm:hidden">
         <div class="mt-3 text-left ">
             <x-input.select
             class="text-left h-10 border-b bg-sky-50 sm:h-8 focus:border-0 w-full" wire:model="realestate.abrechnungssetting_id" id="realestate-header-address-abrechnungssetting-id" value="">

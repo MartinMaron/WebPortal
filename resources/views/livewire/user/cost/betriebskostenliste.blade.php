@@ -1,7 +1,7 @@
 <div>
     <!-- Main -->
     <div class="max-w-7xl w-full mx-auto sm:px-1 lg:px-1 m-0 mb-48">
-        <div class="text-3xl pt-3 font-bold text-sky-800 text-center w-full flex">
+        <div class="text-3xl pt-3 font-extrabold text-sky-800 text-center w-full flex m-8">
             <div class="basis-2/12"></div>
             <div class="basis-8/12">KOSTENLISTE - BETRIEBSKOSTEN</div>
             <div class="basis-2/12 text-right mr-10">
@@ -12,7 +12,7 @@
             </div>
         </div>
         <!-- Überschrift -->
-        <div class="flex flex-row items-center justify-start border-b-2 border-gray-800 font-normal text-lg ">
+        <div class="flex flex-row items-center justify-start border-b-2 border-gray-800 bg-sky-50  font-semibold">
             <div class="basis-2/3 flex text-center items-center">
                 <div 
                     class="basis-1/3 text-left px-2 flex rounded-md hover:bg-sky-300 "
