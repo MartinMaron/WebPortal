@@ -1,6 +1,6 @@
 <div>
     <!-- Main -->
-    <div class="max-w-7xl w-full mx-auto sm:px-6 lg:px-8">
+    <div class="max-w-7xl w-full mx-auto">
         <div class="text-3xl pt-3 font-bold text-sky-800 text-center w-full">
             KOSTENLISTE - HEIZKOSTEN 
         </div>
@@ -128,7 +128,7 @@
                         <!-- Kostenart -->
                         @forelse ($this->getCostByType($cost->costtype_id) as $singleCost)
                             <!-- Kosten-Eingabe Bereich -->
-                            <div class="{{ $this->hasManyBrennstoffkosten && $singleCost->costtype_id=='BRK' ? 'border-2 border-sky-700 rounded-md m-2': ''}}">
+                            <div key="{{ now() }}" class="{{ $this->hasManyBrennstoffkosten && $singleCost->costtype_id=='BRK' ? 'border-2 border-sky-700 rounded-md m-2': ''}}">
                             <!-- Anfangsbestand -->
                             @if ($singleCost->fueltype_id !=null && $singleCost->fueltype->hasTank)
                                 <div class="m-2 flex flex-row items-center justify-start font-normal text-lg h-10 border-b border-gray-400 ">

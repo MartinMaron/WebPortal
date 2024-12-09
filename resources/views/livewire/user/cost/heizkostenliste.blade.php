@@ -1,70 +1,75 @@
 <div>
     <!-- Main -->
-    <div class="max-w-7xl w-full mx-auto sm:px-1 lg:px-1 m-0 mb-48">
-        <div class="text-3xl pt-3 font-extrabold text-sky-800 text-center w-full flex m-8">
-            <div class="basis-2/12"></div>
-            <div class="basis-8/12">WEITERE - HEIZKOSTEN</div>
-            <div class="basis-2/12 text-right mr-10">
-                <button wire:click="raise_AddCostModal({{ $current }})"
-                tabindex="-1">
-                <i class="fa-regular fa-circle-plus text-3xl text-sky-600" ></i>
-            </button>
+    <div class="max-w-7xl w-full sm:px-1 lg:px-1 mb-40 mx-auto">
+        <div class="text-3xl pt-3 font-extrabold text-sky-800 text-center w-full flex justify-center  ">
+            <div class="m-8 text-center">
+                WEITERE - HEIZKOSTEN
             </div>
         </div>
-        <!-- Überschrift -->
-        <div class="flex flex-row items-center justify-start border-b-2 border-gray-800 bg-sky-50  font-semibold">
-            <div class="basis-2/3 flex text-center items-center">
-                <div 
-                    class="basis-2/3 text-left px-2 flex rounded-md "
-                    tabindex="-1">
-                    <span class="py-1 text-right line-clamp-1">Kostenbezeichnung</span>
-                </div>
+        <div class="bg-sky-50 mx-8">
+            <!-- Überschrift -->
+            <div class="flex flex-row items-center justify-start border-b-2 border-gray-800 bg-sky-50  font-semibold">
+                <div class="basis-2/3 flex text-center items-center">
+                    <div 
+                        class="basis-2/3 text-left px-2 flex rounded-md "
+                        tabindex="-1">
+                        <span class="py-1 text-right line-clamp-1">Kostenbezeichnung</span>
+                    </div>
 
-                <div class="basis-1/3 rounded-md">
-                    <span class="line-clamp-1">Bearbeitungshinweis</span>
+                    <div class="basis-1/3 rounded-md">
+                        <span class="line-clamp-1">Bearbeitungshinweis</span>
+                    </div>
                 </div>
-           </div>
-            <div class="basis-1/3 flex gap-2 text-center">
-                <div class="basis-1/3">
-                    @if ($this->hasConsumptionByType('BEK'))
-                       <span class="">Verbrauch</span>
-                    @endif
-                </div>
-                <div class="basis-1/3">
-                    @if ($this->hasHaushaltsnahByType('BEK'))
-                        <div class="">
-                        <span class="">§ 35c EStG</span>
-                        </div>
-                    @endif
-                </div>
-                <div class="basis-1/3">
-                    @if ($this->realestate->eingabeCostNetto)
-                        <span class="">Nettobetrag</span>
-                    @else
-                        <span class="">Betrag</span>
-                    @endif
+                <div class="basis-1/3 flex gap-2 text-center">
+                    <div class="basis-1/3">
+                        @if ($this->hasConsumptionByType('BEK'))
+                        <span class="">Verbrauch</span>
+                        @endif
+                    </div>
+                    <div class="basis-1/3">
+                        @if ($this->hasHaushaltsnahByType('BEK'))
+                            <div class="">
+                            <span class="">§ 35c EStG</span>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="basis-1/3">
+                        @if ($this->realestate->eingabeCostNetto)
+                            <span class="">Nettobetrag</span>
+                        @else
+                            <span class="">Betrag</span>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- liste der Kosten -->
-        @forelse ($costtypes as $costtype)
-            <div class="">
-                {{ $costtype->costtype_id}}
-            </div> 
-            @forelse ($this->getCostByType($costtype->costtype_id) as $cost)
-                <div class="">
-                    <livewire:user.costamount.detail-input :cost='$cost' :netto='false' :inputWithDatum='false' :wire:key="'list-cost-costamountinput-'.$cost->id" key="{{ now() }}"/>
+            <!-- liste der Kosten -->
+            @forelse ($costtypes as $costtype)
+            <div class="flex justify-between">
+                <div class="flex justify-start items-center">
+                    <button wire:click="raise_AddCostModal({{ $costtype }})"
+                        tabindex="-1" 
+                        class="fa-regular fa-circle-plus text-3xl m-3 text-sky-600 mr-5" >
+                    </button>
+                    <div class="text-xl text-sky-800 pr-1 font-extrabold tracking-widest items-end">
+                        {{ $costtype->costtype->caption. ' ('. number_format($this->getCostByType($costtype->costtype_id)->pluck('gros')->sum(), 2, ',', '.') . ' €)'  }}
+                    </div>
                 </div>
+            </div>
+                @forelse ($this->getCostByType($costtype->costtype_id) as $cost)
+                    <div class="pl-4">
+                        <livewire:user.costamount.detail-input :cost='$cost' :netto='false' :inputWithDatum='false' :wire:key="'list-cost-costamountinput-'.$cost->id" key="{{ now() }}"/>
+                    </div>
+                @empty
+                    <div class="flex justify-center items-center space-x-2 bg-sky-100">
+                        <span class="font-medium py-8 text-cool-gray-400 text-xl">nichts gefunden...</span>
+                    </div>
+                @endforelse
             @empty
                 <div class="flex justify-center items-center space-x-2 bg-sky-100">
                     <span class="font-medium py-8 text-cool-gray-400 text-xl">nichts gefunden...</span>
                 </div>
             @endforelse
-        @empty
-            <div class="flex justify-center items-center space-x-2 bg-sky-100">
-                <span class="font-medium py-8 text-cool-gray-400 text-xl">nichts gefunden...</span>
-            </div>
-        @endforelse
+        </div>
     </div>
     <div class="xs:max-w-xs xs:w-xs">
         <!-- Save Cost Modal -->

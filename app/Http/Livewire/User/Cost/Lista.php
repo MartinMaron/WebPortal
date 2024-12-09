@@ -137,7 +137,7 @@ class Lista extends Component
 
     public function getCostByType($costtypeId){
         return Cost::where('realestate_id','=',$this->realestate->id)
-        ->where(function (Builder $query) {$query->IsHeizkosten();})
+        ->where(function (Builder $query) {$query->IsBrennstoffkosten();})
         ->where('costtype_id','=',$costtypeId)
         ->get();
     }
@@ -145,7 +145,7 @@ class Lista extends Component
     public function hasConsumptionByType($costtypeId){
       
         $ret = Cost::where('realestate_id','=',$this->realestate->id)
-        ->where(function (Builder $query) {$query->IsHeizkosten();})
+        ->where(function (Builder $query) {$query->IsBrennstoffkosten();})
         ->where('costtype_id','=',$costtypeId)
         ->where('consumption','=', 1)
         ->count();
@@ -154,7 +154,7 @@ class Lista extends Component
 
     public function hasHaushaltsnahByType($costtypeId){
         $ret = Cost::where('realestate_id','=',$this->realestate->id)
-        ->where(function (Builder $query) {$query->IsHeizkosten();})
+        ->where(function (Builder $query) {$query->IsBrennstoffkosten();})
         ->where('costtype_id','=',$costtypeId)
         ->where('haushaltsnah','=', 1)
         ->count();
@@ -166,7 +166,7 @@ class Lista extends Component
     {
         $this->costIndex = 0;
         $filtered = Cost::where('realestate_id','=',$this->realestate->id)
-        ->where(function (Builder $query) {$query->IsHeizkosten();})
+        ->where(function (Builder $query) {$query->IsBrennstoffkosten();})
         ->get()->unique('costtype_id')
         ->sortBy('CostTypeSort');
 

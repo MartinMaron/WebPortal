@@ -93,14 +93,15 @@ class Heizkostenliste extends Component
         }
     }
 
-    public function raise_AddCostModal()
+    public function raise_AddCostModal(Cost $costTemplate)
     {
-        $this->emit('addBetriebskostenCostDetailModal', $this->realestate);
+        $this->setCurrent($costTemplate);
+        $this->emit('showCostDetailModal', $this->current, true, false);
     }
 
     public function hasConsumptionByType($costtypeId){
         $ret = Cost::where('realestate_id','=',$this->realestate->id)
-        ->where(function (Builder $query) {$query->IsBetriebskosten();})
+        ->where(function (Builder $query) {$query->IsHeizkosten();})
         ->where('costtype_id','=',$costtypeId)
         ->where('consumption','=', 1)
         ->count();
@@ -108,7 +109,7 @@ class Heizkostenliste extends Component
     }
     public function hasHaushaltsnahByType($costtypeId){
         $ret = Cost::where('realestate_id','=',$this->realestate->id)
-        ->where(function (Builder $query) {$query->IsBetriebskosten();})
+        ->where(function (Builder $query) {$query->IsHeizkosten();})
         ->where('costtype_id','=',$costtypeId)
         ->where('haushaltsnah','=', 1)
         ->count();

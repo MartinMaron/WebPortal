@@ -45,19 +45,19 @@
                     @endif
                 {{-- @endif --}}
             </div>
-            <button class="basis-1/3">
+            <div class="basis-1/3">
                 <input type="text"    
                 id="user-costamount-bk-detailinput-betrag{{ $cost->id }}"
                 @keyup.down="focusAndSelectNekoElementById('{{ 'user-costamount-bk-detailinput-betrag'. $cost->id + 1 }}')"
                 @keyup.up="focusAndSelectNekoElementById('{{ 'user-costamount-bk-detailinput-betrag'. $cost->id -1 }}')"
                 @keyup.enter="focusAndSelectNekoElementById('{{ 'user-costamount-bk-detailinput-betrag'. $cost->id}}')"
-                wire:focusout="save"
+                wire:keyup.enter="save"
                 inputmode="numeric"  
                 wire:model.lazy= {{ $netto ? 'current.netto' : 'current.brutto' }}
                 style="-moz-appearance: textfield; margin: 0;"
-                class="border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                class="border {{ $hasChanges ? 'bg-red-500' :'' }} text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
                 >
-            </button>
+            </div>
         </div>
     </div>
     @if ($errors->isNotEmpty())

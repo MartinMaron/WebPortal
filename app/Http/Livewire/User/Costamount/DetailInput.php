@@ -24,6 +24,8 @@ class DetailInput extends Component
     public bool $inputNet;
     public int $index;
     public int $editedindex = 1;
+    public bool $hasChanges = false;
+    public bool $saved = false;
 
     public CostAmount $current;
     public string $inputStartField;
@@ -79,6 +81,13 @@ class DetailInput extends Component
         }
     }
 
+    public function updated($propertyName)
+    {
+        if (! $this->cost->costtype == 'BRK'){
+            $this->save();
+        }
+    }
+
     public function raise_EditCostModal(Cost $cost)
     {
         $this->emit('showCostDetailModal', $cost, false, false);
@@ -125,7 +134,6 @@ class DetailInput extends Component
                     $this->emit('refreshComponents');
                 }
             } else {
-                dd($this->current);
                 CostAmount::updateOrcreate(
                     ['cost_id' => $this->cost->id, 
                     'abrechnungssetting_id' => $this->cost->realestate->abrechnungssetting_id,],
@@ -148,6 +156,7 @@ class DetailInput extends Component
     {
         if($this->cost->costtype->id=='BRK')
         {
+            
              return view('livewire.user.costamount.detail-input');
         }else{
             if($this->cost->costtype->costinvoicingtype_id =='BE'){ 

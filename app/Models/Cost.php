@@ -35,7 +35,6 @@ class Cost extends Model
         ->where(function($query)
         {
             $query->where('costtype_id', 'HNK')
-            ->orWhere('costtype_id', 'BRK')
             ->orWhere('costtype_id', 'KWK')
             ->orWhere('costtype_id', 'KWA')
             ->orWhere('costtype_id', 'ZKW')
@@ -43,6 +42,15 @@ class Cost extends Model
             ->orWhere('costtype_id', 'BEH')
             ->orWhere('costtype_id', 'ZWA')
             ->orWhere('costtype_id', 'ZUK');
+        });
+        return $ret_val;
+    }
+    public function scopeIsBrennstoffkosten($query)
+    {
+        $ret_val = $query
+        ->where(function($query)
+        {
+            $query->where('costtype_id', 'BRK');
         });
         return $ret_val;
     }
