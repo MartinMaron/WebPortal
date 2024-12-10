@@ -167,7 +167,7 @@
                             </x-table.td>
                             <x-table.td class="w-40 p-0 text-right occu-td" style="min-width: 7rem; max-width: 7rem">
                                 @if ($editVorauszahlungen)
-                                    <livewire:user.occupant.vorauszahlung-edit :occupant='$occupant'/>
+                                    <livewire:user.occupant.vorauszahlung-edit :occupant='$occupant' :wire:key="'user.occupant.vorauszahlung-edit-'.$occupant->id"/>
                                 @else
                                     <span class="pr-2 ">{{$occupant->vorauszahlung_editing }}</span>
                                 @endif

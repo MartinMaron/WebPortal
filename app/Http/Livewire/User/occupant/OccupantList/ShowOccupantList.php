@@ -170,7 +170,7 @@ class ShowOccupantList extends Component
 
     public function setCurrent(Occupant $occupant)
     {
-        $this->useCachedRows();
+         $this->useCachedRows();
         if ($this->current->isNot($occupant)) {
             $this->current = $occupant;
             $this->currentVorauszahlung = $occupant->vorauszahlung;
@@ -181,6 +181,7 @@ class ShowOccupantList extends Component
     {
         $this->setCurrent($occupant);
         $this->emit('showOccupantModal', $this->current);
+        
     }
 
     public function confirmPrePaid(Occupant $occupant, $value)
