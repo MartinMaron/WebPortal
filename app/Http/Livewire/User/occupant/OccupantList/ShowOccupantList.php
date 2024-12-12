@@ -123,7 +123,8 @@ class ShowOccupantList extends Component
             ];
         $this->current = $this->realestate->occupants->first();
         $this->showCustomEinheitNo = $this->realestate->occupant_number_mode;
-        $this->showEigentumer = $this->realestate->occupant_name_mode;
+        $this->showEigentumer = $this->realestate->occupant_name_mode;        
+        $this->editVorauszahlungen = !$this->realestate->abrechnungssetting->nutzerlisteDone;
     }
 
     public function toggle($value)
@@ -158,6 +159,11 @@ class ShowOccupantList extends Component
             $this->prepaidnet = !$this->prepaidnet;
             $this->realestate->eingabeCostNetto = $this->prepaidnet;
             $this->realestate->save();
+        }
+        if ($value == 'nutzerlisteDone'){
+            $this->realestate->abrechnungssetting->nutzerlisteDone = 1;
+            $this->realestate->abrechnungssetting->save();
+            $this->editVorauszahlungen = !$this->realestate->abrechnungssetting->nutzerlisteDone;
         }
         
     }

@@ -97,9 +97,11 @@
 
             </div>
             <div wire:click="commit" >
-                <x-button.primary class="flex justify-items-end">
-                    Einstellungen speichern
-                </x-button.primary>
+                @if (!$this->realestate->abrechnungssetting->brennstofflisteDone)
+                    <x-button.primary class="flex justify-items-end">
+                        Einstellungen speichern
+                    </x-button.primary>
+                @endif                
             </div>
         </div>
     </div>

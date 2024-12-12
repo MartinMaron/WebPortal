@@ -176,7 +176,7 @@ class Cost extends Model
             ->where('startvalue','=', false)
             ->where('endvalue','=', false)
             ->where('abrechnungssetting_id','=',$this->realestate->abrechnungssetting_id)
-            ->sum('consumption'), 2, ',', '.');
+            ->sum('consumption'), 1, ',', '.');
         } else {
         return null;        
         }
@@ -330,12 +330,7 @@ class Cost extends Model
             if ($q->count() > 0) {
                 $q->first()->consumption_editing = $value;
                 $q->first()->save();
-            } else {
-                return 'k.A.';
             }
-        }else
-        {
-            return 'k.A.';
         }
     }
 
@@ -346,12 +341,21 @@ class Cost extends Model
             if ($q->count() > 0) {
                 return $q->first()->consumption_editing;
             } else {
-                return 'k.A.';
+                return '0,0';
             }
         }else
         {
-            return 'k.A.';
+            return '0,0';
         }
+    }
+
+    public function getEditableAttribute()
+    {
+        if ($this->costtype != 'BRK' && $this->costAmounts->count() > 0 && 
+            $this->costAmounts->count() == $this->costAmounts()->where('nekoId','!=',0)->get()->count()) {
+            return false;
+        }
+        return true;
     }
 
     public function realestate()

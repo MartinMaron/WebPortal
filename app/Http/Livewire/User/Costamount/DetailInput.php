@@ -26,6 +26,7 @@ class DetailInput extends Component
     public int $editedindex = 1;
     public bool $hasChanges = false;
     public bool $saved = false;
+    public bool $editable = true;
 
     public CostAmount $current;
     public string $inputStartField;
@@ -56,6 +57,7 @@ class DetailInput extends Component
                 $this->current = $this->makeBlankObject();
            }
         }
+        $this->editable = $this->cost->editable ;
     }
 
     protected $listeners = [

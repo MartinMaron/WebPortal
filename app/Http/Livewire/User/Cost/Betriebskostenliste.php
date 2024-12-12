@@ -74,12 +74,15 @@ class Betriebskostenliste extends Component
         $this->showEditModal = true;
     }
 
-    // public function setCurrent(Cost $cost)
-    // {
-    //     if ($this->current->isNot($cost)) {
-    //         $this->current = $cost;
-    //     }
-    // }
+    public function toggle($value)
+    {
+        if ($value == 'betreibskostenDone'){
+            $this->realestate->abrechnungssetting->betreibskostenDone = 1;
+            $this->realestate->abrechnungssetting->save();
+            $this->showEditFields = !$this->realestate->abrechnungssetting->betreibskostenDone;
+            return redirect(request()->header('Referer'));
+        }
+    }
 
     public function raise_EditCostModal(Cost $cost)
     {

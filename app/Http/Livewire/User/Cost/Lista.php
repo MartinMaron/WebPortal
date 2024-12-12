@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\CostAmount;
 use App\Models\Realestate;
 use App\Events\CostAmountDeleted;
+use App\Models\Abrechnungssetting;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Builder;
 use Usernotnull\Toast\Concerns\WireToast;
@@ -33,6 +34,7 @@ class Lista extends Component
     public bool $showDeleteCostAmountModal = false;
     public bool $hasManyBrennstoffkosten = false;
     public int $costIndex = 0;
+    public $nekoerrors = array();
 
     public function getCostIndex(){
         $this->costIndex++;
@@ -55,10 +57,9 @@ class Lista extends Component
         $this->current = $this->makeBlankObject();
         $this->nettoInputMode = $realestate->eingabeCostNetto;
         $this->dateInputMode = $realestate->eingabeCostDatum;
-        $this->showEditFields = $realestate->kosteneingabe;
+        $this->showEditFields = !$realestate->abrechnungssetting->brennstofflisteDone;
         $this->hasManyBrennstoffkosten = (bool)(Cost::where('realestate_id','=',$this->realestate->id)
-                                        ->where(function (Builder $query) {$query->IsHeizkosten();})
-                                        ->where('costtype_id','=','BRK')
+                                        ->where(function (Builder $query) {$query->IsBrennstoffkosten();})
                                         ->count() > 1);
     }
 
@@ -69,7 +70,7 @@ class Lista extends Component
             'realestate_id' => $this->realestate->id,
             'unvid' => $this->realestate->unvid,
             'budguid' => $this->realestate->nekoId,
-            'caption' => 'Nowy',
+            'caption' => 'neu',
         ]);
     }
 
@@ -80,12 +81,44 @@ class Lista extends Component
                             'showCostAmountDetailInListaModal' => 'raise_EditCostAmountModal',
                         ];
 
-
-    public function togleShowEditFields(){
-        $this->showEditFields = !$this->showEditFields;
-        $this->realestate->kosteneingabe = $this->showEditFields;
-        $this->realestate->save();
+    
+    public function toggle($value)
+    {
+        if ($value == 'brennstofflisteDone'){
+            $this->nekoerrors = array();
+            
+            foreach($this->realestate->costs->where('costtype_id','=','BRK') as $item) {
+                
+                // für Kosten ohne Tank müssen irgendwelche Kosten eingetragen werden
+                if ($item->fueltype_id !=null && !$item->fueltype->hasTank) {
+                    if ($item->netto == "0,00" && $item->brutto == "0,00" ) {
+                        $this->nekoerrors[]= $item->caption. ': keine Kosten angegeben.';
+                    }
+                }
+                
+                if ($item->fueltype_id !=null && $item->fueltype->hasTank){
+                    $q = $item->costAmounts()->where('abrechnungssetting_id','=', $item->realestate->abrechnungssetting_id)
+                    ->where('endvalue','=', true)->get();
+                    if ($q->count() > 0) {
+                        if ($q->first()->consumption == 0)
+                        {
+                            $this->nekoerrors[]= $item->caption. ': kein Endstand angegeben.';
+                        }
+                    } else {
+                        $this->nekoerrors[]= $item->caption. ': kein Endstand angegeben.';
+                    }
+                }
+            }
+            
+            if (!$this->nekoerrors) {
+                $this->realestate->abrechnungssetting->brennstofflisteDone = 1;
+                $this->realestate->abrechnungssetting->save();
+                $this->showEditFields = !$this->realestate->abrechnungssetting->nutzerlisteDone;
+                return redirect(request()->header('Referer'));
+            }
+        }
     }
+
 
     public function create()
     {

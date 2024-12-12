@@ -1,12 +1,21 @@
 <div>
     <!-- Main -->
     <div class="max-w-7xl w-full sm:px-1 lg:px-1 mb-40 mx-auto">
-        <div class="text-3xl pt-3 font-extrabold text-sky-800 text-center w-full flex justify-center  ">
-            <div class="m-8 text-center">
-                WEITERE - HEIZKOSTEN
+        <div class="text-3xl pt-3 text-center w-full flex justify-center  ">
+            <div class="basis-1/4"></div>
+            <div class="basis-2/4 text-3xl pt-3 font-bold text-sky-800 text-center w-full">
+                <div class="">WEITERE HEIZKOSTEN</div>
+                @if ($this->realestate->abrechnungssetting->heizkostenlisteDone)
+                    <div class="text-sm">Daten für ausgewählten Abrechnungszeitraum bereits an neko versendet !</div>
+                @endif
+            </div>
+            <div class="basis-1/4 flex justify-end" wire:click="toggle('heizkostenlisteDone')">
+                @if (! $this->realestate->abrechnungssetting->heizkostenlisteDone)
+                    <x-button.complete-abr></x-button.complete-abr>
+                @endif
             </div>
         </div>
-        <div class="bg-sky-50 mx-8">
+        <div class="bg-sky-50 mt-8 mx-8">
             <!-- Überschrift -->
             <div class="flex flex-row items-center justify-start border-b-2 border-gray-800 bg-sky-50  font-semibold">
                 <div class="basis-2/3 flex text-center items-center">

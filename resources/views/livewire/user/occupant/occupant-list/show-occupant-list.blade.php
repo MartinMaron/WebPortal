@@ -2,8 +2,21 @@
 
 <div key="{{ now() }}">
     <div class="block w-full mx-auto max-w-7xl mb-48" key="{{ now() }}">
-        <div class="text-3xl pt-3 font-bold text-sky-800 text-center w-full">
-            NUTZERLISTE  
+        <div class="flex items-center">
+            <div class="basis-1/4">
+                
+            </div>
+            <div class="basis-2/4 text-3xl pt-3 font-bold text-sky-800 text-center w-full">
+                <div>NUTZERLISTE</div>
+                @if ($this->realestate->abrechnungssetting->nutzerlisteDone)
+                    <div class="text-sm">Daten für ausgewählten Abrechnungszeitraum bereits an neko versendet !</div>
+                @endif
+            </div>
+            <div class="basis-1/4 flex justify-end" wire:click="toggle('nutzerlisteDone')">
+                @if (! $this->realestate->abrechnungssetting->nutzerlisteDone)
+                    <x-button.complete-abr></x-button.complete-abr>
+                @endif
+            </div>
         </div>
         <div class="">
             <!-- Suchfeld -->
@@ -24,6 +37,7 @@
                     </label>
                 </div>
                 @endif
+
                 @if ($hasAnyEigentumer)
                 <div wire:click="toggle('eigentumer')" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none">
                     <input wire:model="showEigentumer" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
@@ -41,13 +55,13 @@
                 
                 @if ($this->realestate->betriebskosten)
                     <div wire:click="toggle('prepaidtype')" 
-                        class="relative inline-block w-40 mr-3 sm:mr-1 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
+                        class="relative inline-block w-80 mr-3 sm:mr-1 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
                         <input wire:model="prepaidtype" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
                         <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
                             @if ($prepaidtype)
-                            <span class="font-medium text-gray-900 text-md">Heizkosten</span>
+                            <span class="font-medium text-gray-900 text-md">Vorauszahlung Heizkosten</span>
                             @else
-                            <span class="font-medium text-gray-900 text-md">Betriebskosten</span>
+                            <span class="font-medium text-gray-900 text-md">Vorauszahlung Betriebskosten</span>
                             @endif
                         </label>
                     </div>
@@ -78,7 +92,7 @@
                                 Nummer
                             </x-table.th>
                             <x-table.th class="text-left w-30 occu-thead-th sm:visible">Lage</x-table.th>
-                            <x-table.th class="text-left w-80 occu-thead-th">
+                            <x-table.th class="text-left w-70 occu-thead-th">
                                 @if ($showEigentumer)
                                     Eigentümer
                                 @else
@@ -86,14 +100,14 @@
                                 @endif
                             </x-table.th>
                             <x-table.th class="text-center occu-thead-th">Zeitraum</x-table.th>
-                            <x-table.th class="text-left w-30 occu-thead-th">MwSt.</x-table.th>
-                            <x-table.th class="text-left w-50 occu-thead-th">m²</x-table.th>
-                            <x-table.th class="text-left w-50 occu-thead-th">pe</x-table.th>
-                            <x-table.th class="w-40 text-right occu-thead-th">Vorausz.
-                                <x-button.link wire:click="toggle('vorauszahlung')">
+                            <x-table.th class="text-center w-30 occu-thead-th">MwSt.</x-table.th>
+                            <x-table.th class="text-center w-50 occu-thead-th">m²</x-table.th>
+                            <x-table.th class="text-center w-50 occu-thead-th">pe</x-table.th>
+                            <x-table.th class="w-40 text-center occu-thead-th">Vorausz.
+                                {{-- <x-button.link wire:click="toggle('vorauszahlung')">
                                     <x-icon.fonts.editable-pencil class="hover:text-amber-200" value={{$editVorauszahlungen}}> Vorausz.
                                     </x-icon.fonts.editable-pencil>
-                                 </x-button.link>
+                                 </x-button.link> --}}
                             </x-table.th>
                         </x-table.tr>
                     @endif
@@ -162,8 +176,12 @@
                             <x-table.td class="text-center occu-td w-30">
                                 <span class="">{{number_format($occupant->qmkc,  2, ',', '.') }}</span>
                             </x-table.td>
-                            <x-table.td class="text-center occu-td w-30">
-                                <x-table.cell.span>{{number_format($occupant->pe,  1, ',', '.')}}</x-table.cell.span>
+                            <x-table.td class="text-center occu-td w-50 " style="min-width: 4rem;">
+                                @if ($editVorauszahlungen)
+                                    <livewire:user.occupant.personencount-edit :occupant='' :occupant='$occupant' :wire:key="'user.occupant.personencount-edit-'.$occupant->id"/>
+                                @else
+                                    <span class="text-center">{{$occupant->personen_zahl}}</span>
+                                @endif
                             </x-table.td>
                             <x-table.td class="w-40 p-0 text-right occu-td" style="min-width: 7rem; max-width: 7rem">
                                 @if ($editVorauszahlungen)
@@ -176,7 +194,7 @@
                         @empty
                         <x-table.tr>
                             <div class="flex items-center justify-center space-x-2 bg-sky-100">
-                                    <span class="py-8 text-xl font-medium text-cool-gray-400">nichts gefunden...</span>
+                                <span class="py-8 text-xl font-medium text-cool-gray-400">nichts gefunden...</span>
                             </div>
                         </x-table.tr>
                         @endforelse

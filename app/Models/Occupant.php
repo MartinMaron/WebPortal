@@ -69,7 +69,7 @@ class Occupant extends Model
                     'dateTo' => 'date:d.m.Y',
                     'qmkc' => 'decimal:2',
                     'qmww' => 'decimal:2',
-                    'vorauszahlung' => 'decimal:2' ];
+                    'vorauszahlung_editing' => 'decimal:2' ];
 
     protected $appends = ['date_from_editing',
                         'date_to_editing',
@@ -88,12 +88,25 @@ class Occupant extends Model
 
     
     protected function setPersonenZahlAttribute($value){
-        $this->pe = $this->castStringToDouble($value);
+        $q = $this->personcounts
+        ->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id);
+
+        $personcount = Personcount::updateOrCreate(
+            ['occupant_id' => $this->id,'abrechnungssetting_id' => $this->realestate->abrechnungssetting_id],
+            [
+            'countvalue' => $this->castStringToDouble($value), 
+        ]);
     }
 
    protected function getPersonenZahlAttribute(){
-       return number_format($this->pe, 2, ',', '.');
-   }
+        $q = $this->personcounts
+        ->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id);
+        if ($q->count() == 0 ) {
+            return '0,00';
+        }else{
+            return number_format($q->first()->countvalue, 2, ',', '.');
+        }
+    }
 
     protected function getDateFromEditingAttribute()
     {
@@ -270,6 +283,14 @@ class Occupant extends Model
         return $this->hasMany(Prepaid::class);
     }
 
-    
+    public function personcounts()
+    {
+        return $this->hasMany(Personcount::class);
+    }
+
+    public function livingareas()
+    {
+        return $this->hasMany(Livingarea::class);
+    }
 
 }

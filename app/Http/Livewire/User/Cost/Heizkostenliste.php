@@ -50,12 +50,23 @@ class Heizkostenliste extends Component
         $this->current = $this->makeBlankObject();
         $this->nettoInputMode = $realestate->eingabeCostNetto;
         $this->dateInputMode = $realestate->eingabeCostDatum;
-        $this->showEditFields = $realestate->kosteneingabe;
+        $this->showEditFields = !$realestate->heizkostenlisteDone;
         $this->hasManyBrennstoffkosten = (bool)(Cost::where('realestate_id','=',$this->realestate->id)
                                         ->where(function (Builder $query) {$query->IsHeizkosten();})
                                         ->where('costtype_id','=','BRK')
                                         ->count() > 1);
     }
+
+    public function toggle($value)
+    {
+        if ($value == 'heizkostenlisteDone'){
+            $this->realestate->abrechnungssetting->heizkostenlisteDone = 1;
+            $this->realestate->abrechnungssetting->save();
+            $this->showEditFields = !$this->realestate->abrechnungssetting->heizkostenlisteDone;
+            return redirect(request()->header('Referer'));
+        }
+    }
+
 
     public function makeBlankObject()
     {

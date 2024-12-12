@@ -75,7 +75,7 @@ class CostAmount extends Model
         if ($this->grosAmount) {
             return number_format($this->grosAmount, 2, ',', '.');
         } else {
-            return 0;
+            return "0,00";
         }
     }
 
@@ -87,7 +87,7 @@ class CostAmount extends Model
         if ($this->netAmount) {
             return number_format($this->netAmount, 2, ',', '.');
         } else {
-            return 0;
+            return "0,00";
         }
     }
 

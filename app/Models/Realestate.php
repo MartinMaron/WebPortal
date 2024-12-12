@@ -26,7 +26,7 @@ class Realestate extends Model
     protected $fillable = [
         'nekoId', 'email', 'unvid', 'address', 'street', 'postCode','city','heizkosten','rauchmelder','miete',
         'user_id', 'eingabeCostNetto', 'eingabeCostOhneDatum', 'occupant_name_mode', 'occupant_number_mode',
-        'abrechnungssetting_id','kosteneingabe'
+        'abrechnungssetting_id','kosteneingabe','nutzerlisteDone', 'heizkostenlisteDone','betreibskostenDone'
     ];
 
     protected $appends = [

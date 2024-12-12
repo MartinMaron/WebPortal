@@ -46,17 +46,20 @@
                 {{-- @endif --}}
             </div>
             <div class="basis-1/3">
-                <input type="text"    
-                id="user-costamount-bk-detailinput-betrag{{ $cost->id }}"
-                @keyup.down="focusAndSelectNekoElementById('{{ 'user-costamount-bk-detailinput-betrag'. $cost->id + 1 }}')"
-                @keyup.up="focusAndSelectNekoElementById('{{ 'user-costamount-bk-detailinput-betrag'. $cost->id -1 }}')"
-                @keyup.enter="focusAndSelectNekoElementById('{{ 'user-costamount-bk-detailinput-betrag'. $cost->id}}')"
-                wire:keyup.enter="save"
-                inputmode="numeric"  
-                wire:model.lazy= {{ $netto ? 'current.netto' : 'current.brutto' }}
-                style="-moz-appearance: textfield; margin: 0;"
-                class="border {{ $hasChanges ? 'bg-red-500' :'' }} text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
-                >
+                @if ($editable && !$this->cost->realestate->abrechnungssetting->betreibskostenDone)
+                    <input type="text"    
+                    id="user-costamount-bk-detailinput-betrag{{ $cost->id }}"
+                    inputmode="numeric"  
+                    wire:model.lazy= {{ $netto ? 'current.netto' : 'current.brutto' }}
+                    style="-moz-appearance: textfield; margin: 0;"
+                    class="border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                    >
+                @else
+                    <div 
+                    class="border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                    >{{ $netto ? $current->netto : $current->brutto }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>

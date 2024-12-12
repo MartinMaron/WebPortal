@@ -1,14 +1,22 @@
 <div>
     <!-- Main -->
     <div class="max-w-7xl w-full mx-auto sm:px-1 lg:px-1 m-0 mb-48">
-        <div class="text-3xl pt-3 font-extrabold text-sky-800 text-center w-full flex m-8">
-            <div class="basis-2/12"></div>
-            <div class="basis-8/12">BETRIEBSKOSTEN</div>
-            <div class="basis-2/12 text-right mr-10">
+        <div class="text-3xl pt-3 font-extrabold text-sky-800 text-center w-full flex my-3">
+            <div class="basis-1/4 flex justify-start">
                 <button wire:click="raise_AddCostModal({{ $current }})"
                 tabindex="-1">
                 <i class="fa-regular fa-circle-plus text-3xl text-sky-600" ></i>
-            </button>
+                </button></div>
+            <div class="basis-2/4 text-3xl pt-3 font-bold text-sky-800 text-center w-full">
+                <div class="">BETRIEBSKOSTEN</div>
+                @if ($this->realestate->abrechnungssetting->betreibskostenDone)
+                    <div class="text-sm">Daten für ausgewählten Abrechnungszeitraum bereits an neko versendet !</div>
+                @endif
+            </div>
+            <div class="basis-1/4 flex justify-end" wire:click="toggle('betreibskostenDone')">
+                @if (! $this->realestate->abrechnungssetting->betreibskostenDone)
+                    <x-button.complete-abr></x-button.complete-abr>
+                @endif
             </div>
         </div>
         <!-- Überschrift -->
