@@ -16,19 +16,20 @@
                 <i class="fa-solid fa-check text-2xl sm:text-4xl text-green-500 hover:text-sky-300"></i>                
             </div>
         </div>
-        <div class="relative flex items-center px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
-            <div class="flex-shrink-0">
-                <x-icon.fonts.poll-people class="text-2xl sm:text-4xl text-sky-700 hover:text-sky-300"></x-icon.fonts.poll-people>
+        @if ($realestate->uviactive)            
+            <div class="relative flex items-center px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
+                <div class="flex-shrink-0">
+                    <x-icon.fonts.poll-people class="text-2xl sm:text-4xl text-sky-700 hover:text-sky-300"></x-icon.fonts.poll-people>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <a href="{{route('user.realestateVerbrauchsinfoUserEmails', $realestate)}}" class="focus:outline-none">
+                        <span class="absolute inset-0" aria-hidden="true"></span>
+                        <p class="font-medium text-gray-900 text-md">Emailadressen für den Versand der Verbraucherinformationen</p>
+                        <p class="text-gray-500 text-md line-clamp-4 md:line-clamp-2">Hier bestimmen Sie wer die Verbraucherinformationen einsehen kann</p>
+                    </a>
+                </div>
             </div>
-            <div class="flex-1 min-w-0">
-                <a href="{{route('user.realestateVerbrauchsinfoUserEmails', $realestate)}}" class="focus:outline-none">
-                    <span class="absolute inset-0" aria-hidden="true"></span>
-                    <p class="font-medium text-gray-900 text-md">Emailadressen für den Versand der Verbraucherinformationen</p>
-                    <p class="text-gray-500 text-md line-clamp-4 md:line-clamp-2">Hier bestimmen Sie wer die Verbraucherinformationen einsehen kann</p>
-                </a>
-            </div>
-        </div>
-        
+        @endif        
         <div class="relative flex items-center px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
             <div class="flex-shrink-0">
                 <x-icon.fonts.file-signature class="text-2xl sm:text-4xl text-sky-700 hover:text-sky-300"></x-icon.fonts.file-signature>
@@ -61,6 +62,7 @@
                 <i class="fa-solid fa-check text-2xl sm:text-4xl text-green-500 hover:text-sky-300"></i>                
             </div>
         </div>
+        @if ($realestate->betreibskosten)
         <div class="relative flex items-center px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
             <div class="flex-shrink-0">
                 <i class="fa-regular fa-file-signature text-2xl sm:text-4xl text-sky-700 hover:text-sky-300"></i>                </div>
@@ -76,6 +78,7 @@
                 <i class="fa-solid fa-check text-2xl sm:text-4xl text-green-500 hover:text-sky-300"></i>                
             </div>
         </div>
+        @endif
        
         <div class="relative flex items-center px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
             <div class="flex-shrink-0">

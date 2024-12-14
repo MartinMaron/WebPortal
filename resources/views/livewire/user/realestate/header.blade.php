@@ -56,12 +56,13 @@
                     </a>
                 </div>
             @endif
-            
+            @if ($realestate->uviactive)
             <div class="px-2 sm:px-4">
                 <a href="{{route('user.realestateVerbrauchsinfoUserEmails', $realestate)}}">
                     <x-icon.fonts.poll-people class="text-sky-700 hover:text-sky-300"></x-icon.fonts.poll-people>
                 </a>
             </div>
+            @endif
             <div class="px-2 sm:px-4">
                 <a href="{{route('user.invoicesList', $realestate)}}">
                     <x-icon.fonts.pdf-download class="text-sky-700 hover:text-sky-300"></x-icon.fonts.pdf-download>
