@@ -6,7 +6,7 @@
             <div class="basis-1/4">
                 
             </div>
-            <div class="basis-2/4 text-3xl pt-3 font-bold text-sky-800 text-center w-full">
+            <div class="basis-2/4 page-title">
                 <div>NUTZERLISTE</div>
                 @if ($this->realestate->abrechnungssetting->nutzerlisteDone)
                     <div class="text-sm">Daten für ausgewählten Abrechnungszeitraum bereits an neko versendet !</div>
@@ -22,24 +22,25 @@
             <!-- Suchfeld -->
             <x-input.search wire:model.debounce.600ms="filters.search"></x-input.search>
         </div>
-        <div class="flex w-full justify-between">
-            <div class="flex w-full px-5 sm:px-1 gap-2 justify-between sm:justify-start">
-                
-                @if ($hasAnyCustomEinheitNo)
-                <div wire:click="toggle('nummer')" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
-                    <input wire:model="showCustomEinheitNo" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
-                    <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
-                        @if ($showCustomEinheitNo)
-                        <span class="font-medium text-gray-900 text-md">Ihre Nummer.</span>
-                        @else
-                        <span class="font-medium text-gray-900 text-md">eneko Nr.</span>
-                        @endif
-                    </label>
-                </div>
-                @endif
-
-                @if ($hasAnyEigentumer)
-                <div wire:click="toggle('eigentumer')" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none">
+        <div class="flex w-full px-5 sm:px-0 gap-2 mb-2 justify-between sm:justify-between">
+            @if ($hasAnyCustomEinheitNo)
+                <x-input.radio-bool
+                    wire:model="realestate.occupant_number_mode" wire:click="toggle('nummer')"
+                    id="user.occupant.occupant-list.show-occupant-list.occupant_nummber_mode"
+                    aria_label="RadioNummer"
+                    title="Nummer anzeigen" text_value0="eneko" text_value1="Verwalter"
+                    >
+                </x-input.radio-bool>                   
+            @endif
+            @if ($hasAnyEigentumer)
+                <x-input.radio-bool
+                        wire:model="realestate.occupant_name_mode" wire:click="toggle('eigentumer')"
+                        id="user.occupant.occupant-list.show-occupant-list.occupant_name_mode"
+                        aria_label="RadioName"
+                        title="Nutzer anzeigen" text_value0="Mieter" text_value1="Eigentümer"
+                        >
+                </x-input.radio-bool>    
+                {{-- <div wire:click="toggle('eigentumer')" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none">
                     <input wire:model="showEigentumer" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
                     <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
                         @if ($showEigentumer)
@@ -48,39 +49,30 @@
                         <span class="font-medium text-gray-900 text-md">Nutzer</span>
                         @endif
                     </label>
-                </div>
-                @endif
-            </div>
-            <div class="flex gap-4">
-                
-                @if ($this->realestate->betriebskosten)
-                    <div wire:click="toggle('prepaidtype')" 
-                        class="relative inline-block w-80 mr-3 sm:mr-1 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
-                        <input wire:model="prepaidtype" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
-                        <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
-                            @if ($prepaidtype)
-                            <span class="font-medium text-gray-900 text-md">Vorauszahlung Heizkosten</span>
-                            @else
-                            <span class="font-medium text-gray-900 text-md">Vorauszahlung Betriebskosten</span>
-                            @endif
-                        </label>
-                    </div>
-                @endif
-                @if ($hasVat)
-                    <div wire:click="toggle('prepaidnet')" class="relative inline-block w-40 pt-1 pb-2 mt-1 align-middle transition duration-200 ease-in select-none" key="{{ now() }}">
-                        <input wire:model="prepaidnet" type="checkbox" name="" id="" class="absolute block w-6 h-6 my-1 rounded-full appearance-none cursor-pointer toggle-checkbox bg-sky-100 border-1"/>
-                        <label for="toggle" class="block h-8 pl-8 overflow-hidden rounded-full cursor-pointer toggle-label">
-                            @if ($prepaidnet)
-                            <span class="font-medium text-gray-900 text-md">netto</span>
-                            @else
-                            <span class="font-medium text-gray-900 text-md">brutto</span>
-                            @endif
-                        </label>
-                    </div>
-                @endif
-            </div>
-        </div>            
-
+                </div> --}}
+            @endif
+            @if ($this->realestate->betriebskosten)
+                <x-input.radio-bool
+                        wire:model="realestate.prepaidtype" wire:click="toggle('prepaidtype')"
+                        id="user.occupant.occupant-list.show-occupant-list.vorauszahlungen_mode"
+                        aria_label="RadioPrepaids"
+                        :width='80'
+                        title="Vorauszahlungen anzeigen" text_value0="Betriebskosten" text_value1="Heizkosten"
+                        value0='B' value1='H'
+                        >
+                </x-input.radio-bool>
+            @endif
+            @if ($hasVat)
+            
+                <x-input.radio-bool
+                        wire:model="realestate.eingabeCostNetto" wire:click="toggle('prepaidnet')"
+                        id="user.occupant.occupant-list.show-occupant-list.vat_mode"
+                        aria_label="RadioVat"
+                        title="Vorauszahlungen bei MwSt. Pflicht" text_value0="brutto" text_value1="netto"
+                        >
+                </x-input.radio-bool>
+            @endif
+        </div>
         <!-- Big screen Occupants List TABELLA -->
         <div class="hidden sm:block md:max-w-7xl" key="{{ now() }}">
             <x-table class="occu-table" key="{{ now() }}">
@@ -93,7 +85,7 @@
                             </x-table.th>
                             <x-table.th class="text-left w-30 occu-thead-th sm:visible">Lage</x-table.th>
                             <x-table.th class="text-left w-70 occu-thead-th">
-                                @if ($showEigentumer)
+                                @if ($this->realestate->occupant_name_mode == 1)
                                     Eigentümer
                                 @else
                                     Nutzer
@@ -119,7 +111,7 @@
                         @forelse ($rows as $occupant)
                         <x-table.tr wire:loading.class.delay="opacity-50" wire:key="row-{{ $occupant->id }}">
                             <x-table.th class="w-20 text-left occu-th" style="display:table-cell !important;">
-                                @if ($showCustomEinheitNo)
+                                @if ($realestate->occupant_number_mode)
                                     <span class="{{ $occupant->customEinheitNo ? 'font-bold' : 'font-thin text-opacity-50' }}">
                                         {{ $occupant->display_einheit }}
                                     </span>
@@ -128,9 +120,9 @@
                                 @endif
                             </x-table.th>
                             <x-table.th class="text-left occu-th w-30">{{ $occupant->lage }}</x-table.th>
-                            <x-table.td wire:click="edit({{ $occupant->id }})" class="w-full occu-td hover:bg-sky-100" style="min-width: 20rem;">
+                            <x-table.td wire:click="edit({{ $occupant->id }})" class="w-full occu-td hover:bg-sky-100 dark:hover:bg-slate-600" style="min-width: 20rem;">
                                 <button tabindex="-1" class="w-full text-left" type="button">
-                                    @if ($showEigentumer)
+                                    @if ($this->realestate->occupant_name_mode == 1)
                                         <span class="{{ $occupant->eigentumer ? 'font-bold' : 'font-thin text-opacity-50' }}">
                                             {{ $occupant->display_eigentumer_name }}
                                         </span>
@@ -147,12 +139,12 @@
                                         <span>{{ $occupant->date_to_editing }}</span>
                                     @else
                                         <div class="w-40 px-auto gap-2 {{ $occupant->canDelete ? 'flex justify-between' : 'flex justify-center' }} items-center mx-1">
-                                            <button class="w-18 px-auto border-2 "
+                                            <button class="w-18 px-auto border-2 dark:border-slate-600"
                                                 tabindex="-1"
                                                 style="min-width: 3rem; max-width: 3rem"
                                                 wire:click='change({{$occupant}})'>
                                                 <x-icon.fonts.user-move 
-                                                class="text-sky-700 hover:text-sky-300 fa-solid fa-house-person-leave">
+                                                class="text-sky-700 dark:text-slate-800 hover:text-sky-300 dark:hover:text-slate-950 fa-solid fa-house-person-leave">
                                                 </x-icon.fonts.user-move>
                                             </button>
                                             @if ($occupant->canDelete)
@@ -212,7 +204,7 @@
                         class="my-1 mx-3 block divide-gray-200 rounded-lg shadow-md bg-sky-50" key="{{ now() }}" >
                             
                         <div class="flex my-1 justify-between gap-2 m-auto text-lg text-sky-700">
-                            @if ($showCustomEinheitNo)
+                            @if ($this->realestate->occupant_number_mode)
                             <span class="{{ $occupant->customEinheitNo ? 'font-bold' : 'font-thin text-opacity-50' }}">
                                 {{ $occupant->display_einheit }}
                             </span>
@@ -225,7 +217,7 @@
                         </div>
 
                         <div class="flex justify-between text-lg font-semibold text-sky-700">
-                            @if ($showEigentumer)
+                            @if ($this->realestate->occupant_name_mode == 1)
                             <span class="{{ $occupant->eigentumer ? 'font-bold' : 'font-thin text-opacity-50' }}">
                                 {{ $occupant->display_eigentumer_name }}
                             </span>

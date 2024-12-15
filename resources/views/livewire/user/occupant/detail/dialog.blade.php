@@ -9,22 +9,22 @@
                 {{-- <div class="">
                     {{ $current  }}
                 </div> --}}
-                <div class="">
-                    <div class="flex">
+                <div class="text-lg font-bold text-sky-800 dark:text-gray-300 ">
+                    <div class="flex border-b-2 dark:border-slate-800">
                         @if ($this->hasLeerstand)
-                            <div class="text-lg font-bold text-sky-500">Leerstand</div> 
+                            <div class="text-lg ">Leerstand</div> 
                         @else
                             @if ($current->nachname)
-                                <div class="text-lg font-bold text-sky-500">{{$current->nachname.' '.$current->vorname}}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 text-sky-500" ></x-icon.fonts.pen-line>
+                                <div class="">{{$current->nachname.' '.$current->vorname}}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 " ></x-icon.fonts.pen-line>
                             @else
-                                <div class="text-lg font-bold text-sky-500">{{$current->nachname }}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 text-sky-500" ></x-icon.fonts.pen-line>
+                                <div class="">{{$current->nachname }}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 " ></x-icon.fonts.pen-line>
                             @endif
                         @endif
                     </div>
 
-                    <div class="px-0">
-                        <h3 class="text-lg font-medium leading-6 text-gray-900">{{ $pages[$currentPage]['heading'] }}</h3>
-                        <p class="mt-1 text-sm text-gray-600">{{ $pages[$currentPage]['subheading'] }}</p>
+                    <div class="px-0 mt-2">
+                        <h3 class="text-lg leading-6 ">{{ $pages[$currentPage]['heading'] }}</h3>
+                        <p class="mt-1 text-sm font-medium">{{ $pages[$currentPage]['subheading'] }}</p>
                     </div>
                 </div>
             </x-slot>
@@ -33,7 +33,7 @@
                 <div class="{{ $dialogMode == 'change' ? 'occu-h-600 sm:occu-h-400' : 'occu-h-500 sm:occu-h-300' }} ">
 
                 @if ($errors->isNotEmpty())
-                    <div class="block text-sm bg-red-100 border border-red-400 text-red-700 px-1 py-1 rounded relative mb-2" role="alert">
+                    <div class="block text-sm bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-950 text-red-700 dark:text-red-100 px-1 py-1 rounded relative mb-2" role="alert">
                         
                         <span class="block sm:block"><strong class="font-bold">Oops! einige Informationen fehlen oder sind nicht korrekt. </strong>
                             @foreach ($errors->all() as $error)
@@ -46,7 +46,7 @@
 
                 @if ($currentPage === 1)
                     @if ($dialogMode == 'change')
-                        <div class="block p-2 mb-4 text-sm sm:flex sm:justify-between sm:items-center bg-sky-100 border-2 rounded border-sky-600">
+                        <div class="block p-2 mb-4 text-sm sm:flex sm:justify-between sm:items-center border-2 rounded">
                             <div class="block">
                                 <div class="">Leerstand</div>
                                 <x-input.group
@@ -92,20 +92,20 @@
                         </div>
                     @else
                         <!-- Zeitraum -->
-                            <x-input.group
-                            class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                            for="dateFrom" label="seit">
-                                <div class="flex items-end justify-between h-10 sm:h-8">
-                                    <x-input.date
-                                        wire:model.lazy="current.date_from_editing"
-                                        type="text"
-                                        id="dialog.dateFrom"
-                                        disabled="{{$current->nekoId !='new'}}"
-                                        >
-                                    </x-input.date>
-                                </div>
-                            </x-input.group>
-                        
+                        <x-input.group
+                        class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                        for="dateFrom" label="seit">
+                            <div class="flex items-end justify-between h-10 sm:h-8">
+                                <x-input.date
+                                    wire:model.lazy="current.date_from_editing"
+                                    type="text"
+                                    id="dialog.dateFrom"
+                                    disabled="{{$current->nekoId !='new'}}"
+                                    >
+                                </x-input.date>
+                            </div>
+                        </x-input.group>
+                    
                     @endif
 
                     @if ($hasLeerstand != true)
@@ -137,7 +137,7 @@
                         <x-input.group
                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10" hoheOnError="h-26 sm:h-13" 
                         for="nachname" label="Nachname" :error="$errors->first('current.nachname')">
-                            <div x-data x-on:focus="$el.select()" >
+                            <div class="w-full" x-data x-on:focus="$el.select()" >
                                 <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.nachname" id="nachname" placeholder="..." />
                             </div>
                         </x-input.group>
@@ -160,7 +160,7 @@
                     <x-input.group
                     class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
                     for="street" label="Strasse / Hnr">
-                        <div class="flex flex-row h-10 sm:h-8">
+                        <div class="flex w-full gap-2 h-10 sm:h-8">
                             <div class="h-full basis-5/6">
                                 <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.street" id="street" placeholder="..." />
                             </div>
@@ -171,9 +171,9 @@
                     </x-input.group>
                     <!-- PLZ Ort-->
                     <x-input.group
-                    class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                    class="my-1" paddingLabel="" hoheLabel="h-6  sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
                     for="city" label="PLZ / Ort">
-                        <div class="flex flex-row h-10 sm:h-8">
+                        <div class="flex w-full h-10 gap-2 sm:h-8">
                             <div class="basis-1/5">
                                 <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.postcode" id="postcode" placeholder="..." />
                             </div>
@@ -279,10 +279,11 @@
             </x-slot>
 
             <x-slot name="footer">
+                <div class="">
                     @if ($currentPage === 1)
                         <div></div>
                     @else
-                        <x-button.secondary wire:click="goToPreviousPage">Zurück</x-button.secondary>
+                        <x-button.secondary class="mr-3" wire:click="goToPreviousPage">Zurück</x-button.secondary>
                     @endif
 
                     @if ($currentPage === count($pages))
@@ -290,7 +291,7 @@
                     @else
                         <x-button.primary wire:click="goToNextPage">weiter</x-button.secondary>
                     @endif
-                
+                </div>
 
 
 

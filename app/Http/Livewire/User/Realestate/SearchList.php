@@ -34,7 +34,7 @@ class SearchList extends Component
     
         }else{
             $filtered = Realestate::select([
-                'id', 'address', 'street', 'postCode', 'heizkosten', 'city', 'rauchmelder', 'miete',
+                'id', 'address', 'street', 'postCode', 'heizkosten', 'city', 'rauchmelder', 'miete', 'betriebskosten','uviactive'
              ])->orderBy('street')
              ->where('address','LIKE','%'. $this->filter['search'].'%')
              ->where(function (Builder $query) {$query->Visible();})

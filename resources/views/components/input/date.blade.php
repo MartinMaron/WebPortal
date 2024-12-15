@@ -13,7 +13,7 @@
                                             transition duration-150 ease-in-out 
                                             focus:outline-none focus:border focus:border-blue-500 
                                             rounded text-sm lg:text-sm sm:leading-5 
-                                            border-gray-300']) }}
+                                            border-gray-300 dark:bg-slate-700 dark:text-slate-100']) }}
                                             {{ $readonly ?? false ? 'readonly' :'' }}
                                             {{ $disabled ?? false ? 'disabled' :'' }}
                                             />

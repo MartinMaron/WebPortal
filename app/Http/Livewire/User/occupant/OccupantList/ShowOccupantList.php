@@ -21,11 +21,10 @@ class ShowOccupantList extends Component
 
     use WithPerPagePagination, WithSorting, WithBulkActions, WithCachedRows, WithPagination;
 
-    public $showCustomEinheitNo = true;
     public $hasAnyCustomEinheitNo = false;
+    public $nummer_display = '';
     public $hasAnyEigentumer = false;
     public $hasVat = false;
-    public $showEigentumer = true;
     public $showDeleteModal = false;
     public $showEditModal = false;
     public $showFilters = false;
@@ -34,7 +33,6 @@ class ShowOccupantList extends Component
     public bool $editVorauszahlungen = false;
     public $currentVorauszahlung = 0;
     public $salutations = null;
-    public $calendarOff = false;
     public $filters = [
         'search' => '',
     ];
@@ -46,6 +44,13 @@ class ShowOccupantList extends Component
     public $occupant;
 
     protected $queryString = ['sorts'];
+
+    public function rules() { return [
+        'realestate.occupant_number_mode' => 'nullable',
+        'realestate.occupant_name_mode' => 'nullable',
+        'realestate.eingabeCostNetto'  => 'nullable',
+        'realestate.prepaidtype' => 'nullable',];
+    }
 
     protected $listeners = [
         'refreshParent' => '$refresh',
@@ -122,8 +127,6 @@ class ShowOccupantList extends Component
             'unvid' => 'asc'
             ];
         $this->current = $this->realestate->occupants->first();
-        $this->showCustomEinheitNo = $this->realestate->occupant_number_mode;
-        $this->showEigentumer = $this->realestate->occupant_name_mode;        
         $this->editVorauszahlungen = !$this->realestate->abrechnungssetting->nutzerlisteDone;
     }
 
@@ -137,13 +140,9 @@ class ShowOccupantList extends Component
             $this->editVorauszahlungen = !$this->editVorauszahlungen;
         }
         if ($value == 'nummer'){
-            $this->showCustomEinheitNo = !$this->showCustomEinheitNo;
-            $this->realestate->occupant_number_mode = $this->showCustomEinheitNo;
             $this->realestate->save();
         }
         if ($value == 'eigentumer'){
-            $this->showEigentumer = !$this->showEigentumer;
-            $this->realestate->occupant_name_mode = $this->showEigentumer;
             $this->realestate->save();
         }
         if ($value == 'prepaidtype'){

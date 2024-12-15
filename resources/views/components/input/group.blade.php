@@ -27,12 +27,12 @@
         <div class="sm:col-span-{{ $labelsColSpan }}
             {{ $alignLabel }}
             {{ $hoheLabel }}
-            {{ $borderless ? '' : 'border-b-2 border-l-2 sm:border-r-2 sm:border-l-0 rounded border-sky-800/50' }}
+            {{ $borderless ? '' : 'border-b-2 border-l-2 sm:border-r-2 sm:border-l-0 rounded border-sky-800/50 dark:border-slate-500' }}
             {{ $bottom ? '' : 'pt-2' }}
             {{ $error ? 'pb-2 text-red-500' : '' }}
             {{ $labelless ? 'hidden' : '' }}
             sm:{{ $labelDirection }}
-            px-2 block sm:text-sm font-medium leading-5 text-sky-950">
+            px-2 block sm:text-sm font-medium leading-5 text-sky-950 dark:text-slate-100">
             <label for="{{ $for }}"
                 class="{{ $alignLabel }}
                        {{ $paddingLabel }}
@@ -42,7 +42,7 @@
         </div>
         <div class="flex
             {{ $error ? $hoheContentOnError : $hoheContent }}
-            {{ $borderless ? '' : 'border-b-2 border-l-2 sm:border-r-0 border-solid rounded border-sky-800/50' }}
+            {{ $borderless ? '' : 'border-b-2 border-l-2 sm:border-r-0 border-solid rounded border-sky-800/50 dark:border-slate-500' }}
             {{ $labelless ? 'sm:col-span-6' : 'sm:col-span-'. $slotColSpan }}
             ">
             {{ $slot }}

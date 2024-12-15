@@ -49,3 +49,20 @@
   padding-top: 0.25rem;
    
 }
+
+.toggle-checkbox:not(:checked) + .toggle-label span.option-1{
+  @apply text-green-600 ;
+  // transform: translate(0px,0%);
+  opacity: 1;
+  content:'goodbye';
+}
+
+.toggle-checkbox:checked + .toggle-label span.option-1 {
+  @apply text-red-600 ;
+  // transform: translate(0px,100%);
+  opacity: 1;
+  content:'goodbye2';
+}
+
+ 
+ 
