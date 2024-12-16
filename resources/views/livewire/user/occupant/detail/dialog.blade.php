@@ -33,8 +33,7 @@
                 <div class="{{ $dialogMode == 'change' ? 'occu-h-600 sm:occu-h-400' : 'occu-h-500 sm:occu-h-300' }} ">
 
                 @if ($errors->isNotEmpty())
-                    <div class="block text-sm bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-950 text-red-700 dark:text-red-100 px-1 py-1 rounded relative mb-2" role="alert">
-                        
+                    <div class="block error-box">
                         <span class="block sm:block"><strong class="font-bold">Oops! einige Informationen fehlen oder sind nicht korrekt. </strong>
                             @foreach ($errors->all() as $error)
                                 <span class="block sm:block">- {{ $error  }}</span>

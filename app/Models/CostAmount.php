@@ -21,7 +21,7 @@ class CostAmount extends Model
     use WireToast; 
    
     protected $fillable = [
-        'nekoId', 'cost_id', 'bemerkung', 'description',
+        'nekoId', 'cost_id', 'bemerkung', 'description', 'created_at',
         'netAmount', 'grosAmount', 'dateCostAmount', 'consumption', 'netto', 'brutto', 
         'grosAmount_HH', 'co2TaxValue','co2TaxAmount_gros','co2TaxAmount_net','cobrutto',
         'abrechnungssetting_id'

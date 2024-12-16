@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <div class="px-6 py-4 bg-sky-100 dark:bg-slate-600 text-right">
+    <div class="px-6 py-4 bg-sky-100 dark:bg-slate-900 text-right">
         {{ $footer }}
     </div>
 </x-modal>

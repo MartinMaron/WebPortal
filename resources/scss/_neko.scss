@@ -45,7 +45,23 @@
   .page-title {
     @apply text-3xl pt-3 font-bold text-sky-800 dark:text-slate-950 text-center w-full;
   }
+
+  .error-box {
+    @apply text-sm bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-950 text-red-700 dark:text-red-100 px-1 py-1 rounded mb-2;
+  }
   
+  .detailinput {
+
+  }
+
+  .detailinput .inputDisplay {
+    @apply border-gray-300 dark:border-slate-950 dark:bg-slate-700 dark:text-gray-200 dark:focus:border-slate-700 focus:border-indigo-500 border text-center md:text-sm p-1 px-2 m-0 w-full sm:text-sm rounded-md  ;
+  }
+
+  .detailinput .inputErrorDisplay {
+    @apply bg-red-50 focus:border-red-900 border-red-900 ;
+  }
+
   .toginput {
     width: 0;
     height: 0;

@@ -9,6 +9,7 @@
     'borderless' => false,
     'bottom' => true,
     'labelless' => '',
+    'inputBorderless' => false,
     'hohe' => 'h-10',
     'hoheOnError' => 'h-12',
     'hoheLabel' => 'h-auto',
@@ -42,7 +43,7 @@
         </div>
         <div class="flex
             {{ $error ? $hoheContentOnError : $hoheContent }}
-            {{ $borderless ? '' : 'border-b-2 border-l-2 sm:border-r-0 border-solid rounded border-sky-800/50 dark:border-slate-500' }}
+            {{ $borderless || $inputBorderless ? '' : 'border-b-2 border-l-2 sm:border-r-0 border-solid rounded border-sky-800/50 dark:border-slate-500' }}
             {{ $labelless ? 'sm:col-span-6' : 'sm:col-span-'. $slotColSpan }}
             ">
             {{ $slot }}

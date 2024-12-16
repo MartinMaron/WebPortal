@@ -1,14 +1,14 @@
 <div class="sm:grid sm:grid-cols-6 sm:gap-2">
     <div class="sm:col-span-6">
         <div class="flex justify-start items-center p-2 mt-4 h-8 border-black border-b-2">
-            <div class="">
+            <div class="font-bold text-xl">
                 Allgemeine Einstellungen
             </div>
         </div>
     </div>
     <div class="block sm:col-span-3">
         <!-- eingabe netto-->
-        <x-input.group for="einstellungen-eingabeCostNetto" labelDirection="text-left" labelsColSpan="4" slotColSpan="2"  hohe="h-10" label="Kosteneingabe als Nettobeträge" :error="$errors->first('realestate.eingabeCostNetto')">
+        <x-input.group for="einstellungen-eingabeCostNetto" inputBorderless="true" labelDirection="text-left" labelsColSpan="4" slotColSpan="2"  hohe="h-10" label="Kosteneingabe als Nettobeträge" :error="$errors->first('realestate.eingabeCostNetto')">
             <div class="flex justify-between items-center">
                 <div>
                     <x-input.toggle wire:model="realestate.eingabeCostNetto"  width=8 id="einstellungen-eingabeCostNetto" ></x-input.toggle>
@@ -16,7 +16,7 @@
             </div>
         </x-input.group>
         <!-- eingabe mit Datum-->
-        <x-input.group hohe="h-8" for="einstellungen-eingabeCostOhneDatum" labelDirection="text-left" labelsColSpan="4" slotColSpan="2"  hohe="h-10" for="einstellungen-eingabeCostOhneDatum" label="Kosteneingabe mit Rechnungsdatum" :error="$errors->first('realestate.eingabeCostOhneDatum')">
+        <x-input.group hohe="h-8" for="einstellungen-eingabeCostOhneDatum" inputBorderless="true" labelDirection="text-left" labelsColSpan="4" slotColSpan="2"  hohe="h-10" for="einstellungen-eingabeCostOhneDatum" label="Kosteneingabe mit Rechnungsdatum" :error="$errors->first('realestate.eingabeCostOhneDatum')">
             <div class="flex justify-between items-center">
                 <div>
                     <x-input.toggle wire:model="realestate.eingabeCostDatum"  width=8 id="einstellungen-eingabeCostOhneDatum" ></x-input.toggle>
@@ -38,13 +38,13 @@
     </div>
     <div class="sm:col-span-6">
         <div class="flex justify-start items-center p-2 mt-4 h-8 border-black border-b-2">
-            <div class="">
+            <div class="font-bold text-xl">
                 Einstellungen zu Kohlendioxidkostenaufteilungsgesetz (CO2KostAufG) 
             </div>
         </div>
     </div>
     <div class="sm:col-span-3">
-        <x-input.group for="einstellungen-co2_anschluss_nach_2022" labelDirection="text-left" hohe="h-10" label="Wärmeanschluss des Gebäudes nach 01.01.2023" labelsColSpan="4" slotColSpan="2" :error="$errors->first('einstellungen.co2_anschluss_nach_2022')">
+        <x-input.group for="einstellungen-co2_anschluss_nach_2022" inputBorderless="true" labelDirection="text-left" hohe="h-10" label="Wärmeanschluss des Gebäudes nach 01.01.2023" labelsColSpan="4" slotColSpan="2" :error="$errors->first('einstellungen.co2_anschluss_nach_2022')">
             <div class="flex justify-between items-center">
                 <div>
                     <x-input.toggle wire:model="einstellungen.co2_anschluss_nach_2022"  width=8 id="einstellungen-co2_anschluss_nach_2022" ></x-input.toggle>
@@ -57,17 +57,17 @@
     </div>
     <div class="sm:col-span-3">
         <!-- eingabe kennzeichen WEG-->
-        <x-input.group for="einstellungen-co2_kennzeichen_1_9" labelDirection="text-left" hohe="h-10" label="Denkmalschutz: Kennzeichen 1 §9 (nur 50 % aufteilen)" labelsColSpan="4" slotColSpan="2" :error="$errors->first('einstellungen.co2_kennzeichen_1_9')">
+        <x-input.group for="einstellungen-co2_kennzeichen_1_9" inputBorderless="true" labelDirection="text-left" hohe="h-10" label="Denkmalschutz: Kennzeichen 1 §9 (nur 50 % aufteilen)" labelsColSpan="4" slotColSpan="2" :error="$errors->first('einstellungen.co2_kennzeichen_1_9')">
             <div class="flex justify-between items-center">
                 <div>
                     <x-input.toggle wire:model="einstellungen.co2_kennzeichen_1_9"  width=8 id="einstellungen-co2_kennzeichen_1_9" ></x-input.toggle>
                 </div>
             </div>
         </x-input.group>
-        <x-input.group for="einstellungen-co2_kennzeichen_2_9" labelDirection="text-left" hohe="h-10" label="Denkmalschutz: Kennzeichen 2 §9 (Keine Aufteilung)" labelsColSpan="4" slotColSpan="2" :error="$errors->first('einstellungen.co2_kennzeichen_2_9')">
+        <x-input.group for="einstellungen-co2_kennzeichen_2_9" inputBorderless="true" labelDirection="text-left" hohe="h-10" label="Denkmalschutz: Kennzeichen 2 §9 (Keine Aufteilung)" labelsColSpan="4" slotColSpan="2" :error="$errors->first('einstellungen.co2_kennzeichen_2_9')">
             <div class="flex justify-between items-center">
                 <div>
-                    <x-input.toggle wire:model="einstellungen.co2_kennzeichen_2_9"  width=8 id="einstellungen-co2_kennzeichen_2_9" ></x-input.toggle>
+                    <x-input.toggle wire:model="einstellungen.co2_kennzeichen_2_9" inputBorderless="true"  width=8 id="einstellungen-co2_kennzeichen_2_9" ></x-input.toggle>
                 </div>
             </div>
         </x-input.group>        
@@ -98,9 +98,9 @@
             </div>
             <div wire:click="commit" >
                 @if (!$this->realestate->abrechnungssetting->brennstofflisteDone)
-                    <x-button.primary class="flex justify-items-end">
+                    <x-button.secondary class="flex justify-items-end">
                         Einstellungen speichern
-                    </x-button.primary>
+                    </x-button.secondary>
                 @endif                
             </div>
         </div>
