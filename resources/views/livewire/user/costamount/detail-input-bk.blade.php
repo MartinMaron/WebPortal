@@ -1,6 +1,6 @@
-<div class="">    
-    <div class="flex justify-around items-center text-lg text-center gap-1 bg-sky-50">
-        <div class="basis-2/3 flex items-center">
+<div class=" dark:bg-slate-900 detailinputBK ">    
+    <div class="flex justify-around items-center text-lg font-normal text-center columnheader gap-1 ">
+        <div class="basis-2/3 flex items-center ">
             <button 
                 class="basis-1/3 text-lg text-left px-2 flex rounded-md hover:bg-sky-300 "
                 wire:click="raise_EditCostModal({{ $cost }})"
@@ -11,7 +11,7 @@
                 <span class="line-clamp-1">{{$cost->noticeForUser }}</span>
             </div>
             <div class="basis-1/3 px-4 rounded-md ">
-                <div class="flex justify-evenly gap-3 my-1 items-center bg-sky-100 border border-sky-300 rounded-md">
+                <div class="flex justify-evenly gap-3 my-1 items-center bg-sky-100 dark:bg-slate-800 dark:text-slate-200 border border-sky-300 rounded-md font-light">
                     <span class="text-right text-sm line-clamp-1 px-2 basis-1/2">{{ $cost->prevyear_amountgros_view. ' €'}}</span> -
                     <span class="text-right text-sm line-clamp-1 px-2 basis-1/2">{{ $cost->prevyear_quantity_view. ' '. $cost->costkey->einheit->shortname   }}</span>
                 </div>
@@ -26,7 +26,9 @@
                     placeholder="0,0"
                     wire:model.lazy="current.consumption_editing"
                     style="-moz-appearance: textfield; margin: 0;"
-                    class="border {{ $cost->consumption ? 'block' : 'hidden' }} text-center {{ $errors->first('current.consumption_editing') ? 'bg-red-50 focus:border-red-900 border-red-900' : 'focus:border-indigo-500 border-gray-300' }} md:text-md focus:ring-black p-1 px-2 m-0  w-full sm:text-sm  rounded-md"   
+                    class="{{ $cost->consumption ? 'block' : 'hidden' }} 
+                    inputDisplayBK
+                    {{ $errors->first('current.consumption') ? 'inputErrorDisplay' :'' }}" 
                 >   
                 {{-- @endif --}}
             </div>
@@ -38,12 +40,10 @@
                     placeholder="1"
                     wire:model.lazy="current.haushaltsnah"
                     style="-moz-appearance: textfield; margin: 0;"
-                    class="{{ $cost->haushaltsnah ? 'block' : 'hidden' }} text-center border md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
-                    > 
-                    @if ($errors->first('current.haushaltsnah'))
-                    <div class="mt-1 text-red-500 text-sm">{{ $errors->first('current.haushaltsnah') }}</div>
-                    @endif
-                {{-- @endif --}}
+                    class="{{ $cost->haushaltsnah ? 'block' : 'hidden' }} 
+                    inputDisplayBK
+                    {{ $errors->first('current.haushaltsnah') ? 'inputErrorDisplay' :'' }}" 
+                > 
             </div>
             <div class="basis-1/3">
                 @if ($editable && !$this->cost->realestate->abrechnungssetting->betreibskostenDone)
@@ -53,11 +53,11 @@
                     wire:focusout="save()"                    
                     wire:model.lazy= {{ $netto ? 'current.netto' : 'current.brutto' }}
                     style="-moz-appearance: textfield; margin: 0;"
-                    class="border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                    class="border inputDisplayBK"   
                     >
                 @else
                     <div 
-                    class="border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                    class="border inputDisplayBK-ro"   
                     >{{ $netto ? $current->netto : $current->brutto }}
                     </div>
                 @endif

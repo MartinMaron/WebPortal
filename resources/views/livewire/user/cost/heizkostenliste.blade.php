@@ -1,9 +1,9 @@
 <div>
     <!-- Main -->
-    <div class="max-w-7xl w-full sm:px-1 lg:px-1 mb-40 mx-auto">
-        <div class="text-3xl pt-3 text-center w-full flex justify-center  ">
+    <div class="max-w-7xl w-full sm:px-1 lg:px-1 mb-40 mx-auto kostenliste">
+        <div class="flex items-center mt-3">
             <div class="basis-1/4"></div>
-            <div class="basis-2/4 text-3xl pt-3 font-bold text-sky-800 text-center w-full">
+            <div class="basis-2/4 page-title">
                 <div class="">WEITERE HEIZKOSTEN</div>
                 @if ($this->realestate->abrechnungssetting->heizkostenlisteDone)
                     <div class="text-sm">Daten für ausgewählten Abrechnungszeitraum bereits an neko versendet !</div>
@@ -15,9 +15,9 @@
                 @endif
             </div>
         </div>
-        <div class="bg-sky-50 mt-8 mx-8">
+        <div class="space-y-1 mt-4 columnheader pb-12 mb-28">
             <!-- Überschrift -->
-            <div class="flex flex-row items-center justify-start border-b-2 border-gray-800 bg-sky-50  font-semibold">
+            <div class="flex flex-row items-center">
                 <div class="basis-2/3 flex text-center items-center">
                     <div 
                         class="basis-2/3 text-left px-2 flex rounded-md "
@@ -53,24 +53,24 @@
             </div>
             <!-- liste der Kosten -->
             @forelse ($costtypes as $costtype)
-            <div class="flex justify-between">
+            <div class="flex justify-between columnheader">
                 <div class="flex justify-start items-center">
                     <button wire:click="raise_AddCostModal({{ $costtype }})"
                         tabindex="-1" 
-                        class="fa-regular fa-circle-plus text-3xl m-3 text-sky-600 mr-5" >
+                        class="fa-regular fa-circle-plus text-3xl m-3 mr-5" >
                     </button>
-                    <div class="text-xl text-sky-800 pr-1 font-extrabold tracking-widest items-end">
+                    <div class="text-xl pr-1 font-extrabold tracking-widest items-end">
                         {{ $costtype->costtype->caption. ' ('. number_format($this->getCostByType($costtype->costtype_id)->pluck('gros')->sum(), 2, ',', '.') . ' €)'  }}
                     </div>
                 </div>
             </div>
                 @forelse ($this->getCostByType($costtype->costtype_id) as $cost)
-                    <div class="pl-4">
+                    <div class="px-1">
                         <livewire:user.costamount.detail-input :cost='$cost' :netto='false' :inputWithDatum='false' :wire:key="'list-cost-costamountinput-'.$cost->id" key="{{ now() }}"/>
                     </div>
                 @empty
                     <div class="flex justify-center items-center space-x-2 bg-sky-100">
-                        <span class="font-medium py-8 text-cool-gray-400 text-xl">nichts gefunden...</span>
+                        <span class="font-medium py-8 text-xl">nichts gefunden...</span>
                     </div>
                 @endforelse
             @empty

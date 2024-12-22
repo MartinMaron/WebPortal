@@ -18,6 +18,7 @@
                     id="user-costamount-detailinput-datum{{ $cost->id }}"
                     type="text"
                     :error="$errors->first('current.datum')"
+                    style="-moz-appearance: textfield; margin: 0;"
                     class="{{ $inputWithDate || ($cost->fueltype_id !=null && $cost->fueltype->hasTank) ? 'block' : 'hidden' }} 
                     inputDisplay
                     {{ $errors->first('current.datum') ? 'bg-red-50 focus:border-red-900 border-red-900' : '' }}"

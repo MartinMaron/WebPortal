@@ -1,13 +1,13 @@
 <div>
     <!-- Main -->
-    <div class="max-w-7xl w-full mx-auto sm:px-1 lg:px-1 m-0 mb-48">
-        <div class="text-3xl pt-3 font-extrabold text-sky-800 text-center w-full flex my-3">
+    <div class="max-w-7xl w-full mx-auto sm:px-1 lg:px-1 m-0 mb-24 kostenliste">
+        <div class="text-3xl pt-3 font-extrabold text-center w-full flex my-3 page-title ">
             <div class="basis-1/4 flex justify-start">
                 <button wire:click="raise_AddCostModal({{ $current }})"
                 tabindex="-1">
-                <i class="fa-regular fa-circle-plus text-3xl text-sky-600" ></i>
+                <i class="fa-regular fa-circle-plus text-3xl" ></i>
                 </button></div>
-            <div class="basis-2/4 text-3xl pt-3 font-bold text-sky-800 text-center w-full">
+            <div class="basis-2/4 page-title text-3xl pt-3 font-bold  text-center w-full">
                 <div class="">BETRIEBSKOSTEN</div>
                 @if ($this->realestate->abrechnungssetting->betreibskostenDone)
                     <div class="text-sm">Daten für ausgewählten Abrechnungszeitraum bereits an neko versendet !</div>
@@ -20,7 +20,7 @@
             </div>
         </div>
         <!-- Überschrift -->
-        <div class="flex flex-row items-center justify-start border-b-2 border-gray-800 bg-sky-50  font-semibold">
+        <div class="flex flex-row columnheader items-center justify-start border-b-2 border-slate-400">
             <div class="basis-2/3 flex text-center items-center">
                 <div 
                     class="basis-1/3 text-left px-2 flex rounded-md "
@@ -58,15 +58,18 @@
             </div>
         </div>
         <!-- liste der Kostearten -->
-        @forelse ($filtered as $cost)
+        <div class="border-0 bg-slate-700">
+            @forelse ($filtered as $cost)
             <div class="">
                 <livewire:user.costamount.detail-input :cost='$cost' :netto='false' :inputWithDatum='false' :wire:key="'list-cost-costamountinput-'.$singleCost->id" key="{{ now() }}"/>
             </div>
-        @empty
-            <div class="flex justify-center items-center space-x-2 bg-sky-100">
-                <span class="font-medium py-8 text-cool-gray-400 text-xl">nichts gefunden...</span>
-            </div>
-        @endforelse
+            @empty
+                <div class="flex justify-center items-center space-x-2 bg-sky-100">
+                    <span class="font-medium py-8 text-cool-gray-400 text-xl">nichts gefunden...</span>
+                </div>
+            @endforelse
+        </div>
+    
     </div>
     <div class="xs:max-w-xs xs:w-xs">
         <!-- Save Cost Modal -->

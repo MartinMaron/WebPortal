@@ -37,24 +37,24 @@
                     </button>
                 </div>
                 <div x-show="open">
-                   <div class="mx-2">
+                   <div class="mx-0">
                         <livewire:user.realestate.abrechnung.einstellungen :baseobject='$realestate' :wire:key="'modal-realestate-abrechnung-settings-'.$realestate->id"/>
                    </div>
                 </div>
             </div>
         </div>
         <!-- Kostenliste -->
-        <div class="space-y-4 mt-4">
+        <div class="mt-4 kostenliste">
             <!-- liste der Kostearten -->
             @forelse ($filtered as $cost)
                 <div 
-                    class="bg-sky-50 pb-1 font-extrabold text-sky-900 dark:text-slate-200 dark:bg-slate-800 rounded-sm">
+                    class="columnheader">
                 	<!-- liste der Kostearten. Eingabeüberschriften -->
                     <h2>
                         <!-- Überschrift Brennstoffkosten Summe u. anlage-->
-                        <div class="mt-16 py-1 sm:text-sm md:text-sm lg:text-lg dark:text-slate-200">
+                        <div class="mt-16 py-1 sm:text-sm md:text-sm lg:text-lg">
                             @if ($showEditFields || $cost->costtype_id =='BRK')
-                                <div class="flex flex-row items-center justify-start  border-b border-gray-400">
+                                <div class="flex flex-row items-center justify-start border-b border-gray-400">
                                     <div class="basis-1/3 pl-4">
                                         <span class="">Kostenbezeichnung</span>
                                     </div>

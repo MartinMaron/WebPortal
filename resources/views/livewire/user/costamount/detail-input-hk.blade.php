@@ -1,43 +1,40 @@
-<div class="">    
-    <div class="flex justify-around items-center text-lg text-center gap-1 bg-sky-50">
-        <div class="basis-2/3 flex items-center">
+<div class="detailinput">    
+    <div class=" flex items-center ">
+        <div class="basis-2/3 flex items-center  ">
             <button 
-                class="basis-2/3 text-lg text-left px-2 flex rounded-md hover:bg-sky-300 "
+                class="basis-2/3  text-lg text-left px-2 flex rounded-md hover:bg-sky-300 dark:hover:bg-slate-500"
                 wire:click="raise_EditCostModal({{ $cost }})"
                 tabindex="-1">
-                <span class="py-1 line-clamp-1">{{ $cost->caption }}</span>
+                <span class="line-clamp-1">{{ $cost->caption }}</span>
             </button>
-            <div class="basis-1/3 text-sm rounded-md  text-center">
+            <div class="basis-1/3 text-sm rounded-md text-center">
                 <span class="line-clamp-1">{{$cost->noticeForUser }}</span>
             </div>            
         </div>
-        <div class="basis-1/3 flex gap-2">
+        <div class="basis-1/3 flex">
             <div class="basis-1/3">
-                {{-- @if ($cost->consumption) --}}
                 <input type="text"  
                     id="user-costamount-detailinput-consumption{{ $cost->id }}"
                     inputmode="numeric"  
                     placeholder="0,0"
                     wire:model.lazy="current.consumption_editing"
                     style="-moz-appearance: textfield; margin: 0;"
-                    class="border {{ $cost->consumption ? 'block' : 'hidden' }} text-center {{ $errors->first('current.consumption_editing') ? 'bg-red-50 focus:border-red-900 border-red-900' : 'focus:border-indigo-500 border-gray-300' }} md:text-md focus:ring-black p-1 px-2 m-0  w-full sm:text-sm  rounded-md"   
+                    class="{{ $cost->consumption ? 'block' : 'hidden' }} 
+                    inputDisplayHK
+                    {{ $errors->first('current.consumption') ? 'inputErrorDisplay' :'' }}"   
                 >   
-                {{-- @endif --}}
             </div>
             <div class="basis-1/3">
-                {{-- @if ($cost->haushaltsnah) --}}
                 <input type="text"  
                     id="user-costamount_bk-detailinput-haushaltsnah{{ $cost->id }}"
                     inputmode="numeric"  
                     placeholder="1"
                     wire:model.lazy="current.haushaltsnah"
                     style="-moz-appearance: textfield; margin: 0;"
-                    class="{{ $cost->haushaltsnah ? 'block' : 'hidden' }} text-center border md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
-                    > 
-                    @if ($errors->first('current.haushaltsnah'))
-                    <div class="mt-1 text-red-500 text-sm">{{ $errors->first('current.haushaltsnah') }}</div>
-                    @endif
-                {{-- @endif --}}
+                    class="{{ $cost->haushaltsnah ? 'block' : 'hidden' }} 
+                    inputDisplayHK
+                    {{ $errors->first('current.haushaltsnah') ? 'inputErrorDisplay' :'' }}"   
+                > 
             </div>
             <div class="basis-1/3">
                 @if ($editable && !$this->cost->realestate->abrechnungssetting->heizkostenlisteDone)
@@ -46,12 +43,12 @@
                     inputmode="numeric"  
                     wire:focusout="save()"
                     wire:model.lazy= {{ $netto ? 'current.netto' : 'current.brutto' }}
-                    style="-moz-appearance: textfield; margin: 0;"
-                    class="border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                    class="border inputDisplayHK"   
                     >
                 @else
                     <div 
-                    class="border text-center md:text-md focus:ring-black p-1 px-2 m-0 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"   
+                    class="border inputDisplayHK-ro text-gray-600"   
+                    style="-moz-appearance: textfield; margin: 0;"
                     >{{ $netto ? $current->netto : $current->brutto }}
                     </div>
                 @endif
