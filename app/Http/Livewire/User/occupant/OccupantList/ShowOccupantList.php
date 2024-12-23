@@ -20,6 +20,7 @@ class ShowOccupantList extends Component
 {
 
     use WithPerPagePagination, WithSorting, WithBulkActions, WithCachedRows, WithPagination;
+    use \App\Http\Traits\Helpers;
 
     public $hasAnyCustomEinheitNo = false;
     public $nummer_display = '';
@@ -54,14 +55,13 @@ class ShowOccupantList extends Component
 
     protected $listeners = [
         'refreshParent' => '$refresh',
-        'deleteConfirmed' => 'delete',        
+        'deleteConfirmed' => 'delete',      
+        'confirmNekoMessage' => 'confirmNekoMessage',
     ];
 
-    public function delete($objectId, $objectType)
+    public function deleteOccupant($objectId)
     {
-        if ($objectType != 'Occupant') return;
         $object = Occupant::find($objectId);
-
 
         /* der Zeitraum des letzen Nutzers wird wieder aufgemacht */
         $last_occupant = $object->realestate->occupants
@@ -99,13 +99,9 @@ class ShowOccupantList extends Component
                 }                                                
             } 
         } 
-    
-
-
 
         $object->delete();
         toast()->success('Nutzer wurde gelöscht','Achtung')->push();
-        return redirect(request()->header('Referer'));
     }
 
     public function Salutations()
@@ -159,12 +155,30 @@ class ShowOccupantList extends Component
             $this->realestate->eingabeCostNetto = $this->prepaidnet;
             $this->realestate->save();
         }
-        if ($value == 'nutzerlisteDone'){
+    }
+
+    public function setDone()
+    {
+        $this->emit('showNekoMessageModal',['title'=>'Nutzerliste absenden?','message'=>'Dannach können keine Änderungen mehr vorgenommen werden.','type'=>'warning','action'=>'confirmEditDone']);
+    }
+    public function emit_QuestionDeleteModal(Occupant $id)
+    {
+        $this->emit('showNekoMessageModal',['title'=>'Löschen bestätigen?','message'=>'Wollen Sie den Nutzer '.  $id->nachname .  ' entfernen?','type'=>'delete','action'=>'deleteOccupant','id'=>$id->id]);
+    }
+
+    public function confirmNekoMessage($params)
+    {
+        $this->params = $params;
+        if ($this->params['action'] == 'confirmEditDone') {
             $this->realestate->abrechnungssetting->nutzerlisteDone = 1;
             $this->realestate->abrechnungssetting->save();
             $this->editVorauszahlungen = !$this->realestate->abrechnungssetting->nutzerlisteDone;
+            return redirect(request()->header('Referer'));
         }
-        
+        if ($this->params['action'] == 'deleteOccupant') {
+            $this->deleteOccupant($this->params['id']);
+            return redirect(request()->header('Referer'));
+        }
     }
 
     public function change(Occupant $occupant)
@@ -234,12 +248,6 @@ class ShowOccupantList extends Component
         return $this->rowsQuery->paginate(20);
         // });
     }
-
-    public function emit_QuestionDeleteModal(Occupant $id)
-    {
-        $this->emit('showQuestionDeleteModal', 'Occupant', $id->id, 'Löschen bestätigen', 'Wollen Sie den Nutzer '.  $id->nachname .  ' entfernen?');
-    }
-
 
     public function render()
     {

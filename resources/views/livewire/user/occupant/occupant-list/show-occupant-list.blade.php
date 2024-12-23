@@ -12,7 +12,7 @@
                     <div class="text-sm">Daten für ausgewählten Abrechnungszeitraum bereits an neko versendet !</div>
                 @endif
             </div>
-            <div class="basis-1/4 flex justify-end" wire:click="toggle('nutzerlisteDone')">
+            <div class="basis-1/4 flex justify-end" wire:click="setDone()">
                 @if (! $this->realestate->abrechnungssetting->nutzerlisteDone)
                     <x-button.complete-abr></x-button.complete-abr>
                 @endif
@@ -277,9 +277,11 @@
         <div class="">
             <livewire:user.occupant.detail.dialog :realestate='$realestate' key="{{ now() }}"/>
         </div>
-        <div class="">
-            <livewire:user.dialog.delete-modal :wire:key="'modal-occupant-list-delete'"/>
+
+        <div>
+            <livewire:user.dialog.neko-message-box :wire:key="'neko-message-box'"/>
         </div>
+
         <div class="mt-6 my-5">
             {{ $rows->onEachSide(2)->links() }}
         </div>

@@ -19,9 +19,8 @@ use function Termwind\render;
 
 class Betriebskostenliste extends Component
 {
-    use WireToast;
+    use WireToast; use \App\Http\Traits\Helpers;
 
-    public $showDeleteModal = false;
     public $showEditModal = false;
     public $showEditFields = true;
     public $showFilters = false;
@@ -30,7 +29,6 @@ class Betriebskostenliste extends Component
     public $dateFrom = null;
     public Cost $current;
     public Realestate $realestate;
-    public bool $showDeleteCostAmountModal = false;
 
     public function rules()
     {
@@ -66,6 +64,7 @@ class Betriebskostenliste extends Component
     protected $listeners = [
                             'changeProperty' => 'changeValue',
                             'refreshComponents' => '$refresh',
+                            'confirmNekoMessage' => 'confirmNekoMessage',
                         ];
 
     public function create()
@@ -74,15 +73,22 @@ class Betriebskostenliste extends Component
         $this->showEditModal = true;
     }
 
-    public function toggle($value)
+    public function setDone()
     {
-        if ($value == 'betreibskostenDone'){
+        $this->emit('showNekoMessageModal',['title'=>'Kostenliste absenden?','message'=>'Dannach können keine Änderungen mehr vorgenommen werden.','type'=>'warning','action'=>'confirmEditDone']);
+    }
+
+    public function confirmNekoMessage($params)
+    {
+        $this->params = $params;
+        if ($this->params['action'] == 'confirmEditDone') {
             $this->realestate->abrechnungssetting->betreibskostenDone = 1;
             $this->realestate->abrechnungssetting->save();
             $this->showEditFields = !$this->realestate->abrechnungssetting->betreibskostenDone;
             return redirect(request()->header('Referer'));
         }
     }
+
 
     public function raise_EditCostModal(Cost $cost)
     {

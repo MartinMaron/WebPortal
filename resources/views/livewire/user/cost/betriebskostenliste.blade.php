@@ -13,7 +13,7 @@
                     <div class="text-sm">Daten für ausgewählten Abrechnungszeitraum bereits an neko versendet !</div>
                 @endif
             </div>
-            <div class="basis-1/4 flex justify-end" wire:click="toggle('betreibskostenDone')">
+            <div class="basis-1/4 flex justify-end" wire:click="setDone()">
                 @if (! $this->realestate->abrechnungssetting->betreibskostenDone)
                     <x-button.complete-abr></x-button.complete-abr>
                 @endif
@@ -79,28 +79,9 @@
         <div>
             <livewire:user.costamount.detail :wire:key="'modal-realestate-costamount-detail'"/>
         </div>
-        <!-- Delete CostAmount Modal -->
-        <div class="{{ $showDeleteCostAmountModal ? 'visible' : 'invisible' }}">
-            <form wire:submit.prevent="deleteCostAmountModal({{ $current }})">
-                <x-modal.dialog class="bg-sky-50" minWidth="640px" maxWidth="800px" wire:model.defer="showDeleteCostAmountModal">
-                    <!-- Dialog Title -->
-                    <x-slot name="title">
-                        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                            <i class="text-red-800 fa-solid fa-trash-can"></i>
-                        </div>
-                    </x-slot>
-                    <!-- Dialog Content -->
-                    <x-slot name="content">
-                        <div class="mt-3 text-center sm:mt-5">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Eintrag wirklich löschen</h3>
-                        </div>
-                    </x-slot>
-                    <x-slot name="footer">
-                        <x-button.secondary wire:click="$set('showDeleteCostAmountModal', false)">Abbrechen</x-button.secondary>
-                        <x-button.delete type="submit">Löschen</x-button.delete>
-                    </x-slot>
-                </x-modal.dialog>
-            </form>
+         <!-- for Delete or Confirm -->
+         <div>
+            <livewire:user.dialog.neko-message-box :wire:key="'neko-message-box'"/>
         </div>
     </div>
 </div>

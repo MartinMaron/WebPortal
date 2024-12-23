@@ -6,32 +6,22 @@ use App\Models\Cost;
 use Livewire\Component;
 use App\Models\CostAmount;
 use App\Models\Realestate;
-use App\Events\CostAmountDeleted;
-use App\Models\Abrechnungssetting;
-use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Builder;
 use Usernotnull\Toast\Concerns\WireToast;
 
-use function Termwind\render;
-
 class Brennstoffliste extends Component
 {
-    use WireToast;
+    use WireToast; use \App\Http\Traits\Helpers;
 
-    public $showDeleteModal = false;
     public $showEditModal = false;
     public $showEditFields = true;
     public $showFilters = false;
     public $nettoInputMode = false;
     public $dateInputMode = true;
-
     public $currentCostAmount = null;
-
     public $dateFrom = null;
-
     public Cost $current;
     public Realestate $realestate;
-    public bool $showDeleteCostAmountModal = false;
     public bool $hasManyBrennstoffkosten = false;
     public $nekoerrors = array();
 
@@ -71,48 +61,55 @@ class Brennstoffliste extends Component
     protected $listeners = [
                             'changeProperty' => 'changeValue',
                             'refreshComponents' => '$refresh',
-                            'deleteCostAmount' => 'questionDeleteCostAmount',
                             'showCostAmountDetailInListaModal' => 'raise_EditCostAmountModal',
+                            'confirmNekoMessage' => 'confirmNekoMessage',
                         ];
 
     
-    public function toggle($value)
+    public function confirmNekoMessage($params)
     {
-        if ($value == 'brennstofflisteDone'){
-            $this->nekoerrors = array();
-            
-            foreach($this->realestate->costs->where('costtype_id','=','BRK') as $item) {
-                
-                // für Kosten ohne Tank müssen irgendwelche Kosten eingetragen werden
-                if ($item->fueltype_id !=null && !$item->fueltype->hasTank) {
-                    if ($item->netto == "0,00" && $item->brutto == "0,00" ) {
-                        $this->nekoerrors[]= $item->caption. ': keine Kosten angegeben.';
-                    }
-                }
-                
-                if ($item->fueltype_id !=null && $item->fueltype->hasTank){
-                    $q = $item->costAmounts()->where('abrechnungssetting_id','=', $item->realestate->abrechnungssetting_id)
-                    ->where('endvalue','=', true)->get();
-                    if ($q->count() > 0) {
-                        if ($q->first()->consumption == 0)
-                        {
-                            $this->nekoerrors[]= $item->caption. ': kein Endstand angegeben.';
-                        }
-                    } else {
-                        $this->nekoerrors[]= $item->caption. ': kein Endstand angegeben.';
-                    }
-                }
-            }
-            
-            if (!$this->nekoerrors) {
-                $this->realestate->abrechnungssetting->brennstofflisteDone = 1;
-                $this->realestate->abrechnungssetting->save();
-                $this->showEditFields = !$this->realestate->abrechnungssetting->nutzerlisteDone;
-                return redirect(request()->header('Referer'));
-            }
+        $this->params = $params;
+        if ($this->params['action'] == 'confirmEditDone') {
+            $this->realestate->abrechnungssetting->brennstofflisteDone = 1;
+            $this->realestate->abrechnungssetting->save();
+            $this->showEditFields = !$this->realestate->abrechnungssetting->nutzerlisteDone;
+            return redirect(request()->header('Referer'));
+        }
+        if ($this->params['action'] == 'deleteCostAmount') {
+            $this->currentCostAmount->delete();
         }
     }
 
+
+    public function setDone()
+    {
+        $this->nekoerrors = array();
+        foreach($this->realestate->costs->where('costtype_id','=','BRK') as $item) {
+            
+            // für Kosten ohne Tank müssen irgendwelche Kosten eingetragen werden
+            if ($item->fueltype_id !=null && !$item->fueltype->hasTank) {
+                if ($item->netto == "0,00" && $item->brutto == "0,00" ) {
+                    $this->nekoerrors[]= $item->caption. ': keine Kosten angegeben.';
+                }
+            }
+            
+            if ($item->fueltype_id !=null && $item->fueltype->hasTank){
+                $q = $item->costAmounts()->where('abrechnungssetting_id','=', $item->realestate->abrechnungssetting_id)
+                ->where('endvalue','=', true)->get();
+                if ($q->count() > 0) {
+                    if ($q->first()->consumption == 0)
+                    {
+                        $this->nekoerrors[]= $item->caption. ': kein Endstand angegeben.';
+                    }
+                } else {
+                    $this->nekoerrors[]= $item->caption. ': kein Endstand angegeben.';
+                }
+            }
+        }
+        if (!$this->nekoerrors) {
+            $this->emit('showNekoMessageModal',['title'=>'Brennstoffliste absenden?','message'=>'Dannach können keine Änderungen mehr vorgenommen werden.','type'=>'warning','action'=>'confirmEditDone']);
+        }
+    }
 
     public function create()
     {
@@ -145,7 +142,6 @@ class Brennstoffliste extends Component
         $this->emit('showCostDetailModal', $this->current, false, true);
     }
 
-
     public function editCostAmountModal(CostAmount $costAmount)
     {
         $this->emit('showCostAmountDetailModal', $costAmount);
@@ -154,12 +150,7 @@ class Brennstoffliste extends Component
     public function questionDeleteCostAmount(CostAmount $costAmount)
     {
         $this->currentCostAmount = $costAmount;
-        $this->showDeleteCostAmountModal = true;
-    }
-
-    public function deleteCostAmountModal() {
-        $this->showDeleteCostAmountModal = false;
-        $this->currentCostAmount->delete();
+        $this->emit('showNekoMessageModal',['title'=>'Löschen?','message'=>'Bitte das löschen bestätigen.','type'=>'delete','action'=>'deleteCostAmount']);
     }
 
     public function getCostByType($costtypeId){

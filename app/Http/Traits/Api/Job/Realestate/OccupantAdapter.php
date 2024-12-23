@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 trait OccupantAdapter
 {
-    
 
     public function getNextOccupantUnvid($unvid){
         $nr = intval(substr($unvid, 15, 3));

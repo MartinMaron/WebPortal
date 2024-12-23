@@ -4,24 +4,15 @@ namespace App\Http\Livewire\User\Cost;
 
 use App\Models\Cost;
 use Livewire\Component;
-use App\Models\CostAmount;
 use App\Models\Realestate;
-use App\Events\CostAmountDeleted;
-use App\Models\Costinvoicingtype;
 use App\Models\Costtype;
-use App\Models\Occupant;
-use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Builder;
 use Usernotnull\Toast\Concerns\WireToast;
-use Illuminate\Support\Carbon\Carbon;
-
-use function Termwind\render;
 
 class Heizkostenliste extends Component
 {
-    use WireToast;
+    use WireToast; use \App\Http\Traits\Helpers;
 
-    public $showDeleteModal = false;
     public $showEditModal = false;
     public $showEditFields = true;
     public $showFilters = false;
@@ -30,8 +21,6 @@ class Heizkostenliste extends Component
     public $dateFrom = null;
     public Cost $current;
     public Realestate $realestate;
-    public bool $showDeleteCostAmountModal = false;
-    public bool $hasManyBrennstoffkosten = false;
 
     public function rules()
     {
@@ -51,22 +40,23 @@ class Heizkostenliste extends Component
         $this->nettoInputMode = $realestate->eingabeCostNetto;
         $this->dateInputMode = $realestate->eingabeCostDatum;
         $this->showEditFields = !$realestate->heizkostenlisteDone;
-        $this->hasManyBrennstoffkosten = (bool)(Cost::where('realestate_id','=',$this->realestate->id)
-                                        ->where(function (Builder $query) {$query->IsHeizkosten();})
-                                        ->where('costtype_id','=','BRK')
-                                        ->count() > 1);
     }
 
-    public function toggle($value)
+    public function setDone()
     {
-        if ($value == 'heizkostenlisteDone'){
+        $this->emit('showNekoMessageModal',['title'=>'Kostenliste absenden?','message'=>'Dannach können keine Änderungen mehr vorgenommen werden.','type'=>'warning','action'=>'confirmEditDone']);
+    }
+
+    public function confirmNekoMessage($params)
+    {
+        $this->params = $params;
+        if ($this->params['action'] == 'confirmEditDone') {
             $this->realestate->abrechnungssetting->heizkostenlisteDone = 1;
             $this->realestate->abrechnungssetting->save();
             $this->showEditFields = !$this->realestate->abrechnungssetting->heizkostenlisteDone;
             return redirect(request()->header('Referer'));
         }
     }
-
 
     public function makeBlankObject()
     {
@@ -83,6 +73,7 @@ class Heizkostenliste extends Component
     protected $listeners = [
                             'changeProperty' => 'changeValue',
                             'refreshComponents' => '$refresh',
+                            'confirmNekoMessage' => 'confirmNekoMessage',
                         ];
 
     public function setCurrent(Cost $cost)
@@ -95,13 +86,7 @@ class Heizkostenliste extends Component
     public function raise_EditCostModal(Cost $cost)
     {
         $this->setCurrent($cost);
-        if ($cost->costtype->costinvoicingtype_id == 'HZ')
-        {
-             $this->emit('showCostDetailModal', $this->current, false, false);
-        }else 
-        {
-            $this->emit('showBetriebskostenCostDetailModal', $this->current);
-        }
+        $this->emit('showCostDetailModal', $this->current, false, false);
     }
 
     public function raise_AddCostModal(Cost $costTemplate)
