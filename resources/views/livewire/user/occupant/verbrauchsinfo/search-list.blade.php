@@ -13,7 +13,7 @@
                 <livewire:user.occupant.verbrauchsinfo.header :verbrauchsinfo='$verbrauchsinfo' :sorts='$sorts' :wire:key="'verbrauchsinfo-listitem-header'.$verbrauchsinfo->id" key="{{ now() }}"/>
             </div>
 
-            <div class="md:border-2 md:rounded-b-lg md:border-sky-100">
+            <div class="md:border md:rounded-b-lg md:border-sky-100 dark:md:border-slate-950">
                 @forelse ($this->getVerbrauchsinfosByNutzergrupe($verbrauchsinfo->nutzergrup_id) as $singleVerbrauchsinfo)
                 <livewire:user.occupant.verbrauchsinfo.listitem :singleVerbrauchsinfo='$singleVerbrauchsinfo' :wire:key="'verbrauchsinfo-listitem'.$verbrauchsinfo->id"  key="{{ now() }}"/>
 

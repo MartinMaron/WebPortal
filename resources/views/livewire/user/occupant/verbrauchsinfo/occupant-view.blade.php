@@ -1,35 +1,35 @@
 <div>
-    <div class="w-full bg-white rounded-lg shadow-md">
+    <div class="w-full bg-white dark:bg-slate-800 shadow-md rounded-b-lg">
         @if ($rows->count()!=0)
             @foreach ($rows as $verbrauchsinfo)
             <div class="mt-6 {{ $verbrauchsinfo->ww ? 'border-y-2 border-red-600' : 'border-y-2 border-green-400' }} selection:items-center justify-between w-full p-2 ">
-                <div class="flex-1 text-center font-semibold {{ $verbrauchsinfo->ww ? 'text-red-800 ' : 'text-green-600 ' }} bg-white">
+                <div class="flex-1 text-center font-semibold {{ $verbrauchsinfo->ww ? 'text-red-800 dark:text-red-500 ' : 'text-green-600 dark:text-green-700 ' }}  ">
                     {{ $verbrauchsinfo->art. ' im '. $verbrauchsinfo->zeitraum_akt}}
                 </div>
-                <div class="flex-1 font-semibold text-center">
+                <div class="flex-1 font-semibold text-center dark:text-slate-400">
                     Verbrauchswerte
                 </div>
                 <div class="grid w-full gap-4 sx:grid-cols-3">
                     <div class="flex justify-between">
                         <div class="">
-                            <div class="flex-1 text-sm text-center text-gray-600 underline"> {{ $verbrauchsinfo->zeitraum_akt}} </div>
-                            <div class="flex-1 text-center"> {{ $verbrauchsinfo->verbrauch_akt_display}} </div>
+                            <div class="flex-1 text-sm text-center text-gray-600 dark:text-slate-400 underline"> {{ $verbrauchsinfo->zeitraum_akt}} </div>
+                            <div class="flex-1 text-center dark:text-slate-300"> {{ $verbrauchsinfo->verbrauch_akt_display}} </div>
                         </div>
                         <div class="">
-                            <div class="flex-1 text-sm text-center text-gray-600 underline"> {{ $verbrauchsinfo->zeitraum_mon}} </div>
-                            <div class="flex-1 text-center"> {{ $verbrauchsinfo->verbrauch_mon_display}} </div>
+                            <div class="flex-1 text-sm text-center text-gray-600 dark:text-slate-400 underline"> {{ $verbrauchsinfo->zeitraum_mon}} </div>
+                            <div class="flex-1 text-center dark:text-slate-300"> {{ $verbrauchsinfo->verbrauch_mon_display}} </div>
                          </div>
                         <div class="">
-                            <div class="flex-1 text-sm text-center text-gray-600 underline"> {{ $verbrauchsinfo->zeitraum_vorj}} </div>
-                            <div class="flex-1 text-center"> {{ $verbrauchsinfo->verbrauch_vorj_display}} </div>
+                            <div class="flex-1 text-sm text-center text-gray-600  dark:text-slate-400 underline"> {{ $verbrauchsinfo->zeitraum_vorj}} </div>
+                            <div class="flex-1 text-center dark:text-slate-300"> {{ $verbrauchsinfo->verbrauch_vorj_display}} </div>
                           </div>
                     </div>
                 </div>
-                <div class="flex-1 pt-3 font-semibold text-center">
+                <div class="flex-1 pt-3 font-semibold text-center dark:text-slate-400">
                     Gebäudedurchschnitt
                 </div>
 
-                <div class="flex-1 text-center">
+                <div class="flex-1 text-center dark:text-slate-300">
                     {{ $verbrauchsinfo->durchschnitt_display }}
                 </div>
 

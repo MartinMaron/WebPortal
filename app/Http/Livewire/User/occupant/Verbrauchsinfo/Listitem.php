@@ -12,7 +12,7 @@ class Listitem extends Component
 
     public function mount(Verbrauchsinfo $singleVerbrauchsinfo)
     {
-        $this->verbrauchsinfo = $singleVerbrauchsinfo;
+        $this->singleVerbrauchsinfo = $singleVerbrauchsinfo;
     }
 
     public function render()

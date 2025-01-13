@@ -1,8 +1,12 @@
 <div class="w-full px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8 ">
+    <div class="">
+        <livewire:user.occupant.occupant-header :occupant='$occupant'/>
+    </div>
+    
 
     <div
-    x-data="{open:true}"
-    x-init="open=true"
+    x-data="{open:false}"
+    x-init="open=false"
 
     >
         <div class="flex items-center justify-center ">
@@ -23,16 +27,13 @@
         </div>
     </div>
 
-    <div class="">
-        <livewire:user.occupant.occupant-header :occupant='$occupant'/>
-    </div>
     <div class="flex">
         <x-input.search wire:model.debounce.600ms="filter.search"></x-input.search>
     </div>
 
     @if ($nutzergruppen->count()!=0)
     <div class="pb-4 mt-16">
-        <div class="mb-5 text-lg font-bold text-center border-b-2 md:text-2xl border-sky-400 w-max-md md:block">
+        <div class="mb-5 text-lg font-bold text-center border-b md:text-2xl border-sky-400 w-max-md md:block">
             Zählerverbräuche in {{ $rows->first()->zeitraum_akt }}
         </div>
 
@@ -43,10 +44,11 @@
                 <livewire:user.occupant.counter-meter.header :counterMeter='$counterMeter' :sorts='$sorts' :wire:key="'counter-meter-listitem-header'.$counterMeter->id" key="{{ now() }}"/>
             </div>
 
-            <div class="md:border-2 md:rounded-b-lg md:border-sky-100">
+            <div class="md:border md:rounded-b-lg md:border-sky-100 dark:md:border-slate-950">
                 @forelse ($this->getCounterMetersByNutzergrupe($counterMeter->nutzergrup_id) as $singleCounterMeter)
-                <livewire:user.occupant.counter-meter.listitem :singleCounterMeter='$singleCounterMeter' :wire:key="'counter-meter-listitem-'.$counterMeter->id"  key="{{ now() }}"/>
-
+                <div class="{{ $singleCounterMeter->hk ? 'md:odd:bg-green-100 dark:md:odd:bg-green-950 dark:border-b dark:border-slate-950 md:even:bg-green-50 dark:md:even:bg-green-900' :'md:even:bg-red-50 dark:md:even:bg-red-900 md:odd:bg-red-100 dark:md:odd:bg-red-950'}}">
+                    <livewire:user.occupant.counter-meter.listitem :singleCounterMeter='$singleCounterMeter' :wire:key="'counter-meter-listitem-'.$counterMeter->id"  key="{{ now() }}"/>
+                </div>
                 @endforeach
             </div>
 

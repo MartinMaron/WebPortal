@@ -128,5 +128,23 @@
   @apply bg-sky-50 font-extrabold text-sky-900 dark:text-slate-200 dark:bg-slate-800 rounded-sm
 }
 
+.verbrauchsUserEmailliste {
+  
+}
 
+.verbrauchsUserEmailliste ._hinweisheader {
+  @apply border border-b-2 border-gray-300 dark:border-slate-950 dark:bg-slate-900 rounded-lg shadow-sm;
+}
+
+.verbrauchsUserEmailliste ._icon {
+  @apply text-sky-700 dark:text-slate-400;
+}
+
+.verbrauchsUserEmailliste ._text {
+  @apply text-xs text-gray-500 line-clamp-4 dark:text-slate-400 md:line-clamp-2;
+}
+
+.verbrauchsUserEmailliste ._title {
+  @apply font-semibold text-gray-900 dark:text-slate-300;
+}
 

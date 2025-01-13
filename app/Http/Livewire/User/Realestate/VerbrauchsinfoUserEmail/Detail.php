@@ -56,9 +56,8 @@ class Detail extends Component
                 if($this->dialogMode == 'create')
                 {
                     VerbrauchsinfoUserEmail::create($this->userEmail);
-                    $this->emit('refreshParent');
                     toast()->success('Emailadresse für Verbraucherinformationen hinzugefügt','Achtung')->push();
-
+                    $this->emit('refreshParent');
                  }
                 if($this->dialogMode == 'edit')
                 {
@@ -76,8 +75,6 @@ class Detail extends Component
 
                 }
                 $this->emit('refreshParent');
-
-
                 $this->showEditModal = false ;
             }else{
                 $this->showEditModal = true;

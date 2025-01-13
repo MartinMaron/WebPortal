@@ -1,3 +1,3 @@
-<i {{ $attributes->merge(['class' => 'fa-kit fa-solid-users-circle-plus']) }}>
+<i {{ $attributes->merge(['class' => 'fa-regular fa-circle-plus']) }}>
     {{ $slot }}
 </i>

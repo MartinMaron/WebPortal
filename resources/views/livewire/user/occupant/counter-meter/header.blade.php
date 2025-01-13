@@ -1,7 +1,7 @@
-<div>
+<div class="dark:text-slate-200">
     <div class="justify-center hidden w-full px-4 py-1 mx-auto mt-8 text-2xl md:flex max-w-7xl">
         <div class="mb-1 text-lg font-bold
-        {{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
+        {{ $counterMeter->ww ? 'text-red-800 dark:text-red-400 ' : 'text-green-600 dark:text-green-500' }}">
         {{ $counterMeter->nutzergrup_name }}
         </div>
         <div class="px-4">
@@ -12,7 +12,7 @@
     </div>
 
     <div class="hidden mt-4 md:flex md:justify-betweeen md:items-center">
-        <div class="flex mt-1 text-lg font-bold text-center border-2 rounded-t-lg md:flex-1 bg-sky-100 border-sky-100">
+        <div class="flex mt-1 text-lg font-bold text-center border rounded-t-lg md:flex-1 bg-sky-100 dark:bg-slate-800 border-sky-100 dark:border-slate-950">
             <div class="grid grid-cols-2 mt-1 {{ $counterMeter->nr == $counterMeter->funkNr ? 'basis-1/4' : 'basis-1/5' }}">
                 <div class="font-bold text-right text-md">
                     Nr.:
@@ -38,7 +38,7 @@
 
     <div class="flex justify-center sm:hidden">
         <div class="mb-1 text-lg md:text-xl font-bold
-        {{ $counterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">
+        {{ $counterMeter->ww ? 'text-red-800 dark:text-red-400' : 'text-green-600 dark:text-green-500' }}">
         {{ $counterMeter->nutzergrup_name }}
         </div>
         <div class="px-4">

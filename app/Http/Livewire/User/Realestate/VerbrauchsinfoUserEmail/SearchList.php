@@ -8,10 +8,7 @@ use App\Models\Realestate;
 use App\Models\Occupant;
 use App\Models\VerbrauchsinfoUserEmail;
 use App\Http\Livewire\DataTable\WithSorting;
-use Livewire\WithPagination;
 use Usernotnull\Toast\Concerns\WireToast;
-use Illuminate\Database\Eloquent\Builder;
-
 
 class SearchList extends Component
 {
@@ -23,12 +20,10 @@ class SearchList extends Component
         'search' => null,
     ];
 
-    
     public function mount($realestate)
     {
         $this->realestate = $realestate;
         $this->sorts = ['nutzeinheitNo' => 'asc'];
-
     }
 
     protected $listeners = [
@@ -87,7 +82,6 @@ class SearchList extends Component
     {
         $this->createUserEmailModal($occupant);
     }
-
 
     public function render()
     {

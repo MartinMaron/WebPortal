@@ -27,7 +27,7 @@
         {{-- <x-jet-banner /> --}}
         {{-- <input type="text" id="datepicker"> --}}
 
-        <div class="bg-white dark:bg-slate-700">
+        <div class="bg-white dark:bg-slate-700 w-full">
             <div class="md:py-2 max-w-7xl sm:px-6 lg:px-8 mx-auto">
                 <livewire:user.navigation-top />
             </div>
