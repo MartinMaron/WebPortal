@@ -5,9 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FuelType extends Model
+class Fueltype extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'type_id';
+    protected $primaryKey = 'id';
     protected $keyType = 'string';
+
+    protected $fillable = [
+        'hasTank', 'caption'
+     ];
+ 
+    public function einheit()
+    {
+        return $this->belongsTo(Einheit::class);
+    }
+
+
+
 }

@@ -2,9 +2,6 @@
     <div class="">
         <livewire:user.occupant.occupant-header :occupant='$occupant'/>
     </div>
-
-    <x-input.search wire:model.debounce.2000="filter"/>
-
     @if ($nutzergruppen->count()!=0)
     <div class="pb-4 mt-16">
         <div class="mb-5 text-xl font-bold text-center border-b-2 md:text-2xl border-sky-400 w-max-md md:bloc">
@@ -16,7 +13,7 @@
                 <livewire:user.occupant.verbrauchsinfo.header :verbrauchsinfo='$verbrauchsinfo' :sorts='$sorts' :wire:key="'verbrauchsinfo-listitem-header'.$verbrauchsinfo->id" key="{{ now() }}"/>
             </div>
 
-            <div class="md:border-2 md:rounded-b-lg md:border-sky-100">
+            <div class="md:border md:rounded-b-lg md:border-sky-100 dark:md:border-slate-950">
                 @forelse ($this->getVerbrauchsinfosByNutzergrupe($verbrauchsinfo->nutzergrup_id) as $singleVerbrauchsinfo)
                 <livewire:user.occupant.verbrauchsinfo.listitem :singleVerbrauchsinfo='$singleVerbrauchsinfo' :wire:key="'verbrauchsinfo-listitem'.$verbrauchsinfo->id"  key="{{ now() }}"/>
 

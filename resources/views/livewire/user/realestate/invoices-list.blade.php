@@ -1,4 +1,4 @@
-<div class="w-full  py-1 mx-auto max-w-7xl ">
+<div class="w-full py-1 mx-auto max-w-7xl mb-14 text-sky-800 dark:text-slate-300">
 
     <div class="font-bold text-xl sm:text-2xl flex justify-center">
         Ihre Rechnungen
@@ -46,11 +46,11 @@
     {{-- small Screen --}}    
     <div class="block mt-10 sm:hidden">
         @foreach ($invoices as $invoice)
-            <div class="my-3 divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-100">
+            <div class="my-3 mx-1 divide-gray-200 rounded-lg shadow-md max-w-1/4 bg-sky-100 dark:bg-slate-900  text-sky-700 dark:text-slate-300">
                 <div class="flex items-center justify-around w-full p-2 space-x-6 ">
                     <div class="flex-1 border-sky-100 ">
                         <div class="items-center ">
-                            <div class="flex justify-between gap-2 m-auto text-md text-sky-700">
+                            <div class="flex justify-between gap-2 m-auto">
                                 <div class="block">
                                     <div class="font-bold pr-2">
                                         {{ $invoice->caption }}
@@ -70,28 +70,30 @@
 
                                 <div class="mt-5">
                                     <a class="ml-1 mr-3  text-xl sm:text-2xl " href="{{route('user.downloadspacesfile', 'i-'. $invoice->id )}}" >
-                                        <x-icon.fonts.file-download class=" text-sky-700 hover:text-sky-300"></x-icon.fonts.file-download>
+                                        <x-icon.fonts.file-download class="  hover:text-sky-300"></x-icon.fonts.file-download>
                                     </a>
                                     <a href="{{route('user.showspacesfile', 'i-'. $invoice->id )}}" class="ml-3 mr-1 text-xl sm:text-2xl ">
-                                        <x-icon.fonts.pdf-download class=" text-sky-700 hover:text-sky-300"></x-icon.fonts.pdf-download>
+                                        <x-icon.fonts.pdf-download class="  hover:text-sky-300"></x-icon.fonts.pdf-download>
                                     </a>
                                 </div>
                                 
                             </div>
                             <div>
-                                @if (str_contains($invoice->description,'Wärmedienst'))
-                                    <span class="flex-shrink-0 inline-block pr-2 py-0.5 text-green-800 text-sm font-medium bg-green-100 rounded-full">Gerätemiete</span>
+                                @if (str_contains($invoice->description,'Wärmedienst') || str_contains($invoice->description,'Miete'))
+                                    <span class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 dark:text-slate-950 text-sm font-medium bg-green-100 dark:bg-slate-500 rounded-full">Miete</span>
                                 @endif
                                 @if (str_contains($invoice->description,'Heizkostenabrechnung'))
-                                    <span class="flex-shrink-0 inline-block pr-2 py-0.5 text-green-800 text-sm font-medium bg-green-100 rounded-full">Heizkostenabr.</span>
+                                    <span class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 dark:text-slate-950 text-sm font-medium bg-green-100 dark:bg-slate-500 rounded-full">Heizkostenabr</span>
                                 @endif
                                 @if (str_contains($invoice->description,'Betriebskosten'))
-                                    <span class="flex-shrink-0 inline-block pr-2 py-0.5 text-green-800 text-sm font-medium bg-green-100 rounded-full">Betriebskostenabr.</span>
+                                    <span class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 dark:text-slate-950 text-sm font-medium bg-green-100 dark:bg-slate-500 rounded-full">Betriebskostenabr</span>
                                 @endif
                                 @if (str_contains($invoice->description,'Ablese'))
-                                    <span class="flex-shrink-0 inline-block pr-2 py-0.5 text-green-800 text-sm font-medium bg-green-100 rounded-full">Ablesung.</span>
+                                    <span class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 dark:text-slate-950 text-sm font-medium bg-green-100 dark:bg-slate-500 rounded-full">Ablesung</span>
                                 @endif
-                                
+                                @if (str_contains($invoice->description,'Rauchmelderservice'))
+                                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 dark:text-slate-950 text-sm font-medium bg-green-100 dark:bg-slate-500 rounded-full">RWM Wartung</span>
+                            @endif
                             </div>
                             
                         </div>
@@ -103,8 +105,8 @@
         
     
      {{-- BIG Screen --}} 
-    <div class="hidden rounded sm:block">
-            <div class="grid justify-around grid-cols-24  py-5 mt-1 font-bold text-center border-2 rounded-t-lg sm:text-xs bg-sky-100 border-sky-100">
+    <div class="hidden rounded sm:block ">
+            <div class="grid justify-around grid-cols-24 py-3 mt-1 md:text-lg font-bold text-center border rounded-t-lg sm:text-xs bg-sky-100 dark:bg-slate-800  border-sky-100 dark:border-slate-900">
                 <div class="col-span-2">
                     Nummer
                 </div>
@@ -129,7 +131,7 @@
             </div>
 
             @foreach ($invoices as $invoice)
-                <div class="grid justify-around grid-cols-24 pt-2 text-center sm:text-xs odd:bg-sky-50 even:bg-gray-100-50">
+                <div class="grid justify-around grid-cols-24 pt-2 mt-0.5 text-center sm:text-xs md:text-sm odd:bg-sky-50 dark:odd:bg-slate-900 dark:even:bg-slate-800 even:bg-gray-100-50 dark:text-slate-300">
                     <div class="font-bold col-span-2">
                         {{ $invoice->caption }}
                     </div>
@@ -151,10 +153,10 @@
                     <div class="col-span-2">
                         <div class="flex justify-between px-3">
                             <a href="{{route('user.downloadspacesfile', 'i-'. $invoice->id )}}" class="">
-                                <x-icon.fonts.file-download class="text-2xl sm:text-xl text-sky-700 hover:text-sky-300"></x-icon.fonts.file-download>
+                                <x-icon.fonts.file-download class="text-2xl sm:text-xl  hover:text-sky-300"></x-icon.fonts.file-download>
                             </a>
                             <a target="_blank" href="{{route('user.showspacesfile', 'i-'. $invoice->id )}}" class="">
-                                <x-icon.fonts.pdf-download class="text-2xl sm:text-xl text-sky-700 hover:text-sky-300"></x-icon.fonts.pdf-download>
+                                <x-icon.fonts.pdf-download class="text-2xl sm:text-xl hover:text-sky-300"></x-icon.fonts.pdf-download>
                             </a>
                         </div>
                     </div>

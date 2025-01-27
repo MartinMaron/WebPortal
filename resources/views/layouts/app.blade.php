@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark:bg-slate-700">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,14 +27,14 @@
         {{-- <x-jet-banner /> --}}
         {{-- <input type="text" id="datepicker"> --}}
 
-        <div class="bg-white">
-            <div class="py-2 md:py-6 max-w-7xl sm:px-6 lg:px-8 mx-auto">
+        <div class="bg-white dark:bg-slate-700 w-full">
+            <div class="md:py-2 max-w-7xl sm:px-6 lg:px-8 mx-auto">
                 <livewire:user.navigation-top />
             </div>
             <!-- Page Heading -->
             @if (isset($header))
-                <header class="bg-white">
-                    <div class="py-2 md:py-6 max-w-7xl sm:px-6 lg:px-8 mx-auto">
+                <header class="bg-white dark:bg-slate-700">
+                    <div class="py-1 md:py-1 max-w-7xl sm:px-6 lg:px-8 mx-auto">
                         {{ $header }}
                     </div>
                 </header>
@@ -42,7 +42,7 @@
 
             <!-- Page Content -->
             <main>
-                <div class="py-6 max-w-7xl sm:px-6 lg:px-8 mx-auto">
+                <div class="max-w-7xl sm:px-6 lg:px-8 mx-auto">
                     {{ $slot }}
                 </div>
             </main>

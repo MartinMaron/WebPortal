@@ -9,22 +9,22 @@
                 {{-- <div class="">
                     {{ $current  }}
                 </div> --}}
-                <div class="">
-                    <div class="flex">
+                <div class="text-lg font-bold text-sky-800 dark:text-gray-300 ">
+                    <div class="flex border-b-2 dark:border-slate-800">
                         @if ($this->hasLeerstand)
-                            <div class="text-lg font-bold text-sky-500">Leerstand</div> 
+                            <div class="text-lg ">Leerstand</div> 
                         @else
                             @if ($current->nachname)
-                                <div class="text-lg font-bold text-sky-500">{{$current->nachname.' '.$current->vorname}}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 text-sky-500" ></x-icon.fonts.pen-line>
+                                <div class="">{{$current->nachname.' '.$current->vorname}}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 " ></x-icon.fonts.pen-line>
                             @else
-                                <div class="text-lg font-bold text-sky-500">{{$current->nachname }}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 text-sky-500" ></x-icon.fonts.pen-line>
+                                <div class="">{{$current->nachname }}</div> <x-icon.fonts.pen-line class="h-6 pl-10 mt-1 " ></x-icon.fonts.pen-line>
                             @endif
                         @endif
                     </div>
 
-                    <div class="px-0">
-                        <h3 class="text-lg font-medium leading-6 text-gray-900">{{ $pages[$currentPage]['heading'] }}</h3>
-                        <p class="mt-1 text-sm text-gray-600">{{ $pages[$currentPage]['subheading'] }}</p>
+                    <div class="px-0 mt-2">
+                        <h3 class="text-lg leading-6 ">{{ $pages[$currentPage]['heading'] }}</h3>
+                        <p class="mt-1 text-sm font-medium">{{ $pages[$currentPage]['subheading'] }}</p>
                     </div>
                 </div>
             </x-slot>
@@ -33,8 +33,7 @@
                 <div class="{{ $dialogMode == 'change' ? 'occu-h-600 sm:occu-h-400' : 'occu-h-500 sm:occu-h-300' }} ">
 
                 @if ($errors->isNotEmpty())
-                    <div class="block text-sm bg-red-100 border border-red-400 text-red-700 px-1 py-1 rounded relative mb-2" role="alert">
-                        
+                    <div class="block error-box">
                         <span class="block sm:block"><strong class="font-bold">Oops! einige Informationen fehlen oder sind nicht korrekt. </strong>
                             @foreach ($errors->all() as $error)
                                 <span class="block sm:block">- {{ $error  }}</span>
@@ -46,7 +45,7 @@
 
                 @if ($currentPage === 1)
                     @if ($dialogMode == 'change')
-                        <div class="block p-2 mb-4 text-sm sm:flex sm:justify-between sm:items-center bg-sky-100 border-2 rounded border-sky-600">
+                        <div class="block p-2 mb-4 text-sm sm:flex sm:justify-between sm:items-center border-2 rounded">
                             <div class="block">
                                 <div class="">Leerstand</div>
                                 <x-input.group
@@ -66,7 +65,7 @@
                                 <x-input.group
                                 class="my-1" errorDirection="text-left"
                                 labelless="true" paddingLabel="" borderless="true" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                                for="dateFrom" label="Zeitraum" :error="$errors->first('dateFromNewOccupant')"
+                                for="dateFrom" label="Zeitraum"
                                 >
                                     <div class="flex items-end justify-between h-10 sm:h-8">
                                         <x-input.date class="w-28"
@@ -92,28 +91,20 @@
                         </div>
                     @else
                         <!-- Zeitraum -->
-                            <x-input.group
-                            class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
-                            for="dateFrom" label="Zeitraum">
-                                <div class="flex items-end justify-between h-10 sm:h-8">
-                                    <x-input.date
-                                        wire:model.lazy="current.date_from_editing"
-                                        type="text"
-                                        id="dialog.dateFrom" >
-                                    </x-input.date>
-                                    <div class="sm:mt-3 sm:pt-1">
-                                        <span class="">
-                                            -
-                                        </span>
-                                    </div>
-                                    <x-input.date
-                                        wire:model.lazy="current.date_to_editing"
-                                        type="text"
-                                        id="dialog.dateTo">
-                                    </x-input.date>
-                                </div>
-                            </x-input.group>
-                        
+                        <x-input.group
+                        class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                        for="dateFrom" label="seit">
+                            <div class="flex items-end justify-between h-10 sm:h-8">
+                                <x-input.date
+                                    wire:model.lazy="current.date_from_editing"
+                                    type="text"
+                                    id="dialog.dateFrom"
+                                    disabled="{{$current->nekoId !='new'}}"
+                                    >
+                                </x-input.date>
+                            </div>
+                        </x-input.group>
+                    
                     @endif
 
                     @if ($hasLeerstand != true)
@@ -129,11 +120,9 @@
                                 x-ref="inputAnrede"
                                 class="h-10 border-b bg-sky-50 sm:h-8 focus:border-0" wire:model="current.anrede" id="anrede" placeholder="Bitte auswählen" value="">
                                 @foreach ($this->salutations as $label)
-                                <div class="h-10">
-                                    <option value="{{ $label->bezeichnung }}">
+                                    <option class="h-10" value="{{ $label->bezeichnung }}">
                                         {{ $label->bezeichnung }}
                                     </option>
-                                </div>
                                 @endforeach
                             </x-input.select>
                         </x-input.group>
@@ -147,7 +136,7 @@
                         <x-input.group
                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10" hoheOnError="h-26 sm:h-13" 
                         for="nachname" label="Nachname" :error="$errors->first('current.nachname')">
-                            <div x-data x-on:focus="$el.select()" >
+                            <div class="w-full" x-data x-on:focus="$el.select()" >
                                 <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.nachname" id="nachname" placeholder="..." />
                             </div>
                         </x-input.group>
@@ -170,7 +159,7 @@
                     <x-input.group
                     class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
                     for="street" label="Strasse / Hnr">
-                        <div class="flex flex-row h-10 sm:h-8">
+                        <div class="flex w-full gap-2 h-10 sm:h-8">
                             <div class="h-full basis-5/6">
                                 <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.street" id="street" placeholder="..." />
                             </div>
@@ -181,9 +170,9 @@
                     </x-input.group>
                     <!-- PLZ Ort-->
                     <x-input.group
-                    class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
+                    class="my-1" paddingLabel="" hoheLabel="h-6  sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
                     for="city" label="PLZ / Ort">
-                        <div class="flex flex-row h-10 sm:h-8">
+                        <div class="flex w-full h-10 gap-2 sm:h-8">
                             <div class="basis-1/5">
                                 <x-input.text class="h-10 bg-sky-50 sm:h-8" wire:model.lazy="current.postcode" id="postcode" placeholder="..." />
                             </div>
@@ -207,11 +196,11 @@
                         class="my-2 " paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
                         for="uaw" label="zusätzliche Belastungen" :error="$errors->first('current.uaw')">
 
-                            <div class="flex items-center justify-between h-10 sm:h-8">
-                                <div class="pl-1 basis-2/5">
+                            <div class="flex items-center justify-between h-10 sm:h-8 w-full">
+                                <div class="pl-1 basis-1/2 w-full">
                                     <x-input.checkbox wire:model="current.vat">MwSt</x-input.checkbox>
                                 </div>
-                                <div class="basis-3/5">
+                                <div class="basis-1/2 w-full">
                                     <x-input.checkbox wire:model="current.uaw">Umlageausfallwag.</x-input.checkbox>
                                 </div>
                             </div>
@@ -221,11 +210,11 @@
                         <x-input.group
                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
                         for="qmkc_editing" label="Fläche / Personenzahl" :error="$errors->first('current.qmkc')">
-                            <div class="flex flex-row h-10 sm:h-8">
-                                <div class="basis-3/5">
+                            <div class="flex flex-row h-10 sm:h-8 w-full">
+                                <div class="basis-1/2 w-full">
                                     <x-input.text class="h-10 rounded bg-sky-50 sm:h-8" wire:model.lazy="current.qmkc_editing" id="dialog.qmkc" placeholder="Heizfläche in m²" />
                                 </div>
-                                <div class="basis-3/5">
+                                <div class="basis-1/2 w-full">
                                     <x-input.text class="h-10 rounded bg-sky-50 sm:h-8" wire:model.lazy="current.personen_zahl" id="dialog.pe" placeholder="Personenanzahl" />
                                 </div>
                             </div>
@@ -234,41 +223,23 @@
                         <x-input.group
                         class="my-1" paddingLabel="" hoheLabel="h-6 sm:h-8 sm:pt-1" hohe="h-20 sm:h-10"
                         for="lage" label="Lage u. Lokalart">
-                            <div class="flex items-center justify-around h-10 sm:h-8">
-                                <x-input.autocomplete
-                                    wire:model.lazy="current.lage"
-                                    customPlaceholder="Lage"
-                                    customId="0"
-                                    fieldname="inpLage"
-                                    data="[
-                                        'EG.', 'EG. L.', 'EG. R.','EG. ML.','EG. MR.',
-                                        '1 OG.', '1 OG. L.', '1 OG. R.','1 OG. ML.','1 OG. MR.',
-                                        '2 OG.', '2 OG. L.', '2 OG. R.','2 OG. ML.','2 OG. MR.',
-                                        '3 OG.', '3 OG. L.', '3 OG. R.','3 OG. ML.','3 OG. MR.',
-                                        '4 OG.', '4 OG. L.', '4 OG. R.','4 OG. ML.','4 OG. MR.',
-                                        '5 OG.', '5 OG. L.', '5 OG. R.','5 OG. ML.','5 OG. MR.',
-                                        '6 OG.', '6 OG. L.', '6 OG. R.','6 OG. ML.','6 OG. MR.',
-                                        '7 OG.', '7 OG. L.', '7 OG. R.','7 OG. ML.','7 OG. MR.',
-                                        '8 OG.', '8 OG. L.', '8 OG. R.','8 OG. ML.','8 OG. MR.',
-                                        'DG.', 'DG. L.', 'DG. R.','DG. ML.','DG. MR.',
-                                        'SUT.', 'KELLER', 'Anbau','Hinterhof','sonstiges'
-                                    ]"
-                                    :error="$errors->first('current.lage')"
-                                >
-                                </x-input.autocomplete>
-                                
-
-                                <x-input.select
+                            <div class="flex items-center gap-1 justify-items-start h-10 sm:h-8 w-full">
+                                <div class="basis 1/2 w-full">
+                                    <livewire:lage-autocomplete :search='$current->lage'/>
+                                </div>
+                                <div class="basis 1/2 w-full">
+                                    <x-input.select
                                     wire:model.lazy="current.lokalart"
                                     placeholder="Lokalart"
                                     :error="$errors->first('current.lokalart')" 
-                                >
-                                @if ($unitUsageTypes)
-                                    @foreach ($unitUsageTypes as $dsi)
-                                        <option class="" value="{{ $dsi->type_id }}">{{ $dsi['caption'] }}</option>
-                                    @endforeach
-                                @endif 
-                                </x-input.select>
+                                    >
+                                    @if ($unitUsageTypes)
+                                        @foreach ($unitUsageTypes as $dsi)
+                                            <option class="" value="{{ $dsi->type_id }}">{{ $dsi['caption'] }}</option>
+                                        @endforeach
+                                    @endif 
+                                    </x-input.select>
+                                </div>
                             </div>
                         </x-input.group>
                         <!-- Vorauszahlung -->
@@ -307,10 +278,11 @@
             </x-slot>
 
             <x-slot name="footer">
+                <div class="">
                     @if ($currentPage === 1)
                         <div></div>
                     @else
-                        <x-button.secondary wire:click="goToPreviousPage">Zurück</x-button.secondary>
+                        <x-button.secondary class="mr-3" wire:click="goToPreviousPage">Zurück</x-button.secondary>
                     @endif
 
                     @if ($currentPage === count($pages))
@@ -318,7 +290,7 @@
                     @else
                         <x-button.primary wire:click="goToNextPage">weiter</x-button.secondary>
                     @endif
-                
+                </div>
 
 
 

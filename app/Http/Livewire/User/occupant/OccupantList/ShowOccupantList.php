@@ -8,29 +8,32 @@ use Livewire\Component;
 use App\Models\Occupant;
 use App\Models\Realestate;
 use App\Models\Salutation;
+use Livewire\WithPagination;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
+use App\Models\UserVerbrauchsinfoAccessControl;
 use App\Http\Livewire\DataTable\WithBulkActions;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
-use App\Models\UserVerbrauchsinfoAccessControl;
 
 class ShowOccupantList extends Component
 {
 
-    use WithPerPagePagination, WithSorting, WithBulkActions, WithCachedRows;
+    use WithPerPagePagination, WithSorting, WithBulkActions, WithCachedRows, WithPagination;
+    use \App\Http\Traits\Helpers;
 
-    public $showCustomEinheitNo = true;
     public $hasAnyCustomEinheitNo = false;
+    public $nummer_display = '';
     public $hasAnyEigentumer = false;
-    public $showEigentumer = true;
+    public $hasVat = false;
     public $showDeleteModal = false;
     public $showEditModal = false;
     public $showFilters = false;
+    public $prepaidtype = true;
+    public $prepaidnet = false;
     public bool $editVorauszahlungen = false;
     public $currentVorauszahlung = 0;
     public $salutations = null;
-    public $calendarOff = false;
     public $filters = [
         'search' => '',
     ];
@@ -43,16 +46,22 @@ class ShowOccupantList extends Component
 
     protected $queryString = ['sorts'];
 
+    public function rules() { return [
+        'realestate.occupant_number_mode' => 'nullable',
+        'realestate.occupant_name_mode' => 'nullable',
+        'realestate.eingabeCostNetto'  => 'nullable',
+        'realestate.prepaidtype' => 'nullable',];
+    }
+
     protected $listeners = [
         'refreshParent' => '$refresh',
-        'deleteConfirmed' => 'delete',        
+        'deleteConfirmed' => 'delete',      
+        'confirmNekoMessage' => 'confirmNekoMessage',
     ];
 
-    public function delete($objectId, $objectType)
+    public function deleteOccupant($objectId)
     {
-        if ($objectType != 'Occupant') return;
         $object = Occupant::find($objectId);
-
 
         /* der Zeitraum des letzen Nutzers wird wieder aufgemacht */
         $last_occupant = $object->realestate->occupants
@@ -90,13 +99,9 @@ class ShowOccupantList extends Component
                 }                                                
             } 
         } 
-    
-
-
 
         $object->delete();
         toast()->success('Nutzer wurde gelöscht','Achtung')->push();
-        return redirect(request()->header('Referer'));
     }
 
     public function Salutations()
@@ -111,13 +116,14 @@ class ShowOccupantList extends Component
         $this->realestate = $baseobject;
         $this->hasAnyCustomEinheitNo = (bool) $this->realestate->occupants->where('customEinheitNo', '<>', '')->count();
         $this->hasAnyEigentumer = (bool) $this->realestate->occupants->where('eigentumer', '<>', '')->count();
+        $this->hasVat = (bool) $this->realestate->occupants->where('vat', '=', '1')->count();
         $this->salutations = Salutation::all();
+        $this->prepaidnet = $this->realestate->eingabeCostNetto;
         $this->sorts = [
             'unvid' => 'asc'
             ];
         $this->current = $this->realestate->occupants->first();
-        $this->showCustomEinheitNo = $this->realestate->occupant_number_mode;
-        $this->showEigentumer = $this->realestate->occupant_name_mode;
+        $this->editVorauszahlungen = !$this->realestate->abrechnungssetting->nutzerlisteDone;
     }
 
     public function toggle($value)
@@ -130,14 +136,48 @@ class ShowOccupantList extends Component
             $this->editVorauszahlungen = !$this->editVorauszahlungen;
         }
         if ($value == 'nummer'){
-            $this->showCustomEinheitNo = !$this->showCustomEinheitNo;
-            $this->realestate->occupant_number_mode = $this->showCustomEinheitNo;
             $this->realestate->save();
         }
         if ($value == 'eigentumer'){
-            $this->showEigentumer = !$this->showEigentumer;
-            $this->realestate->occupant_name_mode = $this->showEigentumer;
             $this->realestate->save();
+        }
+        if ($value == 'prepaidtype'){
+            $this->prepaidtype = !$this->prepaidtype;
+            if($this->prepaidtype){
+                $this->realestate->prepaidtype = 'H';
+            }else{
+                $this->realestate->prepaidtype = 'B';
+            }
+            $this->realestate->save();
+        }
+        if ($value == 'prepaidnet'){
+            $this->prepaidnet = !$this->prepaidnet;
+            $this->realestate->eingabeCostNetto = $this->prepaidnet;
+            $this->realestate->save();
+        }
+    }
+
+    public function setDone()
+    {
+        $this->emit('showNekoMessageModal',['title'=>'Nutzerliste absenden?','message'=>'Dannach können keine Änderungen mehr vorgenommen werden.','type'=>'warning','action'=>'confirmEditDone']);
+    }
+    public function emit_QuestionDeleteModal(Occupant $id)
+    {
+        $this->emit('showNekoMessageModal',['title'=>'Löschen bestätigen?','message'=>'Wollen Sie den Nutzer '.  $id->nachname .  ' entfernen?','type'=>'delete','action'=>'deleteOccupant','id'=>$id->id]);
+    }
+
+    public function confirmNekoMessage($params)
+    {
+        $this->params = $params;
+        if ($this->params['action'] == 'confirmEditDone') {
+            $this->realestate->abrechnungssetting->nutzerlisteDone = 1;
+            $this->realestate->abrechnungssetting->save();
+            $this->editVorauszahlungen = !$this->realestate->abrechnungssetting->nutzerlisteDone;
+            return redirect(request()->header('Referer'));
+        }
+        if ($this->params['action'] == 'deleteOccupant') {
+            $this->deleteOccupant($this->params['id']);
+            return redirect(request()->header('Referer'));
         }
     }
 
@@ -149,7 +189,7 @@ class ShowOccupantList extends Component
 
     public function setCurrent(Occupant $occupant)
     {
-        $this->useCachedRows();
+         $this->useCachedRows();
         if ($this->current->isNot($occupant)) {
             $this->current = $occupant;
             $this->currentVorauszahlung = $occupant->vorauszahlung;
@@ -160,6 +200,7 @@ class ShowOccupantList extends Component
     {
         $this->setCurrent($occupant);
         $this->emit('showOccupantModal', $this->current);
+        
     }
 
     public function confirmPrePaid(Occupant $occupant, $value)
@@ -171,6 +212,11 @@ class ShowOccupantList extends Component
     public function resetFilters()
     {
         $this->reset('filters');
+    }
+
+    public function updatingfilter()
+    {
+        $this->resetPage();
     }
 
     public function getRowsQueryProperty()
@@ -199,15 +245,9 @@ class ShowOccupantList extends Component
     public function getRowsProperty()
     {
         // return $this->cache(function () {
-        return $this->rowsQuery->get();
+        return $this->rowsQuery->paginate(20);
         // });
     }
-
-    public function emit_QuestionDeleteModal(Occupant $id)
-    {
-        $this->emit('showQuestionDeleteModal', 'Occupant', $id->id, 'Löschen bestätigen', 'Wollen Sie den Nutzer '.  $id->nachname .  ' entfernen?');
-    }
-
 
     public function render()
     {

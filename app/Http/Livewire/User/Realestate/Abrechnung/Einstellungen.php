@@ -4,20 +4,18 @@ namespace App\Http\Livewire\User\Realestate\Abrechnung;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use App\Models\Realestate;
-use App\Models\RealestateAbrechnungssetting;
+use App\Models\Abrechnungssetting;
 use Helpers;
 
 class Einstellungen extends Component
 {
     public Realestate $realestate;
-    public RealestateAbrechnungssetting $einstellungen;
+    public Abrechnungssetting $einstellungen;
 
     public function mount($baseobject)
     {
         $this->realestate = $baseobject;
-        $this->einstellungen = RealestateAbrechnungssetting::query()
-        ->where('realestate_id', '=', $this->realestate->id)
-        ->first();
+        $this->einstellungen = $this->realestate->abrechnungssetting;
      }
     
      public function commit(){
@@ -35,9 +33,16 @@ class Einstellungen extends Component
              'realestate.eingabeCostDatum' => 'nullable',      
              'einstellungen.stromkosten' => 'numeric',      
              'einstellungen.nabi_inhaber' => 'nullable',
-             'einstellungen.nabi_nr' => 'nullable'
+             'einstellungen.nabi_nr' => 'nullable',
+             'einstellungen.co2_kennzeichen_WEG' => 'nullable',
+             'einstellungen.co2_wohngeb' => 'nullable',
+             'einstellungen.co2_kennzeichen_1_9' => 'nullable',
+             'einstellungen.co2_kennzeichen_2_9' => 'nullable',
+             'einstellungen.co2_anschluss_nach_2022' => 'nullable',
          ];
-     }
+    }
+
+    
 
     public function render()
     {

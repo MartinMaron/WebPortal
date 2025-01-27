@@ -2,7 +2,18 @@ node_modules
 vendor
 .idea
 .vs
+.vscode
+.vapor/
 .env
+.env.backup
+.env.production
+.env.staging
+.env.org
+.env.example
+.env.dev
+.env.test
+.env.local
+.env.prod
 .phpunit.result.cache
 composer.lock
 package-lock.json
@@ -11,3 +22,7 @@ public/build/assets
 public/css/app.css
 public/js/app.js
 /public/js/app.js.LICENSE.txt
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log

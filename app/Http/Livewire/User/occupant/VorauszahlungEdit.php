@@ -10,25 +10,26 @@ class VorauszahlungEdit extends Component
 {
 
     public Occupant $occupant;
-    public $vorauszahlung;
+    public $countvalue;
 
 
     public function mount(Occupant $occupant){
         $this->occupant = $occupant;
-        $this->vorauszahlung = $occupant->vorauszahlung;
+        $this->countvalue = $occupant->vorauszahlung_editing;
       }
 
-    public function confirmPrePaid()
+    public function confirm()
     {
-        $this->occupant->vorauszahlung= floatval($this->vorauszahlung);
+        $this->occupant->vorauszahlung_editing = floatval($this->countvalue);
         $this->occupant->save();
     }
 
     public function rules() { return [
-         'occupant.vorauszahlung' => 'nullable',
+         'occupant.vorauszahlung_editing' => 'nullable',
+         'countvalue' => 'nullable',
     ]; }
     public function render()
     {
-        return view('livewire.user.occupant.vorauszahlung-edit');
+        return view('livewire.user.occupant.countvalue-edit');
     }
 }

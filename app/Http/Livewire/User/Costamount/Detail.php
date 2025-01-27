@@ -19,18 +19,8 @@ class Detail extends Component
     public bool $readonlyBetragField = false;
     public bool $showHaushaltsnahField = true;
     public bool $readonlyHaushaltsnahField = true;
-  
-    
-    // public function mount($costAmount) {
-    //     if($costAmount){
-    //         $this->costAmount = $costAmount;
-    //         $this->showDatumField =  ($this->costAmount->cost->realestate->eingabeCostOhneDatum != true) && ($this->costAmount->datum != "01.01.0001");
-    //         $this->readonlyDatumField = $this->costAmount->nekoId > 0;
-    //     }else{
-    //         $this->costAmount = $this->makeBlankObject();           
-    //     }
-    // }
-    
+    public bool $co2Tax = false;
+
     public function makeBlankObject()
     {
         return CostAmount::make([
@@ -54,15 +44,31 @@ class Detail extends Component
         return [
             'costAmount.bemerkung' => 'nullable',      
             'costAmount.description' => 'nullable',
-            'costAmount.netAmount' => 'nullable', 
-            'costAmount.grosAmount' => 'nullable',
-            'costAmount.dateCostAmount' => 'nullable', 
-            'costAmount.datum' => 'nullable|date', 
-            'costAmount.consumption_editing' => 'nullable', 
+            'costAmount.consumption_editing' => 'required_if:costAmount.cost.consumption,==,1|nullable',
             'costAmount.netto' => 'nullable', 
             'costAmount.haushaltsnah' => 'nullable', 
-            'costAmount.brutto' => 'nullable', 
-            'costAmount.grosAmount_HH' => 'nullable'           
+            'costAmount.brutto' => 'required', 
+            'costAmount.grosAmount_HH' => 'nullable',
+            'costAmount.cobrutto' => 'nullable',
+            'costAmount.conetto' => 'nullable',
+            'costAmount.coconsupmtion' => 'nullable',
+            'costAmount.datum' => 'required_if:costAmount.cost.fueltype.hasTank,==,1|date|nullable',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'costAmount.datum' => ':attribute muss angegeben werden',
+            'costAmount.consumption_editing' => ':attribute muss angegeben werden' ,
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'costAmount.datum' => 'Datum',
+            'costAmount.consumption_editing' => 'Verbrauch',
         ];
     }
    
@@ -73,12 +79,12 @@ class Detail extends Component
         $this->showConsumptionField = $costAmount->cost->consumption;
         $this->showNetto = $costAmount->cost->realestate->eingabeCostNetto;
         $this->showHaushaltsnahField = $costAmount->cost->haushaltsnah;
-    
+        $this->co2Tax = $costAmount->cost->co2Tax;
     }
 
     public function closeCostAmountDetailModal($save){
         if ($save && $this->costAmount){  
-            if ($this->validate())
+            if ($this->validate($this->rules(),$this->messages(),$this->attributes()))
             {
                 $this->costAmount->save();
                 $this->showCostAmountEditModal = false ;

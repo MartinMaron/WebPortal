@@ -5,23 +5,23 @@ namespace App\Http\Livewire\User\Occupant\Detail;
 use Helpers;
 use DateTime;
 use Carbon\Carbon;
+use App\Models\Lage;
 use Livewire\Component;
 use App\Models\Occupant;
 use App\Models\Realestate;
 use App\Models\Salutation;
+use App\Models\UnitUsageType;
 use Illuminate\Support\Facades\Route;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use PhpParser\Node\Expr\BinaryOp\BooleanOr;
+use App\Rules\OccupantDateFromLessDateToRule;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Rules\OcccupantDateFromGreaterPreviousRule;
 use App\Http\Traits\Api\Job\Realestate\OccupantAdapter;
-use App\Models\UnitUsageType;
-
 
 class Dialog extends Component
 {
     use OccupantAdapter; 
-
 
     public $salutations = null;
     public $unitUsageTypes = null;
@@ -32,7 +32,9 @@ class Dialog extends Component
     // Form properties
     public $dateFromNewOccupant = null;
     public $hasLeerstand = false;
-    
+    public $mlage = '';
+
+
     public string $qmkc = "";
     public string $pe  = "";
     public string $vorauszahlung = "";
@@ -45,7 +47,8 @@ class Dialog extends Component
     // MultiViewForm properties
     public $currentPage = 1;
     public $success;
- 
+
+
     public $pages = [
         1 => [
             'heading' => 'Persönliche Information',
@@ -110,6 +113,11 @@ class Dialog extends Component
         ],
     ];
 
+    public $messages = [
+        'current.nachname' => 'bitte geben Sie einen Nachnamen ein',
+    ];
+
+
     private $validationRulesEdit = [
         1 => [
             'dateFromNewOccupant' => 'nullable|date',
@@ -137,7 +145,7 @@ class Dialog extends Component
             'current.vat' => 'boolean',
             'current.lokalart' => 'nullable',
             'current.customEinheitNo' => 'nullable',
-            'current.lage' => 'nullable',
+            'current.lage' => 'required',
             'current.personen_zahl' => 'nullable',      
         ],
         4 => [
@@ -149,8 +157,7 @@ class Dialog extends Component
     public function ValidationRules()
     {
         if ($this->dialogMode == 'edit'){
-           return $this->validationRulesEdit;
-
+            return $this->validationRulesEdit;
         }
         if ($this->dialogMode == 'change'){
            return $this->validationRulesChange;
@@ -160,6 +167,7 @@ class Dialog extends Component
     protected $listeners = [
         'showOccupantModal' => 'showModal',
         'changeOccupantModal' => 'changeModal',
+        'LageAutocompleteDisplaychanged' => 'lageModalChanged'
     ];
 
     public function rules()
@@ -185,15 +193,16 @@ class Dialog extends Component
         $this->unitUsageTypes = UnitUsageType::all();
     }
 
+    public function lageModalChanged($value){
+        Debugbar::info('lageModalChanged:'. $value);
+        $this->current->lage = $value;
+        $this->updated('current.lage');
+    }
 
 
     public function updated($propertyName)
     {
-        
-        $messages = array(
-            'current.nachname' => 'bitte geben Sie einen Nachnamen ein',
-            'current.date_from_editing' => 'bitte geben Sie ein Datum ein',     
-        );
+        Debugbar::info('occupant.detail.dialog-updated:'. $propertyName);
         $calcRules = null;
         if ($this->dialogMode == 'change'){
             $calcRules = $this->validationRulesChange;
@@ -201,10 +210,14 @@ class Dialog extends Component
         {
             $calcRules = $this->validationRulesEdit;
         }
-
+        
         $myRules = $calcRules[$this->currentPage];
+        $myRules['current.date_from_editing']=['required', 'date', new OccupantDateFromLessDateToRule];
         $myRules['dateFromNewOccupant']=['required', 'date', new OcccupantDateFromGreaterPreviousRule];
-        $this->validateOnly($propertyName, $myRules, $messages);
+
+
+
+        $this->validateOnly($propertyName, $myRules, $this->messages);
     }
 
     public function changeModal(Occupant $current){
@@ -231,10 +244,8 @@ class Dialog extends Component
   
 
     public function closeModal($save){
-    
-        
         if ($save && $this->current){
-            if ($this->validate($this->rules()))
+            if ($this->validate($this->rules(),$this->messages))
             {
                 if($this->dialogMode == 'change')
                 {
@@ -291,8 +302,12 @@ class Dialog extends Component
         {
             $myRules['dateFromNewOccupant']=['required', 'date', new OcccupantDateFromGreaterPreviousRule];
         }
-        
-        //dd($this->validate($myRules));
+
+        if ($this->currentPage == 1 && $this->dialogMode == 'edit')
+        {
+            $myRules['current.date_from_editing']=['required', 'date', new OccupantDateFromLessDateToRule];
+        }
+
         $this->validate($myRules);
 
         if ($this->hasLeerstand){

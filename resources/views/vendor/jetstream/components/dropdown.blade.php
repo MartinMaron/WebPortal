@@ -1,4 +1,4 @@
-@props(['align' => 'right', 'width' => '48', 'contentClasses' => 'py-1 bg-white', 'dropdownClasses' => '', 'nid' => 0])
+@props(['align' => 'right', 'width' => '48', 'contentClasses' => 'py-1 bg-white dark:bg-slate-800 dark:text-slate-100 dark:font-semibold', 'dropdownClasses' => 'dark:text-slate-100 dark:font-semibold', 'nid' => 0])
 
 @php
 switch ($align) {
@@ -25,7 +25,7 @@ switch ($width) {
 }
 @endphp
 
-<div class="relative" 
+<div class="relative " 
     x-data="{ open: false }" 
     @click.away="open = false" 
     @close.stop="open = false"

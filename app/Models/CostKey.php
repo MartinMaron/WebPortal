@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Usernotnull\Toast\Concerns\WireToast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class CostKey extends Model
+class Costkey extends Model
 {
     use HasFactory;
     use WireToast; 
@@ -20,5 +20,10 @@ class CostKey extends Model
     public function realestate()
     {
         return $this->belongsTo(Realestate::class);
+    }
+    
+    public function einheit()
+    {
+        return $this->belongsTo(Einheit::class);
     }
 }

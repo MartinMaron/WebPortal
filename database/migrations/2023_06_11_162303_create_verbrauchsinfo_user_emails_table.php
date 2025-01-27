@@ -17,8 +17,6 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('realestate_id')->nullable();
             $table->foreign('realestate_id')->references('id')->on('realestates');
-            $table->date('dateFrom');
-            $table->date('dateTo')->nullable();
             $table->unsignedInteger('nutzeinheitNo')->default(0);
             $table->string('email', 255);
             $table->string('firstinitUsername')->nullable();

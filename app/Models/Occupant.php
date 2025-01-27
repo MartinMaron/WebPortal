@@ -14,9 +14,10 @@ class Occupant extends Model
 {
     use HasFactory;
     use Helpers;
-
+  
+   
     protected $fillable = [
-        'nekoId', 'realestate_id', 'unvid', 'budguid','nutzeinheitNo', 'dateFrom', 'dateTo', 'anrede', 'title', 'nachname', 'vorname', 'address',
+        'id','nekoId', 'realestate_id', 'unvid', 'budguid','nutzeinheitNo', 'dateFrom', 'dateTo', 'anrede', 'title', 'nachname', 'vorname', 'address',
         'street', 'postcode', 'houseNr', 'city', 'vat', 'uaw', 'qmkc', 'qmww', 'pe', 'bemerkung', 'vorauszahlung', 'lokalart', 'customEinheitNo', 'lage', 'email',
         'telephone_number', 'eigentumer', 'date_from_editing', 'qmkc_editing', 'vorauszahlung_editing', 'vorauszahlung_editing', 'personen_zahl', 'OptimisticLockField'
     ];
@@ -68,7 +69,7 @@ class Occupant extends Model
                     'dateTo' => 'date:d.m.Y',
                     'qmkc' => 'decimal:2',
                     'qmww' => 'decimal:2',
-                    'vorauszahlung' => 'decimal:2' ];
+                    'vorauszahlung_editing' => 'decimal:2' ];
 
     protected $appends = ['date_from_editing',
                         'date_to_editing',
@@ -87,12 +88,25 @@ class Occupant extends Model
 
     
     protected function setPersonenZahlAttribute($value){
-        $this->pe = $this->castStringToDouble($value);
+        $q = $this->personcounts
+        ->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id);
+
+        $personcount = Personcount::updateOrCreate(
+            ['occupant_id' => $this->id,'abrechnungssetting_id' => $this->realestate->abrechnungssetting_id],
+            [
+            'countvalue' => $this->castStringToDouble($value), 
+        ]);
     }
 
    protected function getPersonenZahlAttribute(){
-       return number_format($this->pe, 2, ',', '.');
-   }
+        $q = $this->personcounts
+        ->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id);
+        if ($q->count() == 0 ) {
+            return '0,00';
+        }else{
+            return number_format($q->first()->countvalue, 2, ',', '.');
+        }
+    }
 
     protected function getDateFromEditingAttribute()
     {
@@ -135,11 +149,38 @@ class Occupant extends Model
     }
 
     protected function setVorauszahlungEditingAttribute($value){
-        $this->vorauszahlung = $this->castStringToDouble($value);
-    }
+            $field = null;
+            $q = $this->preapaids
+            ->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
+            ->where('prepaidtype','=', $this->realestate->prepaidtype);
+            
+            if($this->realestate->eingabeCostNetto == 1){
+                $field ='netAmount';
+            }else{
+                $field = 'grosAmount';
+            }
+
+            $prepaid = Prepaid::updateOrCreate(
+                ['occupant_id' => $this->id, 'prepaidtype' => $this->realestate->prepaidtype,'abrechnungssetting_id' => $this->realestate->abrechnungssetting_id],
+                [
+                $field => $this->castStringToDouble($value), 
+            ]);
+        }
 
     protected function getVorauszahlungEditingAttribute(){
-        return number_format($this->vorauszahlung, 2, ',', '.');
+        $q = $this->preapaids
+        ->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
+        ->where('prepaidtype','=', $this->realestate->prepaidtype);
+
+        if ($q->count() == 0 ) {
+            return '0,00';
+        }else{
+            if($this->realestate->eingabeCostNetto == 1){
+                return number_format($q->first()->netAmount, 2, ',', '.');
+            }else{
+                return number_format($q->first()->grosAmount, 2, ',', '.');
+            }
+        }
     }
 
     protected function getZeitraumAttribute(){
@@ -231,11 +272,25 @@ class Occupant extends Model
     {
         return $this->hasMany(VerbrauchsinfoUserEmail::class);
     }
+    
     public function users()
     {
         return $this->hasMany(User::class);
     }
 
+    public function preapaids()
+    {
+        return $this->hasMany(Prepaid::class);
+    }
 
+    public function personcounts()
+    {
+        return $this->hasMany(Personcount::class);
+    }
+
+    public function livingareas()
+    {
+        return $this->hasMany(Livingarea::class);
+    }
 
 }

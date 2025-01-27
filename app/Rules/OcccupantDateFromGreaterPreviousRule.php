@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\Occupant;
+use App\Traits\OccupantAdapter;
 use Illuminate\Support\Carbon;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\InvokableRule;
@@ -41,7 +42,6 @@ class OcccupantDateFromGreaterPreviousRule implements DataAwareRule, InvokableRu
     public function setData($data)
     {
         $this->data = $data;
- 
         return $this;
     }
 

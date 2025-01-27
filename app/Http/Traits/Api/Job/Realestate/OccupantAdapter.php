@@ -14,92 +14,21 @@ use App\Http\Traits\Api\Job\Realestate\ImportVerbrauchsinfoCounterMeter;
 use App\Http\Traits\Api\Job\Realestate\VerbrauchsinfoAccessControlAdapter;
 use App\Models\Verbrauchsinfo;
 use App\Models\VerbrauchsinfoCounterMeter;
+use Illuminate\Database\Eloquent\Collection;
+
 
 trait OccupantAdapter
 {
-    use ImportVerbrauchsinfoCounterMeter, ImportVerbrauchinfo, VerbrauchsinfoAccessControlAdapter;
 
-
-     /* Anlage des Mieters  */
-     public function importOccupant(Array $data)
-    {
-          
-        $validator = Occupant::validateImportData($data);
- 
-         if ($validator->fails()) {
-             return [
-                 'function' => 'JobController.occupant',
-                 'result' => 'error',
-                 'errortype' => 'invalid data',
-                 'errors' => $validator->errors(),
-                 'data' => $data,
-                 'id' => 0,
-                 ];
-         }
- 
-         $realestate = Realestate::where('nekoId','=', $data['budguid'])->firstOrFail();
-    
-         $occupant = Occupant::updateOrcreate(
-             ['nekoId' => $data['nekoId']],
-             ['unvid' => $data['unvid'],
-             'budguid' => $data['budguid'],
-             'nutzeinheitNo' => $data['nutzeinheitNo'],
-             'dateFrom' => $data['dateFrom'],
-             'dateTo' => $data['dateTo'],
-             'nachname' => $data['nachname'],
-             'address' => $data['address'],
-             'city' => $data['city'],
-             'street' => $data['street'],
-             'houseNr' => $data['houseNr'],
-             'postcode' => $data['postcode'],
-             'vat' => $data['vat'],
-             'uaw' => $data['uaw'],
-             'qmkc' => $data['qmkc'],
-             'qmww' => $data['qmww'],
-             'realestate_id' => $realestate->id,
-             'pe' => $data['pe'],
-             'vorauszahlung' => $data['vorauszahlung'],
-             'leerstand' => $data['leerstand'],
-             'umlage_nutzerwechsel' => $data['umlageNutzerwechsel'],
-             'customEinheitNo' => $data['customEinheitNo'],
-             'email' => $data['email'],
-             'lage' => $data['lage']]
-         );
- 
-         /* Falls zähler dabei sind werden die daten aktualisert */
-         $verbrauchsinfoCounterMeters = $data['verbrauchsinfoCounterMeter'];
-         foreach ($verbrauchsinfoCounterMeters as $verbrauchsinfoCounterMeter){
-             $retval = $this->importVerbrauchsinfoCounterMeter($verbrauchsinfoCounterMeter);
-             if ($retval['result'] == 'error'){
-                 return $retval;
-             }
-        }
- 
-        /* Falls dabei ...  werden die daten aktualisert */
-        $verbrauchsinfos = $data['verbrauchsinfos'];
-        foreach ($verbrauchsinfos as $verbrauchsinfo){
-            $retval = $this->importVerbrauchinfo($verbrauchsinfo);
-            if ($retval['result'] == 'error'){
-                return $retval;
-            }
-        }
-
-        return [
-             'function' => 'JobController.occupant',
-             'result' => 'success',
-             'id' => $occupant->id,
-         ];
- 
-     }
-
-     public function getOccupantCoreDataByNekoId($data){
-        $occupant = Occupant::where('nekoId','=', $data)->firstOrFail();
-        return $occupant;
-    }
-
-    private function getNextOccupantUnvid($unvid){
+    public function getNextOccupantUnvid($unvid){
         $nr = intval(substr($unvid, 15, 3));
         $nr++;
+        return substr($unvid, 0, 15). str_pad($nr,3,'0',STR_PAD_LEFT);
+    }
+
+    public function getPrevOccupantUnvid($unvid){
+        $nr = intval(substr($unvid, 15, 3));
+        $nr--;
         return substr($unvid, 0, 15). str_pad($nr,3,'0',STR_PAD_LEFT);
     }
 
@@ -133,7 +62,6 @@ trait OccupantAdapter
         ]);
     }
 
-
     public function changeOccupant(Occupant $initOccupant, Occupant $newOccupant, Bool $isEmpty, $newDate){
         if($isEmpty){
             $newOccupant->nachname = "Leerstand";
@@ -148,16 +76,6 @@ trait OccupantAdapter
             $initOccupant->dateTo = (new carbon($newDate))->addDay(-1);
             $initOccupant->save();
             
-            /* schliessen der Zeiträume der VerbrauchinfosUserEmails */
-            $q = $initOccupant->realestate->verbrauchsinfoUserEmails
-                ->where('nutzeinheitNo', '=', $initOccupant->nutzeinheitNo);
-                
-            foreach ($q as $email) {
-                if ($email->dateTo == null){
-                    $email->dateTo = $initOccupant->dateTo;
-                    $email->save(); 
-                }
-            }
             /* entziehen der Sicht-Berechtigungen des alten Nutzers*/
             foreach ($initOccupant->userVerbrauchsinfoAccessControls()->get() as $accContr) {
                 if (carbon::parse($accContr->datum) > carbon::parse($newOccupant->dateFrom)){
@@ -168,23 +86,26 @@ trait OccupantAdapter
             $nU = new User;
             $nU->email = $newOccupant->unvid. '@e-neko.de';
             $nU->name = $newOccupant->nachname;
-            $nU->password = Hash::make($newOccupant->nachname);
+            $nU->password = Hash::make($newOccupant->unvid);
             $nU->createdFromWebForOccupant = $save->id;
             $nU->isMieter = true;
             $nU->isUser = false;
             $nU->isAdmin = false;
             $nU->save();
 
+
+
             /* erstellen VerbrauchinfosUserEmails*/
             /* für automatischen Webuser*/
             $vue = new VerbrauchsinfoUserEmail;
-            $vue->email = $newOccupant->unvid. '@e-neko.de';
-            $vue->dateFrom = $newOccupant->dateFrom;
-            $vue->firstinitusername = $newOccupant->nachname;
-            $vue->realestate_id = $newOccupant->realestate->id;
+            $vue->email = $save->unvid. '@e-neko.de';
+            $vue->firstinitusername = $save->nachname;
+            $vue->occupant_id = $save->id;
+            $vue->realestate_id = $save->realestate->id;
             $vue->createdFromWebForOccupant = $save->id;
+            $vue->anonym = true;
             $vue->OptimisticLockField = 0;
-            $vue->nutzeinheitNo =$newOccupant->nutzeinheitNo;
+            $vue->nutzeinheitNo =$save->nutzeinheitNo;
             $vue->save();
            
              /* erstellen der Sicht-Berechtigungen des neuen Nutzers*/
@@ -217,13 +138,14 @@ trait OccupantAdapter
                 /* erstellen VerbrauchinfosUserEmails*/
                 /* für automatischen Webuser*/
                 $vue = new VerbrauchsinfoUserEmail;
-                $vue->email = $newOccupant->email;
-                $vue->dateFrom = $newOccupant->dateFrom;
-                $vue->firstinitusername = $newOccupant->nachname;
-                $vue->realestate_id = $newOccupant->realestate->id;
+                $vue->email = $save->email;
+                $vue->firstinitusername = $save->nachname;
+                $vue->realestate_id = $save->realestate->id;
+                $vue->occupant_id = $save->id;
+                $vue->anonym = false;
                 $vue->createdFromWebForOccupant = $save->id;
                 $vue->OptimisticLockField = 0;
-                $vue->nutzeinheitNo =$newOccupant->nutzeinheitNo;
+                $vue->nutzeinheitNo =$save->nutzeinheitNo;
                 $vue->save();
 
                 /* erstellen der Sicht-Berechtigungen des neuen Nutzers*/
@@ -298,7 +220,7 @@ trait OccupantAdapter
     }
 
     public function editOccupant(Occupant $occupant){
-        return Occupant::updateOrcreate(
+        $ret_val = Occupant::updateOrcreate(
             ['id' => $occupant['id']],
             ['nekoId' => $occupant['nekoId'],
                 'realestate_id' => $occupant['realestate_id'],
@@ -333,6 +255,28 @@ trait OccupantAdapter
                 'OptimisticLockField' => $occupant['OptimisticLockField'] + 1,
             ]
         );
+
+        
+        if (array_key_exists('dateFrom', $ret_val->getChanges())) {
+
+            //Auszugsdatum
+            $datum = $occupant->getOriginal()['dateFrom']->addDays(-1);
+
+            //change dateTo for previous Occupant 
+            $qOccupants = $occupant->realestate->occupants
+            ->where('nutzeinheitNo', '=', $occupant->nutzeinheitNo)
+            ->where('dateTo', '=', $datum->toDateString().' 00:00:00');
+            
+            foreach ($qOccupants as $occupant) {
+                $occupant->dateTo = $ret_val->dateFrom->addDays(-1)->toDateString();
+                $occupant->save(); 
+            }
+        }
+
+
+
+        return $ret_val;
+        
 
     }
 

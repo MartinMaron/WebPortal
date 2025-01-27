@@ -35,11 +35,11 @@ class Detail extends Component
         return [
             'userEmail.email' => 'required|string|email|max:255',
             'userEmail.firstinitUsername' => 'nullable',
-            'userEmail.bis' => 'nullable|date',
-            'userEmail.seit' => 'required|date',
             'userEmail.nutzeinheitNo' => 'required',
             'userEmail.realestate_id' => 'required',
-            'userEmail.webupdate' => 'nullable',
+            'userEmail.info_per_portal_editing' => 'nullable',
+            'userEmail.infoPerPortal' => 'nullable',
+            'userEmail.info_per_post_editing' => 'nullable',
         ];
     }
 
@@ -56,26 +56,25 @@ class Detail extends Component
                 if($this->dialogMode == 'create')
                 {
                     VerbrauchsinfoUserEmail::create($this->userEmail);
-                    $this->emit('refreshParent');
                     toast()->success('Emailadresse für Verbraucherinformationen hinzugefügt','Achtung')->push();
-
+                    $this->emit('refreshParent');
                  }
                 if($this->dialogMode == 'edit')
                 {
+                    
                     VerbrauchsinfoUserEmail::updateOrcreate(
                             ['id' => $this->userEmail['id']],
                             ['email' => $this->userEmail['email'],
-                            'seit' => $this->userEmail['seit'],
-                            'bis' => $this->userEmail['bis'],
                             'firstinitUsername' => $this->userEmail['firstinitUsername'],
+                            'infoPerPortal' => $this->userEmail['infoPerPortal'],
+                            'infoPerEmail' => $this->userEmail['infoPerEmail'],
+                            'infoPerPost' => $this->userEmail['infoPerPost'],
                             ]
                             );
                     toast()->success('Emailadresse für Verbraucherinformationen wurde geändert','Achtung')->push();
 
                 }
                 $this->emit('refreshParent');
-
-
                 $this->showEditModal = false ;
             }else{
                 $this->showEditModal = true;

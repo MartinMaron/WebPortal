@@ -4,7 +4,7 @@
     </x-slot>
     <x-slot name="slot">
         <div class="max-w-7xl w-full mx-auto">
-            <livewire:user.cost.lista :realestate='$realestate'/>
+            <livewire:user.cost.brennstoffliste :realestate='$realestate'/>
         </div>
     </x-slot>
 </x-app-layout>

@@ -88,6 +88,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 $realestate = Realestate::all()->find($id);
                     return view('backend.realestate.show-costs', compact('realestate'));
             })->name('costs');
+
+            Route::get('/betriebskostenliste/{id}', function ($id) {
+                $realestate = Realestate::all()->find($id);
+                    return view('backend.realestate.show-betriebskostenliste', compact('realestate'));
+            })->name('betriebskostenliste');
+
+            Route::get('/heizkostenliste/{id}', function ($id) {
+                $realestate = Realestate::all()->find($id);
+                    return view('backend.realestate.show-heizkostenliste', compact('realestate'));
+            })->name('heizkostenliste');
         });
         
         Route::get('/dashboard', function () {

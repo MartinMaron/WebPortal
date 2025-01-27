@@ -1,6 +1,6 @@
-<div>
+<div class="dark:text-slate-200">
     <div class="hidden md:flex pt-1 text-lg text-center
-    {{ $singleCounterMeter->hk ? 'odd:bg-green-100 even:bg-green-50' :'even:bg-red-50 odd:bg-red-100'}} ">
+     ">
         <div class="{{ $singleCounterMeter->nr == $singleCounterMeter->funkNr ? 'basis-1/4' : 'basis-1/5' }}">
             <span class="">{{ $singleCounterMeter->nr }}</span>
         </div>
@@ -23,7 +23,7 @@
             <a class="" href="{{route('user.occupantVerbrauchsinfoCounterMetersReading', ['occupant_id' => $occupant,'id' => $singleCounterMeter->nekoId])}}" class="relative items-center justify-center flex-1 w-0 text-sm font-medium text-gray-700 border border-transparent rounded-br-lg hover:text-green-900">
                 {{-- <span class="">Stände</span>  --}}
                 <i class="text-xl
-                {{ $singleCounterMeter->hk ? 'text-green-600': 'text-red-800' }}
+                {{ $singleCounterMeter->hk ? 'text-green-600 dark:text-green-500': 'text-red-800 dark:text-red-400' }}
                 fa-regular fa-chart-mixed"></i>
             </a>
         </div>
@@ -34,7 +34,7 @@
 
     <div class= "items-center block m-1 sm:hidden">
         <div class="pb-4">
-            <div class="mt-2 text-sm text-center border-2 rounded-t-lg bg-sky-100 border-sky-100">
+            <div class="mt-2 text-sm text-center border rounded-t-lg bg-sky-100 dark:bg-slate-800 border-sky-100 dark:border-slate-950">
                 {{-- Nummer und Funknummer Header --}}
                 <div class="flex justify-around my-1 ">
                     <div class="flex justify-center">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-            <div class="text-sm border-2 rounded-b-lg border-sky-100">
+            <div class="text-sm border rounded-b-lg border-sky-100 dark:border-slate-950">
                 {{-- inhalt --}}
                 <div class="grid grid-cols-2">
                     <div class="justify-around mt-1 text-center">
@@ -73,7 +73,7 @@
                             <span class="text-xs font-thin ">mon. Verbrauch</span>
                         </div> --}}
                         <div class="text-lg font-bold text-center basis-1/6">
-                            <span class='{{ $singleCounterMeter->ww ? 'text-red-800 ' : 'text-green-600 ' }}">'>
+                            <span class='{{ $singleCounterMeter->ww ? 'text-red-800 dark:text-red-400 ' : 'text-green-600 dark:text-green-500' }}">'>
                                 {{ $singleCounterMeter->VerbrauchAktDisplay. " ".  $singleCounterMeter->einheit->shortname}}
                             </span>
                         </div>

@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Cost;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
-use App\Models\RealestateAbrechnungssetting;
+use App\Models\Abrechnungssetting;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -25,10 +25,13 @@ class Realestate extends Model
 
     protected $fillable = [
         'nekoId', 'email', 'unvid', 'address', 'street', 'postCode','city','heizkosten','rauchmelder','miete',
-        'user_id', 'eingabeCostNetto', 'eingabeCostOhneDatum', 'occupant_name_mode', 'occupant_number_mode'
+        'user_id', 'eingabeCostNetto', 'eingabeCostOhneDatum', 'occupant_name_mode', 'occupant_number_mode',
+        'abrechnungssetting_id','kosteneingabe','nutzerlisteDone', 'heizkostenlisteDone','betreibskostenDone'
     ];
 
-    protected $appends = ['has_occupants_different_adresses'];
+    protected $appends = [
+            'has_occupants_different_adresses',
+            ];
 
     public function user()
     {
@@ -50,9 +53,19 @@ class Realestate extends Model
         return $this->hasMany(Cost::class);
     }
 
-    public function realestateAbrechnungssetting()
+    public function costskeys()
     {
-        return $this->hasMany(RealestateAbrechnungssetting::class);
+        return $this->hasMany(Costkey::class);
+    }
+
+    public function abrechnungssettings()
+    {
+        return $this->hasMany(Abrechnungssetting::class);
+    }
+
+    public function abrechnungssetting()
+    {
+        return $this->belongsTo(Abrechnungssetting::class);
     }
 
     public function verbrauchsinfoUserEmails()
@@ -80,16 +93,18 @@ class Realestate extends Model
     }
 
     protected function getHasOccupantsDifferentAdressesAttribute(){
-        $occp = $this->occupants()->get()->unique('street');
+        $qoccp = $this->occupants()->get();
+        
+        $occp = $qoccp->unique('street');
         if($occp->count()!=1){ return true;}
        
-        $occp = $this->occupants()->get()->unique('city');
+        $occp = $qoccp->unique('city');
         if($occp->count()!=1){ return true;}
 
-        $occp = $this->occupants()->get()->unique('postcode');
+        $occp = $qoccp->unique('postcode');
         if($occp->count()!=1){ return true;}
 
-        $occp = $this->occupants()->get()->unique('houseNr');
+        $occp = $qoccp->unique('houseNr');
         if($occp->count()!=1){ return true;}
         
         return false;

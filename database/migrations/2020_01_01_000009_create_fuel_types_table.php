@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('fuel_types', function (Blueprint $table) {
-            $table->string('type_id')->primary();
+        Schema::create('fueltypes', function (Blueprint $table) {
+            $table->string('id')->primary();
             $table->unsignedInteger('einheit_id');
             $table->foreign('einheit_id')->references('id')->on('einheits');
             $table->boolean('hasTank');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fuel_types');
+        Schema::dropIfExists('fueltypes');
     }
 };

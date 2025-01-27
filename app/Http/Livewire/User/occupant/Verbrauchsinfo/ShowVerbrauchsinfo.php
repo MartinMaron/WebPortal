@@ -31,7 +31,7 @@ class ShowVerbrauchsinfo extends Component
     {
         $result =  $this->user->userVerbrauchsinfoAccessControls->map(function (UserVerbrauchsinfoAccessControl $userControl) {
             return $userControl->occupant ;
-        })->unique();
+        })->unique()->toquery();
       
         if ($this->filter) {
             $result = $result
@@ -42,7 +42,7 @@ class ShowVerbrauchsinfo extends Component
                 });
 
         };
-        return $result->toquery();
+        return $result;
     }
 
     public function getRowsProperty()

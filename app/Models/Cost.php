@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use Exception;
+use Carbon\Carbon;
+use Barryvdh\Debugbar\Facades\Debugbar;
+use App\Http\Traits\Helpers;
 use App\Events\CostUpdated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
@@ -11,85 +15,347 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Cost extends Model
 {
     use HasFactory;
-    use WireToast; 
-    
-    protected $fillable = [
+    use WireToast;
+    use Helpers;
 
-        'realestate_id', 'nekoId', 'unvid','budguid', 'nazwa', 'bemerkung', 'NekoWebId', 'tryWebDelete', 'costType', 'costType_id',
-        'vatAmount', 'fuelType', 'fuelType_id', 'hasTank', 'startValue', 'endValue', 'startValueAmount', 'haushaltsnah', 'keyId',
-        'keyName', 'keyShortkey', 'noticeForUser', 'noticeForNeko', 'costAbrechnungType', 'costAbrechnungTypeId','fuelTypeUnitType',
-        'fuelTypeUnitName', 'startValueAmountNet', 'startValueAmountGros', 'keyUnitType', 'consumption'
+    protected $fillable = [
+        'realestate',
+        'realestate_id', 'nekoId', 'caption', 'description', 'costtype_id', 'costtype',
+        'fueltype_id', 'startValue', 'endValue',
+        'startValueAmountNet', 'startValueAmountGros', 'startValueAmountVat', 
+        'haushaltsnah', 'co2Tax', 'costkey_id', 'consumption', 'costkey',
+        'noticeForUser', 'noticeForNeko', 
+        'prevyearPeriod', 'prevyearQuantity', 'prevyearAmountnet', 'prevyearAmountgros',
+        'OptimisticLockField'
     ];
 
-    public function scopeVisible($query)
+    public function scopeIsHeizkosten($query)
     {
-       
-        
         $ret_val = $query
-        ->where(function($query) 
+        ->where(function($query)
         {
-            $query->where('costType_id', 'HNK')
-            ->orWhere('costType_id', 'BRK')
-            ->orWhere('costType_id', 'KWK')
-            ->orWhere('costType_id', 'KWA')
-            ->orWhere('costType_id', 'ZKW')
-            ->orWhere('costType_id', 'ZUK');
+            $query->where('costtype_id', 'HNK')
+            ->orWhere('costtype_id', 'KWK')
+            ->orWhere('costtype_id', 'KWA')
+            ->orWhere('costtype_id', 'ZKW')
+            ->orWhere('costtype_id', 'DIR')
+            ->orWhere('costtype_id', 'BEH')
+            ->orWhere('costtype_id', 'ZWA')
+            ->orWhere('costtype_id', 'ZUK');
         });
-        return $ret_val;      
+        return $ret_val;
     }
-    
+    public function scopeIsBrennstoffkosten($query)
+    {
+        $ret_val = $query
+        ->where(function($query)
+        {
+            $query->where('costtype_id', 'BRK');
+        });
+        return $ret_val;
+    }
+
+    public function scopeIsBetriebskosten($query)
+    {
+        $ret_val = $query
+        ->where(function($query)
+        {
+            $query->where('costtype_id', 'BEK')
+            ->orWhere('costtype_id', 'BEE');
+        });
+        return $ret_val;
+    }
+
+
     protected $appends = [
                             'cost_type_sort',
                             'consumptionsum',
+                            'coconsumptionsum',
+                            'cobruttosum',
+                            'conettosum',
                             'brutto',
-                            'netto'
+                            'netto',
+                            'gros',
+                            'start_value_editing',
+                            'end_value_editing',
+                            'start_value_amount_gros_editing',
+                            'start_value_amount_net_editing',
+                            'prevyear_quantity_view', 
+                            'prevyear_amountnet_view',
+                            'prevyear_amountgros_view',
+                            'need_costkey',
+                            'can_co2',
+                            'haushaltsnah_sum',
                         ];
 
     protected $casts = ['consumptionsum' => 'decimal:1',
                         'netto' => 'decimal:2',
                         'brutto' => 'decimal:2',
+                        'start_value_editing' => 'decimal:1',
+                        'end_value_editing' => 'decimal:1',
                         'startValueAmountGros' => 'decimal:2',
                         'startValueAmountNet' => 'decimal:2' ];
 
+    
+    
+    
+    public function getNeedCostkeyAttribute(){
+        return  $this->costtype != null &&
+                !($this->costtype->id == 'BRK' ||
+                $this->costtype->id == 'HNK' ||
+                $this->costtype->id == 'ZUK' ||
+                $this->costtype->id == 'ZKW');
+    }
+
+    public function getCanCo2Attribute(){
+        return $this->fueltype != null &&
+                ($this->fueltype_id == 'EC4' ||
+                $this->fueltype_id == 'GS4' ||
+                $this->fueltype_id == 'OL9');
+    }
+
+    public function getPrevyearQuantityViewAttribute(){
+        if ($this->prevyearQuantity) {
+            return number_format($this->prevyearQuantity, 2, ',', '.');
+        } else {
+            return null;        
+        }
+    }
+    public function getPrevyearAmountnetViewAttribute(){
+        if ($this->prevyearAmountnet) {
+            return number_format($this->prevyearAmountnet, 2, ',', '.');
+        } else {
+            return null;        
+        }
+    }
+    public function getPrevyearAmountgrosViewAttribute(){
+        if ($this->prevyearAmountgros) {
+            return number_format($this->prevyearAmountgros, 2, ',', '.');
+        } else {
+            return null;        
+        }
+    }
+
     public function getNettoAttribute(){
-        return number_format($this->costAmounts->sum('netAmount'), 2, ',', '.');
+        if ($this->realestate) {
+            return number_format($this->costAmounts
+            ->where('startvalue','=', false)
+            ->where('endvalue','=', false)
+            ->where('abrechnungssetting_id','=',$this->realestate->abrechnungssetting_id)
+            ->sum('netAmount'), 2, ',', '.');
+        } else {
+        return null;        
+        }
     }
     public function getBruttoAttribute(){
-        return number_format($this->costAmounts->sum('grosAmount'), 2, ',', '.');
+        if ($this->realestate) {
+            return number_format($this->costAmounts
+                ->where('startvalue','=', false)
+                ->where('endvalue','=', false)
+                ->where('abrechnungssetting_id','=',$this->realestate->abrechnungssetting_id)
+                ->sum('grosAmount'), 2, ',', '.');
+        } else {
+        return null;        
+        }
+    }
+
+    public function getHaushaltsnahSumAttribute(){
+        if ($this->realestate) {
+            return number_format($this->costAmounts
+                ->where('startvalue','=', false)
+                ->where('endvalue','=', false)
+                ->where('abrechnungssetting_id','=',$this->realestate->abrechnungssetting_id)
+                ->sum('grosAmount_HH'), 2, ',', '.');
+        } else {
+        return null;        
+        }
     }
     public function getConsumptionsumAttribute(){
-        return number_format($this->costAmounts->sum('consumption'), 1, ',', '.');
+        if ($this->realestate) {
+            return number_format($this->costAmounts
+            ->where('startvalue','=', false)
+            ->where('endvalue','=', false)
+            ->where('abrechnungssetting_id','=',$this->realestate->abrechnungssetting_id)
+            ->sum('consumption'), 1, ',', '.');
+        } else {
+        return null;        
+        }
     }
-    
+    public function getCoconsumptionsumAttribute(){
+        if ($this->realestate) {
+            return number_format($this->costAmounts
+                ->where('startvalue','=', false)
+                ->where('endvalue','=', false)
+                ->where('abrechnungssetting_id','=',$this->realestate->abrechnungssetting_id)
+                ->sum('co2TaxValue'), 1, ',', '.');
+        } else {
+        return null;        
+        }
+    }
+    public function getCobruttosumAttribute(){
+        if ($this->realestate) {
+            return number_format($this->costAmounts
+                ->where('startvalue','=', false)
+                ->where('endvalue','=', false)
+                ->where('abrechnungssetting_id','=',$this->realestate->abrechnungssetting_id)
+                ->sum('co2TaxAmount_gros'), 1, ',', '.');
+        } else {
+        return null;        
+        }
+    }
+
+    public function getConettosumAttribute(){
+        
+        if ($this->realestate) {
+            return number_format($this->costAmounts
+                    ->where('startvalue','=', false)
+                    ->where('endvalue','=', false)
+                    ->where('abrechnungssetting_id','=',$this->realestate->abrechnungssetting_id)
+                    ->sum('co2TaxAmount_net'), 1, ',', '.');
+        } else {
+        return null;        
+        }
+    }
+
+
     public function getCostTypeSortAttribute()
     {
-        $ret_val = 0;
-
-        switch ($this->costType_id) {
-            case 'BRK':
-                $ret_val = 1;
-                break;
-            case 'HNK':
-                $ret_val = 2;
-                break;
-            case 'ZUK':
-                $ret_val = 3;
-                break;
-            case 'ZKW':
-                $ret_val = 4;
-                break;
-            case 'KWK':
-                $ret_val = 5;
-                break;
-            case 'KWA':
-                $ret_val = 6;
-                break;
-            case 'BEK':
-                $ret_val = 7;
-                    break;
+        if ($this->costtype != null) {
+            return $this->costtype->sort;
         }
+        return 10000;
+    }
+    public function getGrosAttribute(){
+            if ($this->realestate) {
+            return $this->costAmounts
+                    ->where('abrechnungssetting_id','=',$this->realestate->abrechnungssetting_id)
+                    ->where('startvalue','=', false)
+                    ->where('endvalue','=', false)
+                    ->sum('grosAmount');
+        } else {
+        return 0;        
+        }
+    }
 
-        return $ret_val ;
+    public function setStartValueEditingAttribute($value){
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
+            $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
+            ->where('startvalue','=', true)->get();
+            if ($q->count() > 0) {
+                $q->first()->consumption_editing = $value;
+                $q->first()->save();
+            } else {
+                return 'k.A.';
+            }
+        }else
+        {
+            return 'k.A.';
+        }
+    }
+
+    public function getStartValueEditingAttribute(){
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
+            $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
+            ->where('startvalue','=', true)->get();
+            if ($q->count() > 0) {
+                return $q->first()->consumption_editing;
+            } else {
+                return 'k.A.';
+            }
+        }else
+        {
+            return 'k.A.';
+        }
+    }
+
+    public function setStartValueAmountNetEditingAttribute($value){
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
+            $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
+            ->where('startvalue','=', true)->get();
+            if ($q->count() > 0) {
+                $q->first()->netto = $value;
+                $q->first()->save();
+            } else {
+                return 'k.A.';
+            }
+        }else
+        {
+            return 'k.A.';
+        }
+    }
+
+    public function getStartValueAmountNetEditingAttribute(){
+        if ($this->startValueAmountNet <> 0){
+            return number_format($this->startValueAmountNet, 1, ',', '.');
+        }else{
+            return '';
+        } 
+    }
+
+    public function setStartValueAmountGrosEditingAttribute($value){
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
+            $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
+            ->where('startvalue','=', true)->get();
+            if ($q->count() > 0) {
+                $q->first()->brutto = $value;
+                $q->first()->save();
+            } else {
+                return 'k.A.';
+            }
+        }else
+        {
+            return 'k.A.';
+        }
+    }
+
+    public function getStartValueAmountGrosEditingAttribute(){
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
+            $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
+            ->where('startvalue','=', true)->get();
+            if ($q->count() > 0) {
+                return $q->first()->brutto;
+            } else {
+                return 'k.A.';
+            }
+        }else
+        {
+            return 'k.A.';
+        }
+    }
+
+    public function setEndValueEditingAttribute($value){
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
+            $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
+            ->where('endvalue','=', true)->get();
+            if ($q->count() > 0) {
+                $q->first()->consumption_editing = $value;
+                $q->first()->save();
+            }
+        }
+    }
+
+    public function getEndValueEditingAttribute(){
+        if ($this->costAmounts() && $this->costtype_id == 'BRK' && $this->fueltype && $this->fueltype->hasTank) {
+            $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)
+            ->where('endvalue','=', true)->get();
+            if ($q->count() > 0) {
+                return $q->first()->consumption_editing;
+            } else {
+                return '0,0';
+            }
+        }else
+        {
+            return '0,0';
+        }
+    }
+
+    public function getEditableAttribute()
+    {
+        if ($this->costtype != 'BRK' && $this->costAmounts->count() > 0 && 
+            $this->costAmounts->count() == $this->costAmounts()->where('nekoId','!=',0)->get()->count()) {
+            return false;
+        }
+        return true;
     }
 
     public function realestate()
@@ -102,40 +368,20 @@ class Cost extends Model
         return $this->hasMany(CostAmount::class);
     }
 
-    public function costKeys()
+    public function costkey()
     {
-        return $this->hasMany(CostKey::class);
-    }
- 
-    public static function validateImportData($data) {
-        return Validator::make($data, [
-            'nekoId' => 'required|integer',
-            'unvid' => 'required|string|max:40',
-            'budguid' => 'required|string|max:40',
-            'nazwa' => 'required|string|max:255',
-            'tryWebDelete' => 'required|boolean',
-            'costType' => 'required|string|max:255',
-            'costType_id' => 'required|string|max:3',
-            'vatAmount' => 'required|numeric',
-            'hasTank' => 'required|boolean',
-            'haushaltsnah' => 'required|boolean',
-            'keyId' => 'required|numeric',
-            'keyName' => 'required|string|max:255',
-            'keyShortkey' => 'required|string|max:255',
-            'noticeForUser' => 'nullable|string|max:255',
-            'noticeForNeko' => 'nullable|string|max:255',
-            'fuelTypeUnitType' => 'nullable',
-            'fuelTypeUnitName'=> 'nullable',
-            'startValueAmountNet'=> 'nullable',
-            'startValueAmountGros'=> 'nullable',
-            'costAbrechnungType' => 'required|string|max:255',
-            'costAbrechnungTypeId' => 'required|string|max:255',
-            'keyUnitType' => 'required|string|max:255',
-            'consumption' => 'required|boolean',                                    
-        ]);
+        return $this->belongsTo(Costkey::class);
     }
 
+    public function costtype()
+    {
+        return $this->belongsTo(Costtype::class);
+    }
 
+    public function fueltype()
+    {
+        return $this->belongsTo(Fueltype::class);
+    }
 
     protected $dispatchesEvents = [
         'updated' => CostUpdated::class,

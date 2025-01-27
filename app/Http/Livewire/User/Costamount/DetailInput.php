@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\CostAmount;
 use PhpParser\Node\Expr\Cast\Double;
 use Barryvdh\Debugbar\Facades\Debugbar;
+use PhpParser\Node\NullableType;
 use Usernotnull\Toast\Concerns\WireToast;
 
 class DetailInput extends Component
@@ -21,6 +22,11 @@ class DetailInput extends Component
     public $netto;
     public bool $inputWithDate;
     public bool $inputNet;
+    public int $index;
+    public int $editedindex = 1;
+    public bool $hasChanges = false;
+    public bool $saved = false;
+    public bool $editable = true;
 
     public CostAmount $current;
     public string $inputStartField;
@@ -29,19 +35,30 @@ class DetailInput extends Component
         $this->cost = $cost;
         $this->inputNet = $netto;
         $this->inputWithDate = $inputWithDatum;
-        if ($this->cost->consumption) {
-            $this->inputStartField = 'consumption';
-        }else{
-            if ($this->inputWithDate) {
+        
+        if ($this->inputWithDate || ($this->cost->fueltype != null && $this->cost->fueltype->hasTank)) {
+            $this->inputStartField = 'datum';
+        }else {
+            if ($this->cost->consumption) {
+                $this->inputStartField = 'consumption';
+            }else{ 
                 $this->inputStartField = 'betrag';
-            }else {
-                $this->inputStartField = 'datum';
             }
         }
-        $this->current = $this->makeBlankObject();
+        // nur für Brennstoffkosten können mehrere Beträge eingegeben werden
+        // für alle anderen existiert nuer ein CostAmount als Singelton für Abrechnungszeitraum
+        if ($this->cost->costtype_id == 'BRK') {
+            $this->current = $this->makeBlankObject();
+        } else {
+           $qAmounts = $this->cost->costAmounts->where('abrechnungssetting_id','=',$this->cost->realestate->abrechnungssetting_id);
+           if($qAmounts->count()>0){
+                $this->current = $qAmounts->first();
+           }else{
+                $this->current = $this->makeBlankObject();
+           }
+        }
+        $this->editable = $this->cost->editable ;
     }
-
-
 
     protected $listeners = [
          'refreshDetailInput' => 'refreshByid',
@@ -52,14 +69,13 @@ class DetailInput extends Component
        return CostAmount::make([
             'nekoCostId' => $this->cost->nekoId,
             'cost_id' => $this->cost->id,
+            'abrechnungssetting_id' => $this->cost->realestate->abrechnungssetting_id,
             'bemerkung' =>'',
+            'co2TaxAmount_net' => 0,
+            'co2TaxAmount_gros' => 0,
             'description' => '',
-            'netAmount' => 0,
-            'grosAmount' => 0,
-            'grosAmount_HH'=> 0,
         ]);
     }
-
 
     public function refreshByid($id){
         if ($id == $this->cost->id){
@@ -67,37 +83,90 @@ class DetailInput extends Component
         }
     }
 
+    public function updated($propertyName)
+    {
+        if (! $this->cost->costtype == 'BRK'){
+            $this->save();
+        }
+    }
+
+    public function raise_EditCostModal(Cost $cost)
+    {
+        $this->emit('showCostDetailModal', $cost, false, false);
+    }
 
     public function rules()
     {
         return [
             'current.cost_id' => 'required',
-            'current.datum' => 'date|nullable',
-            'current.netAmount' => 'nullable',
-            'current.grosAmount_HH' => 'nullable',
-            'current.consumption' => 'required_if:cost.consumption,==,1|numeric|nullable',
-            'current.consumption_editing' => 'nullable',
+            'current.consumption_editing' => 'required_if:cost.consumption,==,1|nullable|min:0|not_in:0',
             'current.brutto' => 'nullable',
-            'current.co2TaxValue' => 'nullable',
             'current.netto' => 'nullable',
             'current.haushaltsnah' => 'nullable',
             'current.description' => 'nullable',
+            'current.cobrutto' => 'nullable',
+            'current.conetto' => 'nullable',
+            'current.coconsupmtion' => 'nullable',
+            'current.datum' => 'required_if:cost.fueltype.hasTank,==,1|date|nullable',
+            'current.abrechnungssetting_id' => 'nullable',
        ];
     }
+    public function messages()
+    {
+        return [
+            'current.datum' => ':attribute muss angegeben werden',
+            'current.consumption_editing' => ':attribute muss angegeben werden' ,
+        ];
+    }
 
+    public function attributes()
+    {
+        return [
+            'current.datum' => 'Datum',
+            'current.consumption_editing' => 'Verbrauch',
+        ];
+    }
 
     public function save()
     {
-        if ($this->validate()){
-            if(CostAmount::create(collect($this->current)->toArray()))  {
-                $this->current = $this->makeBlankObject();
-                $this->emit('refreshComponents');
+        if ($this->validate($this->rules(),$this->messages(),$this->attributes())){
+            if ($this->cost->costtype->id =='BRK') {
+                if(CostAmount::create(collect($this->current)->toArray()))  {
+                    $this->current = $this->makeBlankObject();
+                    $this->emit('refreshComponents');
+                }
+            } else {
+                CostAmount::updateOrcreate(
+                    ['cost_id' => $this->cost->id, 
+                    'abrechnungssetting_id' => $this->cost->realestate->abrechnungssetting_id,],
+                    [
+                        'brutto'=>$this->current->brutto,
+                        'netto'=>$this->current->netto,
+                        'datum'=>$this->current->datum,
+                        'consumption_editing'=>$this->current->consumption_editing,
+                        'cobrutto'=>$this->current->cobrutto,
+                        'conetto'=>$this->current->conetto,
+                        'coconsupmtion'=>$this->current->coconsupmtion,
+                        'haushaltsnah'=>$this->current->haushaltsnah,
+                    ]
+                );
             }
         };
     }
 
     public function render()
     {
-        return view('livewire.user.costamount.detail-input');
+        if($this->cost->costtype->id=='BRK')
+        {
+             return view('livewire.user.costamount.detail-input-br');
+        }else{
+            if($this->cost->costtype->costinvoicingtype_id =='BE'){ 
+                return view('livewire.user.costamount.detail-input-bk');
+            } 
+            if($this->cost->costtype->costinvoicingtype_id =='HZ'){ 
+                return view('livewire.user.costamount.detail-input-hk');
+            } 
+        }
+
     }
 }

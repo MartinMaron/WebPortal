@@ -1,6 +1,18 @@
 <x-guest-layout>
     <x-slot name="slot">
         <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="text-red-600  text-xl font-bold pb-6 w-full text-center">
+                WICHTIG : WIR ZIEHEN UM!
+            </div>
+            <div class="pb-3 text-red-600 font-bold w-full text-center">
+                Ab dem 01.01.2025 lautet unsere neue Adresse :
+            </div>
+            <div class="py-1 w-full text-red-600 font-bold text-center">
+                Marsdorfer Str. 76
+            </div>
+            <div class="pb-4 w-full text-red-600 font-bold text-center">
+                50858 Köln – Weiden
+            </div>
             <div class="w-full">
                 <img class="rounded-md" src="/img/home/Slieder-Mitte.jpg" alt="">
             </div>

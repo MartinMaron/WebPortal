@@ -34,9 +34,11 @@ class CreateCostsTable extends Migration
             $table->string('caption')->nullable();
             $table->longText('description')->nullable();
             /* Betriebskosten, Brennstoffkosten, Zusatzkosten ...etc. */
-            $table->String('costType_id');
+            $table->String('costtype_id');
+            $table->foreign('costtype_id')->references('id')->on('costtypes');
             /* Gas, Heizöl, Fernwärme, Pellets, Strom ...etc. */
-            $table->String('fuelType_id')->nullable();
+            $table->String('fueltype_id')->nullable();
+            $table->foreign('fueltype_id')->references('id')->on('fueltypes');
             $table->double('startValue')->nullable();
             $table->double('startValueAmountNet')->nullable();
             $table->double('startValueAmountGros')->nullable();
@@ -45,8 +47,8 @@ class CreateCostsTable extends Migration
             $table->boolean('haushaltsnah')->nullable();
             $table->boolean('co2Tax')->default(0);                        
             /* Umlageschlüssel */
-            $table->unsignedBigInteger('allocationKey_id')->nullable();
-            $table->foreign('allocationKey_id')->references('id')->on('cost_keys');
+            $table->unsignedBigInteger('costkey_id')->nullable();
+            $table->foreign('costkey_id')->references('id')->on('costkeys');
             $table->text('noticeForUser')->nullable();
             $table->text('noticeForNeko')->nullable();
             $table->boolean('consumption')->default(0);                        
