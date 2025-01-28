@@ -7,8 +7,7 @@ cp .env.example .env
 npm install
 composer install
 php artisan key:generate
-php artisan migrate:refresh --seed
-php artisan migrate
+php artisan migrate:fresh --seed
 php artisan lang:publish
 npm run dev
 npm run prod
