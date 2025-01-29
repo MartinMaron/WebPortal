@@ -121,6 +121,8 @@ class ShowOccupantList extends Component
         $this->hasVat = (bool) $this->realestate->occupants->where('vat', '=', '1')->count();
         $this->salutations = Salutation::all();
         $this->prepaidnet = $this->realestate->eingabeCostNetto;
+        $this->prepaidtype = $this->realestate->prepaidtype;
+        Debugbar::info($this->realestate->prepaidtype);
         $this->sorts = [
             'unvid' => 'asc'
             ];
@@ -144,12 +146,13 @@ class ShowOccupantList extends Component
             $this->realestate->save();
         }
         if ($value == 'prepaidtype'){
-            $this->prepaidtype = !$this->prepaidtype;
-            if($this->prepaidtype){
+            Debugbar::info($this->realestate->prepaidtype);
+            $this->prepaidtype = $this->realestate->prepaidtype;
+       /*      if($this->prepaidtype){
                 $this->realestate->prepaidtype = 'B';
             }else{
                 $this->realestate->prepaidtype = 'H';
-            }
+            } */
             $this->realestate->save();
         }
         if ($value == 'prepaidnet'){
