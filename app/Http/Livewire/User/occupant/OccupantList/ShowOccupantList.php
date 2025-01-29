@@ -9,12 +9,14 @@ use App\Models\Occupant;
 use App\Models\Realestate;
 use App\Models\Salutation;
 use Livewire\WithPagination;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Models\UserVerbrauchsinfoAccessControl;
 use App\Http\Livewire\DataTable\WithBulkActions;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
+
 
 class ShowOccupantList extends Component
 {
@@ -144,9 +146,9 @@ class ShowOccupantList extends Component
         if ($value == 'prepaidtype'){
             $this->prepaidtype = !$this->prepaidtype;
             if($this->prepaidtype){
-                $this->realestate->prepaidtype = 'H';
-            }else{
                 $this->realestate->prepaidtype = 'B';
+            }else{
+                $this->realestate->prepaidtype = 'H';
             }
             $this->realestate->save();
         }

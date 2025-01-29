@@ -78,7 +78,7 @@
                                             </div>    
                                           
                                             <div class="{{ $showEditFields ? 'basis-1/6' : 'basis-1/5' }} ">
-                                                <div class="">betrag</div>
+                                                <div class="">Betrag</div>
                                             </div>
                                             
                                             <div class="{{ $showEditFields ? 'basis-1/6' : 'hidden' }} ">

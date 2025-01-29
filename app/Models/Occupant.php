@@ -61,15 +61,15 @@ class Occupant extends Model
             'qmkc' => 'required|numeric',
             'qmww' => 'required|numeric',
             'pe' => 'required|numeric',
-            'vorauszahlung' => 'required|numeric',
+            'vorauszahlung' => 'required',
         ]);
     }
 
     protected $casts = ['dateFrom' => 'date:d.m.Y',
                     'dateTo' => 'date:d.m.Y',
                     'qmkc' => 'decimal:2',
-                    'qmww' => 'decimal:2',
-                    'vorauszahlung_editing' => 'decimal:2' ];
+                    'qmww' => 'decimal:2'
+                 ];
 
     protected $appends = ['date_from_editing',
                         'date_to_editing',
@@ -159,7 +159,7 @@ class Occupant extends Model
             }else{
                 $field = 'grosAmount';
             }
-
+           
             $prepaid = Prepaid::updateOrCreate(
                 ['occupant_id' => $this->id, 'prepaidtype' => $this->realestate->prepaidtype,'abrechnungssetting_id' => $this->realestate->abrechnungssetting_id],
                 [
