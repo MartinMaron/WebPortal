@@ -61,21 +61,21 @@
 
                         <div class="border-t border-gray-100"></div>
 
-                        <!-- Logout -->
-                        <div class="hidden md:block">
+                        {{-- <!-- Logout -->
+                        <div class="md:hidden">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-jet-dropdown-link href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                    {{ __('Ausloggen') }}
+                                    {{ __('Ausloggin') }}
                                 </x-jet-dropdown-link>
                             </form>
-                        </div>
+                        </div> --}}
                         <div class="md:hidden">
-                            <form method="POST" action="{{ route('login') }}">
+                            <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <x-jet-dropdown-link href="{{ route('login') }}"
+                                <x-jet-dropdown-link href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                     {{ __('Ausloggen') }}
