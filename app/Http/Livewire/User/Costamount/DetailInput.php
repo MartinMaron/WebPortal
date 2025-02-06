@@ -87,10 +87,6 @@ class DetailInput extends Component
     {
         if (! $this->cost->costtype == 'BRK'){
             $this->save();
-        }else{
-            if($propertyName == 'current.brutto'){
-                $this->save();
-            }
         }
     }
 
