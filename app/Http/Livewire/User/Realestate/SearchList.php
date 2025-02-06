@@ -24,18 +24,14 @@ class SearchList extends Component
     {
         if (auth()->user()->email != 'info@e-neko.de')
         {
-            $filtered = Realestate::select([
-                'id', 'address', 'street', 'postCode', 'heizkosten', 'city', 'rauchmelder', 'miete',
-             ])->orderBy('street')
+            $filtered = Realestate::query()->orderBy('street')
              ->where('user_id', auth()->user()->id)
              ->where('address','LIKE','%'. $this->filter['search'].'%')
              ->where(function (Builder $query) {$query->Visible();})
              ->paginate(20);
     
         }else{
-            $filtered = Realestate::select([
-                'id', 'address', 'street', 'postCode', 'heizkosten', 'city', 'rauchmelder', 'miete', 'betriebskosten','uviactive'
-             ])->orderBy('street')
+            $filtered = Realestate::query()->orderBy('street')
              ->where('address','LIKE','%'. $this->filter['search'].'%')
              ->where(function (Builder $query) {$query->Visible();})
              ->paginate(20);
