@@ -70,6 +70,7 @@
                 <input type="text"    
                     id="user-costamount-detailinput-betrag-{{ $cost->id }}"
                     wire:keyup.enter="save()"
+                    wire:focusout="save()"   
                     inputmode="numeric"  
                     wire:model.lazy= {{ $netto ? 'current.netto' : 'current.brutto' }}
                     style="-moz-appearance: textfield; margin: 0;"

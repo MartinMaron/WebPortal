@@ -87,6 +87,10 @@ class DetailInput extends Component
     {
         if (! $this->cost->costtype == 'BRK'){
             $this->save();
+        }else{
+            if($propertyName == 'current.brutto'){
+                $this->save();
+            }
         }
     }
 
@@ -129,6 +133,7 @@ class DetailInput extends Component
 
     public function save()
     {
+        debugbar()->info($this->current);
         if ($this->validate($this->rules(),$this->messages(),$this->attributes())){
             if ($this->cost->costtype->id =='BRK') {
                 if(CostAmount::create(collect($this->current)->toArray()))  {
