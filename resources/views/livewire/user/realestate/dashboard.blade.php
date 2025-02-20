@@ -98,6 +98,10 @@
             </div>
         </div>
 
+        <a href="{{route('user.downloadspacesfile', 'abrhk_kosten+'. $realestate->abrechnungssetting_id )}}" class="">
+            <x-icon.fonts.file-download class="text-2xl sm:text-xl  hover:text-sky-300"></x-icon.fonts.file-download>
+        </a>
+
     </div>
 
 </div>

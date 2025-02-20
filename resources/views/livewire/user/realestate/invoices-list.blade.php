@@ -152,10 +152,10 @@
                     </div>
                     <div class="col-span-2">
                         <div class="flex justify-between px-3">
-                            <a href="{{route('user.downloadspacesfile', 'i-'. $invoice->id )}}" class="">
+                            <a href="{{route('user.downloadspacesfile', 'i+'. $invoice->id )}}" class="">
                                 <x-icon.fonts.file-download class="text-2xl sm:text-xl  hover:text-sky-300"></x-icon.fonts.file-download>
                             </a>
-                            <a target="_blank" href="{{route('user.showspacesfile', 'i-'. $invoice->id )}}" class="">
+                            <a target="_blank" href="{{route('user.showspacesfile', 'i+'. $invoice->id )}}" class="">
                                 <x-icon.fonts.pdf-download class="text-2xl sm:text-xl hover:text-sky-300"></x-icon.fonts.pdf-download>
                             </a>
                         </div>
