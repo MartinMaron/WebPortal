@@ -30,6 +30,27 @@ class DownloadFileSpacesController extends Controller
                 $path = 'app/realestates/'. $obj->realestate->nekoId. '/HK_ABR/'. $obj->hk_id. '/KOSTENUEBERSICHT.pdf';
                 return Storage::disk('spaces')->download($path);
             }
+            if (str_starts_with($param, 'abrhk_gesamt'))
+            {
+                $parts = explode('+',$param);
+                $obj = Abrechnungssetting::find($parts[1]);
+                $path = 'app/realestates/'. $obj->realestate->nekoId. '/HK_ABR/'. $obj->hk_id. '/GESAMTABRECHNUNG.pdf';
+                return Storage::disk('spaces')->download($path);
+            }
+            if (str_starts_with($param, 'abrhk_nutzer'))
+            {
+                $parts = explode('+',$param);
+                $obj = Abrechnungssetting::find($parts[1]);
+                $path = 'app/realestates/'. $obj->realestate->nekoId. '/HK_ABR/'. $obj->hk_id. '/NUTZERABRECHNUNG.pdf';
+                return Storage::disk('spaces')->download($path);
+            }
+            if (str_starts_with($param, 'abrbk'))
+            {
+                $parts = explode('+',$param);
+                $obj = Abrechnungssetting::find($parts[1]);
+                $path = 'app/realestates/'. $obj->realestate->nekoId. '/BK_ABR/'. $obj->bk_id. '/BETRIEBSKOSTENABRECHNUNG.pdf';
+                return Storage::disk('spaces')->download($path);
+            }
         }else{
             return redirect('/dashboard'); 
         }
