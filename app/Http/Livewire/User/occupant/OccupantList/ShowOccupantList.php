@@ -9,7 +9,9 @@ use App\Models\Occupant;
 use App\Models\Realestate;
 use App\Models\Salutation;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 use Barryvdh\Debugbar\Facades\Debugbar;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
@@ -23,6 +25,7 @@ class ShowOccupantList extends Component
 
     use WithPerPagePagination, WithSorting, WithBulkActions, WithCachedRows, WithPagination;
     use \App\Http\Traits\Helpers;
+    use WithFileUploads;
 
     public $hasAnyCustomEinheitNo = false;
     public $nummer_display = '';
@@ -59,6 +62,7 @@ class ShowOccupantList extends Component
         'refreshParent' => '$refresh',
         'deleteConfirmed' => 'delete',      
         'confirmNekoMessage' => 'confirmNekoMessage',
+        'uploadPhoto' => 'uploadPhoto'
     ];
 
     public function deleteOccupant($objectId)
@@ -253,6 +257,51 @@ class ShowOccupantList extends Component
         return $this->rowsQuery->paginate(20);
         // });
     }
+
+    public $uploadedPhotoUrl;
+
+    public function uploadPhoto($imageData)
+    {
+        // Base64-Daten verarbeiten
+        $imageData = explode(',', $imageData)[1];
+        $image = base64_decode($imageData);
+        
+        // Speichern in DigitalOcean Spaces
+        $filename = 'photo_' . time() . '.png';
+        $this->uploadedPhotoUrl = Storage::disk('spaces')->put('uploads/' . $filename, $image, 'public');
+        
+
+        // URL speichern und anzeigen
+        $this->uploadedPhotoUrl = Storage::disk('spaces')->url('uploads/' . $filename);
+        
+
+        Debugbar::info($this->uploadedPhotoUrl);
+
+    }
+
+    
+
+    public $photo; // Hochgeladene Datei
+   
+    public function uploadPhotoDisc()
+    {
+        
+        // Überprüfe, ob eine Datei hochgeladen wurde
+        $this->validate([
+            'photo' => 'image|max:1024', // Maximalgröße: 1MB
+        ]);
+
+        // Speichern der Datei auf DigitalOcean Spaces
+       // $path = $this->photo->store('uploads', 'spaces');
+        
+       $path = Storage::disk('spaces')->put('uploads_1', $this->photo, 'public');
+
+       
+        
+        // URL der hochgeladenen Datei speichern
+        //$this->uploadedPhotoUrl = Storage::disk('spaces')->url($path);
+    }
+
 
     public function render()
     {
