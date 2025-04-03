@@ -234,6 +234,17 @@ class ShowOccupantList extends Component
             $result = Occupant::query()
                 ->where('realestate_id', '=', $this->realestate->id)
                 ->where(function (Builder $query) {
+                    if ($this->realestate->abrechnungssetting != null) {
+                        $query->where('dateFrom', '<=', $this->realestate->abrechnungssetting->periodTo);
+                    }
+                })
+                ->where(function (Builder $query) {
+                    if ($this->realestate->abrechnungssetting != null) {
+                        $query->where('dateTo', '=', null)
+                            ->orWhere('dateTo', '>=', $this->realestate->abrechnungssetting->periodFrom);
+                    }
+                })
+                ->where(function (Builder $query) {
                     $query->where('address', 'LIKE', '%' . $this->filters['search'] . '%')
                         ->orWhere('lage', 'LIKE', '%' . $this->filters['search'] . '%')
                         ->orWhere('customEinheitNo', 'LIKE', '%' . $this->filters['search'] . '%')
@@ -242,11 +253,21 @@ class ShowOccupantList extends Component
                         ->orWhere('unvid', 'LIKE', '%' . $this->filters['search'] . '%');
                 });
         } else {
-            $result = Occupant::query()
-                ->where('realestate_id', '=', $this->realestate->id);
+            
+                $result = Occupant::query()
+                    ->where('realestate_id', '=', $this->realestate->id)
+                    ->where(function (Builder $query) {
+                        if ($this->realestate->abrechnungssetting != null) {
+                            $query->where('dateFrom', '<=', $this->realestate->abrechnungssetting->periodTo);
+                        }
+                    })
+                    ->where(function (Builder $query) {
+                        if ($this->realestate->abrechnungssetting != null) {
+                            $query->where('dateTo', '=', null)
+                                ->orWhere('dateTo', '>=', $this->realestate->abrechnungssetting->periodFrom);
+                        }
+                    });
         };
-
-
         $this->applySorting($result);
         return $result;
     }

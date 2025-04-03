@@ -114,6 +114,17 @@ class Heizkostenliste extends Component
 
     public function getCostByType($costtypeId){
         return Cost::where('realestate_id','=',$this->realestate->id)
+        ->where(function (Builder $query) {
+            if ($this->realestate->abrechnungssetting != null) {
+                $query->where('periodTo', '=', null)
+                    ->orWhere('periodTo', '>=', $this->realestate->abrechnungssetting->periodFrom);
+            }
+        })
+        ->where(function (Builder $query) {
+            if ($this->realestate->abrechnungssetting != null) {
+                $query->where('periodFrom', '<=', $this->realestate->abrechnungssetting->periodTo);
+            }
+        })        
         ->where(function (Builder $query) {$query->IsHeizkosten();})
         ->where('costtype_id','=',$costtypeId)
         ->get();
@@ -122,6 +133,17 @@ class Heizkostenliste extends Component
     public function render()
     {
         $costtypes = Cost::where('realestate_id','=',$this->realestate->id)
+        ->where(function (Builder $query) {
+            if ($this->realestate->abrechnungssetting != null) {
+                $query->where('periodTo', '=', null)
+                    ->orWhere('periodTo', '>=', $this->realestate->abrechnungssetting->periodFrom);
+            }
+        })
+        ->where(function (Builder $query) {
+            if ($this->realestate->abrechnungssetting != null) {
+                $query->where('periodFrom', '<=', $this->realestate->abrechnungssetting->periodTo);
+            }
+        }) 
         ->where(function (Builder $query) {$query->IsHeizkosten();})
         ->get()->unique('costtype_id')
         ->sortBy('CostTypeSort');

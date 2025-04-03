@@ -58,7 +58,7 @@ class DownloadFileSpacesController extends Controller
 
     function  showFile($param){
         if (auth()->user()->isUser){
-            $parts = explode('-',$param);
+            $parts = explode('+',$param);
             $invoice = Invoice::find($parts[1] );
             $path = 'app/realestates/'. $invoice->realestate->nekoId. '/invoices/'. $invoice->fileName;
 
