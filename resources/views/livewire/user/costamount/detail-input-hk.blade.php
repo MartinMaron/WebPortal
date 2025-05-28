@@ -30,6 +30,7 @@
                     inputmode="numeric"  
                     placeholder="1"
                     wire:model.lazy="current.haushaltsnah"
+                    wire:focusout="save()"
                     style="-moz-appearance: textfield; margin: 0;"
                     class="{{ $cost->haushaltsnah ? 'block' : 'hidden' }} 
                     inputDisplayHK

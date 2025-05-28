@@ -38,6 +38,7 @@ class CostAmount extends Model
         'conetto' => 'decimal:2',
         'coconsupmtion' => 'decimal:1',
         'grosAmount_HH' => 'decimal:2',
+        'haushaltsnah' => 'decimal:2',
         'netAmount' => 'decimal:2' ];
 
     protected $appends = [
@@ -68,6 +69,8 @@ class CostAmount extends Model
         return null;
     }
     public function setBruttoAttribute($value){
+        
+        
         $this->grosAmount = $this->castStringToDouble($value);
     }
 

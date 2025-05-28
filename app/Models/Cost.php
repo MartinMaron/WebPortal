@@ -351,8 +351,9 @@ class Cost extends Model
 
     public function getEditableAttribute()
     {
-        if ($this->costtype != 'BRK' && $this->costAmounts->count() > 0 && 
-            $this->costAmounts->count() == $this->costAmounts()->where('nekoId','!=',0)->get()->count()) {
+        $q = $this->costAmounts()->where('abrechnungssetting_id','=', $this->realestate->abrechnungssetting_id)->get();
+        if ($this->costtype != 'BRK' && $q->count() > 0 && 
+            $q->count() == $q->where('nekoId','!=',0)->count()) {
             return false;
         }
         return true;
